@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Neurodivergent Friendly: High-Contrast Dark Mode */
+        /* Sensory-Friendly: Pure Black background with soft-contrast text */
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
         
         #sidebar { 
@@ -33,13 +33,13 @@
             z-index: 10; 
         }
 
-        /* FIX: Smaller, non-cropping images */
+        /* Fixed: Controlled image sizing */
         .sidebar-img {
             width: 100%;
-            height: 180px; /* Reduced from 250px */
+            height: 150px; /* Capped for minimal sensory weight */
             object-fit: contain; 
-            background: #0a0a0a; 
-            border-bottom: 2px solid #222;
+            background: #000; 
+            border-bottom: 1px solid #222;
         }
 
         #mindful-display {
@@ -50,19 +50,19 @@
         }
 
         .phase-tag { color: #ff85b3; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-        .mindful-title { font-size: 22px; margin: 0 0 10px 0; color: #fff; }
-        .check-in-box { font-style: italic; color: #bbb; border-left: 4px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.5; font-size: 14px; }
-        .principle-box { background: #1a0a10; padding: 12px; border-radius: 8px; font-size: 13px; color: #ffb3d1; border: 1px solid #3d1524; }
+        .mindful-title { font-size: 20px; margin: 0 0 10px 0; color: #fff; }
+        .check-in-box { font-style: italic; color: #aaa; border-left: 3px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.5; font-size: 13px; }
+        .principle-box { background: #15080d; padding: 12px; border-radius: 6px; font-size: 13px; color: #ffb3d1; border: 1px solid #2d101a; }
         .instruction-text { font-size: 13px; line-height: 1.6; margin-top: 15px; color: #ccc; }
 
         #site-list { flex-grow: 1; }
         .site-item { padding: 15px 25px; border-bottom: 1px solid #111; cursor: pointer; transition: 0.2s; }
         .site-item:hover { background: #111; border-left: 5px solid #d81b60; }
-        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 15px; }
-        .site-type { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 14px; }
+        .site-type { font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 1px; }
 
-        .popup-img { width: 100%; height: auto; max-height: 120px; object-fit: contain; background: #000; border-radius: 4px; margin-top: 8px; }
-        .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; }
+        .popup-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; background: #000; border-radius: 4px; margin-top: 5px; }
+        .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; font-size: 12px; }
         .leaflet-popup-tip { background: #000; }
     </style>
 </head>
@@ -76,7 +76,7 @@
         <h2 id="display-name" class="mindful-title"></h2>
         <div id="display-checkin" class="check-in-box"></div>
         <div id="display-principle" class="principle-box"></div>
-        <p id="display-instruction" class="instruction-text"></p>
+        <div id="display-instruction" class="instruction-text"></div>
     </div>
     <div id="site-list"></div>
 </div>
@@ -90,7 +90,7 @@
 
     var points = [
         {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "Phase 1: Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path."},
-        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "<b>Closing Vision:</b> Growth doesn't require pressure. Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly."},
+        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "<b>Signature Message:</b> <i>'Like blossoms, we are not lost. We unfold when the conditions feel safe.'</i><br><br><b>Closing Vision:</b> This isn't just a trip; it's a movement map. From Houghton to Spring expansion, you're collectively showing that: Growth doesn't require pressure. Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly."},
         {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"penshaw-monument.jpg", phase: "Phase 2: Expansion", checkin: "Bloom from here: open, expansive. Safe to grow with community.", principle: "Safety before growth.", instruction: "Observe how height allows expansion without losing your ground."},
         {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "Phase 3: Breath", checkin: "Space to integrate everything. Freedom to sit.", principle: "Stability: Roots in the past, eyes on the future.", instruction: "Breathe with the tide. Let the stone support your weight."},
         {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "Phase 3: Breath", checkin: "Notice the line of the horizon.", principle: "Boundaries: Protection is an act of self-care.", instruction: "Trace the wall with your eyes and define your space."},
@@ -99,8 +99,8 @@
         {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "Phase 12: Integration", checkin: "Visual grounding: Look out to the horizon.", principle: "Reflection: See how far you have come.", instruction: "The journey is now integrated into your movement map."}
     ];
 
-    var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -40] });
-    var vIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
+    var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [35, 35], iconAnchor: [17, 35], popupAnchor: [0, -35] });
+    var vIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [40, 40], iconAnchor: [20, 20] });
 
     const updateSidebar = (p) => {
         const img = document.getElementById('display-image');
