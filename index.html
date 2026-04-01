@@ -2,10 +2,15 @@
 <html>
 <head>
     <title>North East Blossom & Landmark Trail</title>
+    <meta name="color-scheme" content="light">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* CSS FIX: Forces light mode and removes all black/dark filters */
-        body, html, #map { margin: 0; padding: 0; height: 100vh; width: 100vw; background: white !important; filter: none !important; }
+        /* CSS FIX: Removes all black overlays and forced dark modes */
+        body, html, #map { 
+            margin: 0; padding: 0; height: 100vh; width: 100vw; 
+            background: white !important; 
+            filter: none !important; /* Disables any black-out filters */
+        }
         .leaflet-container { background: #fff !important; filter: none !important; }
         .popup-img { width: 100%; height: auto; border-radius: 5px; margin-top: 5px; }
         h3 { margin: 0; color: #d81b60; font-family: sans-serif; }
@@ -15,14 +20,15 @@
 <div id="map"></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+    // Initialize map
     var map = L.map('map');
     
-    // Light-themed OpenStreetMap Tiles
+    // Use reliable light-themed OpenStreetMap Tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // LANDMARKS & SITES ARRAY
+    // ALL 17 SITES (Full Array to ensure they are "picked up")
     var sites = [
         { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg" },
         { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg" },
@@ -41,15 +47,9 @@
         { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg" },
         { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg" },
         { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg" }
-        
-        /* COMMENTED OUT SITES AS REQUESTED:
-        { name: "Crook Hall", lat: 54.7825, lon: -1.5747, img: "blossom1.svg" },
-        { name: "South Park", lat: 54.5133, lon: -1.5530, img: "blossom1.svg" },
-        { name: "Burn Valley", lat: 54.6800, lon: -1.2300, img: "blossom1.svg" },
-        { name: "Flatts Lane", lat: 54.5430, lon: -1.1560, img: "blossom1.svg" }
-        */
     ];
 
+    // Add markers to map
     var markerGroup = L.featureGroup();
     sites.forEach(function(s) {
         var content = "<h3>" + s.name + "</h3><img src='" + s.img + "' class='popup-img'>";
@@ -57,17 +57,21 @@
     });
     markerGroup.addTo(map);
 
-    // Automatically zoom to show all active markers
-    map.fitBounds(markerGroup.getBounds().pad(0.1));
+    // Auto-zoom to show all 17 markers
+    if (sites.length > 0) {
+        map.fitBounds(markerGroup.getBounds().pad(0.1));
+    }
 
-    // LIVE VAN TRACKER using local test-van.svg
+    // LIVE VAN TRACKER (Requires HTTPS or Localhost for GPS to activate)
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
     var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon}).addTo(map);
 
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(pos) {
             vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-        }, null, { enableHighAccuracy: true });
+        }, function(err) {
+            console.warn("GPS Access Denied. Use GitHub Pages (HTTPS) to enable tracking.");
+        }, { enableHighAccuracy: true });
     }
 </script>
 </body>
