@@ -9,6 +9,92 @@
         body { margin: 0; padding: 0; font-family: sans-serif; }
         #map { height: 100vh; width: 100vw; }
         .popup-header { color: #d81b60; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        /* Placeholder background shows while image is loading */
+        .popup-img { width: 100%; height: 160px; object-fit: cover; border-radius: 4px; margin-top: 5px; background: #f0f0f0; display: block; }
+        .leaflet-popup-content { width: 260px !important; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js"></script>
+<script>
+    var map = L.map('map').setView([54.95, -1.6], 8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // Official Wikimedia Redirect API (Hotlink Friendly)
+    const getImg = (file) => `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${encodeURIComponent(file)}&width=400`;
+
+    var points = [
+        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"Bamburgh_Castle_08.jpg"},
+        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"Alnwick_Garden_-_Cherry_Orchard.jpg"},
+        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"Hadrian's_wall_at_Greenhead_Lough.jpg"},
+        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"Jesmond_Dene_Waterfall_1188.JPG"},
+        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", file:"Cherry_Blossom_in_Whitley_Bay_-_geograph.org.uk_-_4441461.jpg"},
+        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", file:"South_Marine_Park,_South_Shields_-_geograph.org.uk_-_922572.jpg"},
+        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", file:"Tyne_Bridge_from_Quayside.jpg"},
+        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", file:"Angel_of_the_North_2010.jpg"},
+        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", file:"Gibside_-_The_Avenue_-_geograph.org.uk_-_1022378.jpg"},
+        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", file:"Washington_Old_Hall_-_geograph.org.uk_-_1431671.jpg"},
+        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"Penshaw_Monument_Sunderland.jpg"},
+        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", file:"Roker_Pier_and_Lighthouse.jpg"},
+        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", file:"Durham_Cathedral.jpg"},
+        {n:"Crook Hall Gardens", lat:54.7825, lon:-1.5747, type:"Blossom", file:"Crook_Hall_-_geograph.org.uk_-_1390497.jpg"},
+        {n:"South Park", lat:54.5133, lon:-1.5530, type:"Blossom", file:"South_Park_-_geograph.org.uk_-_434484.jpg"},
+        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", file:"Preston_Hall_-_geograph.org.uk_-_1567115.jpg"},
+        {n:"Burn Valley Gardens", lat:54.6800, lon:-1.2300, type:"Blossom", file:"Burn_Valley_Gardens_-_geograph.org.uk_-_1328001.jpg"},
+        {n:"Saltburn Pier", lat:54.5820, lon:-0.9730, type:"Landmark", file:"Saltburn_Pier_at_Sunset.jpg"},
+        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", file:"Ormesby_Hall_-_geograph.org.uk_-_1495147.jpg"},
+        {n:"Flatts Lane", lat:54.5430, lon:-1.1560, type:"Blossom", file:"Flatts_Lane_-_geograph.org.uk_-_1164998.jpg"}
+    ];
+
+    var bIcon = L.icon({ iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40] });
+    var vIcon = L.icon({ iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
+
+    points.forEach(p => {
+        var marker = L.marker([p.lat, p.lon], {icon: (p.type === "Blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
+        
+        // Error handler included in the image tag
+        var content = `
+            <div class='popup-header'>${p.n}</div>
+            <i>${p.type} Site</i><br>
+            <img src='${getImg(p.file)}' 
+                 class='popup-img' 
+                 onerror="this.src='https://via.placeholder.com/400x240?text=Image+Not+Available'"
+                 onload="this.closest('.leaflet-popup').querySelector('.leaflet-popup-content-wrapper').style.width='280px';">
+        `;
+        
+        marker.bindPopup(content);
+        
+        // Critical Fix: Update popup size after image load to prevent cutoff
+        marker.on('popupopen', function() {
+            var img = document.querySelector('.popup-img');
+            if (img) { img.onload = () => marker.getPopup().update(); }
+        });
+    });
+
+    // Van Logic
+    var van = L.marker([55.6, -1.7], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(pos => {
+            van.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+            map.panTo([pos.coords.latitude, pos.coords.longitude]);
+        }, null, {enableHighAccuracy: true});
+    }
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oubaitori Collective Blossom Trail</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin: 0; padding: 0; font-family: sans-serif; }
+        #map { height: 100vh; width: 100vw; }
+        .popup-header { color: #d81b60; font-weight: bold; font-size: 16px; margin-bottom: 5px; }
         .popup-img { width: 100%; height: 140px; object-fit: cover; border-radius: 4px; margin-top: 5px; background: #eee; }
         .leaflet-popup-content { width: 240px !important; }
     </style>
