@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oubaitori Collective Blossom Trail</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; width: 100%; }
+        body { margin: 0; }
+        .blossom-icon { filter: hue-rotate(140deg); } /* Turns standard blue pin pink/purple */
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 1. Setup Map
+        var map = L.map('map').setView([54.95, -1.6], 9);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // 2. Define Custom Van Icon 
+        // NOTE: You must use the RAW GitHub link for your image to show up!
+        var vanIcon = L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/test-van.svg', 
+            iconSize: [60, 60],
+            iconAnchor: [30, 30]
+        });
+
+        // 3. Complete & Fixed List of 20 Points
+        var points = [
+            {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark"},
+            {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark"},
+            {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark"},
+            {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark"},
+            {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark"},
+            {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark"},
+            {n:"Saltburn Pier", lat:54.5820, lon:-0.9730, type:"Landmark"},
+            {n:"Roker Pier & Lighthouse", lat:54.9184, lon:-1.3645, type:"Landmark"},
+            {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom"},
+            {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom"},
+            {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom"},
+            {n:"Whitley Lodge (Pink Street)", lat:55.0501, lon:-1.451, type:"Blossom"},
+            {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom"},
+            {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom"},
+            {n:"Crook Hall Gardens", lat:54.7825, lon:-1.5747, type:"Blossom"},
+            {n:"South Park", lat:54.5133, lon:-1.5530, type:"Blossom"},
+            {n:"Burn Valley Gardens", lat:54.6800, lon:-1.2300, type:"Blossom"},
+            {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom"},
+            {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom"},
+            {n:"Flatts Lane Woodland", lat:54.5430, lon:-1.1560, type:"Blossom"}   
+        ];
+
+        // 4. Add Markers (Differentiates between Landmark and Blossom)
+        points.forEach(p => {
+            var markerOptions = {};
+            if (p.type === "Blossom") {
+                markerOptions = { icon: L.divIcon({ className: 'blossom-icon', html: '<img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="filter: hue-rotate(140deg);">' }) };
+            }
+            L.marker([p.lat, p.lon], markerOptions).addTo(map).bindPopup("<b>" + p.n + "</b><br>" + p.type);
+        });
+
+        // 5. Live GPS Tracking (Van Marker)
+        var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon, zIndexOffset: 1000}).addTo(map);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(function(pos) {
+                var lat = pos.coords.latitude;
+                var lon = pos.coords.longitude;
+                vanMarker.setLatLng([lat, lon]); // Update van position
+                map.panTo([lat, lon]); // Keep van in center of screen
+            }, function(err) {
+                console.warn('GPS Error: ' + err.message);
+            }, {enableHighAccuracy: true, maximumAge: 0, timeout: 5000});
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+</body>
+</html>
+
 
