@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Neurodivergent Friendly: Deep Black with Low-Glance Contrast */
+        /* Neurodivergent Friendly: High-Contrast Dark Mode */
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
         
         #sidebar { 
-            width: 400px; 
+            width: 380px; 
             background: #000; 
             color: #fff; 
             overflow-y: auto; 
@@ -23,63 +23,50 @@
         #map { flex-grow: 1; background: #1a1a1a; }
 
         .sidebar-header { 
-            padding: 25px; 
+            padding: 20px 25px; 
             background: #d81b60; 
             color: #fff; 
             font-weight: bold; 
-            font-size: 22px;
+            font-size: 20px;
             position: sticky; 
             top: 0; 
             z-index: 10; 
         }
 
-        /* FIX: Prevents Portrait Cropping */
+        /* FIX: Smaller, non-cropping images */
         .sidebar-img {
             width: 100%;
-            max-height: 250px;
-            object-fit: contain; /* Shows the whole image without cropping */
-            background: #111; /* Letterboxing color */
-            border-bottom: 2px solid #333;
+            height: 180px; /* Reduced from 250px */
+            object-fit: contain; 
+            background: #0a0a0a; 
+            border-bottom: 2px solid #222;
         }
 
         #mindful-display {
             padding: 20px;
-            background: #0a0a0a;
-            border-bottom: 2px solid #222;
+            background: #000;
+            border-bottom: 1px solid #333;
             display: none; 
         }
 
-        .phase-tag { color: #ff85b3; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-        .mindful-title { font-size: 24px; margin: 0 0 12px 0; color: #fff; }
-        .check-in-box { font-style: italic; color: #bbb; border-left: 4px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.6; }
-        .principle-box { background: #2d101a; padding: 15px; border-radius: 8px; font-size: 14px; color: #ffb3d1; border: 1px solid #4a1c2c; }
-        .instruction-text { font-size: 14px; line-height: 1.5; margin-top: 15px; color: #d0d0d0; }
+        .phase-tag { color: #ff85b3; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
+        .mindful-title { font-size: 22px; margin: 0 0 10px 0; color: #fff; }
+        .check-in-box { font-style: italic; color: #bbb; border-left: 4px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.5; font-size: 14px; }
+        .principle-box { background: #1a0a10; padding: 12px; border-radius: 8px; font-size: 13px; color: #ffb3d1; border: 1px solid #3d1524; }
+        .instruction-text { font-size: 13px; line-height: 1.6; margin-top: 15px; color: #ccc; }
 
         #site-list { flex-grow: 1; }
-        .site-item { padding: 20px 25px; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.3s; }
+        .site-item { padding: 15px 25px; border-bottom: 1px solid #111; cursor: pointer; transition: 0.2s; }
         .site-item:hover { background: #111; border-left: 5px solid #d81b60; }
-        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 16px; }
-        .site-type { font-size: 11px; color: #666; text-transform: uppercase; }
+        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 15px; }
+        .site-type { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
 
-        .popup-img { width: 100%; height: auto; max-height: 180px; object-fit: contain; background: #000; border-radius: 6px; margin-top: 10px; }
+        .popup-img { width: 100%; height: auto; max-height: 120px; object-fit: contain; background: #000; border-radius: 4px; margin-top: 8px; }
         .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; }
         .leaflet-popup-tip { background: #000; }
-
-        /* Closing Vision Overlay */
-        #closing-vision { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; padding: 40px; box-sizing: border-box; }
-        .vision-card { max-width: 600px; background: #111; border: 3px solid #d81b60; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 30px rgba(216, 27, 96, 0.4); }
-        .vision-text { color: #fff; font-size: 18px; line-height: 1.8; margin-bottom: 25px; }
     </style>
 </head>
 <body>
-
-<div id="closing-vision">
-    <div class="vision-card">
-        <h2 style="color:#d81b60; font-size: 28px;">🌸 Closing Vision</h2>
-        <p class="vision-text">"This isn't just a trip; it's a movement map. From Houghton to Spring expansion, you're collectively showing that: <b>Growth doesn't require pressure.</b> Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly."</p>
-        <button onclick="document.getElementById('closing-vision').style.display='none'" style="background:#d81b60;color:white;border:none;padding:12px 25px;border-radius:8px;font-weight:bold;cursor:pointer;">Enter the Rectory</button>
-    </div>
-</div>
 
 <div id="sidebar">
     <div class="sidebar-header">🌸 Oubaitori Trail</div>
@@ -101,14 +88,13 @@
     var map = L.map('map', {zoomControl: false}).setView([54.9, -1.5], 9);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // Data mapped directly from your WhatsApp narrative
     var points = [
         {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "Phase 1: Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path."},
-        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Walk slowly—no destination urgency. Anchor: 'I don't need to rush to bloom.'"},
+        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "<b>Closing Vision:</b> Growth doesn't require pressure. Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly."},
         {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"penshaw-monument.jpg", phase: "Phase 2: Expansion", checkin: "Bloom from here: open, expansive. Safe to grow with community.", principle: "Safety before growth.", instruction: "Observe how height allows expansion without losing your ground."},
         {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "Phase 3: Breath", checkin: "Space to integrate everything. Freedom to sit.", principle: "Stability: Roots in the past, eyes on the future.", instruction: "Breathe with the tide. Let the stone support your weight."},
-        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "Phase 3: Breath", checkin: "Notice the line of the horizon. Where do you begin?", principle: "Boundaries: Protection is an act of self-care.", instruction: "Trace the wall with your eyes and define your space."},
-        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "Phase 4: Connection", checkin: "A sense of safety in nature. Resilience in the environment.", principle: "Adaptability.", instruction: "Connect with the sanctuary of the valley. Exhale as the water falls."},
+        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "Phase 3: Breath", checkin: "Notice the line of the horizon.", principle: "Boundaries: Protection is an act of self-care.", instruction: "Trace the wall with your eyes and define your space."},
+        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "Phase 4: Connection", checkin: "A sense of safety in nature.", principle: "Adaptability.", instruction: "Connect with the sanctuary of the valley. Exhale as the water falls."},
         {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "Phase 4: Flow", checkin: "Nervous system check-in: Rhythm of water.", principle: "Patience: Nature does not hurry.", instruction: "Listen for the sound of the river. Let it carry tension away."},
         {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "Phase 12: Integration", checkin: "Visual grounding: Look out to the horizon.", principle: "Reflection: See how far you have come.", instruction: "The journey is now integrated into your movement map."}
     ];
@@ -125,7 +111,7 @@
         document.getElementById('display-name').innerText = p.n;
         document.getElementById('display-checkin').innerText = p.checkin;
         document.getElementById('display-principle').innerHTML = `💡 <b>Principle:</b> ${p.principle}`;
-        document.getElementById('display-instruction').innerText = p.instruction;
+        document.getElementById('display-instruction').innerHTML = p.instruction;
     };
 
     var markers = {};
@@ -141,26 +127,10 @@
         markers[index] = marker;
     });
 
-    // Haversine formula for robust proximity detection
-    function getDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371000; // Radius of Earth in meters
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    }
-
     var van = L.marker([54.84, -1.47], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(pos => {
-            const currentLat = pos.coords.latitude;
-            const currentLon = pos.coords.longitude;
-            van.setLatLng([currentLat, currentLon]);
-            
-            // Check proximity to Houghton (54.8438, -1.4728) within 500 meters
-            if (getDistance(currentLat, currentLon, 54.8438, -1.4728) < 500) {
-                document.getElementById('closing-vision').style.display = 'flex';
-            }
+            van.setLatLng([pos.coords.latitude, pos.coords.longitude]);
         }, null, {enableHighAccuracy: true});
     }
 </script>
