@@ -6,91 +6,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; }
-        #sidebar { width: 300px; background: #f8f9fa; overflow-y: auto; border-right: 1px solid #ddd; z-index: 1001; }
-        #map { flex-grow: 1; }
-        .site-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
-        .site-item:hover { background: #ffebee; }
-        .site-name { font-weight: bold; color: #d81b60; display: block; }
-        .site-type { font-size: 12px; color: #777; }
-        .popup-header { color: #d81b60; font-weight: bold; font-size: 16px; }
-        .popup-img { width: 100%; height: 150px; object-fit: cover; border-radius: 4px; margin-top: 5px; }
-        .leaflet-popup-content { width: 250px !important; }
+        body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        #sidebar { width: 320px; background: #fff; overflow-y: auto; border-right: 2px solid #d81b60; z-index: 1001; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        #map { flex-grow: 1; background: #f0f0f0; }
+        .sidebar-header { padding: 20px; background: #d81b60; color: white; font-weight: bold; position: sticky; top: 0; z-index: 10; }
+        .site-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.2s; }
+        .site-item:hover { background: #fff0f6; }
+        .site-name { font-weight: bold; color: #d81b60; display: block; font-size: 14px; }
+        .site-type { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .popup-img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; margin-top: 8px; background: #eee; border: 1px solid #ddd; }
+        .popup-header { color: #d81b60; font-weight: bold; font-size: 16px; margin: 0; }
+        .leaflet-popup-content { width: 250px !important; padding: 5px; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <div style="padding: 20px; background: #d81b60; color: white; font-weight: bold;">Blossom Trail Sites</div>
+    <div class="sidebar-header">🌸 North East Blossom Trail</div>
     <div id="site-list"></div>
 </div>
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js"></script>
-
 <script>
     // 1. Initialize Map
     var map = L.map('map').setView([54.95, -1.6], 8);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    // 2. Verified Data
+    // 2. IMAGE PROXY LOGIC (Bypasses security blocks)
+    // This fetches the image through a third-party server to ensure it loads locally.
+    const getSafeImg = (file) => {
+        const baseUrl = `https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/${encodeURIComponent(file)}&width=400`;
+        return `https://images.weserv.nl/?url=${encodeURIComponent(baseUrl)}&default=https://via.placeholder.com/400x250?text=Image+Loading...`;
+    };
+
+    // 3. Data: 20 Verified Sites
     var points = [
-        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Bamburgh_Castle_2020.jpg/640px-Bamburgh_Castle_2020.jpg"},
-        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Alnwick_Garden_-_Cherry_Orchard.jpg/640px-Alnwick_Garden_-_Cherry_Orchard.jpg"},
-        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Hadrian%27s_wall_at_Greenhead_Lough.JPG/640px-Hadrian%27s_wall_at_Greenhead_Lough.JPG"},
-        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Jesmond_Dene_Waterfall.jpg/640px-Jesmond_Dene_Waterfall.jpg"},
-        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Cherry_Blossom_in_Whitley_Bay_-_geograph.org.uk_-_4441461.jpg/640px-Cherry_Blossom_in_Whitley_Bay_-_geograph.org.uk_-_4441461.jpg"},
-        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/South_Marine_Park%2C_South_Shields_-_geograph.org.uk_-_922572.jpg/640px-South_Marine_Park%2C_South_Shields_-_geograph.org.uk_-_922572.jpg"},
-        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Tyne_Bridge_from_Quayside.jpg/640px-Tyne_Bridge_from_Quayside.jpg"},
-        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Angel_of_the_North_2010.jpg/640px-Angel_of_the_North_2010.jpg"},
-        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Gibside_-_The_Avenue_-_geograph.org.uk_-_1022378.jpg/640px-Gibside_-_The_Avenue_-_geograph.org.uk_-_1022378.jpg"},
-        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Washington_Old_Hall_-_geograph.org.uk_-_1431671.jpg/640px-Washington_Old_Hall_-_geograph.org.uk_-_1431671.jpg"},
-        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Penshaw_Monument_Sunderland.jpg/640px-Penshaw_Monument_Sunderland.jpg"},
-        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Roker_Pier_and_Lighthouse.jpg/640px-Roker_Pier_and_Lighthouse.jpg"},
-        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Durham_Cathedral.jpg/640px-Durham_Cathedral.jpg"},
-        {n:"Crook Hall Gardens", lat:54.7825, lon:-1.5747, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Crook_Hall_-_geograph.org.uk_-_1390497.jpg/640px-Crook_Hall_-_geograph.org.uk_-_1390497.jpg"},
-        {n:"South Park", lat:54.5133, lon:-1.5530, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/South_Park_-_geograph.org.uk_-_434484.jpg/640px-South_Park_-_geograph.org.uk_-_434484.jpg"},
-        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Preston_Hall_-_geograph.org.uk_-_1567115.jpg/640px-Preston_Hall_-_geograph.org.uk_-_1567115.jpg"},
-        {n:"Burn Valley Gardens", lat:54.6800, lon:-1.2300, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Burn_Valley_Gardens_-_geograph.org.uk_-_1328001.jpg/640px-Burn_Valley_Gardens_-_geograph.org.uk_-_1328001.jpg"},
-        {n:"Saltburn Pier", lat:54.5820, lon:-0.9730, type:"Landmark", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Saltburn_Pier_at_Sunset.jpg/640px-Saltburn_Pier_at_Sunset.jpg"},
-        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Ormesby_Hall_-_geograph.org.uk_-_1495147.jpg/640px-Ormesby_Hall_-_geograph.org.uk_-_1495147.jpg"},
-        {n:"Flatts Lane", lat:54.5430, lon:-1.1560, type:"Blossom", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Flatts_Lane_-_geograph.org.uk_-_1164998.jpg/640px-Flatts_Lane_-_geograph.org.uk_-_1164998.jpg"}
+        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"Bamburgh_Castle_2020.jpg"},
+        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"Alnwick_Garden_-_Cherry_Orchard.jpg"},
+        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"Hadrian's_wall_at_Greenhead_Lough.JPG"},
+        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"Jesmond_Dene_Waterfall.jpg"},
+        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", file:"Cherry_Blossom_in_Whitley_Bay_-_geograph.org.uk_-_4441461.jpg"},
+        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", file:"South_Marine_Park,_South_Shields_-_geograph.org.uk_-_922572.jpg"},
+        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", file:"Tyne_Bridge_from_Quayside.jpg"},
+        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", file:"Angel_of_the_North_2010.jpg"},
+        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", file:"Gibside_-_The_Avenue_-_geograph.org.uk_-_1022378.jpg"},
+        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", file:"Washington_Old_Hall_-_geograph.org.uk_-_1431671.jpg"},
+        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"Penshaw_Monument_Sunderland.jpg"},
+        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", file:"Roker_Pier_and_Lighthouse.jpg"},
+        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", file:"Durham_Cathedral.jpg"},
+        {n:"Crook Hall Gardens", lat:54.7825, lon:-1.5747, type:"Blossom", file:"Crook_Hall_-_geograph.org.uk_-_1390497.jpg"},
+        {n:"South Park", lat:54.5133, lon:-1.5530, type:"Blossom", file:"South_Park_-_geograph.org.uk_-_434484.jpg"},
+        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", file:"Preston_Hall_-_geograph.org.uk_-_1567115.jpg"},
+        {n:"Burn Valley Gardens", lat:54.6800, lon:-1.2300, type:"Blossom", file:"Burn_Valley_Gardens_-_geograph.org.uk_-_1328001.jpg"},
+        {n:"Saltburn Pier", lat:54.5820, lon:-0.9730, type:"Landmark", file:"Saltburn_Pier_at_Sunset.jpg"},
+        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", file:"Ormesby_Hall_-_geograph.org.uk_-_1495147.jpg"},
+        {n:"Flatts Lane", lat:54.5430, lon:-1.1560, type:"Blossom", file:"Flatts_Lane_-_geograph.org.uk_-_1164998.jpg"}
     ];
 
-    // 3. Draw Trail Line Immediately
+    // 4. RESTORE TRAIL LINE (Pink Dashed Polyline)
     var pathCoords = points.map(p => [p.lat, p.lon]);
-    L.polyline(pathCoords, {color: '#d81b60', weight: 4, opacity: 0.5, dashArray: '10, 15'}).addTo(map);
+    L.polyline(pathCoords, {color: '#d81b60', weight: 5, opacity: 0.5, dashArray: '10, 15'}).addTo(map);
 
-    // 4. Icons & Marker Storage
-    var bIcon = L.icon({ iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40] });
+    // 5. Icons & Marker Handling
+    var bIcon = L.icon({ iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -40] });
     var markers = {};
 
-    // 5. Build Sidebar and Markers
     var listContainer = document.getElementById('site-list');
     points.forEach((p, index) => {
-        // Create Sidebar Item
+        // Sidebar item
         var div = document.createElement('div');
         div.className = 'site-item';
-        div.innerHTML = `<span class="site-name">${p.n}</span><span class="site-type">${p.type}</span>`;
+        div.innerHTML = `<span class="site-name">${p.n}</span><span class="site-type">${p.type} Site</span>`;
         div.onclick = function() {
-            map.flyTo([p.lat, p.lon], 14);
+            map.flyTo([p.lat, p.lon], 14, { duration: 1.5 });
             markers[index].openPopup();
         };
         listContainer.appendChild(div);
 
-        // Create Map Marker
+        // Map Marker with Proxy Image
         var marker = L.marker([p.lat, p.lon], {icon: (p.type === "Blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
-        marker.bindPopup(`<div class='popup-header'>${p.n}</div><i>${p.type}</i><br><img src='${p.img}' class='popup-img' onerror="this.src='https://via.placeholder.com/400x240?text=Image+Loading...'">`);
+        var safeUrl = getSafeImg(p.file);
         
+        marker.bindPopup(`
+            <p class="popup-header">${p.n}</p>
+            <i style="color:#666">${p.type}</i><br>
+            <img src="${safeUrl}" class="popup-img" alt="${p.n}">
+        `);
+
+        // Critical Fix: Update popup size after image load
         marker.on('popupopen', function() {
             var img = document.querySelector('.popup-img');
-            if (img) img.onload = () => marker.getPopup().update();
+            if (img) {
+                img.onload = function() { 
+                    setTimeout(() => marker.getPopup().update(), 100); 
+                };
+            }
         });
         markers[index] = marker;
     });
 
-    // 6. Van Tracking
+    // 6. Van Tracking (GPS)
     var vIcon = L.icon({ iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
     var van = L.marker([55.6, -1.7], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
     if (navigator.geolocation) {
@@ -101,3 +117,4 @@
 </script>
 </body>
 </html>
+
