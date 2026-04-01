@@ -6,70 +6,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Neurodivergent Friendly UI: Dark Mode for Reduced Sensory Overload */
-        body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; background: #121212; }
+        /* Neurodivergent Friendly: Deep Black with Low-Glance Contrast */
+        body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
         
         #sidebar { 
-            width: 380px; 
-            background: #000000; /* Pure black for high-contrast accessibility */
-            color: #ffffff; 
+            width: 400px; 
+            background: #000; 
+            color: #fff; 
             overflow-y: auto; 
             border-right: 2px solid #d81b60; 
             z-index: 1001; 
             display: flex;
             flex-direction: column;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
         }
 
-        #map { flex-grow: 1; background: #222; }
+        #map { flex-grow: 1; background: #1a1a1a; }
 
         .sidebar-header { 
             padding: 25px; 
             background: #d81b60; 
-            color: white; 
+            color: #fff; 
             font-weight: bold; 
-            font-size: 20px;
+            font-size: 22px;
             position: sticky; 
             top: 0; 
             z-index: 10; 
         }
 
-        /* Dynamic Mindful Content Area (from your provided image) */
+        /* NEW: Sidebar Image Container */
+        .sidebar-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 2px solid #333;
+            background: #111;
+        }
+
         #mindful-display {
             padding: 20px;
-            background: #1a1a1a;
-            border-bottom: 2px solid #333;
+            background: #0a0a0a;
+            border-bottom: 2px solid #222;
             display: none; 
         }
 
         .phase-tag { color: #ff85b3; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-        .mindful-title { font-size: 22px; margin: 0 0 10px 0; color: #fff; border-bottom: 1px solid #d81b60; padding-bottom: 5px; }
-        .check-in-box { font-style: italic; color: #ccc; border-left: 4px solid #ff85b3; padding-left: 15px; margin: 15px 0; line-height: 1.6; }
-        .principle-box { background: #2d101a; padding: 15px; border-radius: 8px; font-size: 14px; color: #ffb3d1; margin-top: 10px; }
-        .instruction-text { font-size: 14px; line-height: 1.5; margin-top: 15px; color: #e0e0e0; }
+        .mindful-title { font-size: 24px; margin: 0 0 12px 0; color: #fff; }
+        .check-in-box { font-style: italic; color: #bbb; border-left: 4px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.6; }
+        .principle-box { background: #2d101a; padding: 15px; border-radius: 8px; font-size: 14px; color: #ffb3d1; border: 1px solid #4a1c2c; }
+        .instruction-text { font-size: 14px; line-height: 1.5; margin-top: 15px; color: #d0d0d0; }
 
-        /* Site List Item Styling */
         #site-list { flex-grow: 1; }
-        .site-item { padding: 20px 25px; border-bottom: 1px solid #222; cursor: pointer; transition: background 0.3s; }
-        .site-item:hover { background: #1a1a1a; border-left: 5px solid #d81b60; }
-        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 16px; margin-bottom: 4px; }
-        .site-type { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1.5px; }
+        .site-item { padding: 20px 25px; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.3s; }
+        .site-item:hover { background: #111; border-left: 5px solid #d81b60; }
+        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 16px; }
+        .site-type { font-size: 11px; color: #666; text-transform: uppercase; }
 
-        /* Popup Content Styling */
-        .popup-img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-top: 10px; border: 1px solid #444; }
-        .popup-header { color: #ff85b3; font-weight: bold; font-size: 18px; margin: 0; }
-        .leaflet-popup-content-wrapper { background: #000; color: #fff; border-radius: 10px; }
+        .popup-img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-top: 10px; }
+        .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; }
         .leaflet-popup-tip { background: #000; }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <div class="sidebar-header">🌸 Oubaitori Blossom Trail</div>
+    <div class="sidebar-header">🌸 Oubaitori Trail</div>
     
+    <!-- Image now updates here when a site is clicked -->
+    <img id="display-image" class="sidebar-img" src="" alt="" style="display:none;">
+
     <div id="mindful-display">
         <span id="display-phase" class="phase-tag"></span>
-        <h2 id="display-name" class="mindful-title">Select a site</h2>
+        <h2 id="display-name" class="mindful-title"></h2>
         <div id="display-checkin" class="check-in-box"></div>
         <div id="display-principle" class="principle-box"></div>
         <p id="display-instruction" class="instruction-text"></p>
@@ -82,49 +89,42 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // 1. Initialize Map (Dark theme tiles suggested for ND-friendly view)
-    var map = L.map('map').setView([54.9, -1.5], 9);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    // 1. Dark Mode Map Tiles (More accessible for ND users)
+    var map = L.map('map', {zoomControl: false}).setView([54.9, -1.5], 9);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // 2. Data: 22 Verified Sites (Filenames updated to match your repo screenshot)
+    // 2. Verified Data (Mapping to your EXACT repo filenames)
     var points = [
         {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "1. Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path."},
-        
-        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "2. Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Walk slowly—no destination urgency. Anchor: 'I don't need to rush to bloom.'"},
-        
-        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"roker.jpg", phase: "2. Expansion", checkin: "Visual expansion: Look out across the Wear Valley.", principle: "Safety before growth.", instruction: "Notice how the elevation changes your perspective without changing your safety."},
-        
-        {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "3. Nurturing", checkin: "Softening the gaze. Notice the heritage fruit trees.", principle: "Patience: Nature does not hurry.", instruction: "Listen for the sound of the nearby river. Let it carry your tension away."},
-        
-        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "4. Flow", checkin: "Nervous system check-in: Rhythm of water.", principle: "Adaptability.", instruction: "Follow the waterfall with your eyes. Inhale as it peaks, exhale as it falls."},
-        
-        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "5. Strength", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "6. Boundaries", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", file:"whitley.jpg", phase: "7. Community", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", file:"south-marine.jpg", phase: "8. Vitality", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", file:"tyne-bridge.jpg", phase: "9. Connection", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", file:"angel.jpg", phase: "10. Presence", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", file:"gibside.jpg", phase: "11. Harvest", checkin: "Check-in placeholder", principle: "Placeholder principle", instruction: "Additional content to follow."},
-        
-        {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "12. Integration", checkin: "Visual grounding: Look out to the horizon.", principle: "Reflection: See how far you have come.", instruction: "The ocean reflects the sky. Reflect on your journey through the 12 areas."},
-        
-        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", file:"washington.jpg", phase: "Heritage", checkin: "Placeholder", principle: "Placeholder", instruction: "Additional content to follow."},
-        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", file:"durham.jpg", phase: "Sanctuary", checkin: "Placeholder", principle: "Placeholder", instruction: "Additional content to follow."},
-        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", file:"ormesby.jpg", phase: "Grace", checkin: "Placeholder", principle: "Placeholder", instruction: "Additional content to follow."},
-        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", file:"preston.jpg", phase: "Legacy", checkin: "Placeholder", principle: "Placeholder", instruction: "Additional content to follow."},
-        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", file:"roker.jpg", phase: "Endurance", checkin: "Placeholder", principle: "Placeholder", instruction: "Additional content to follow."}
+        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "2. Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Anchor: 'I don't need to rush to bloom.'"},
+        {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "3. Nurturing", checkin: "Softening the gaze. Notice the heritage fruit trees.", principle: "Patience: Nature does not hurry.", instruction: "Listen for the sound of the nearby river."},
+        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "4. Flow", checkin: "Nervous system check-in: Rhythm of water.", principle: "Adaptability.", instruction: "Follow the waterfall with your eyes."},
+        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "5. Strength", checkin: "Feel the stone beneath you.", principle: "Stability.", instruction: "Breathe in the salt air."},
+        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "6. Boundaries", checkin: "Notice the line of the horizon.", principle: "Protection.", instruction: "Trace the wall with your eyes."},
+        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", file:"whitley.jpg", phase: "7. Community", checkin: "Check-in placeholder", principle: "Unity", instruction: "Additional content to follow."},
+        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", file:"south-marine.jpg", phase: "8. Vitality", checkin: "Check-in placeholder", principle: "Energy", instruction: "Additional content to follow."},
+        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", file:"tyne-bridge.jpg", phase: "9. Connection", checkin: "Check-in placeholder", principle: "Bridging worlds", instruction: "Additional content to follow."},
+        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", file:"angel.jpg", phase: "10. Presence", checkin: "Check-in placeholder", principle: "Stature", instruction: "Additional content to follow."},
+        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", file:"gibside.jpg", phase: "11. Harvest", checkin: "Check-in placeholder", principle: "Abundance", instruction: "Additional content to follow."},
+        {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "12. Integration", checkin: "Look out to the horizon.", principle: "Reflection.", instruction: "Reflect on your journey through the 12 areas."},
+        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", file:"washington.jpg", phase: "Heritage", checkin: "Placeholder", principle: "History", instruction: "Additional content to follow."},
+        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", file:"durham.jpg", phase: "Sanctuary", checkin: "Placeholder", principle: "Peace", instruction: "Additional content to follow."},
+        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", file:"ormesby.jpg", phase: "Grace", checkin: "Placeholder", principle: "Elegance", instruction: "Additional content to follow."},
+        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", file:"preston.jpg", phase: "Legacy", checkin: "Placeholder", principle: "Continuity", instruction: "Additional content to follow."},
+        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", file:"roker.jpg", phase: "Endurance", checkin: "Placeholder", principle: "Light", instruction: "Additional content to follow."}
     ];
 
-    // 3. Icons (Using your local .svg files)
+    // 3. Icons
     var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -40] });
     var vIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
-    
-    var markers = {};
-    var pathCoords = points.map(p => [p.lat, p.lon]);
-    L.polyline(pathCoords, {color: '#d81b60', weight: 4, opacity: 0.4, dashArray: '8, 12'}).addTo(map);
 
-    // 4. Sidebar & Marker Logic
-    const showMindful = (p) => {
+    // 4. Sidebar Content Logic
+    const updateSidebar = (p) => {
+        const img = document.getElementById('display-image');
+        img.src = p.file;
+        img.style.display = 'block';
+        img.onerror = () => { img.style.display = 'none'; }; // Hide if file missing
+
         document.getElementById('mindful-display').style.display = 'block';
         document.getElementById('display-phase').innerText = p.phase;
         document.getElementById('display-name').innerText = p.n;
@@ -133,35 +133,35 @@
         document.getElementById('display-instruction').innerText = p.instruction;
     };
 
+    var markers = {};
     var listContainer = document.getElementById('site-list');
     points.forEach((p, index) => {
-        // Sidebar element
+        // Create Sidebar Item
         var div = document.createElement('div');
         div.className = 'site-item';
         div.innerHTML = `<span class="site-name">${p.n}</span><span class="site-type">${p.type} Site</span>`;
         div.onclick = function() {
             map.flyTo([p.lat, p.lon], 14, { duration: 1.5 });
             markers[index].openPopup();
-            showMindful(p);
+            updateSidebar(p);
         };
         listContainer.appendChild(div);
 
-        // Map marker
+        // Create Map Marker
         var marker = L.marker([p.lat, p.lon], {icon: (p.type === "Blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
         marker.bindPopup(`
-            <p class="popup-header">${p.n}</p>
-            <i style="color:#aaa">${p.type}</i><br>
-            <img src="${p.file}" class="popup-img" alt="${p.n}" onerror="this.src='https://via.placeholder.com/400x250?text=Image+Loading...'">
+            <p style="color:#ff85b3;font-weight:bold;margin:0">${p.n}</p>
+            <img src="${p.file}" class="popup-img" onerror="this.style.display='none'">
         `);
-        marker.on('click', () => showMindful(p));
+        marker.on('click', () => updateSidebar(p));
         markers[index] = marker;
     });
 
-    // 5. Live Van GPS Tracking
-    var vanMarker = L.marker([54.84, -1.47], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
+    // 5. GPS Van Tracker
+    var van = L.marker([54.84, -1.47], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(pos => {
-            vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+            van.setLatLng([pos.coords.latitude, pos.coords.longitude]);
         }, null, {enableHighAccuracy: true});
     }
 </script>
