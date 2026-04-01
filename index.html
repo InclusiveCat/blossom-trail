@@ -6,74 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Neurodivergent Friendly: Deep Black with Low-Glance Contrast */
         body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
-        
-        #sidebar { 
-            width: 400px; 
-            background: #000; 
-            color: #fff; 
-            overflow-y: auto; 
-            border-right: 2px solid #d81b60; 
-            z-index: 1001; 
-            display: flex;
-            flex-direction: column;
-        }
-
+        #sidebar { width: 400px; background: #000; color: #fff; overflow-y: auto; border-right: 2px solid #d81b60; z-index: 1001; display: flex; flex-direction: column; }
         #map { flex-grow: 1; background: #1a1a1a; }
-
-        .sidebar-header { 
-            padding: 25px; 
-            background: #d81b60; 
-            color: #fff; 
-            font-weight: bold; 
-            font-size: 22px;
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
-        }
-
-        /* NEW: Sidebar Image Container */
-        .sidebar-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 2px solid #333;
-            background: #111;
-        }
-
-        #mindful-display {
-            padding: 20px;
-            background: #0a0a0a;
-            border-bottom: 2px solid #222;
-            display: none; 
-        }
-
+        .sidebar-header { padding: 25px; background: #d81b60; color: #fff; font-weight: bold; font-size: 22px; position: sticky; top: 0; z-index: 10; }
+        .sidebar-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 2px solid #333; background: #111; }
+        #mindful-display { padding: 20px; background: #0a0a0a; border-bottom: 2px solid #222; display: none; }
         .phase-tag { color: #ff85b3; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
         .mindful-title { font-size: 24px; margin: 0 0 12px 0; color: #fff; }
         .check-in-box { font-style: italic; color: #bbb; border-left: 4px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.6; }
         .principle-box { background: #2d101a; padding: 15px; border-radius: 8px; font-size: 14px; color: #ffb3d1; border: 1px solid #4a1c2c; }
         .instruction-text { font-size: 14px; line-height: 1.5; margin-top: 15px; color: #d0d0d0; }
-
         #site-list { flex-grow: 1; }
         .site-item { padding: 20px 25px; border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: 0.3s; }
         .site-item:hover { background: #111; border-left: 5px solid #d81b60; }
         .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 16px; }
         .site-type { font-size: 11px; color: #666; text-transform: uppercase; }
-
-        .popup-img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-top: 10px; }
-        .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; }
-        .leaflet-popup-tip { background: #000; }
+        
+        /* Closing Vision Modal */
+        #closing-vision { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; padding: 40px; box-sizing: border-box; }
+        .vision-card { max-width: 600px; background: #1a1a1a; border: 3px solid #d81b60; padding: 40px; border-radius: 15px; text-align: center; }
+        .vision-text { color: #fff; font-size: 18px; line-height: 1.8; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
+<div id="closing-vision">
+    <div class="vision-card">
+        <h2 style="color:#d81b60;">🌸 The Journey as a Living Programme</h2>
+        <p class="vision-text">This isn't just a trip; it's a movement map. From Houghton to Spring expansion, you're collectively showing that: <b>Growth doesn't require pressure</b>. Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly.</p>
+        <button onclick="document.getElementById('closing-vision').style.display='none'" style="background:#d81b60;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;">Continue Trail</button>
+    </div>
+</div>
+
 <div id="sidebar">
     <div class="sidebar-header">🌸 Oubaitori Trail</div>
-    
-    <!-- Image now updates here when a site is clicked -->
     <img id="display-image" class="sidebar-img" src="" alt="" style="display:none;">
-
     <div id="mindful-display">
         <span id="display-phase" class="phase-tag"></span>
         <h2 id="display-name" class="mindful-title"></h2>
@@ -81,50 +49,31 @@
         <div id="display-principle" class="principle-box"></div>
         <p id="display-instruction" class="instruction-text"></p>
     </div>
-
     <div id="site-list"></div>
 </div>
-
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // 1. Dark Mode Map Tiles (More accessible for ND users)
     var map = L.map('map', {zoomControl: false}).setView([54.9, -1.5], 9);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // 2. Verified Data (Mapping to your EXACT repo filenames)
     var points = [
-        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "1. Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path."},
-        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "2. Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Anchor: 'I don't need to rush to bloom.'"},
-        {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "3. Nurturing", checkin: "Softening the gaze. Notice the heritage fruit trees.", principle: "Patience: Nature does not hurry.", instruction: "Listen for the sound of the nearby river."},
-        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "4. Flow", checkin: "Nervous system check-in: Rhythm of water.", principle: "Adaptability.", instruction: "Follow the waterfall with your eyes."},
-        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "5. Strength", checkin: "Feel the stone beneath you.", principle: "Stability.", instruction: "Breathe in the salt air."},
-        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "6. Boundaries", checkin: "Notice the line of the horizon.", principle: "Protection.", instruction: "Trace the wall with your eyes."},
-        {n:"Whitley Lodge", lat:55.0501, lon:-1.4510, type:"Blossom", file:"whitley.jpg", phase: "7. Community", checkin: "Check-in placeholder", principle: "Unity", instruction: "Additional content to follow."},
-        {n:"South Marine Park", lat:55.0001, lon:-1.4202, type:"Blossom", file:"south-marine.jpg", phase: "8. Vitality", checkin: "Check-in placeholder", principle: "Energy", instruction: "Additional content to follow."},
-        {n:"Tyne Bridge", lat:54.9697, lon:-1.6025, type:"Landmark", file:"tyne-bridge.jpg", phase: "9. Connection", checkin: "Check-in placeholder", principle: "Bridging worlds", instruction: "Additional content to follow."},
-        {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark", file:"angel.jpg", phase: "10. Presence", checkin: "Check-in placeholder", principle: "Stature", instruction: "Additional content to follow."},
-        {n:"Gibside", lat:54.9245, lon:-1.7267, type:"Blossom", file:"gibside.jpg", phase: "11. Harvest", checkin: "Check-in placeholder", principle: "Abundance", instruction: "Additional content to follow."},
-        {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "12. Integration", checkin: "Look out to the horizon.", principle: "Reflection.", instruction: "Reflect on your journey through the 12 areas."},
-        {n:"Washington Old Hall", lat:54.9027, lon:-1.5165, type:"Blossom", file:"washington.jpg", phase: "Heritage", checkin: "Placeholder", principle: "History", instruction: "Additional content to follow."},
-        {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark", file:"durham.jpg", phase: "Sanctuary", checkin: "Placeholder", principle: "Peace", instruction: "Additional content to follow."},
-        {n:"Ormesby Hall", lat:54.5432, lon:-1.1830, type:"Blossom", file:"ormesby.jpg", phase: "Grace", checkin: "Placeholder", principle: "Elegance", instruction: "Additional content to follow."},
-        {n:"Preston Park", lat:54.5360, lon:-1.3370, type:"Blossom", file:"preston.jpg", phase: "Legacy", checkin: "Placeholder", principle: "Continuity", instruction: "Additional content to follow."},
-        {n:"Roker Pier", lat:54.9184, lon:-1.3645, type:"Landmark", file:"roker.jpg", phase: "Endurance", checkin: "Placeholder", principle: "Light", instruction: "Additional content to follow."}
+        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "Phase 1: Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path."},
+        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Anchor: 'I don't need to rush to bloom.'"},
+        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"penshaw-monument.jpg", phase: "Phase 2: Expansion", checkin: "Visual expansion: Look out across the Wear Valley.", principle: "Safety before growth.", instruction: "Notice how elevation changes your perspective without changing your safety."},
+        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "Phase 3: Breath", checkin: "Space to integrate everything. Freedom to sit.", principle: "Stability: Roots in the past, eyes on the future.", instruction: "Feel the silence of the stone and the rhythm of your breath."},
+        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "Phase 4: Connection", checkin: "A sense of safety in nature. Resilience in the environment.", principle: "Adaptability.", instruction: "Connect with the sanctuary of the valley. Exhale as the water falls."},
+        {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "Phase 5: Nurturing", checkin: "Softening the gaze. Notice the heritage fruit trees.", principle: "Patience: Nature does not hurry.", instruction: "Additional content placeholder for phase expansion."},
+        {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "Phase 12: Integration", checkin: "Visual grounding: Look out to the horizon.", principle: "Reflection: See how far you have come.", instruction: "The journey is now integrated into your movement map."}
     ];
 
-    // 3. Icons
     var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [40, 40], iconAnchor: [20, 40], popupAnchor: [0, -40] });
     var vIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
 
-    // 4. Sidebar Content Logic
     const updateSidebar = (p) => {
         const img = document.getElementById('display-image');
-        img.src = p.file;
-        img.style.display = 'block';
-        img.onerror = () => { img.style.display = 'none'; }; // Hide if file missing
-
+        img.src = p.file; img.style.display = 'block';
         document.getElementById('mindful-display').style.display = 'block';
         document.getElementById('display-phase').innerText = p.phase;
         document.getElementById('display-name').innerText = p.n;
@@ -134,34 +83,28 @@
     };
 
     var markers = {};
-    var listContainer = document.getElementById('site-list');
     points.forEach((p, index) => {
-        // Create Sidebar Item
         var div = document.createElement('div');
         div.className = 'site-item';
         div.innerHTML = `<span class="site-name">${p.n}</span><span class="site-type">${p.type} Site</span>`;
-        div.onclick = function() {
-            map.flyTo([p.lat, p.lon], 14, { duration: 1.5 });
-            markers[index].openPopup();
-            updateSidebar(p);
-        };
-        listContainer.appendChild(div);
-
-        // Create Map Marker
+        div.onclick = function() { map.flyTo([p.lat, p.lon], 14, { duration: 1.5 }); markers[index].openPopup(); updateSidebar(p); };
+        document.getElementById('site-list').appendChild(div);
         var marker = L.marker([p.lat, p.lon], {icon: (p.type === "Blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
-        marker.bindPopup(`
-            <p style="color:#ff85b3;font-weight:bold;margin:0">${p.n}</p>
-            <img src="${p.file}" class="popup-img" onerror="this.style.display='none'">
-        `);
+        marker.bindPopup(`<p style="color:#ff85b3;font-weight:bold;margin:0">${p.n}</p><img src="${p.file}" class="popup-img" onerror="this.style.display='none'">`);
         marker.on('click', () => updateSidebar(p));
         markers[index] = marker;
     });
 
-    // 5. GPS Van Tracker
-    var van = L.marker([54.84, -1.47], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
+    var van = L.marker([55.41, -1.7], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(pos => {
-            van.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+            const currentLat = pos.coords.latitude;
+            const currentLon = pos.coords.longitude;
+            van.setLatLng([currentLat, currentLon]);
+            // Check proximity to Houghton (54.8438, -1.4728) within approx 100 meters
+            if (Math.abs(currentLat - 54.8438) < 0.001 && Math.abs(currentLon - -1.4728) < 0.001) {
+                document.getElementById('closing-vision').style.display = 'flex';
+            }
         }, null, {enableHighAccuracy: true});
     }
 </script>
