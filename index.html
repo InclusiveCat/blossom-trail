@@ -1,165 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Oubaitori Collective Blossom Trail</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North East Blossom & Landmark Trail</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Neurodivergent Friendly: Deep Black with Soft-Contrast White/Pink */
-        body { margin: 0; display: flex; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000; }
-        
-        #sidebar { 
-            width: 380px; 
-            background: #000; 
-            color: #fff; 
-            overflow-y: auto; 
-            border-right: 2px solid #d81b60; 
-            z-index: 1001; 
-            display: flex;
-            flex-direction: column;
-        }
-
-        #map { flex-grow: 1; background: #1a1a1a; }
-
-        .sidebar-header { 
-            padding: 20px 25px; 
-            background: #d81b60; 
-            color: #fff; 
-            font-weight: bold; 
-            font-size: 20px;
-            position: sticky; 
-            top: 0; 
-            z-index: 10; 
-        }
-
-        /* Fixed: Controlled image sizing to prevent huge visuals */
-        .sidebar-img {
-            width: 100%;
-            height: 150px; 
-            object-fit: contain; 
-            background: #000; 
-            border-bottom: 1px solid #222;
-        }
-
-        #mindful-display {
-            padding: 20px;
-            background: #000;
-            border-bottom: 1px solid #333;
-            display: none; 
-        }
-
-        .phase-tag { color: #ff85b3; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; display: block; }
-        .mindful-title { font-size: 22px; margin: 0 0 10px 0; color: #fff; }
-        .check-in-box { font-style: italic; color: #aaa; border-left: 3px solid #d81b60; padding-left: 15px; margin: 15px 0; line-height: 1.5; font-size: 13px; }
-        .principle-box { background: #15080d; padding: 12px; border-radius: 8px; font-size: 13px; color: #ffb3d1; border: 1px solid #2d101a; }
-        
-        /* Vision Section for Houghton */
-        .vision-section { 
-            margin-top: 20px; 
-            padding-top: 20px; 
-            border-top: 1px dashed #d81b60;
-        }
-        .signature-text { color: #ff85b3; font-style: italic; margin-bottom: 15px; font-size: 14px; }
-        .closing-vision-text { font-size: 14px; line-height: 1.6; color: #eee; background: #111; padding: 15px; border-radius: 8px; }
-
-        #site-list { flex-grow: 1; }
-        .site-item { padding: 15px 25px; border-bottom: 1px solid #111; cursor: pointer; transition: 0.2s; }
-        .site-item:hover { background: #111; border-left: 5px solid #d81b60; }
-        .site-name { font-weight: bold; color: #ff85b3; display: block; font-size: 14px; }
-        .site-type { font-size: 9px; color: #444; text-transform: uppercase; }
-
-        .popup-img { width: 100%; height: auto; max-height: 100px; object-fit: contain; background: #000; border-radius: 4px; margin-top: 5px; }
-        .leaflet-popup-content-wrapper { background: #000; color: #fff; border: 1px solid #333; }
-        .leaflet-popup-tip { background: #000; }
+        /* CSS FIX: Forces light mode and removes all black/dark filters */
+        body, html, #map { margin: 0; padding: 0; height: 100vh; width: 100vw; background: white !important; filter: none !important; }
+        .leaflet-container { background: #fff !important; filter: none !important; }
+        .popup-img { width: 100%; height: auto; border-radius: 5px; margin-top: 5px; }
+        h3 { margin: 0; color: #d81b60; font-family: sans-serif; }
     </style>
 </head>
 <body>
-
-<div id="sidebar">
-    <div class="sidebar-header">🌸 Oubaitori Trail</div>
-    <img id="display-image" class="sidebar-img" src="" alt="" style="display:none;">
-    
-    <div id="mindful-display">
-        <span id="display-phase" class="phase-tag"></span>
-        <h2 id="display-name" class="mindful-title"></h2>
-        <div id="display-checkin" class="check-in-box"></div>
-        <div id="display-principle" class="principle-box"></div>
-        <div id="display-instruction" style="font-size: 13px; line-height: 1.6; margin-top: 15px; color: #ccc;"></div>
-        
-        <!-- Dedicated Vision Section -->
-        <div id="vision-area" class="vision-section" style="display:none;">
-            <div class="signature-text" id="display-signature"></div>
-            <div class="closing-vision-text" id="display-vision"></div>
-        </div>
-    </div>
-
-    <div id="site-list"></div>
-</div>
-
 <div id="map"></div>
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map', {zoomControl: false}).setView([54.9, -1.5], 9);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+    var map = L.map('map');
+    
+    // Light-themed OpenStreetMap Tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
 
-    var points = [
-        {n:"Alnwick Garden", lat:55.4155, lon:-1.7060, type:"Blossom", file:"alnwick.jpg", phase: "Phase 1: Grounding", checkin: "Anchor your energy. Notice the stability of the roots beneath you.", principle: "Authenticity: Bloom as yourself.", instruction: "Focus on the physical sensation of your feet on the path. Inclusion starts with regulation."},
-        {n:"Houghton Rectory Park", lat:54.8438, lon:-1.4728, type:"Blossom", file:"houghton.jpg", phase: "Phase 2: Expansion", checkin: "Nervous system check-in: breath, body, stillness.", principle: "Safety before growth.", instruction: "Walk slowly—no destination urgency. 'I don't need to rush to bloom.'", signature: "Like blossoms, we are not lost. We unfold when the conditions feel safe.", vision: "This isn't just a trip; it's a movement map. From Houghton to Spring expansion, you're collectively showing that: Growth doesn't require pressure. Inclusion starts with regulation. Workplaces can be human-first. Neurodivergent adults deserve space to bloom — fully and visibly."},
-        {n:"Penshaw Monument", lat:54.8860, lon:-1.4793, type:"Landmark", file:"penshaw-monument.jpg", phase: "Phase 2: Expansion", checkin: "Bloom from here: open, expansive. Safe to grow with community.", principle: "Safety before growth.", instruction: "Observe how height allows expansion without losing your ground."},
-        {n:"Bamburgh Castle", lat:55.6086, lon:-1.7090, type:"Landmark", file:"bamburgh.jpg", phase: "Phase 3: Breath", checkin: "Space to integrate everything. Freedom to sit.", principle: "Stability: Roots in the past, eyes on the future.", instruction: "Breathe with the tide. Let the stone support your weight."},
-        {n:"Hadrian's Wall", lat:55.0130, lon:-2.3310, type:"Landmark", file:"hadrian.jpg", phase: "Phase 3: Breath", checkin: "Notice the line of the horizon.", principle: "Boundaries: Protection is an act of self-care.", instruction: "Trace the wall with your eyes and define your space."},
-        {n:"Jesmond Dene", lat:54.9900, lon:-1.5900, type:"Blossom", file:"jesmond.jpg", phase: "Phase 4: Connection", checkin: "A sense of safety in nature. Resilience in the environment.", principle: "Adaptability.", instruction: "Connect with the sanctuary of the valley. Exhale as the water falls."},
-        {n:"Old Durham Gardens", lat:54.7715, lon:-1.5549, type:"Blossom", file:"old-durham.jpg", phase: "Phase 4: Flow", checkin: "Nervous system check-in: Rhythm of water.", principle: "Patience: Nature does not hurry.", instruction: "Listen for the sound of the river. Let it carry tension away."},
-        {n:"Saltburn Pier", lat:54.5864, lon:-0.9706, type:"Landmark", file:"saltburn.jpg", phase: "Phase 12: Integration", checkin: "Visual grounding: Look out to the horizon.", principle: "Reflection: See how far you have come.", instruction: "The journey is now integrated into your movement map."}
+    // LANDMARKS & SITES ARRAY
+    var sites = [
+        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg" },
+        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg" },
+        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg" },
+        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg" },
+        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg" },
+        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg" },
+        { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg" },
+        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg" },
+        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg" },
+        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg" },
+        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg" },
+        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg" },
+        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg" },
+        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg" },
+        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg" },
+        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg" },
+        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg" }
+        
+        /* COMMENTED OUT SITES AS REQUESTED:
+        { name: "Crook Hall", lat: 54.7825, lon: -1.5747, img: "blossom1.svg" },
+        { name: "South Park", lat: 54.5133, lon: -1.5530, img: "blossom1.svg" },
+        { name: "Burn Valley", lat: 54.6800, lon: -1.2300, img: "blossom1.svg" },
+        { name: "Flatts Lane", lat: 54.5430, lon: -1.1560, img: "blossom1.svg" }
+        */
     ];
 
-    var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [35, 35], iconAnchor: [17, 35], popupAnchor: [0, -35] });
-    var vIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [40, 40], iconAnchor: [20, 20] });
-
-    const updateSidebar = (p) => {
-        const img = document.getElementById('display-image');
-        img.src = p.file; img.style.display = 'block';
-        img.onerror = () => { img.style.display = 'none'; }; 
-        
-        document.getElementById('mindful-display').style.display = 'block';
-        document.getElementById('display-phase').innerText = p.phase;
-        document.getElementById('display-name').innerText = p.n;
-        document.getElementById('display-checkin').innerText = p.checkin;
-        document.getElementById('display-principle').innerHTML = `💡 <b>Principle:</b> ${p.principle}`;
-        document.getElementById('display-instruction').innerHTML = p.instruction;
-
-        // Show vision section only if it exists (Houghton)
-        const visionArea = document.getElementById('vision-area');
-        if (p.vision) {
-            visionArea.style.display = 'block';
-            document.getElementById('display-signature').innerHTML = `<b>Signature Message:</b><br>${p.signature}`;
-            document.getElementById('display-vision').innerHTML = `<b>Closing Vision:</b><br>${p.vision}`;
-        } else {
-            visionArea.style.display = 'none';
-        }
-    };
-
-    var markers = {};
-    points.forEach((p, index) => {
-        var div = document.createElement('div');
-        div.className = 'site-item';
-        div.innerHTML = `<span class="site-name">${p.n}</span><span class="site-type">${p.type} Site</span>`;
-        div.onclick = function() { map.flyTo([p.lat, p.lon], 14); markers[index].openPopup(); updateSidebar(p); };
-        document.getElementById('site-list').appendChild(div);
-
-        var marker = L.marker([p.lat, p.lon], {icon: (p.type === "Blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
-        marker.bindPopup(`<p style="color:#ff85b3;font-weight:bold;margin:0">${p.n}</p><img src="${p.file}" class="popup-img" onerror="this.style.display='none'">`);
-        marker.on('click', () => updateSidebar(p));
-        markers[index] = marker;
+    var markerGroup = L.featureGroup();
+    sites.forEach(function(s) {
+        var content = "<h3>" + s.name + "</h3><img src='" + s.img + "' class='popup-img'>";
+        L.marker([s.lat, s.lon]).bindPopup(content).addTo(markerGroup);
     });
+    markerGroup.addTo(map);
 
-    var van = L.marker([54.84, -1.47], {icon: vIcon, zIndexOffset: 1000}).addTo(map);
+    // Automatically zoom to show all active markers
+    map.fitBounds(markerGroup.getBounds().pad(0.1));
+
+    // LIVE VAN TRACKER using local test-van.svg
+    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
+    var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon}).addTo(map);
+
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(pos => {
-            van.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-        }, null, {enableHighAccuracy: true});
+        navigator.geolocation.watchPosition(function(pos) {
+            vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+        }, null, { enableHighAccuracy: true });
     }
 </script>
 </body>
