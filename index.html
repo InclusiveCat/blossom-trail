@@ -6,7 +6,7 @@
     <style>
         #map { height: 100vh; width: 100%; }
         body { margin: 0; }
-        .blossom-icon { filter: hue-rotate(140deg); } /* Turns standard blue pin pink/purple */
+        .popup-header { color: #d81b60; font-weight: bold; font-size: 1.1em; }
     </style>
 </head>
 <body>
@@ -17,15 +17,20 @@
         var map = L.map('map').setView([54.95, -1.6], 9);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // 2. Define Custom Van Icon 
-        // NOTE: You must use the RAW GitHub link for your image to show up!
+        // 2. Define Custom Icons
+        // Replace with your RAW GitHub van image link
         var vanIcon = L.icon({
             iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/test-van.svg', 
-            iconSize: [60, 60],
-            iconAnchor: [30, 30]
+            iconSize: [60, 60], iconAnchor: [30, 30]
         });
 
-        // 3. Complete & Fixed List of 20 Points
+        // The Blossom Icon (Using the Pink Sakura Pin)
+        var blossomIcon = L.icon({
+            iconUrl: 'https://static.vecteezy.com/system/resources/previews/024/157/767/non_2x/sakura-flower-map-pin-flat-icon-in-pink-color-vector.jpg',
+            iconSize: [45, 50], iconAnchor: [22, 50], popupAnchor: [0, -45]
+        });
+
+        // 3. List of All 20 Points
         var points = [
             {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark"},
             {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark"},
@@ -49,32 +54,24 @@
             {n:"Flatts Lane Woodland", lat:54.5430, lon:-1.1560, type:"Blossom"}   
         ];
 
-        // 4. Add Markers (Differentiates between Landmark and Blossom)
+        // 4. Render Markers
         points.forEach(p => {
-            var markerOptions = {};
-            if (p.type === "Blossom") {
-                markerOptions = { icon: L.divIcon({ className: 'blossom-icon', html: '<img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="filter: hue-rotate(140deg);">' }) };
-            }
-            L.marker([p.lat, p.lon], markerOptions).addTo(map).bindPopup("<b>" + p.n + "</b><br>" + p.type);
+            var activeIcon = (p.type === "Blossom") ? blossomIcon : new L.Icon.Default();
+            L.marker([p.lat, p.lon], {icon: activeIcon}).addTo(map)
+             .bindPopup("<div class='popup-header'>" + p.n + "</div>Category: " + p.type);
         });
 
-        // 5. Live GPS Tracking (Van Marker)
+        // 5. GPS Tracking
         var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon, zIndexOffset: 1000}).addTo(map);
 
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(function(pos) {
                 var lat = pos.coords.latitude;
                 var lon = pos.coords.longitude;
-                vanMarker.setLatLng([lat, lon]); // Update van position
-                map.panTo([lat, lon]); // Keep van in center of screen
-            }, function(err) {
-                console.warn('GPS Error: ' + err.message);
-            }, {enableHighAccuracy: true, maximumAge: 0, timeout: 5000});
-        } else {
-            alert("Geolocation is not supported by this browser.");
+                vanMarker.setLatLng([lat, lon]);
+                map.panTo([lat, lon]);
+            }, null, {enableHighAccuracy: true});
         }
     </script>
 </body>
 </html>
-
-
