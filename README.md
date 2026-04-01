@@ -1,33 +1,107 @@
-A simple HTML interact file # 🌸 Oubaitori Collective Blossom Trail
-Interactive, real-time GPS map for tracking an April blossom trail across 12 local authorities in North East England.
+# 🌸 Oubaitori Blossom Trail — Interactive Map
 
-## 🚐 Key Features
-- **Live GPS Vehicle Tracking:** A custom van icon moves across the map as you drive, using high-accuracy geolocation [66, 84].
-- **20 Interactive Markers:** Features 12 blossom hotspots and 8 iconic landmarks with clickable popups [5, 24].
-- **"Follow Me" Navigation:** The map automatically centers on your vehicle to keep your journey in view [3, 14].
-- **Visual Color Coding:** Pink markers identify blossom sites, while blue markers identify permanent landmarks.
+The **Oubaitori Blossom Trail** is a mobile‑first, interactive map experience designed for the North East of England. 
 
-## 🛠️ Technical Stack
-- **Mapping Library:** [Leaflet.js](https://leafletjs.com/) (Open-source interactive maps) [1, 76].
-- **Geospatial Data:** [OpenStreetMap](https://www.openstreetmap.org/) tiles [48, 85].
-- **GPS Integration:** HTML5 Geolocation API with `watchPosition` for real-time updates [79, 86].
-- **Hosting:** [GitHub Pages](https://pages.github.com/) (Free SSL/HTTPS deployment) [25, 66].
+The purpose of the trail is to raise awareness of the **Oubaitori Collective** a social enterprise that is committed to empowering neurodivergent adults to thrive through job and enterprise coaching, holistic wellbeing practices and advocacy.
 
-## 🚀 Setup & Usage
-1. **Prepare Assets:** Take a photo of your vehicle, remove the background, and upload it to GitHub as `van.png`.
-2. **Deploy Code:** Paste the provided `index.html` into your repository, replacing the image URL with your "Raw" GitHub file link.
-3. **Enable Hosting:** Go to `Settings > Pages` and set the source to the `main` branch.
-4. **Go Live:** Open your live URL on a smartphone browser and click **Allow** when prompted for location access.
+The trail map blends geographic navigation with the Japanese philosophical principle **Oubaitori (桜梅桃李)** — the idea that Cherry, Plum, Peach, and Apricot blossoms each bloom in their own time, reminding us that every journey unfolds uniquely.
 
-## 📋 Changelog
-- **v1.0 (April 1, 2026):** Initial release. Fixed coordinate syntax errors and implemented "Follow Me" map logic.
-- **v1.1:** Integrated 8 regional landmarks to assist with long-distance navigation between towns.
-- **v1.2:** Optimized marker filtering to ensure high-accuracy GPS doesn't drain battery excessively [84].
-
-## 🔮 Future Enhancements
-- **Distance Tracker:** Implement a digital log to track total miles traveled between the 12 sites [55, 57].
-- **Weather Alerts:** Integrate real-time wind and rain data to suggest the best time for photography at each site [52].
-- **AR Landmark Facts:** Use Augmented Reality to display historical facts when the camera is pointed at landmarks [52, 53].
+This documentation provides a technical and narrative overview of the project, including architecture, implementation, and future roadmap.
 
 ---
-*Created for the Oubaitori Collective. Data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors.*
+
+## 🌿 Project Overview
+
+The Blossom Trail guides users through a curated **17‑site route** of historic landmarks and seasonal blossom locations across the North East.
+
+The experience is built around:
+
+- Live GPS tracking of a moving vehicle  
+- A narrative arc inspired by Oubaitori  
+- A calm, mobile‑first interface  
+- Custom blossom and landmark iconography  
+- Visual storytelling through site imagery  
+
+**Signature Message**  
+> “Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.”
+
+**5‑Stage Narrative Framework**
+1. Reset  
+2. Expansion  
+3. Flow  
+4. Connection  
+5. Breath  
+
+**Closing Vision**  
+The trail concludes at **Houghton‑le‑Spring**, anchoring the message:  
+> “Growth doesn’t require pressure.”
+
+---
+
+## 🗺️ Technical Stack
+
+| Component | Technology | Purpose |
+|----------|------------|---------|
+| **Mapping Engine** | Leaflet.js | Renders map, markers, and path lines |
+| **Base Maps** | OpenStreetMap | Light, high‑detail geographic tiles |
+| **Location Tracking** | Geolocation API | Drives the live van icon via `navigator.geolocation` |
+| **UI/UX** | HTML5 & CSS3 | Responsive, high‑contrast sidebar and layout |
+| **Iconography** | SVG Vectors | Custom blossom and landmark markers |
+
+The application is intentionally built as a **lightweight SPA** for zero‑cost, high‑performance deployment.
+
+---
+
+## 🧱 Project Architecture
+
+To maintain full functionality, the following files must remain in the **root directory**:
+
+- `index.html` — contains all HTML, CSS, and JavaScript logic  
+- `blossom1.svg` — icon for blossom‑focused locations  
+- `test-van.svg` — dynamic icon representing the live vehicle position  
+- **17 image assets** (`.jpg`) used for pop‑ups and sidebar visuals  
+  - e.g., `houghton.jpg`, `alnwick.jpg`, etc.
+
+All logic is embedded directly into `index.html` to ensure compatibility with GitHub Pages.
+
+---
+
+## 🚀 Deployment Guide
+
+The Geolocation API requires **HTTPS**, which GitHub Pages provides automatically.
+
+### **1. Prepare Local Files**
+Place `index.html`, SVGs, and JPG assets together in a single folder.
+
+### **2. Upload to GitHub**
+Create a **public repository** and upload the folder contents.
+
+### **3. Enable GitHub Pages**
+- Go to **Settings → Pages**  
+- Set **Source: main branch**  
+- Click **Save**
+
+### **4. Launch the Trail**
+Open the generated URL on a mobile device and grant **Location Permissions** when prompted.
+
+---
+
+## 🌸 Future Enhancements
+
+### **Geofencing Audio**
+Trigger Oubaitori‑themed narrations automatically when entering a site radius.
+
+### **Progress Persistence**
+Use `localStorage` to track visited sites across multiple days.
+
+### **Bloom Density API**
+Integrate horticultural data to show real‑time blossom conditions.
+
+### **Offline Support**
+Add a PWA manifest to enable offline map access in rural areas.
+
+---
+
+## 📜 License
+MIT License (or specify your preferred license).
+
