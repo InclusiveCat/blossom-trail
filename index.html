@@ -6,7 +6,7 @@
     <style>
         #map { height: 100vh; width: 100%; }
         body { margin: 0; }
-        .popup-header { color: #d81b60; font-weight: bold; font-size: 1.1em; }
+        .popup-header { color: #d81b60; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -24,13 +24,16 @@
             iconSize: [60, 60], iconAnchor: [30, 30]
         });
 
-        // The Blossom Icon (Using the Pink Sakura Pin)
-        var blossomIcon = L.icon({
-            iconUrl: 'https://static.vecteezy.com/system/resources/previews/024/157/767/non_2x/sakura-flower-map-pin-flat-icon-in-pink-color-vector.jpg',
-            iconSize: [45, 50], iconAnchor: [22, 50], popupAnchor: [0, -45]
+        // "Bulletproof" Blossom Emoji Icon
+        var blossomIcon = L.divIcon({
+            html: '<span style="font-size: 30px;">🌸</span>',
+            className: 'blossom-marker',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15],
+            popupAnchor: [0, -15]
         });
 
-        // 3. List of All 20 Points
+        // 3. Complete List of 20 Points
         var points = [
             {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark"},
             {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark"},
@@ -54,14 +57,14 @@
             {n:"Flatts Lane Woodland", lat:54.5430, lon:-1.1560, type:"Blossom"}   
         ];
 
-        // 4. Render Markers
+        // 4. Add Markers
         points.forEach(p => {
             var activeIcon = (p.type === "Blossom") ? blossomIcon : new L.Icon.Default();
             L.marker([p.lat, p.lon], {icon: activeIcon}).addTo(map)
-             .bindPopup("<div class='popup-header'>" + p.n + "</div>Category: " + p.type);
+             .bindPopup("<div class='popup-header'>" + p.n + "</div>Type: " + p.type);
         });
 
-        // 5. GPS Tracking
+        // 5. GPS Tracking (Van Marker)
         var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon, zIndexOffset: 1000}).addTo(map);
 
         if (navigator.geolocation) {
