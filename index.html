@@ -5,30 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* CSS FIX: Removes all black overlays and forced dark modes */
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; background: white !important; filter: none !important; overflow: hidden; display: flex; }
-        #sidebar { width: 300px; height: 100vh; background: #fff; border-right: 2px solid #ddd; overflow-y: auto; padding: 15px; font-family: sans-serif; box-sizing: border-box; }
-        #map { flex-grow: 1; height: 100vh; background: white !important; filter: none !important; }
-        .leaflet-container { background: #fff !important; filter: none !important; }
+        /* Global Layout */
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; font-family: sans-serif; }
         
-        .site-link { display: block; padding: 10px; margin-bottom: 5px; background: #f9f9f9; border-radius: 5px; cursor: pointer; text-decoration: none; color: #333; transition: 0.3s; }
-        .site-link:hover { background: #ffe4e1; }
-        .popup-img { width: 100%; height: auto; border-radius: 5px; margin-top: 5px; }
+        /* Sidebar: Black background, white text */
+        #sidebar { width: 320px; height: 100vh; background: #000; color: #fff; overflow-y: auto; padding: 20px; box-sizing: border-box; border-right: 1px solid #333; }
+        #sidebar h1 { font-size: 1.5em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; margin-top: 0; }
         
-        /* Oubaitori Principles Styling */
-        .oubaitori-box { background: #fff0f5; padding: 10px; border-radius: 5px; font-size: 0.9em; border-left: 4px solid #d81b60; margin-bottom: 15px; }
+        /* Map Area */
+        #map { flex-grow: 1; height: 100vh; background: white; }
         
-        /* Recenter Button */
-        #recenter-btn { position: absolute; bottom: 20px; right: 20px; z-index: 1000; padding: 10px 15px; background: #d81b60; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        /* Oubaitori Principles Narrative */
+        .narrative { font-size: 0.9em; line-height: 1.5; color: #ccc; margin-bottom: 20px; }
+        .principle-box { border-left: 3px solid #d81b60; padding-left: 12px; margin-bottom: 15px; }
+        .principle-box strong { color: #fff; display: block; margin-bottom: 4px; }
+        
+        /* Site List Interaction */
+        .site-link { display: block; padding: 12px; margin-bottom: 8px; background: #1a1a1a; border-radius: 6px; cursor: pointer; color: #fff; text-decoration: none; font-size: 0.9em; transition: 0.2s; }
+        .site-link:hover { background: #d81b60; color: #fff; }
+        
+        /* Popups and Buttons */
+        .popup-img { width: 100%; height: auto; border-radius: 4px; margin-top: 8px; }
+        #recenter-btn { position: absolute; bottom: 30px; right: 30px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
 <div id="sidebar">
-    <div class="oubaitori-box">
-        <strong>Oubaitori (桜梅桃李)</strong><br>
-        Just as Cherry (Ou), Plum (Bai), Peach (Tou), and Apricot (Ri) bloom in their own time, each person’s journey is unique [11, 14].
+    <h1>Oubaitori Blossom Trail</h1>
+    
+    <div class="narrative">
+        The Japanese concept of <strong>Oubaitori (桜梅桃李)</strong> reminds us that the Cherry, Plum, Peach, and Apricot all bloom in their own time and way. No flower competes with another; each honors its own unique rhythm [11, 14].
     </div>
+
+    <div class="principle-box">
+        <strong>1. Non-Comparison</strong>
+        The plum does not compete with the cherry to bloom first [8].
+    </div>
+    <div class="principle-box">
+        <strong>2. Self-Acceptance</strong>
+        Embrace your inherent "colors" and traits [8].
+    </div>
+    <div class="principle-box">
+        <strong>3. Trust the Process</strong>
+        Growth happens in its own God-ordained or natural season [8, 14].
+    </div>
+
     <div id="site-list"></div>
 </div>
 
@@ -39,53 +61,55 @@
 <script>
     var map = L.map('map');
     
-    // Light-themed Tiles (OpenStreetMap)
+    // Light-themed Map Layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // Custom Icons
+    // Define Icons
     var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [35, 35], iconAnchor: [17, 35], popupAnchor: [0, -30] });
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
 
-    // Data for all 17 sites
+    // 17 Sites Metadata
     var sites = [
-        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", info: "Cherry (Sakura): The biggest Tai-haku collection [1]." },
-        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg", info: "An iconic steel beacon of the North." },
-        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", info: "A historic fortress overlooking the North Sea." },
-        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg", info: "Medieval city featuring the great Cathedral." },
-        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg", info: "Plum (Ume): Walled gardens blooming at their own pace." },
-        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", info: "The northern frontier of the Roman Empire." },
-        { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg", info: "A historic coal-mining town with ancient origins." },
-        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", info: "Peach (Momo): Lush valleys and unique spring colors." },
-        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg", info: "Apricot (Anzu): Restored 17th-century walled gardens." },
-        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", info: "Seasonal blossom in a grand Georgian setting." },
-        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg", info: "Blossom surrounding a Victorian street museum." },
-        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg", info: "A coastal landmark protecting Sunderland harbor." },
-        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg", info: "The last remaining pleasure pier on the North East coast." },
-        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", info: "Traditional seaside park with spring flowers." },
-        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", info: "The defining symbol of Newcastle's skyline." },
-        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg", info: "Manor gardens blooming for the spring trail." },
-        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg", info: "Residential streets famous for pink cherry rows." }
+        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", type: "blossom", oubai: "Ou (Cherry): The biggest Tai-haku collection in the world." },
+        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg", type: "blossom", oubai: "Bai (Plum): Resilience, blooming quietly even in the cold [8]." },
+        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", type: "blossom", oubai: "Tou (Peach): Embracing individual juicy-sweet flavors [10]." },
+        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg", type: "blossom", oubai: "Ri (Apricot): A unique path through 17th-century gardens [20]." },
+        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", type: "blossom", oubai: "Oubaitori narrative to be added." },
+        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg", type: "blossom", oubai: "Oubaitori narrative to be added." },
+        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", type: "landmark", oubai: "Oubaitori narrative to be added." },
+        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg", type: "blossom", oubai: "Oubaitori narrative to be added." },
+        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg", type: "blossom", oubai: "Oubaitori narrative to be added." }
     ];
 
     var markerGroup = L.featureGroup();
     var trailCoords = [];
 
     sites.forEach(function(s, index) {
-        // Create marker with Blossom Icon
-        var m = L.marker([s.lat, s.lon], {icon: blossomIcon}).addTo(markerGroup);
-        var content = "<h3>" + s.name + "</h3><p>" + s.info + "</p><img src='" + s.img + "' class='popup-img'>";
+        // Choose marker: blossom icon vs default blue pin
+        var markerOptions = (s.type === 'blossom') ? {icon: blossomIcon} : {};
+        var m = L.marker([s.lat, s.lon], markerOptions).addTo(markerGroup);
+        
+        var content = "<h3>" + s.name + "</h3><p>" + s.oubai + "</p><img src='" + s.img + "' class='popup-img'>";
         m.bindPopup(content);
         
         trailCoords.push([s.lat, s.lon]);
 
-        // Add to Sidebar
+        // Sidebar Entry
         var link = document.createElement('a');
         link.className = 'site-link';
         link.innerHTML = "<strong>" + (index+1) + ". " + s.name + "</strong>";
         link.onclick = function() {
-            map.flyTo([s.lat, s.lon], 15);
+            map.flyTo([s.lat, s.lon], 14);
             m.openPopup();
         };
         document.getElementById('site-list').appendChild(link);
@@ -93,10 +117,10 @@
 
     markerGroup.addTo(map);
 
-    // Draw the Trail Line (Pink Polyline)
-    var trailLine = L.polyline(trailCoords, {color: '#d81b60', weight: 4, opacity: 0.6}).addTo(map);
+    // Pink Trail Polyline
+    L.polyline(trailCoords, {color: '#d81b60', weight: 4, opacity: 0.5, dashArray: '10, 10'}).addTo(map);
 
-    // Initial view fitting all sites
+    // Fit map to show all 17 sites
     map.fitBounds(markerGroup.getBounds().pad(0.1));
 
     // Live Van Tracker
@@ -104,13 +128,11 @@
     
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(pos) {
-            var lat = pos.coords.latitude;
-            var lon = pos.coords.longitude;
-            vanMarker.setLatLng([lat, lon]);
+            vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
         }, null, { enableHighAccuracy: true });
     }
 
-    // Recenter Button Logic
+    // Recenter logic
     document.getElementById('recenter-btn').onclick = function() {
         map.setView(vanMarker.getLatLng(), 15);
     };
