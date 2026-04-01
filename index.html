@@ -6,36 +6,30 @@
     <style>
         #map { height: 100vh; width: 100%; }
         body { margin: 0; }
-        .popup-header { color: #d81b60; font-weight: bold; font-size: 1.1em; }
+        .popup-header { color: #d81b60; font-weight: bold; }
     </style>
 </head>
 <body>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // 1. Setup Map centered on the North East
+        // 1. Setup Map
         var map = L.map('map').setView([54.95, -1.6], 9);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
         // 2. Define Custom Icons
-        // Your Custom Van Icon
         var vanIcon = L.icon({
             iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/test-van.svg', 
-            iconSize: [60, 60], 
-            iconAnchor: [30, 30]
+            iconSize: [60, 60], iconAnchor: [30, 30]
         });
 
-        // YOUR NEW CUSTOM SVG BLOSSOM ICON
+        // YOUR CUSTOM SVG ICON
         var blossomIcon = L.icon({
-            iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/blossom-1.svg',
-            iconSize: [45, 45],   
-            iconAnchor: [22, 45], 
-            popupAnchor: [0, -40] 
+            iconUrl: 'https://raw.githubusercontent.com/InclusiveCat/blossom-trail/main/Blossom%201.svg',
+            iconSize: [45, 45], iconAnchor: [22, 45], popupAnchor: [0, -40]
         });
 
-        // 3. Complete List of 20 Points (12 Blossom + 8 Landmarks)
+        // 3. Complete List of 20 Points
         var points = [
             {n:"Angel of the North", lat:54.9141, lon:-1.5895, type:"Landmark"},
             {n:"Durham Cathedral", lat:54.7736, lon:-1.5762, type:"Landmark"},
@@ -59,7 +53,7 @@
             {n:"Flatts Lane Woodland", lat:54.5430, lon:-1.1560, type:"Blossom"}   
         ];
 
-        // 4. Render Markers with logic to switch icons
+        // 4. Render Markers
         points.forEach(p => {
             var activeIcon = (p.type === "Blossom") ? blossomIcon : new L.Icon.Default();
             L.marker([p.lat, p.lon], {icon: activeIcon}).addTo(map)
@@ -75,9 +69,7 @@
                 var lon = pos.coords.longitude;
                 vanMarker.setLatLng([lat, lon]);
                 map.panTo([lat, lon]);
-            }, function(err) {
-                console.warn('GPS Error: ' + err.message);
-            }, {enableHighAccuracy: true, maximumAge: 0, timeout: 5000});
+            }, null, {enableHighAccuracy: true});
         }
     </script>
 </body>
