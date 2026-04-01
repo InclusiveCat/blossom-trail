@@ -2,77 +2,119 @@
 <html>
 <head>
     <title>North East Blossom & Landmark Trail</title>
-    <meta name="color-scheme" content="light">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         /* CSS FIX: Removes all black overlays and forced dark modes */
-        body, html, #map { 
-            margin: 0; padding: 0; height: 100vh; width: 100vw; 
-            background: white !important; 
-            filter: none !important; /* Disables any black-out filters */
-        }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; background: white !important; filter: none !important; overflow: hidden; display: flex; }
+        #sidebar { width: 300px; height: 100vh; background: #fff; border-right: 2px solid #ddd; overflow-y: auto; padding: 15px; font-family: sans-serif; box-sizing: border-box; }
+        #map { flex-grow: 1; height: 100vh; background: white !important; filter: none !important; }
         .leaflet-container { background: #fff !important; filter: none !important; }
+        
+        .site-link { display: block; padding: 10px; margin-bottom: 5px; background: #f9f9f9; border-radius: 5px; cursor: pointer; text-decoration: none; color: #333; transition: 0.3s; }
+        .site-link:hover { background: #ffe4e1; }
         .popup-img { width: 100%; height: auto; border-radius: 5px; margin-top: 5px; }
-        h3 { margin: 0; color: #d81b60; font-family: sans-serif; }
+        
+        /* Oubaitori Principles Styling */
+        .oubaitori-box { background: #fff0f5; padding: 10px; border-radius: 5px; font-size: 0.9em; border-left: 4px solid #d81b60; margin-bottom: 15px; }
+        
+        /* Recenter Button */
+        #recenter-btn { position: absolute; bottom: 20px; right: 20px; z-index: 1000; padding: 10px 15px; background: #d81b60; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
+
+<div id="sidebar">
+    <div class="oubaitori-box">
+        <strong>Oubaitori (桜梅桃李)</strong><br>
+        Just as Cherry (Ou), Plum (Bai), Peach (Tou), and Apricot (Ri) bloom in their own time, each person’s journey is unique [11, 14].
+    </div>
+    <div id="site-list"></div>
+</div>
+
 <div id="map"></div>
+<button id="recenter-btn">Recenter on Van</button>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // Initialize map
     var map = L.map('map');
     
-    // Use reliable light-themed OpenStreetMap Tiles
+    // Light-themed Tiles (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // ALL 17 SITES (Full Array to ensure they are "picked up")
+    // Custom Icons
+    var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [35, 35], iconAnchor: [17, 35], popupAnchor: [0, -30] });
+    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
+
+    // Data for all 17 sites
     var sites = [
-        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg" },
-        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg" },
-        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg" },
-        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg" },
-        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg" },
-        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg" },
-        { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg" },
-        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg" },
-        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg" },
-        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg" },
-        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg" },
-        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg" },
-        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg" },
-        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg" },
-        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg" },
-        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg" },
-        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg" }
+        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", info: "Cherry (Sakura): The biggest Tai-haku collection [1]." },
+        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg", info: "An iconic steel beacon of the North." },
+        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", info: "A historic fortress overlooking the North Sea." },
+        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg", info: "Medieval city featuring the great Cathedral." },
+        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg", info: "Plum (Ume): Walled gardens blooming at their own pace." },
+        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", info: "The northern frontier of the Roman Empire." },
+        { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg", info: "A historic coal-mining town with ancient origins." },
+        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", info: "Peach (Momo): Lush valleys and unique spring colors." },
+        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg", info: "Apricot (Anzu): Restored 17th-century walled gardens." },
+        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", info: "Seasonal blossom in a grand Georgian setting." },
+        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg", info: "Blossom surrounding a Victorian street museum." },
+        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg", info: "A coastal landmark protecting Sunderland harbor." },
+        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg", info: "The last remaining pleasure pier on the North East coast." },
+        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", info: "Traditional seaside park with spring flowers." },
+        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", info: "The defining symbol of Newcastle's skyline." },
+        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg", info: "Manor gardens blooming for the spring trail." },
+        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg", info: "Residential streets famous for pink cherry rows." }
     ];
 
-    // Add markers to map
     var markerGroup = L.featureGroup();
-    sites.forEach(function(s) {
-        var content = "<h3>" + s.name + "</h3><img src='" + s.img + "' class='popup-img'>";
-        L.marker([s.lat, s.lon]).bindPopup(content).addTo(markerGroup);
+    var trailCoords = [];
+
+    sites.forEach(function(s, index) {
+        // Create marker with Blossom Icon
+        var m = L.marker([s.lat, s.lon], {icon: blossomIcon}).addTo(markerGroup);
+        var content = "<h3>" + s.name + "</h3><p>" + s.info + "</p><img src='" + s.img + "' class='popup-img'>";
+        m.bindPopup(content);
+        
+        trailCoords.push([s.lat, s.lon]);
+
+        // Add to Sidebar
+        var link = document.createElement('a');
+        link.className = 'site-link';
+        link.innerHTML = "<strong>" + (index+1) + ". " + s.name + "</strong>";
+        link.onclick = function() {
+            map.flyTo([s.lat, s.lon], 15);
+            m.openPopup();
+        };
+        document.getElementById('site-list').appendChild(link);
     });
+
     markerGroup.addTo(map);
 
-    // Auto-zoom to show all 17 markers
-    if (sites.length > 0) {
-        map.fitBounds(markerGroup.getBounds().pad(0.1));
-    }
+    // Draw the Trail Line (Pink Polyline)
+    var trailLine = L.polyline(trailCoords, {color: '#d81b60', weight: 4, opacity: 0.6}).addTo(map);
 
-    // LIVE VAN TRACKER (Requires HTTPS or Localhost for GPS to activate)
-    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
-    var vanMarker = L.marker([54.95, -1.6], {icon: vanIcon}).addTo(map);
+    // Initial view fitting all sites
+    map.fitBounds(markerGroup.getBounds().pad(0.1));
 
+    // Live Van Tracker
+    var vanMarker = L.marker([54.842, -1.468], {icon: vanIcon}).addTo(map);
+    
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(pos) {
-            vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-        }, function(err) {
-            console.warn("GPS Access Denied. Use GitHub Pages (HTTPS) to enable tracking.");
-        }, { enableHighAccuracy: true });
+            var lat = pos.coords.latitude;
+            var lon = pos.coords.longitude;
+            vanMarker.setLatLng([lat, lon]);
+        }, null, { enableHighAccuracy: true });
     }
+
+    // Recenter Button Logic
+    document.getElementById('recenter-btn').onclick = function() {
+        map.setView(vanMarker.getLatLng(), 15);
+    };
 </script>
+
 </body>
 </html>
