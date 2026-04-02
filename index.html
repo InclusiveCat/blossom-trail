@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Oubaitori Blossom Trail</title>
+    <title>Oubaitori Collective Blossom Trail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -47,7 +47,7 @@
 <body>
 
 <div id="sidebar">
-    <h1>Oubaitori Trail</h1>
+    <h1>Oubaitori Collective Blossom Trail</h1>
     <div class="signature-msg">
         Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.
     </div>
@@ -61,36 +61,37 @@
         
         <div class="stage-card">
             <strong>Stage 1: Reset</strong>
-            <p>Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency. Anchor your mindset; the trail doesn't need to rush before growth.</p>
+            <p>Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency. Anchor your mindset; the trail doesn't need to rush before growth. The direction you take, either North, South, East or West, all will bring unique experiences on your personal journey!</p>
         </div>
 
         <div class="stage-card">
             <strong>Stage 2: Expansion</strong>
-            <p>Washington: Move toward expansive views. Blossom here is open and wide. Reflect on your 'capacity' to grow and create space to integrate everything.</p>
+            <p>Washington or Durham: It's your choice! Move toward expansive views. Blossom here is open and wide. Reflect on your 'capacity' to grow and create space to integrate everything.</p>
         </div>
 
         <div class="stage-card">
             <strong>Stage 3: Flow</strong>
-            <p>Angel of the North: Head along the fluid paths. Allow movement + reflection. Blossom reflects an emotional, fluid journey where you allow yourself to 'be' in the current.</p>
+            <p>Angel of the North or Noses Point at Seaham: You choose. Head along the fluid paths. Allow movement + reflection. Blossom reflects an emotional, fluid journey where you allow yourself to 'be' in the current.</p>
         </div>
 
         <div class="stage-card">
             <strong>Stage 4: Connection</strong>
-            <p>Jesmond Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'. Balance your environment and find stillness in the heart of the city.</p>
+            <p>Jesmond Dene and Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'. Balance your environment and find stillness in the heart of the city.</p>
         </div>
 
         <div class="stage-card">
             <strong>Stage 5: Breath</strong>
-            <p>Northumberland: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'. Use the wild coastal blossom to integrate the entire journey.</p>
+            <p>Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'. Use the wild coastal blossom to integrate the entire journey.</p>
         </div>
     </div>
 
     <div class="vision-box">
         <strong>Closing Vision</strong>
-        Houghton-le-Spring: Growth doesn't require pressure. A new landmark trail where space to blossom truly exists.
+        <p> Growth doesn't require pressure. Wherever your starting point, the destination is your choice. A new landmark trail and a new community. </p>
+        </p>Join the Oubaitori Collective, where space to blossom truly exists.
     </div>
 
-    <div class="nav-title">Explore the 17 Sites</div>
+    <div class="nav-title">Explore the region</div>
     <div id="site-list"></div>
 </div>
 
@@ -128,6 +129,8 @@
         { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", type: "landmark" },
         { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", type: "blossom" },
         { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", type: "landmark" }
+        { name: "Castle Eden Dene", lat: 54.75000, lon: -1.32639, img: "castle-eden.jpg", type: "landmark" }
+    { name: "Seaham", lat: 54.823, lon: -1.3189, img: "seaham.jpg", type: "landmark" }
     ];
 
     var markerGroup = L.featureGroup();
