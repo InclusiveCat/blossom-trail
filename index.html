@@ -111,7 +111,8 @@
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
 
     // Location Metadata
-    var sites = [
+
+      var sites = [
         { name: "Houghton-le-Spring", lat: 54.842, lon: -1.468, img: "houghton.jpg", type: "landmark" },
         { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg", type: "blossom" },
         { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg", type: "landmark" },
@@ -128,10 +129,11 @@
         { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg", type: "landmark" },
         { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", type: "landmark" },
         { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", type: "blossom" },
-        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", type: "landmark" }
-        { name: "Castle Eden Dene", lat: 54.75000, lon: -1.32639, img: "castle-eden.jpg", type: "landmark" }
+        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", type: "landmark" },
+        { name: "Castle Eden Dene", lat: 54.75000, lon: -1.32639, img: "castle-eden.jpg", type: "landmark" },
         { name: "Seaham", lat: 54.823, lon: -1.3189, img: "seaham.jpg", type: "landmark" }
     ];
+   
 
     var markerGroup = L.featureGroup();
     var trailCoords = [];
