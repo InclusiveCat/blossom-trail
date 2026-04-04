@@ -50,9 +50,9 @@
         .vision-box { background: #1a1a1a; border: 1px solid #d81b60; padding: 15px; border-radius: 8px; margin-top: 25px; font-size: 0.85em; line-height: 1.5; }
         .vision-box strong { color: #d81b60; display: block; margin-bottom: 5px; text-transform: uppercase; }
 
-        /* Map & Recenter */
+        /* Map & Popups */
         #map { flex-grow: 1; height: 100vh; background: #111; }
-        .popup-img { width: 100%; height: auto; border-radius: 4px; margin-top: 8px; }
+        .popup-img { width: 100%; max-width: 200px; height: auto; border-radius: 4px; margin-top: 8px; display: block; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
 
         /* A11Y Modes */
@@ -90,45 +90,11 @@
             </div>
         </div>
 
-        <div class="bucket active" id="bucket-1">
-            <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Houghton-le-Spring: Wellness system check-in. No destination urgency.</div>
-                <div id="list-1"></div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-2">
-            <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Washington or Durham: Move toward expansive views. Create space to integrate.</div>
-                <div id="list-2"></div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-3">
-            <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Angel of the North or Seaham: Allow movement + reflection. 'Be' in the current.</div>
-                <div id="list-3"></div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-4">
-            <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Jesmond Dene or Castle Eden Dene: Belonging without blending.</div>
-                <div id="list-4"></div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-5">
-            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Northumberland or Saltburn: Wide skies and sea air. Freedom to Be.</div>
-                <div id="list-5"></div>
-            </div>
-        </div>
+        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Houghton-le-Spring: Wellness system check-in.</div><div id="list-1"></div></div></div>
+        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Washington or Durham: Create space.</div><div id="list-2"></div></div></div>
+        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Angel or Seaham: Be in the current.</div><div id="list-3"></div></div></div>
+        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Dene areas: Belonging without blending.</div><div id="list-4"></div></div></div>
+        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Coastal areas: Freedom to Be.</div><div id="list-5"></div></div></div>
 
         <div class="vision-box">
             <strong>Closing Vision</strong>
@@ -195,7 +161,11 @@ function showPane(id, btn) {
     sites.forEach(function(s) {
         var icon = (s.type === "blossom") ? blossomIcon : new L.Icon.Default();
         var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(map);
-        marker.bindPopup("<strong>" + s.name + "</strong><br><img src='" + s.img + "' class='popup-img'>");
+        
+        // EXPLICIT POPUP STRING
+        var popupContent = "<strong>" + s.name + "</strong><br><img src='" + s.img + "' class='popup-img' alt='" + s.name + "'>";
+        marker.bindPopup(popupContent);
+        
         trailCoords.push([s.lat, s.lon]);
 
         var list = document.getElementById('list-' + s.stage);
@@ -203,7 +173,10 @@ function showPane(id, btn) {
             var link = document.createElement('div');
             link.className = 'site-link';
             link.textContent = s.name;
-            link.onclick = function() { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
+            link.onclick = function() { 
+                map.flyTo([s.lat, s.lon], 14); 
+                marker.openPopup(); 
+            };
             list.appendChild(link);
         }
     });
