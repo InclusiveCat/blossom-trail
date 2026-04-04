@@ -25,35 +25,37 @@
 
         /* ===== ACCORDIONS ===== */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
-        .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
-        .bucket-header:hover { background: #1a1a1a; }
-        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; }
+        .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; color: #d81b60; }
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
 
-        /* A11Y Tabs Internal */
+        /* Accessibility Styles */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 10px; }
         .a11y-tab { flex: 1; padding: 8px; background: #000; border: none; color: #888; cursor: pointer; font-size: 0.7em; text-transform: uppercase; }
         .a11y-tab.active { color: #fff; border-bottom: 2px solid #d81b60; background: #111; }
         .a11y-pane { display: none; }
         .a11y-pane.active { display: block; }
-        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.8em; text-align: center; text-decoration: none; display: block; }
+        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; text-decoration: none; display: block; font-size: 0.8em; }
         .radar-btn { background: #00c853; color: #000; font-weight: bold; border: none; }
+        .radar-btn.active { background: #005720; color: #fff; }
 
-        /* ===== NARRATIVE & LINKS ===== */
-        .stage-narrative { font-size: 0.82em; line-height: 1.4; color: #aaa; margin-bottom: 12px; font-style: italic; }
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s; font-size: 0.85em; color: #fff; text-decoration: none; }
+        /* Stage Narrative */
+        .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; }
+
+        /* Site Links */
+        .site-link { display: block; padding: 10px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s; font-size: 0.85em; color: #fff; text-decoration: none; }
         .site-link:hover { background: #222; border-left-width: 5px; }
 
-        /* ===== MAP & UI ===== */
+        /* Map & Recenter */
         #map { flex-grow: 1; height: 100vh; background: #111; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
-        /* A11Y MODES */
+        /* A11Y Modes */
         body.high-contrast { background: #000; }
         body.dyslexia-font { font-family: 'Verdana', sans-serif; letter-spacing: 0.05em; line-height: 1.6; }
 
-        @media (max-width: 768px) { #app { flex-direction: column; } #sidebar { width: 100%; height: 50vh; min-width: auto; } #map { height: 50vh; } }
+        @media (max-width: 768px) { #app { flex-direction: column; } #sidebar { width: 100%; height: 45vh; min-width: auto; } #map { height: 55vh; } }
     </style>
 </head>
 <body>
@@ -62,10 +64,10 @@
     <nav id="sidebar">
         <h1>Oubaitori Collective Blossom Trail</h1>
         <div class="description">桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.</div>
-        <img src="blossom.jpg" alt="Blossom Trail" class="sidebar-image">
+        <img src="blossom.jpg" alt="Trail Narrative" class="sidebar-image">
 
         <div class="bucket" id="bucket-a11y">
-            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Accessibility</strong><span>▼</span></div>
+            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong style="color:white;">⚙️ Accessibility</strong><span>▼</span></div>
             <div class="bucket-content">
                 <div class="a11y-tabs">
                     <button class="a11y-tab active" onclick="showPane('display', this)">Display</button>
@@ -77,7 +79,7 @@
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
                 </div>
                 <div id="navigate" class="a11y-pane">
-                    <button class="a11y-btn radar-btn">🔑 Show RADAR Toilets</button>
+                    <button class="a11y-btn radar-btn" id="radar-toggle-btn">🔑 Show RADAR Toilets</button>
                 </div>
                 <div id="emergency" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL Call</a>
@@ -89,35 +91,39 @@
         <div class="bucket active" id="bucket-1">
             <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath, body, and stillness.</div>
+                <div class="stage-narrative">Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency.</div>
                 <div id="list-1"></div>
             </div>
         </div>
+
         <div class="bucket" id="bucket-2">
             <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Move toward expansive views. Reflect on your 'capacity' to grow.</div>
+                <div class="stage-narrative">Washington or Durham: Move toward expansive views. Reflect on your 'capacity' to grow and create space to integrate everything.</div>
                 <div id="list-2"></div>
             </div>
         </div>
+
         <div class="bucket" id="bucket-3">
             <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Allow movement + reflection. 'Be' in the current.</div>
+                <div class="stage-narrative">Angel of the North or Seaham: Allow movement + reflection. Blossom reflects an emotional journey where you allow yourself to 'be' in the current.</div>
                 <div id="list-3"></div>
             </div>
         </div>
+
         <div class="bucket" id="bucket-4">
             <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Where urban meets nature. Find 'belonging without blending'.</div>
+                <div class="stage-narrative">Jesmond Dene or Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'.</div>
                 <div id="list-4"></div>
             </div>
         </div>
+
         <div class="bucket" id="bucket-5">
             <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Travel toward the coast. Wide skies and sea air.</div>
+                <div class="stage-narrative">Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'.</div>
                 <div id="list-5"></div>
             </div>
         </div>
@@ -148,8 +154,9 @@ function showPane(id, btn) {
 
     var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] });
+    var radarIcon = L.divIcon({ html: '🔑', className: 'radar-marker', iconSize: [20, 20] });
 
-    // THE COMPLETE 19-SITE DATA SET
+    // FULL 19-SITE DATA SET
     var sites = [
         { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom" },
         { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom" },
@@ -172,6 +179,12 @@ function showPane(id, btn) {
         { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark" }
     ];
 
+    var radarToilets = [
+        { name: "Houghton Town Centre", lat: 54.8420, lon: -1.4730 },
+        { name: "Washington Galleries", lat: 54.9004, lon: -1.5230 },
+        { name: "Durham Bus Station", lat: 54.7760, lon: -1.5770 }
+    ];
+
     var trailCoords = [];
     sites.forEach(function(s) {
         var icon = (s.type === "blossom") ? blossomIcon : new L.Icon.Default();
@@ -188,10 +201,18 @@ function showPane(id, btn) {
         }
     });
 
-    // Trail Line
-    L.polyline(trailCoords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
+    // RADAR Toggle Logic
+    var radarGroup = L.layerGroup();
+    radarToilets.forEach(t => { L.marker([t.lat, t.lon], {icon: radarIcon}).bindPopup(t.name).addTo(radarGroup); });
+    
+    var radarVisible = false;
+    document.getElementById('radar-toggle-btn').onclick = function() {
+        radarVisible = !radarVisible;
+        if(radarVisible) { map.addLayer(radarGroup); this.classList.add('active'); }
+        else { map.removeLayer(radarGroup); this.classList.remove('active'); }
+    };
 
-    // Van Tracker
+    L.polyline(trailCoords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
     var vanMarker = L.marker([54.842, -1.468], {icon: vanIcon}).addTo(map);
     document.getElementById('recenter-btn').onclick = function() { map.setView(vanMarker.getLatLng(), 15); };
 })();
