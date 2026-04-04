@@ -58,6 +58,50 @@
         /* A11Y Modes */
         body.high-contrast { background: #000; }
         body.dyslexia-font { font-family: 'Verdana', sans-serif; letter-spacing: 0.05em; line-height: 1.6; }
+
+        /* ===== MOBILE OPTIMIZATION ===== */
+        @media (max-width: 768px) {
+        #app {
+        flex-direction: column; /* Stack sidebar on top of map */
+        }
+
+        #sidebar {
+        width: 100%; /* Take full width */
+        min-width: 100%;
+        height: 45vh; /* Occupy only 45% of the screen height */
+        border-right: none;
+        border-bottom: 2px solid #222; /* Visual divider */
+        padding: 15px; /* Tighter padding for small screens */
+        }
+
+        #map {
+        width: 100%;
+        height: 55vh; /* Map takes the remaining 55% */
+        }
+
+        /* Make links easier to hit with a thumb */
+        .site-link {
+        padding: 15px; 
+        margin-bottom: 10px;
+        font-size: 1em; /* Slightly larger text for readability */
+        }
+
+        /* Reposition the Recenter button so it doesn't block map attribution */
+        #recenter-btn {
+        bottom: 20px;
+        right: 10px;
+        padding: 10px 15px;
+        font-size: 0.8em;
+        }
+
+        /* Ensure the A11Y panel doesn't go off-screen */
+        #a11y-panel {
+        width: 90vw;
+        max-width: 320px;
+        left: 5vw;
+        }
+    }
+        
     </style>
 </head>
 <body>
