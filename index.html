@@ -21,7 +21,7 @@
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
+        h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 15px; }
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
@@ -85,8 +85,8 @@
         <span class="sub-header">It is Okay to be Here.</span>
         
         <div class="welcome-msg">
-            Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
-            <strong>Not able to join us?</strong> We would still like to hear your views. Click on each of the trail stages below and answer each question. <strong>Your views matter to us!?</strong>
+            Join us on the Oubaitori Collective Blossom Trail and we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
+            <strong>Not able to join us?</strong> We would still like to hear your views if you are a neurodivergent adult. Your views matter to us!
         </div>
 
         <div class="access-forecast">
@@ -183,13 +183,13 @@
         </div>
 
         <div class="bucket" id="bucket-5">
-            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breathe</strong><span>▼</span></div>
+            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
             <div class="bucket-content">
                 <div class="stage-narrative">Travel toward the coast. Wide skies and sea air. Freedom to Be.</div>
                 <div id="list-5"></div>
                 <div class="poll-box">
-                    <div class="poll-q">5. If you had access to holistic coaching and energy tools, what challenges would you hope it would help you address most?</div>
-                    <button class="poll-btn" onclick="logP(this)">Stabilising energy/routines</button>
+                    <div class="poll-q">5. What challenges would you hope a coaching service would help you address most?</div>
+                    <button class="poll-btn" onclick="logP(this)">Energy stabilisation</button>
                     <button class="poll-btn" onclick="logP(this)">Workplace boundaries</button>
                     <button class="poll-btn" onclick="logP(this)">Nervous system regulation</button>
                     <button class="poll-btn" onclick="logP(this)">Executive function tools</button>
@@ -273,20 +273,20 @@ function logP(btn) {
     var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
 
     var sites = [
-        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "houghton.jpg", day: "10:30", night: "23:15", access: "Paved" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, img: "wash.jpg", day: "14:00", night: "23:22", access: "Gravel" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", day: "12:00", night: "Cathedral Glow", access: "Cobbles" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, img: "old.jpg", day: "11:00", night: "23:25", access: "Gravel" },
+        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "white-harmony.jpg", day: "10:30", night: "23:15", access: "Paved" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, img: "washington.jpg", day: "14:00", night: "23:22", access: "Gravel" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", day: "12:00", night: "Night Glow", access: "Cobbles" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, img: "old-durham.jpg", day: "11:00", night: "23:25", access: "Gravel" },
         { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, img: "preston.jpg", day: "15:00", night: "23:30", access: "Tarmac" },
         { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", day: "13:30", night: "23:35", access: "Firm" },
         { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, img: "angel.jpg", day: "09:00", night: "23:24", access: "Grass" },
         { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, img: "seaham.jpg", day: "08:30", night: "23:18", access: "Level" },
         { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, img: "roker.jpg", day: "16:00", night: "23:14", access: "Concrete" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, img: "south.jpg", day: "11:30", night: "23:16", access: "Tarmac" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, img: "jes.jpg", day: "10:00", night: "23:26", access: "Woodland" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, img: "tyne.jpg", day: "13:00", night: "23:25", access: "Paved" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", day: "11:30", night: "23:16", access: "Tarmac" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", day: "10:00", night: "23:26", access: "Woodland" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", day: "13:00", night: "23:25", access: "Paved" },
         { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", day: "11:00", night: "23:30", access: "Accessible" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, img: "castle.jpg", day: "10:45", night: "23:20", access: "Uneven" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, img: "castle-eden.jpg", day: "10:45", night: "23:20", access: "Uneven" },
         { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, img: "gibside.jpg", day: "14:30", night: "23:28", access: "Gravel" },
         { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, img: "whitley.jpg", day: "09:30", night: "23:14", access: "Paved" },
         { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, img: "saltburn.jpg", day: "15:30", night: "23:10", access: "Lift" },
