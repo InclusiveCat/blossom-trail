@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* ===== UI FOUNDATIONS ===== */
+        /* UI FOUNDATIONS */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
-        /* ===== SIDEBAR ===== */
+        /* SIDEBAR */
         #sidebar { 
             width: 380px; min-width: 380px; height: 100vh; background: #000; 
             overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 100;
@@ -43,32 +43,21 @@
         .bucket.active .bucket-content { display: block; }
 
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222; font-style: italic; }
-        
         .poll-box { background: #111; padding: 12px; border-radius: 6px; border: 1px solid #d81b60; margin-top: 15px; }
         .poll-q { font-size: 0.8em; margin-bottom: 10px; font-weight: bold; line-height: 1.4; color: #fff; }
         .poll-btn { display: block; width: 100%; padding: 8px; margin-bottom: 5px; background: #222; border: 1px solid #333; color: #ddd; border-radius: 4px; font-size: 0.72em; text-align: left; cursor: pointer; transition: 0.2s; }
-        .poll-btn:hover { border-color: #00c853; background: #2a2a2a; }
 
-        /* A11Y Tabs */
+        /* Map and A11Y */
+        #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
+        .leaflet-popup-content-wrapper { color: #000 !important; }
+        .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; }
         .a11y-tab { flex: 1; padding: 8px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.58em; text-transform: uppercase; font-weight: bold; }
         .a11y-tab.active { color: #fff; background: #d81b60; }
         .a11y-pane { display: none; }
         .a11y-pane.active { display: block; }
-        .a11y-btn { width: 100%; padding: 12px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; font-size: 0.8em; text-decoration: none; display: block; }
-
-        /* Map and Links */
-        #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
-        .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
-        .leaflet-popup-content-wrapper { color: #000 !important; }
-        .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
 
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-
-        /* Accessibility Modes */
-        body.high-contrast { background: #000 !important; color: #fff !important; }
-        body.dyslexia-font { font-family: 'Verdana', sans-serif !important; letter-spacing: 0.05em; line-height: 1.8; }
 
         @media screen and (max-width: 768px) {
             #app { flex-direction: column !important; }
@@ -86,25 +75,26 @@
         
         <div class="welcome-msg">
             Join us on the Oubaitori Collective Blossom Trail and we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
-            <strong>Not able to join us?</strong> We would still like to hear your views if you are a neurodivergent adult. Your views matter to us!
+            <strong>Not able to join us?</strong> We would still like to hear your views. Complete your current energy level, tell the local authority area where you live and complete each question in the five stages below.  
+            <strong>Your views matter to us!</strong>. 
         </div>
 
         <div class="access-forecast">
-            <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:#d81b60;">Current Conditions</h2>
+            <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:#d81b60;">Live Trail Conditions</h2>
             <div class="forecast-grid">
-                <div class="forecast-item">🌦️ Weather: <b>Mild and Clear</b></div>
-                <div class="forecast-item">♿ Access: <b>Firm and Dry</b></div>
+                <div class="forecast-item">🌦️ Weather: <b id="live-weather">Loading...</b></div>
+                <div class="forecast-item">♿ Access: <b id="live-access">Assessing...</b></div>
                 <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
-                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
+                <div class="forecast-item">🌡️ Temp: <b id="live-temp">--°C</b></div>
             </div>
         </div>
 
         <div class="pulse-check">
             <h3>How are you feeling right now?</h3>
             <div class="light-row">
-                <button class="light" style="background:#00c853;" onclick="alert('Log recorded: Thriving')">Thriving</button>
-                <button class="light" style="background:#ffd600;" onclick="alert('Log recorded: Masking')">Masking</button>
-                <button class="light" style="background:#d81b60;" onclick="alert('Log recorded: Burnout')">Burnout</button>
+                <button class="light" style="background:#00c853;" onclick="alert('Log: Thriving')">Thriving</button>
+                <button class="light" style="background:#ffd600;" onclick="alert('Log: Masking')">Masking</button>
+                <button class="light" style="background:#d81b60;" onclick="alert('Log: Burnout')">Burnout</button>
             </div>
         </div>
 
@@ -124,113 +114,29 @@
                 <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath, body, and stillness.</div>
                 <div id="list-1"></div>
                 <div class="poll-box">
-                    <div class="poll-q">1. In the past 12 months, how often have you experienced overwhelm or burnout symptoms that affected your life?</div>
-                    <button class="poll-btn" onclick="logP(this)">Daily</button>
-                    <button class="poll-btn" onclick="logP(this)">Weekly</button>
-                    <button class="poll-btn" onclick="logP(this)">Monthly</button>
-                    <button class="poll-btn" onclick="logP(this)">Occasionally</button>
-                    <button class="poll-btn" onclick="logP(this)">Never</button>
+                    <div class="poll-q">1. In the past 12 months, how often have you experienced overwhelm or burnout symptoms?</div>
+                    <button class="poll-btn" onclick="logP(this)">Daily</button><button class="poll-btn" onclick="logP(this)">Weekly</button><button class="poll-btn" onclick="logP(this)">Monthly</button>
                 </div>
             </div>
         </div>
-
-        <div class="bucket" id="bucket-2">
-            <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Move toward expansive views. Reflect on your capacity to grow and create space.</div>
-                <div id="list-2"></div>
-                <div class="poll-box">
-                    <div class="poll-q">2. What barriers have you faced in accessing appropriate support before or after your neurodivergence assessment?</div>
-                    <button class="poll-btn" onclick="logP(this)">Wait times over 1 year</button>
-                    <button class="poll-btn" onclick="logP(this)">Lack of tailored guidance</button>
-                    <button class="poll-btn" onclick="logP(this)">Navigation difficulty</button>
-                    <button class="poll-btn" onclick="logP(this)">Financial barriers</button>
-                    <button class="poll-btn" onclick="logP(this)">No barriers faced</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-3">
-            <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Allow movement and reflection. 'Be' in the current of your journey.</div>
-                <div id="list-3"></div>
-                <div class="poll-box">
-                    <div class="poll-q">3. If you become stressed or overwhelmed, how easy is it for you to recover?</div>
-                    <button class="poll-btn" onclick="logP(this)">Very easy</button>
-                    <button class="poll-btn" onclick="logP(this)">Somewhat easy</button>
-                    <button class="poll-btn" onclick="logP(this)">Neutral</button>
-                    <button class="poll-btn" onclick="logP(this)">Somewhat difficult</button>
-                    <button class="poll-btn" onclick="logP(this)">Very difficult</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-4">
-            <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Belonging without blending. Enter the sanctuary where urban meets nature.</div>
-                <div id="list-4"></div>
-                <div class="poll-box">
-                    <div class="poll-q">4. How confident do you feel in managing work-related demands and communication without compromising wellbeing?</div>
-                    <button class="poll-btn" onclick="logP(this)">Very confident</button>
-                    <button class="poll-btn" onclick="logP(this)">Confident</button>
-                    <button class="poll-btn" onclick="logP(this)">Unsure</button>
-                    <button class="poll-btn" onclick="logP(this)">Low confidence</button>
-                    <button class="poll-btn" onclick="logP(this)">No confidence</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-5">
-            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="stage-narrative">Travel toward the coast. Wide skies and sea air. Freedom to Be.</div>
-                <div id="list-5"></div>
-                <div class="poll-box">
-                    <div class="poll-q">5. What challenges would you hope a coaching service would help you address most?</div>
-                    <button class="poll-btn" onclick="logP(this)">Energy stabilisation</button>
-                    <button class="poll-btn" onclick="logP(this)">Workplace boundaries</button>
-                    <button class="poll-btn" onclick="logP(this)">Nervous system regulation</button>
-                    <button class="poll-btn" onclick="logP(this)">Executive function tools</button>
-                    <button class="poll-btn" onclick="logP(this)">Managing burnout symptoms</button>
-                </div>
-            </div>
-        </div>
+        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content" id="list-2"></div></div>
+        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content" id="list-3"></div></div>
+        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content" id="list-4"></div></div>
+        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breathe</strong><span>▼</span></div><div class="bucket-content" id="list-5"></div></div>
 
         <div class="bucket" id="bucket-a11y">
-            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Tools and Resources</strong><span>▼</span></div>
+            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Tools and Support</strong><span>▼</span></div>
             <div class="bucket-content">
                 <div class="a11y-tabs">
                     <button class="a11y-tab active" id="tab-disp" onclick="showPane('disp')">Display</button>
-                    <button class="a11y-tab" id="tab-tech" onclick="showPane('tech')">Techniques</button>
-                    <button class="a11y-tab" id="tab-res" onclick="showPane('res')">Resources</button>
                     <button class="a11y-tab" id="tab-em" onclick="showPane('em')">Emergency</button>
                 </div>
-
                 <div id="pane-disp" class="a11y-pane active">
-                    <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
                     <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
                 </div>
-
-                <div id="pane-tech" class="a11y-pane">
-                    <div style="font-size:0.8em; color:#ddd; line-height:1.4;">
-                        <b>Sensory Reset:</b> Close your eyes and name 3 sounds you can hear.<br><br>
-                        <b>Grounding:</b> Feel your feet on the earth. Visualise roots anchoring you.
-                    </div>
-                </div>
-
-                <div id="pane-res" class="a11y-pane">
-                    <div style="font-size:0.75em; color:#bbb;">
-                        <b>Equality Act 2010:</b> Your rights to workplace adjustments.<br><br>
-                        <b>Access to Work:</b> Government support for job equipment and support.
-                    </div>
-                </div>
-
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
-                    <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
                 </div>
             </div>
         </div>
@@ -267,45 +173,46 @@ function logP(btn) {
     var map = L.map('map').setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var fSlider = document.getElementById('f-slider');
-    fSlider.oninput = function() { document.documentElement.style.setProperty('--font-scale', this.value / 100); };
+    // LIVE WEATHER LOGIC
+    async function updateLiveConditions() {
+        try {
+            const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=54.84&longitude=-1.47&current_weather=true");
+            const data = await res.json();
+            const weatherCode = data.current_weather.weathercode;
+            const temp = Math.round(data.current_weather.temperature);
+            
+            let status = "Clear";
+            let access = "Firm and Dry";
+            
+            if (weatherCode > 0) status = "Cloudy";
+            if ([51, 53, 55, 61, 63, 65].includes(weatherCode)) {
+                status = "Raining";
+                access = "Slippery and Muddy";
+            }
+            if (weatherCode >= 71) {
+                status = "Snowing";
+                access = "Difficult / Avoid Grass";
+            }
+
+            document.getElementById('live-weather').innerText = status;
+            document.getElementById('live-access').innerText = access;
+            document.getElementById('live-temp').innerText = temp + "°C";
+        } catch (e) {
+            document.getElementById('live-weather').innerText = "Dynamic (Live)";
+            document.getElementById('live-access').innerText = "Check Local Sky";
+        }
+    }
+    updateLiveConditions();
 
     var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
-
     var sites = [
-        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "white-harmony.jpg", day: "10:30", night: "23:15", access: "Paved" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, img: "washington.jpg", day: "14:00", night: "23:22", access: "Gravel" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", day: "12:00", night: "Night Glow", access: "Cobbles" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, img: "old-durham.jpg", day: "11:00", night: "23:25", access: "Gravel" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, img: "preston.jpg", day: "15:00", night: "23:30", access: "Tarmac" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", day: "13:30", night: "23:35", access: "Firm" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, img: "angel.jpg", day: "09:00", night: "23:24", access: "Grass" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, img: "seaham.jpg", day: "08:30", night: "23:18", access: "Level" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, img: "roker.jpg", day: "16:00", night: "23:14", access: "Concrete" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", day: "11:30", night: "23:16", access: "Tarmac" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", day: "10:00", night: "23:26", access: "Woodland" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", day: "13:00", night: "23:25", access: "Paved" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", day: "11:00", night: "23:30", access: "Accessible" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, img: "castle-eden.jpg", day: "10:45", night: "23:20", access: "Uneven" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, img: "gibside.jpg", day: "14:30", night: "23:28", access: "Gravel" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, img: "whitley.jpg", day: "09:30", night: "23:14", access: "Paved" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, img: "saltburn.jpg", day: "15:30", night: "23:10", access: "Lift" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, img: "hadrian.jpg", day: "12:30", night: "23:35", access: "Grass" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", day: "08:00", night: "23:18", access: "Sandy" }
+        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "houghton.jpg", day: "10:30", night: "23:15", access: "Paved" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", day: "12:00", night: "23:25", access: "Cobbles" }
     ];
 
-    var coords = [];
     sites.forEach(function(s) {
         var marker = L.marker([s.lat, s.lon], {icon: bIcon}).addTo(map);
-        marker.bindPopup(`
-            <div style="color:#000;">
-                <strong style="color:#d81b60;">${s.name}</strong><br>
-                <span style="display:inline-block; padding:2px 6px; background:#d81b60; color:#fff; border-radius:4px; font-size:0.7em;">${s.access}</span><br>
-                <img src='${s.img}' class='popup-img'><br>
-                <div style="font-size:0.85em; border-top:1px solid #ccc; padding-top:5px;">☀️ Day: ${s.day} | 🌙 Night: ${s.night}</div>
-            </div>
-        `);
-        coords.push([s.lat, s.lon]);
+        marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><br><span>${s.access}</span><br><img src='${s.img}' class='popup-img'><br>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</div>`);
         var list = document.getElementById('list-' + s.stage);
         if(list) {
             var link = document.createElement('div');
@@ -314,8 +221,6 @@ function logP(btn) {
             list.appendChild(link);
         }
     });
-
-    L.polyline(coords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
 
     var vM = L.marker([54.843, -1.470], {icon: L.icon({iconUrl:'test-van.svg', iconSize:[44,44]})}).addTo(map);
     document.getElementById('recenter-btn').onclick = function() {
