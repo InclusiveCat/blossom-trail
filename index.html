@@ -10,7 +10,6 @@
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
-        
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* ===== SIDEBAR ===== */
@@ -26,40 +25,43 @@
         .description { font-size: 0.85em; line-height: 1.6; color: #ccc; margin-bottom: 20px; font-style: italic; border-left: 3px solid #d81b60; padding-left: 15px; }
         .sidebar-image { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 20px; object-fit: cover; border: 1px solid #333; }
 
-        /* ===== ACCESSIBILITY PANEL ===== */
-        .a11y-slider-wrap { margin-bottom: 15px; padding: 12px; background: #111; border-radius: 8px; border: 1px solid #333; }
-        .a11y-slider-header { display: flex; justify-content: space-between; font-size: 0.8em; margin-bottom: 8px; color: #aaa; }
-        input[type=range] { width: 100%; accent-color: #d81b60; cursor: pointer; }
-
-        body.high-contrast { background: #000 !important; color: #fff !important; }
-        body.high-contrast .bucket, body.high-contrast .site-link { border: 2px solid #fff !important; }
-        body.dyslexia-font { font-family: 'Verdana', sans-serif !important; letter-spacing: 0.05em; line-height: 1.8; }
-
-        /* ===== ACCORDIONS & LINKS ===== */
+        /* ===== ACCORDIONS ===== */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
-        
-        .stage-narrative { font-size: 0.85em; line-height: 1.6; color: #bbb; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; }
+
+        /* A11Y Tabs */
+        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; }
+        .a11y-tab { flex: 1; padding: 8px; background: none; border: none; color: #888; cursor: pointer; font-size: 0.65em; text-transform: uppercase; text-align: center; }
+        .a11y-tab.active { color: #fff; border-bottom: 2px solid #d81b60; }
+        .a11y-pane { display: none; }
+        .a11y-pane.active { display: block; }
+
+        /* Conditions/Opt-in Styling */
+        .condition-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.85em; }
+        .condition-label { color: #888; }
+        .condition-value { font-weight: bold; color: #d81b60; }
+
+        /* Site Links */
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
         .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
-        
-        /* ===== VISION BOX (FIXED SPACING) ===== */
-        .vision-box { background: #1a1a1a; border: 1px solid #d81b60; padding: 20px; border-radius: 8px; margin-top: 30px; margin-bottom: 30px; font-size: 0.9em; line-height: 1.6; }
-        .vision-box strong { color: #d81b60; display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .vision-box p { margin: 0 0 15px 0; }
-        .vision-box p:last-child { margin-bottom: 0; }
 
-        /* ===== MAP & UI ===== */
+        /* Vision Box */
+        .vision-box { background: #1a1a1a; border: 1px solid #d81b60; padding: 20px; border-radius: 8px; margin-top: 30px; font-size: 0.9em; line-height: 1.6; }
+        .vision-box strong { color: #d81b60; display: block; margin-bottom: 10px; text-transform: uppercase; }
+
+        /* ===== MAP & POPUPS ===== */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
-        .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin-top: 8px; display: block; }
+        .popup-img { width: 100%; max-width: 200px; height: auto; border-radius: 4px; margin-top: 8px; display: block; }
+        .moon-data { margin-top: 10px; padding-top: 10px; border-top: 1px solid #333; font-size: 0.85em; line-height: 1.4; color: #ddd; }
+        
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
 
         @media screen and (max-width: 768px) {
             #app { flex-direction: column !important; }
-            #sidebar { width: 100% !important; min-width: 100% !important; height: 45vh !important; border-right: none; border-bottom: 2px solid #d81b60; padding: 15px; }
+            #sidebar { width: 100% !important; min-width: 100% !important; height: 45vh !important; border-right: none; border-bottom: 2px solid #d81b60; }
             #map { height: 55vh !important; width: 100% !important; }
         }
     </style>
@@ -69,46 +71,48 @@
 <div id="app">
     <nav id="sidebar">
         <h1>Oubaitori Collective Blossom Trail</h1>
-        <div class="description">桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.</div>
-        <img src="blossom.jpg" alt="Trail Narrative" class="sidebar-image">
+        <div class="description">桜梅桃李: Blossom in your own time.</div>
+        <img src="blossom.jpg" alt="Trail Header" class="sidebar-image">
 
         <div class="bucket" id="bucket-a11y">
-            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong style="color:white;">⚙️ Accessibility</strong><span>▼</span></div>
+            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong style="color:white;">⚙️ Accessibility & Info</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="a11y-tabs" style="display:flex; border-bottom:1px solid #333; margin-bottom:15px;">
-                    <button style="flex:1; padding:8px; background:none; border:none; color:#fff; font-size:0.7em; cursor:pointer;" onclick="showPane('display', this)">DISPLAY</button>
-                    <button style="flex:1; padding:8px; background:none; border:none; color:#888; font-size:0.7em; cursor:pointer;" onclick="showPane('navigate', this)">NAVIGATE</button>
-                    <button style="flex:1; padding:8px; background:none; border:none; color:#888; font-size:0.7em; cursor:pointer;" onclick="showPane('emergency', this)">EMERGENCY</button>
+                <div class="a11y-tabs">
+                    <button class="a11y-tab active" onclick="showPane('display', this)">Display</button>
+                    <button class="a11y-tab" onclick="showPane('conditions', this)">Conditions</button>
+                    <button class="a11y-tab" onclick="showPane('emergency', this)">Emergency</button>
                 </div>
 
                 <div id="display" class="a11y-pane active">
-                    <div class="a11y-slider-wrap">
-                        <div class="a11y-slider-header"><span>Text Size</span><span><b id="font-val">100</b>%</span></div>
-                        <input type="range" id="font-slider" min="80" max="150" value="100">
-                    </div>
-                    <button class="a11y-btn" style="width:100%; padding:12px; background:#222; color:#fff; border:1px solid #444; border-radius:6px; margin-bottom:10px; cursor:pointer;" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
-                    <button class="a11y-btn" style="width:100%; padding:12px; background:#222; color:#fff; border:1px solid #444; border-radius:6px; cursor:pointer;" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
+                    <div style="margin-bottom:10px; font-size:0.75em; color:#888;">Adjust Text Size</div>
+                    <input type="range" id="font-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
+                    <button class="site-link" style="width:100%;" onclick="document.body.classList.toggle('high-contrast')">Toggle High Contrast</button>
+                    <button class="site-link" style="width:100%;" onclick="document.body.classList.toggle('dyslexia-font')">Toggle Dyslexia Font</button>
                 </div>
 
-                <div id="navigate" class="a11y-pane" style="display:none;">
-                    <button id="radar-toggle-btn" style="width:100%; padding:12px; background:#00c853; color:#000; font-weight:bold; border:none; border-radius:6px; cursor:pointer;">🔑 Show RADAR Toilets</button>
+                <div id="conditions" class="a11y-pane">
+                    <div class="condition-item"><span class="condition-label">🌦️ Regional Weather:</span> <span class="condition-value">Mild/Clear</span></div>
+                    <div class="condition-item"><span class="condition-label">🍃 Pollen Count:</span> <span class="condition-value">Low (Green)</span></div>
+                    <div class="condition-item"><span class="condition-label">♿ Trail Access:</span> <span class="condition-value">Firm/Accessible</span></div>
+                    <p style="font-size:0.7em; color:#888; margin-top:10px;">Environmental data is regional. Check individual pop-ups for site-specific moon data.</p>
                 </div>
 
-                <div id="emergency" class="a11y-pane" style="display:none;">
-                    <a href="https://999bsl.co.uk" target="_blank" style="width:100%; padding:12px; background:#d81b60; color:#fff; text-decoration:none; display:block; text-align:center; border-radius:6px; margin-bottom:10px;">🤟 999 BSL Call</a>
+                <div id="emergency" class="a11y-pane">
+                    <a href="https://999bsl.co.uk" target="_blank" class="site-link" style="text-align:center; background:#d81b60;">🤟 999 BSL Call</a>
+                    <button class="site-link" style="width:100%; background:#00c853; color:#000; font-weight:bold;" id="radar-toggle-btn">🔑 Show RADAR Toilets</button>
                 </div>
             </div>
         </div>
 
-        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Houghton-le-Spring: Wellness system check-in. Focus on breath, body, and stillness.</div><div id="list-1"></div></div></div>
-        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Washington or Durham: Create space to grow and reflect on your 'capacity'.</div><div id="list-2"></div></div></div>
-        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Angel or Seaham: Allow movement and 'be' in the current.</div><div id="list-3"></div></div></div>
-        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Dene areas: Belonging without blending.</div><div id="list-4"></div></div></div>
-        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Coastal areas: Freedom to Be.</div><div id="list-5"></div></div></div>
+        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content"><div id="list-1"></div></div></div>
+        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div id="list-2"></div></div></div>
+        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div id="list-3"></div></div></div>
+        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div id="list-4"></div></div></div>
+        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content"><div id="list-5"></div></div></div>
 
         <div class="vision-box">
             <strong>Closing Vision</strong>
-            <p>Growth doesn't require pressure. Wherever your starting point, the destination is your choice. A new landmark trail and a new community of belonging and choice.</p>
+            <p>Growth doesn't require pressure. Wherever your starting point, the destination is your choice.</p>
             <p>Join the Oubaitori Collective, where space to blossom truly exists.</p>
         </div>
     </nav>
@@ -126,8 +130,10 @@ function toggleBucket(id) {
 }
 
 function showPane(id, btn) {
-    document.querySelectorAll('.a11y-pane').forEach(p => p.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.a11y-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.a11y-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
 }
 
 (function () {
@@ -135,46 +141,45 @@ function showPane(id, btn) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var fSlider = document.getElementById('font-slider');
-    fSlider.oninput = function() {
-        document.getElementById('font-val').innerText = this.value;
-        document.documentElement.style.setProperty('--font-scale', this.value / 100);
-    };
+    fSlider.oninput = function() { document.documentElement.style.setProperty('--font-scale', this.value / 100); };
 
     var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] });
-    var radarIcon = L.divIcon({ html: '🔑', className: 'radar-marker', iconSize: [20, 20] });
 
+    // ENHANCED DATA SET WITH MOON INFO
     var sites = [
-        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom", img: "white-harmony.jpg" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.75000, lon: -1.32639, type: "landmark", img: "castle-eden.jpg" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg" }
-    ];
-
-    var radarToilets = [
-        { name: "Houghton Town Centre", lat: 54.8420, lon: -1.4730 },
-        { name: "Durham Bus Station", lat: 54.7760, lon: -1.5770 }
+        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom", img: "white-harmony.jpg", moon: "23:15 GMT" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", moon: "23:22 GMT" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", moon: "23:25 GMT" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", moon: "23:25 GMT" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", moon: "23:30 GMT" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", moon: "23:35 GMT" },
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", moon: "23:24 GMT" },
+        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", moon: "23:18 GMT" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", moon: "23:14 GMT" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", moon: "23:16 GMT" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", moon: "23:26 GMT" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", moon: "23:25 GMT" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", moon: "23:30 GMT" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.75000, lon: -1.32639, type: "landmark", img: "castle-eden.jpg", moon: "23:20 GMT" },
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", moon: "23:28 GMT" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", moon: "23:14 GMT" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", moon: "23:10 GMT" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", moon: "23:35 GMT" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", moon: "23:18 GMT" }
     ];
 
     var trailCoords = [];
     sites.forEach(function(s) {
         var marker = L.marker([s.lat, s.lon], {icon: (s.type === "blossom" ? blossomIcon : new L.Icon.Default())}).addTo(map);
-        marker.bindPopup("<strong>"+s.name+"</strong><br><img src='"+s.img+"' class='popup-img'>");
+        
+        // MOON DATA INTEGRATED INTO POPUP
+        marker.bindPopup(`
+            <strong>${s.name}</strong><br>
+            <img src='${s.img}' class='popup-img'>
+            <div class="moon-data">🌙 <b>Moon Phase:</b> Waxing Gibbous<br>📸 <b>Peak Photo:</b> ${s.moon}</div>
+        `);
+        
         trailCoords.push([s.lat, s.lon]);
         var list = document.getElementById('list-' + s.stage);
         if(list) {
@@ -185,8 +190,11 @@ function showPane(id, btn) {
         }
     });
 
+    // RADAR LAYER
     var radarGroup = L.layerGroup();
-    radarToilets.forEach(t => { L.marker([t.lat, t.lon], {icon: radarIcon}).bindPopup(t.name).addTo(radarGroup); });
+    [{n:"Houghton",lat:54.842,lon:-1.473},{n:"Durham",lat:54.776,lon:-1.577}].forEach(t => { 
+        L.marker([t.lat,t.lon], {icon: L.divIcon({html:'🔑', className:'radar-marker', iconSize:[20,20]})}).bindPopup(t.n).addTo(radarGroup); 
+    });
     document.getElementById('radar-toggle-btn').onclick = function() {
         this.classList.toggle('active');
         if(this.classList.contains('active')) map.addLayer(radarGroup); else map.removeLayer(radarGroup);
