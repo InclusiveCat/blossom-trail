@@ -19,88 +19,77 @@
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* ===== ACCORDION LOGIC ===== */
+        /* ===== ACCORDION ===== */
         .stage-bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
-        .stage-header { 
-            background: #111; padding: 15px; cursor: pointer; display: flex; 
-            justify-content: space-between; align-items: center; transition: background 0.2s;
-        }
-        .stage-header:hover { background: #1a1a1a; }
-        .stage-header strong { color: #d81b60; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
-        .stage-content { display: none; padding: 10px; background: #050505; border-top: 1px solid #222; }
+        .stage-header { background: #111; padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .stage-header strong { color: #d81b60; font-size: 0.85em; text-transform: uppercase; }
+        .stage-content { display: none; padding: 10px; background: #050505; }
         .stage-bucket.active .stage-content { display: block; }
         .stage-icon { font-size: 0.8em; transition: transform 0.3s; color: #888; }
         .stage-bucket.active .stage-icon { transform: rotate(180deg); }
 
         /* ===== SITE LINKS ===== */
-        .site-link { 
-            display: block; padding: 12px; margin-bottom: 6px; background: #111; 
-            border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s;
-        }
+        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s; text-decoration: none; color: white; }
         .site-link:hover { background: #222; border-left-width: 5px; }
         .site-name { font-weight: bold; display: block; font-size: 0.9em; margin-bottom: 3px; }
-        .site-meta { font-size: 0.72em; color: #888; line-height: 1.3; }
-        .tag-moon { color: #d81b60; }
+        .site-meta { font-size: 0.72em; color: #888; }
 
-        /* ===== UI ELEMENTS ===== */
-        h1 { font-size: 1.4em; margin: 0 0 10px; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; }
-        .signature-msg { color: #ccc; font-style: italic; font-size: 0.85em; margin-bottom: 20px; border-left: 3px solid #d81b60; padding-left: 15px; line-height: 1.4; }
+        /* ===== MAP & WIDGETS ===== */
         #map { flex-grow: 1; height: 100vh; background: #111; }
         .popup-img { width: 100%; border-radius: 4px; margin-top: 8px; }
-        #recenter-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        #recenter-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
 
-        /* Mobile Adjustments */
+        /* ===== ACCESSIBILITY PANEL (RESTORED) ===== */
+        #a11y-widget { position: fixed; bottom: 30px; left: 20px; z-index: 1050; }
+        #a11y-trigger { background: #111; color: #fff; border: 2px solid #d81b60; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; }
+        #a11y-panel { display: none; position: absolute; bottom: 55px; left: 0; width: 300px; background: #111; border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.8); }
+        #a11y-panel.open { display: block; }
+        
+        .a11y-tabs { display: flex; border-bottom: 1px solid #222; }
+        .a11y-tab { flex: 1; padding: 10px; background: #0a0a0a; border: none; color: #888; cursor: pointer; font-size: 0.7em; text-transform: uppercase; }
+        .a11y-tab.active { background: #111; color: #fff; border-bottom: 2px solid #d81b60; }
+        .a11y-pane { display: none; padding: 15px; }
+        .a11y-pane.active { display: block; }
+        
+        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; text-decoration: none; display: block; }
+        .radar-btn { background: #00c853; color: #000; font-weight: bold; border: none; }
+
+        /* A11Y MODES */
+        body.high-contrast .site-link, body.high-contrast .stage-bucket { border-color: #fff; }
+        body.dyslexia-font { font-family: 'Verdana', sans-serif; letter-spacing: 0.05em; line-height: 1.6; }
+
         @media (max-width: 768px) {
             #app { flex-direction: column; }
-            #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222; min-width: auto; max-height: 50vh; }
-            #map { height: 50vh; }
+            #sidebar { width: 100%; height: 40vh; min-width: auto; }
+            #map { height: 60vh; }
         }
     </style>
 </head>
-<body>
+<body class="uk-english">
 
 <div id="app">
     <nav id="sidebar">
-        <h1>Oubaitori Trail</h1>
-        <div class="signature-msg">Anchor at Houghton-le-Spring. Explore at your own pace.</div>
+        <h1 style="border-bottom: 2px solid #d81b60; padding-bottom: 10px;">Oubaitori Trail</h1>
+        <p style="font-style: italic; font-size: 0.85em; color: #ccc;">Bloom in your own time.</p>
         
         <div class="stage-bucket active" id="bucket-1">
-            <div class="stage-header" onclick="toggleBucket(1)">
-                <strong>Stage 1: Reset (The Anchor)</strong>
-                <span class="stage-icon">▼</span>
-            </div>
+            <div class="stage-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span class="stage-icon">▼</span></div>
             <div class="stage-content" id="list-1"></div>
         </div>
-
         <div class="stage-bucket" id="bucket-2">
-            <div class="stage-header" onclick="toggleBucket(2)">
-                <strong>Stage 2: Expansion</strong>
-                <span class="stage-icon">▼</span>
-            </div>
+            <div class="stage-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span class="stage-icon">▼</span></div>
             <div class="stage-content" id="list-2"></div>
         </div>
-
         <div class="stage-bucket" id="bucket-3">
-            <div class="stage-header" onclick="toggleBucket(3)">
-                <strong>Stage 3: Flow</strong>
-                <span class="stage-icon">▼</span>
-            </div>
+            <div class="stage-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span class="stage-icon">▼</span></div>
             <div class="stage-content" id="list-3"></div>
         </div>
-
         <div class="stage-bucket" id="bucket-4">
-            <div class="stage-header" onclick="toggleBucket(4)">
-                <strong>Stage 4: Connection</strong>
-                <span class="stage-icon">▼</span>
-            </div>
+            <div class="stage-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span class="stage-icon">▼</span></div>
             <div class="stage-content" id="list-4"></div>
         </div>
-
         <div class="stage-bucket" id="bucket-5">
-            <div class="stage-header" onclick="toggleBucket(5)">
-                <strong>Stage 5: Breath</strong>
-                <span class="stage-icon">▼</span>
-            </div>
+            <div class="stage-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span class="stage-icon">▼</span></div>
             <div class="stage-content" id="list-5"></div>
         </div>
     </nav>
@@ -109,77 +98,101 @@
 
 <button id="recenter-btn">📍 Recenter on Van</button>
 
+<div id="a11y-widget">
+    <div id="a11y-panel">
+        <div class="a11y-tabs">
+            <button class="a11y-tab active" onclick="showPane('display', this)">Display</button>
+            <button class="a11y-tab" onclick="showPane('navigate', this)">Navigate</button>
+            <button class="a11y-tab" onclick="showPane('emergency', this)">Emergency</button>
+        </div>
+        <div id="display" class="a11y-pane active">
+            <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
+            <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
+        </div>
+        <div id="navigate" class="a11y-pane">
+            <button class="a11y-btn radar-btn" id="radar-toggle">🔑 Show RADAR Toilets</button>
+            <p style="font-size: 0.7em; color: #888;">Requires a RADAR key for access.</p>
+        </div>
+        <div id="emergency" class="a11y-pane">
+            <a href="https://999bsl.co.uk" class="a11y-btn" style="background:#d81b60">🤟 999 BSL Video Call</a>
+            <a href="https://emergencysms.net" class="a11y-btn">📱 Text 999 (SMS)</a>
+        </div>
+    </div>
+    <button id="a11y-trigger">Accessibility</button>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-// Accordion Toggle Function
 function toggleBucket(id) {
     document.querySelectorAll('.stage-bucket').forEach(b => b.classList.remove('active'));
     document.getElementById('bucket-' + id).classList.add('active');
 }
 
+function showPane(paneId, btn) {
+    document.querySelectorAll('.a11y-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.a11y-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(paneId).classList.add('active');
+    btn.classList.add('active');
+}
+
 (function () {
     var map = L.map('map').setView([54.843, -1.470], 9);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -25] });
-    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [40, 40], iconAnchor: [20, 20] });
+    // ICONS
+    var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
+    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22] });
+    var radarIcon = L.divIcon({ html: '🔑', className: 'radar-marker', iconSize: [20, 20] });
 
-    // Organized Site Data
     var sites = [
-        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "white-harmony.jpg", sensory: "🤫 Quiet Anchor", moon: "⭐ High Visibility" },
-        
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, img: "washington.jpg", sensory: "🧘 Enclosed", moon: "🌙 Garden Shadows" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", sensory: "🚶 Structured", moon: "🌙 Cathedral Glow" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, img: "old-durham.jpg", sensory: "🤫 Stillness", moon: "⭐ Clear Sky" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, img: "preston.jpg", sensory: "🚶 Level Ground", moon: "🌙 Wide View" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", sensory: "🤫 Silent", moon: "🌙 Stately" },
-
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, img: "angel.jpg", sensory: "🌬️ Exposed/Active", moon: "⭐ Silhouette" },
-        { name: "Seaham Coast", stage: 3, lat: 54.823, lon: -1.3189, img: "seaham.jpg", sensory: "🌊 Sound of Waves", moon: "🌙 Water Reflection" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, img: "roker.jpg", sensory: "🌊 High Sensory", moon: "🌙 Lighthouse" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", sensory: "🚶 Dynamic", moon: "⭐ Bright" },
-
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", sensory: "🌳 Nature Sanctuary", moon: "🌑 Dappled Light" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", sensory: "🏙️ Urban Hum", moon: "🏙️ City Lights" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", sensory: "🚶 High Activity", moon: "🌙 Lit Paths" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, img: "castle-eden.jpg", sensory: "🌳 Deep Forest", moon: "🌑 Deep Dark" },
-
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, img: "gibside.jpg", sensory: "🌳 Wide Vistas", moon: "⭐ Dark Sky" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, img: "whitley.jpg", sensory: "🌊 Brisk Sea Air", moon: "🌙 Horizon" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, img: "saltburn.jpg", sensory: "🌊 Cliffs/Waves", moon: "🌙 Dramatic" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, img: "hadrian.jpg", sensory: "🌬️ Wild/Free", moon: "⭐ Stargazing" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", sensory: "🌊 Expansive", moon: "⭐ Stark" }
+        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", sensory: "🤫 Quiet Anchor" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", sensory: "🧘 Enclosed" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", sensory: "🚶 Structured" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", sensory: "🤫 Stillness" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", sensory: "🚶 Level Ground" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", sensory: "🤫 Silent" },
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", sensory: "🌬️ Exposed" },
+        { name: "Seaham Coast", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", sensory: "🌊 Waves" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", sensory: "🌊 High Sensory" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", sensory: "🚶 Dynamic" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", sensory: "🌳 Sanctuary" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", sensory: "🏙️ Urban" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", sensory: "🚶 Active" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, type: "landmark", sensory: "🌳 Deep Nature" },
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", sensory: "🌳 Vistas" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", sensory: "🌊 Brisk" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", sensory: "🌊 Dramatic" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", sensory: "🌬️ Wild" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", sensory: "🌊 Expansive" }
     ];
 
     var markerGroup = L.featureGroup();
     var trailCoords = [];
 
     sites.forEach(function(s) {
-        // Add to Map
-        var m = L.marker([s.lat, s.lon], {icon: blossomIcon}).addTo(markerGroup);
-        m.bindPopup(`<strong>${s.name}</strong><br><span class="tag-moon">${s.moon}</span><img src='${s.img}' class='popup-img'>`);
+        // Correct Icon Selection
+        var icon = (s.type === "blossom") ? blossomIcon : new L.Icon.Default();
+        var m = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerGroup);
+        m.bindPopup(`<strong>${s.name}</strong><br>${s.sensory}`);
         trailCoords.push([s.lat, s.lon]);
 
-        // Add to Accordion
         var list = document.getElementById('list-' + s.stage);
         var link = document.createElement('div');
         link.className = 'site-link';
-        link.innerHTML = `
-            <span class="site-name">${s.name}</span>
-            <span class="site-meta">${s.sensory} | <span class="tag-moon">${s.moon}</span></span>
-        `;
-        link.onclick = function() {
-            map.flyTo([s.lat, s.lon], 14);
-            m.openPopup();
-        };
+        link.innerHTML = `<span class="site-name">${s.name}</span><span class="site-meta">${s.sensory}</span>`;
+        link.onclick = function() { map.flyTo([s.lat, s.lon], 14); m.openPopup(); };
         list.appendChild(link);
     });
 
     markerGroup.addTo(map);
-    L.polyline(trailCoords, {color: '#d81b60', weight: 2, opacity: 0.3, dashArray: '5, 10'}).addTo(map);
+    // Restoration of the Dotted Trail Line
+    L.polyline(trailCoords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
     map.fitBounds(markerGroup.getBounds().pad(0.1));
+
+    // A11Y Trigger
+    document.getElementById('a11y-trigger').onclick = function() {
+        document.getElementById('a11y-panel').classList.toggle('open');
+    };
 
     // Van Tracker
     var vanMarker = L.marker([54.842, -1.468], {icon: vanIcon}).addTo(map);
