@@ -1,182 +1,660 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Oubaitori Collective Blossom Trail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <meta name="description" content="Oubaitori Collective Blossom Trail - A personal growth journey across North East England">
+    <link rel="stylesheet" href="[unpkg.com](https://unpkg.com/leaflet@1.9.4/dist/leaflet.css)" />
     <style>
-        /* UI Foundations */
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; }
-        
-        /* Sidebar: Black Background, White Text */
-        #sidebar { width: 380px; height: 100vh; background: #000; color: #fff; overflow-y: auto; padding: 30px; box-sizing: border-box; border-right: 1px solid #222; }
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; }
+        body, html {
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+        /* ===== LAYOUT ===== */
+        #app {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+        /* ===== SIDEBAR ===== */
+        #sidebar {
+            width: 380px;
+            min-width: 380px;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            overflow-y: auto;
+            padding: 20px 25px 30px;
+            border-right: 1px solid #222;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
         #sidebar::-webkit-scrollbar { width: 4px; }
-        #sidebar::-webkit-scrollbar-thumb { background: #444; }
-
-        h1 { font-size: 1.6em; margin: 0 0 15px; letter-spacing: 1px; color: #fff; text-transform: uppercase; border-bottom: 2px solid #d81b60; padding-bottom: 10px; }
-        
-        /* Signature Message */
-        .signature-msg { color: #ddd; font-style: italic; font-size: 0.95em; margin-bottom: 25px; line-height: 1.5; border-left: 3px solid #d81b60; padding-left: 15px; }
-        
-        /* Sidebar Image Placeholder */
-        .sidebar-placeholder { width: 100%; height: 180px; background: #1a1a1a; border-radius: 8px; margin-bottom: 25px; border: 1px solid #333; overflow: hidden; }
-        .sidebar-placeholder img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Stages & Practical Steps */
-        .stage-section { margin-bottom: 30px; }
-        .stage-title { font-size: 0.75em; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        .stage-card { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 12px; }
-        .stage-card strong { color: #d81b60; display: block; margin-bottom: 5px; font-size: 0.95em; }
-        .stage-card p { margin: 0; font-size: 0.85em; line-height: 1.5; color: #bbb; }
-
-        /* Closing Vision */
-        .vision-box { background: #1a1a1a; border: 1px solid #d81b60; color: #fff; padding: 18px; border-radius: 8px; font-size: 0.9em; line-height: 1.5; margin-top: 20px; }
-        .vision-box strong { color: #d81b60; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
-
-        /* Site Navigation */
-        .nav-title { font-size: 0.75em; color: #888; text-transform: uppercase; margin: 40px 0 15px; letter-spacing: 2px; }
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #1a1a1a; border-radius: 6px; cursor: pointer; color: #fff; text-decoration: none; font-size: 0.85em; transition: 0.2s; border-left: 0 solid #d81b60; }
+        #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+        /* ===== MOBILE SIDEBAR TOGGLE ===== */
+        #sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 1100;
+            background: #d81b60;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            line-height: 1;
+        }
+        /* ===== ACCESSIBILITY TOOLBAR ===== */
+        #a11y-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+        }
+        #a11y-bar span {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            flex-basis: 100%;
+            margin-bottom: 4px;
+        }
+        .a11y-btn {
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 7px 11px;
+            font-size: 0.78em;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+        .a11y-btn:hover, .a11y-btn.active {
+            background: #d81b60;
+            border-color: #d81b60;
+        }
+        .a11y-btn:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 2px;
+        }
+        /* ===== ACCESSIBILITY MODES ===== */
+        body.large-text #sidebar { font-size: 1.18em; }
+        body.large-text .stage-card p { font-size: 0.95em; }
+        body.large-text .site-link { font-size: 0.95em; }
+        body.high-contrast #sidebar { background: #000; border-right-color: #fff; }
+        body.high-contrast #a11y-bar { background: #000; border-color: #fff; }
+        body.high-contrast .stage-card { background: #000; border: 1px solid #fff; }
+        body.high-contrast .vision-box { background: #000; border-color: #fff; }
+        body.high-contrast .site-link { background: #000; border: 1px solid #fff; }
+        body.high-contrast .a11y-btn { background: #000; border-color: #fff; color: #fff; }
+        body.high-contrast h1 { border-bottom-color: #fff; }
+        body.high-contrast .stage-card strong { color: #fff; }
+        body.high-contrast .vision-box strong { color: #fff; }
+        body.high-contrast .signature-msg { border-left-color: #fff; }
+        body.dyslexia-font #sidebar,
+        body.dyslexia-font .a11y-btn,
+        body.dyslexia-font .site-link {
+            font-family: 'Verdana', 'Trebuchet MS', sans-serif;
+            letter-spacing: 0.04em;
+            word-spacing: 0.1em;
+            line-height: 1.8;
+        }
+        /* ===== HEADER ===== */
+        h1 {
+            font-size: 1.5em;
+            margin: 0 0 14px;
+            letter-spacing: 1px;
+            color: #fff;
+            text-transform: uppercase;
+            border-bottom: 2px solid #d81b60;
+            padding-bottom: 10px;
+        }
+        /* ===== SIGNATURE ===== */
+        .signature-msg {
+            color: #ddd;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            border-left: 3px solid #d81b60;
+            padding-left: 12px;
+        }
+        /* ===== SIDEBAR IMAGE ===== */
+        .sidebar-placeholder {
+            width: 100%;
+            height: 160px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        .sidebar-placeholder img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        /* ===== STAGE CARDS ===== */
+        .stage-section { margin-bottom: 25px; }
+        .stage-title {
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+        }
+        .stage-card {
+            background: #111;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .stage-card strong {
+            color: #d81b60;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.92em;
+        }
+        .stage-card p {
+            margin: 0;
+            font-size: 0.82em;
+            line-height: 1.5;
+            color: #bbb;
+        }
+        /* ===== VISION BOX ===== */
+        .vision-box {
+            background: #1a1a1a;
+            border: 1px solid #d81b60;
+            color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.88em;
+            line-height: 1.5;
+            margin-top: 18px;
+        }
+        .vision-box strong {
+            color: #d81b60;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        /* ===== 999 BSL EMERGENCY BOX ===== */
+        #bsl-box {
+            background: #1a0010;
+            border: 2px solid #d81b60;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        #bsl-box h2 {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #d81b60;
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        #bsl-box p {
+            font-size: 0.8em;
+            color: #ddd;
+            margin: 0 0 10px;
+            line-height: 1.5;
+        }
+        .bsl-btn {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            background: #d81b60;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+            margin-bottom: 6px;
+        }
+        .bsl-btn:hover { background: #b0003a; }
+        .bsl-btn.secondary {
+            background: #2a0018;
+            border: 1px solid #d81b60;
+            font-weight: normal;
+        }
+        .bsl-btn.secondary:hover { background: #3d0025; }
+        /* ===== RADAR KEY BOX ===== */
+        #radar-box {
+            background: #001a0d;
+            border: 2px solid #00c853;
+            border-radius: 10px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+        #radar-box h2 {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00c853;
+            margin: 0 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        #radar-box p {
+            font-size: 0.78em;
+            color: #ccc;
+            margin: 0 0 10px;
+            line-height: 1.5;
+        }
+        .radar-toggle-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #00c853;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.83em;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+        .radar-toggle-btn:hover { background: #00a844; }
+        .radar-toggle-btn.active { background: #005720; color: #fff; }
+        /* ===== SITE NAV LIST ===== */
+        .nav-title {
+            font-size: 0.72em;
+            color: #888;
+            text-transform: uppercase;
+            margin: 35px 0 12px;
+            letter-spacing: 2px;
+        }
+        .site-link {
+            display: block;
+            padding: 11px 13px;
+            margin-bottom: 5px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.82em;
+            transition: background 0.2s, border-left-width 0.15s;
+            border-left: 0px solid #d81b60;
+        }
         .site-link:hover { background: #222; border-left-width: 5px; }
-
-        /* Map styling */
-        #map { flex-grow: 1; height: 100vh; background: #fff; }
-        .popup-img { width: 100%; height: auto; border-radius: 4px; margin-top: 10px; }
-        #recenter-btn { position: absolute; bottom: 30px; right: 30px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        /* ===== MAP ===== */
+        #map {
+            flex-grow: 1;
+            height: 100vh;
+        }
+        /* ===== BUTTONS ===== */
+        #recenter-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: #d81b60;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: background 0.2s;
+        }
+        #recenter-btn:hover { background: #b0003a; }
+        /* ===== MAP POPUPS ===== */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        .popup-img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        .popup-toilet {
+            font-size: 0.85em;
+            color: #333;
+            line-height: 1.5;
+        }
+        .popup-toilet strong { color: #00843d; display: block; margin-bottom: 4px; }
+        .popup-toilet .radar-badge {
+            display: inline-block;
+            background: #00c853;
+            color: #000;
+            font-size: 0.75em;
+            font-weight: bold;
+            padding: 2px 7px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+        /* ===== SKIP LINK (accessibility) ===== */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: #d81b60;
+            color: #fff;
+            padding: 8px 14px;
+            z-index: 9999;
+            font-size: 0.9em;
+            border-radius: 0 0 6px 0;
+            text-decoration: none;
+        }
+        .skip-link:focus { top: 0; }
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            #app { flex-direction: column; }
+            #sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+            #sidebar {
+                position: fixed;
+                top: 0; left: 0;
+                width: 88vw;
+                max-width: 380px;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+                padding: 55px 20px 30px;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.8);
+            }
+            #sidebar.open { transform: translateX(0); }
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.6);
+                z-index: 999;
+            }
+            #sidebar-overlay.open { display: block; }
+            #map { width: 100vw; height: 100vh; }
+            #recenter-btn {
+                bottom: 20px;
+                right: 15px;
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+            h1 { font-size: 1.3em; }
+        }
+        @media (max-width: 400px) {
+            #sidebar { width: 95vw; }
+            .a11y-btn { padding: 6px 9px; font-size: 0.75em; }
+        }
     </style>
 </head>
 <body>
-
-<div id="sidebar">
-    <h1>Oubaitori Collective Blossom Trail</h1>
-    <div class="signature-msg">
-        Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.
-    </div>
-
-    <div class="sidebar-placeholder">
-        <img src="blossom.jpg" alt="Trail Narrative">
-    </div>
-
-    <div class="stage-section">
-        <div class="stage-title">The 5 Stages of Growth</div>
-        
-        <div class="stage-card">
-            <strong>Stage 1: Reset</strong>
-            <p>Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency. Anchor your mindset; the trail doesn't need to rush before growth. The direction you take, either North, South, East or West, all will bring unique experiences on your personal journey!</p>
+<a href="#map" class="skip-link">Skip to map</a>
+<!-- Mobile sidebar toggle -->
+<button id="sidebar-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">☰</button>
+<div id="sidebar-overlay" role="presentation"></div>
+<div id="app">
+    <!-- ===== SIDEBAR ===== -->
+    <nav id="sidebar" aria-label="Trail navigation">
+        <h1>Oubaitori Collective Blossom Trail</h1>
+        <!-- ACCESSIBILITY TOOLBAR -->
+        <div id="a11y-bar" role="group" aria-label="Accessibility options">
+            <span>Accessibility</span>
+            <button class="a11y-btn" id="btn-contrast" aria-pressed="false" title="Toggle high contrast mode">High Contrast</button>
+            <button class="a11y-btn" id="btn-text" aria-pressed="false" title="Toggle larger text">Large Text</button>
+            <button class="a11y-btn" id="btn-dyslexia" aria-pressed="false" title="Toggle dyslexia-friendly font">Dyslexia Font</button>
         </div>
-
-        <div class="stage-card">
-            <strong>Stage 2: Expansion</strong>
-            <p>Washington or Durham: It's your choice! Move toward expansive views. Blossom here is open and wide. Reflect on your 'capacity' to grow and create space to integrate everything.</p>
+        <div class="signature-msg" role="note">
+            Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.
         </div>
-
-        <div class="stage-card">
-            <strong>Stage 3: Flow</strong>
-            <p>Angel of the North or wave watching at Seaham: You choose. Head along the fluid paths. Allow movement + reflection. Blossom reflects an emotional, fluid journey where you allow yourself to 'be' in the current.</p>
+        <div class="sidebar-placeholder">
+            <img src="blossom.jpg" alt="Blossom trail scenic landscape">
         </div>
-
-        <div class="stage-card">
-            <strong>Stage 4: Connection</strong>
-            <p>Jesmond Dene or Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'. Balance your environment and find stillness in the heart of the region.</p>
+        <!-- 999 BSL EMERGENCY -->
+        <div id="bsl-box" role="region" aria-label="Emergency BSL support">
+            <h2>🤟 999 BSL Emergency Service</h2>
+            <p>Deaf or hard of hearing? The 999 BSL service lets you make an emergency video call in British Sign Language — 24/7, free to use.</p>
+            <a href="[999bsl.co.uk](https://999bsl.co.uk)" target="_blank" rel="noopener noreferrer" class="bsl-btn" aria-label="Open 999 BSL emergency service website in new tab">
+                🚨 Open 999 BSL Service
+            </a>
+            <a href="[emergencysms.net](https://www.emergencysms.net)" target="_blank" rel="noopener noreferrer" class="bsl-btn secondary" aria-label="Register for Emergency SMS service in new tab">
+                📱 Register for Emergency SMS
+            </a>
         </div>
-
-        <div class="stage-card">
-            <strong>Stage 5: Breath</strong>
-            <p>Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'. Use the wild coastal blossom to integrate the entire journey.</p>
+        <!-- RADAR KEY TOILETS -->
+        <div id="radar-box" role="region" aria-label="Radar key accessible toilets">
+            <h2>🔑 Radar Key Toilets</h2>
+            <p>Toggle accessible toilet locations on the map. These require a <strong style="color:#00c853">RADAR key</strong> — available from local councils, disability charities, and many shops.</p>
+            <button class="radar-toggle-btn" id="radar-toggle" aria-pressed="false">
+                Show Accessible Toilets on Map
+            </button>
         </div>
-    </div>
-
-    <div class="vision-box">
-        <strong>Closing Vision</strong>
-        <p> Growth doesn't require pressure. Wherever your starting point, the destination is your choice. A new landmark trail and a new community of belonging and choice. </p>
-        </p>Join the Oubaitori Collective, where space to blossom truly exists.
-    </div>
-
-    <div class="nav-title">Join us and explore!</div>
-    <div id="site-list"></div>
+        <!-- STAGES -->
+        <div class="stage-section" role="region" aria-label="Trail stages">
+            <div class="stage-title">The 5 Stages of Growth</div>
+            <div class="stage-card">
+                <strong>Stage 1: Reset</strong>
+                <p>Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency. Anchor your mindset; the trail doesn't need to rush before growth. The direction you take, either North, South, East or West, all will bring unique experiences on your personal journey!</p>
+            </div>
+            <div class="stage-card">
+                <strong>Stage 2: Expansion</strong>
+                <p>Washington or Durham: It's your choice! Move toward expansive views. Blossom here is open and wide. Reflect on your 'capacity' to grow and create space to integrate everything.</p>
+            </div>
+            <div class="stage-card">
+                <strong>Stage 3: Flow</strong>
+                <p>Angel of the North or wave watching at Seaham: You choose. Head along the fluid paths. Allow movement + reflection. Blossom reflects an emotional, fluid journey where you allow yourself to 'be' in the current.</p>
+            </div>
+            <div class="stage-card">
+                <strong>Stage 4: Connection</strong>
+                <p>Jesmond Dene or Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'. Balance your environment and find stillness in the heart of the region.</p>
+            </div>
+            <div class="stage-card">
+                <strong>Stage 5: Breath</strong>
+                <p>Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'. Use the wild coastal blossom to integrate the entire journey.</p>
+            </div>
+        </div>
+        <div class="vision-box" role="note">
+            <strong>Closing Vision</strong>
+            <p>Growth doesn't require pressure. Wherever your starting point, the destination is your choice. A new landmark trail and a new community of belonging and choice.</p>
+            <p>Join the Oubaitori Collective, where space to blossom truly exists.</p>
+        </div>
+        <div class="nav-title">Join us and explore!</div>
+        <div id="site-list" role="list"></div>
+    </nav>
+    <!-- ===== END SIDEBAR ===== -->
+    <div id="map" role="main" aria-label="Interactive blossom trail map"></div>
 </div>
-
-<div id="map"></div>
-<button id="recenter-btn">Recenter on Van</button>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<button id="recenter-btn" aria-label="Recenter map on your location">📍 Recenter on Me</button>
+<script src="[unpkg.com](https://unpkg.com/leaflet@1.9.4/dist/leaflet.js)"></script>
 <script>
-    var map = L.map('map');
-    
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+    // ===== MOBILE SIDEBAR TOGGLE =====
+    var sidebarToggle = document.getElementById('sidebar-toggle');
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+        sidebarToggle.setAttribute('aria-expanded', 'true');
+    }
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+    }
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+    // ===== ACCESSIBILITY BUTTONS =====
+    function makeToggle(btnId, bodyClass) {
+        var btn = document.getElementById(btnId);
+        btn.addEventListener('click', function() {
+            var active = document.body.classList.toggle(bodyClass);
+            btn.classList.toggle('active', active);
+            btn.setAttribute('aria-pressed', String(active));
+        });
+    }
+    makeToggle('btn-contrast',  'high-contrast');
+    makeToggle('btn-text',      'large-text');
+    makeToggle('btn-dyslexia',  'dyslexia-font');
+    // ===== MAP INITIALISE =====
+    var map = L.map('map', { zoomControl: true });
+    L.tileLayer('[{s}.tile.openstreetmap.org](https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png)', {
+        attribution: '&copy; <a href="[openstreetmap.org](https://www.openstreetmap.org/copyright)">OpenStreetMap</a> contributors',
+        maxZoom: 19
     }).addTo(map);
-
-    // Custom Icons
-    var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -32] });
-    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [50, 50], iconAnchor: [25, 25] });
-
-    // Location Metadata
-
-      var sites = [
+    // ===== CUSTOM ICONS =====
+    var blossomIcon = L.icon({
+        iconUrl: 'blossom1.svg',
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+        popupAnchor: [0, -32]
+    });
+    var vanIcon = L.icon({
+        iconUrl: 'test-van.svg',
+        iconSize: [50, 50],
+        iconAnchor: [25, 25]
+    });
+    var radarIcon = L.divIcon({
+        className: '',
+        html: '<div style="background:#00c853;color:#000;font-size:1.1em;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #005720;box-shadow:0 2px 6px rgba(0,0,0,0.4);" role="img" aria-label="Accessible toilet">🔑</div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -18]
+    });
+    // ===== TRAIL SITES =====
+    var sites = [
         { name: "Houghton-le-Spring", lat: 54.8432688, lon: -1.4707168, img: "white-harmony.jpg", type: "blossom" },
-        { name: "Washington Old Hall", lat: 54.9027, lon: -1.5165, img: "washington.jpg", type: "blossom" },
-        { name: "Angel of the North", lat: 54.9141, lon: -1.5895, img: "angel.jpg", type: "landmark" },
-        { name: "Durham City", lat: 54.773, lon: -1.576, img: "durham.jpg", type: "landmark" },
-        { name: "Old Durham Gardens", lat: 54.773, lon: -1.558, img: "old-durham.jpg", type: "blossom" },
-        { name: "Jesmond Dene", lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", type: "blossom" },
-        { name: "Tyne Bridge", lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", type: "landmark" },
-        { name: "Whitley Lodge", lat: 55.0501, lon: -1.4510, img: "whitley.jpg", type: "blossom" },
-        { name: "South Marine Park", lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", type: "landmark" },
-        { name: "Roker Pier", lat: 54.924, lon: -1.365, img: "roker.jpg", type: "landmark" },
-        { name: "Preston Park", lat: 54.5360, lon: -1.3370, img: "preston.jpg", type: "blossom" },
-        { name: "Ormesby Hall", lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", type: "blossom" },
-        { name: "Gibside", lat: 54.9245, lon: -1.7267, img: "gibside.jpg", type: "blossom" },
-        { name: "Saltburn Pier", lat: 54.586, lon: -0.978, img: "saltburn.jpg", type: "landmark" },
-        { name: "Hadrian's Wall", lat: 55.002, lon: -2.360, img: "hadrian.jpg", type: "landmark" },
-        { name: "Alnwick Garden", lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", type: "blossom" },
-        { name: "Bamburgh Castle", lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", type: "landmark" },
-        { name: "Castle Eden Dene", lat: 54.75000, lon: -1.32639, img: "castle-eden.jpg", type: "landmark" },
-        { name: "Seaham", lat: 54.823, lon: -1.3189, img: "seaham.jpg", type: "landmark" },
+        { name: "Washington Old Hall",  lat: 54.9027,    lon: -1.5165,   img: "washington.jpg",   type: "blossom" },
+        { name: "Angel of the North",   lat: 54.9141,    lon: -1.5895,   img: "angel.jpg",        type: "landmark" },
+        { name: "Durham City",          lat: 54.773,     lon: -1.576,    img: "durham.jpg",       type: "landmark" },
+        { name: "Old Durham Gardens",   lat: 54.773,     lon: -1.558,    img: "old-durham.jpg",   type: "blossom" },
+        { name: "Jesmond Dene",         lat: 54.9900,    lon: -1.5900,   img: "jesmond.jpg",      type: "blossom" },
+        { name: "Tyne Bridge",          lat: 54.968,     lon: -1.606,    img: "tyne-bridge.jpg",  type: "landmark" },
+        { name: "Whitley Lodge",        lat: 55.0501,    lon: -1.4510,   img: "whitley.jpg",      type: "blossom" },
+        { name: "South Marine Park",    lat: 55.0001,    lon: -1.4202,   img: "south-marine.jpg", type: "landmark" },
+        { name: "Roker Pier",           lat: 54.924,     lon: -1.365,    img: "roker.jpg",        type: "landmark" },
+        { name: "Preston Park",         lat: 54.5360,    lon: -1.3370,   img: "preston.jpg",      type: "blossom" },
+        { name: "Ormesby Hall",         lat: 54.5432,    lon: -1.1830,   img: "ormesby.jpg",      type: "blossom" },
+        { name: "Gibside",              lat: 54.9245,    lon: -1.7267,   img: "gibside.jpg",      type: "blossom" },
+        { name: "Saltburn Pier",        lat: 54.586,     lon: -0.978,    img: "saltburn.jpg",     type: "landmark" },
+        { name: "Hadrian's Wall",       lat: 55.002,     lon: -2.360,    img: "hadrian.jpg",      type: "landmark" },
+        { name: "Alnwick Garden",       lat: 55.4155,    lon: -1.7060,   img: "alnwick.jpg",      type: "blossom" },
+        { name: "Bamburgh Castle",      lat: 55.6089,    lon: -1.7099,   img: "bamburgh.jpg",     type: "landmark" },
+        { name: "Castle Eden Dene",     lat: 54.75000,   lon: -1.32639,  img: "castle-eden.jpg",  type: "landmark" },
+        { name: "Seaham",               lat: 54.823,     lon: -1.3189,   img: "seaham.jpg",       type: "landmark" },
     ];
-   
-
+    // ===== RADAR KEY TOILET LOCATIONS =====
+    // Approximate accessible toilet locations near trail sites
+    var radarToilets = [
+        { name: "Houghton-le-Spring Town Centre",  lat: 54.8420, lon: -1.4730, notes: "Near Market Place. RADAR key required." },
+        { name: "Washington Galleries",            lat: 54.9004, lon: -1.5230, notes: "Inside Washington Galleries shopping centre." },
+        { name: "Durham Bus Station",              lat: 54.7760, lon: -1.5770, notes: "Adjacent to the main bus station." },
+        { name: "Durham Market Place",             lat: 54.7745, lon: -1.5765, notes: "Town centre, near the Gala Theatre." },
+        { name: "Newcastle Grainger Market",       lat: 54.9726, lon: -1.6130, notes: "City centre. Managed facility." },
+        { name: "Jesmond Dene Car Park",           lat: 54.9910, lon: -1.5870, notes: "Main car park entrance, near café." },
+        { name: "South Shields Seafront",          lat: 55.0050, lon: -1.4250, notes: "Near Marine Park, seafront location." },
+        { name: "Roker Seafront",                  lat: 54.9250, lon: -1.3600, notes: "Promenade toilets, RADAR key required." },
+        { name: "Seaham Harbour",                  lat: 54.8400, lon: -1.3250, notes: "Harbour area public facilities." },
+        { name: "Saltburn Seafront",               lat: 54.5850, lon: -0.9820, notes: "Near the pier. Seasonal opening." },
+        { name: "Preston Park",                    lat: 54.5370, lon: -1.3380, notes: "Inside park near café area." },
+        { name: "Alnwick Bus Station",             lat: 55.4140, lon: -1.7040, notes: "Town centre, near Alnwick Garden." },
+        { name: "Bamburgh Village Car Park",       lat: 55.6080, lon: -1.7110, notes: "Village car park toilet block." },
+        { name: "Gibside Car Park",                lat: 54.9240, lon: -1.7280, notes: "National Trust car park facilities." },
+        { name: "Angel of the North Car Park",     lat: 54.9135, lon: -1.5910, notes: "Main visitor car park." },
+    ];
+    // ===== BUILD TRAIL MARKERS =====
     var markerGroup = L.featureGroup();
     var trailCoords = [];
-
     sites.forEach(function(s, index) {
-        var markerOptions = (s.type === 'blossom') ? {icon: blossomIcon} : {};
+        var markerOptions = (s.type === 'blossom') ? { icon: blossomIcon } : {};
         var m = L.marker([s.lat, s.lon], markerOptions).addTo(markerGroup);
-        
-        // Clean Pop-up: Only name and image
-        var content = "<strong>" + s.name + "</strong><img src='" + s.img + "' class='popup-img'>";
-        m.bindPopup(content);
-        
+        var content = '<strong style="font-size:1em;">' + s.name + '</strong>'
+                    + "<img src='" + s.img + "' class='popup-img' alt='" + s.name + "'>";
+        m.bindPopup(content, { maxWidth: 220 });
         trailCoords.push([s.lat, s.lon]);
-
         var link = document.createElement('a');
         link.className = 'site-link';
-        link.innerHTML = (index + 1) + ". " + s.name;
+        link.setAttribute('role', 'listitem');
+        link.setAttribute('tabindex', '0');
+        link.innerHTML = (index + 1) + '. ' + s.name;
         link.onclick = function() {
             map.flyTo([s.lat, s.lon], 14);
             m.openPopup();
+            if (window.innerWidth <= 768) closeSidebar();
+        };
+        link.onkeydown = function(e) {
+            if (e.key === 'Enter' || e.key === ' ') link.click();
         };
         document.getElementById('site-list').appendChild(link);
     });
-
     markerGroup.addTo(map);
-
-    // Pink Trail Line
-    L.polyline(trailCoords, {color: '#d81b60', weight: 4, opacity: 0.5, dashArray: '10, 15'}).addTo(map);
-
+    // ===== TRAIL LINE =====
+    L.polyline(trailCoords, {
+        color: '#d81b60',
+        weight: 4,
+        opacity: 0.5,
+        dashArray: '10, 15'
+    }).addTo(map);
     map.fitBounds(markerGroup.getBounds().pad(0.1));
-
-    // Live Tracker
-    var vanMarker = L.marker([54.842, -1.468], {icon: vanIcon}).addTo(map);
-    
+    // ===== RADAR KEY TOILET LAYER =====
+    var radarGroup = L.featureGroup();
+    radarToilets.forEach(function(t) {
+        var m = L.marker([t.lat, t.lon], { icon: radarIcon });
+        var content = '<div class="popup-toilet">'
+                    + '<span class="radar-badge">🔑 RADAR Key</span>'
+                    + '<strong>' + t.name + '</strong>'
+                    + t.notes
+                    + '</div>';
+        m.bindPopup(content, { maxWidth: 200 });
+        radarGroup.addLayer(m);
+    });
+    var radarVisible = false;
+    var radarToggleBtn = document.getElementById('radar-toggle');
+    radarToggleBtn.addEventListener('click', function() {
+        radarVisible = !radarVisible;
+        if (radarVisible) {
+            radarGroup.addTo(map);
+            radarToggleBtn.textContent = 'Hide Accessible Toilets';
+            radarToggleBtn.classList.add('active');
+            radarToggleBtn.setAttribute('aria-pressed', 'true');
+        } else {
+            map.removeLayer(radarGroup);
+            radarToggleBtn.textContent = 'Show Accessible Toilets on Map';
+            radarToggleBtn.classList.remove('active');
+            radarToggleBtn.setAttribute('aria-pressed', 'false');
+        }
+    });
+    // ===== VAN / LIVE LOCATION =====
+    var vanMarker = L.marker([54.842, -1.468], { icon: vanIcon }).addTo(map);
+    vanMarker.bindTooltip('You are here', { permanent: false, direction: 'top' });
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(pos) {
             vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
         }, null, { enableHighAccuracy: true });
     }
-
-    document.getElementById('recenter-btn').onclick = function() {
+    document.getElementById('recenter-btn').addEventListener('click', function() {
         map.setView(vanMarker.getLatLng(), 15);
-    };
+    });
 </script>
 </body>
 </html>
