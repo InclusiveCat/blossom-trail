@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* ===== BASE STYLES ===== */
+        /* ===== UI FOUNDATIONS ===== */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
@@ -24,14 +24,10 @@
         h1 { font-size: 1.4em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 15px; }
         .description { font-size: 0.85em; line-height: 1.6; color: #ccc; margin-bottom: 20px; font-style: italic; border-left: 3px solid #d81b60; padding-left: 15px; }
         
-        /* Access and Weather Forecast Header */
-        .access-forecast {
-            background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px;
-            padding: 15px; margin-bottom: 20px; font-size: 0.85em;
-        }
+        /* Conditions Header */
+        .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.85em; }
         .access-forecast h2 { font-size: 0.8em; text-transform: uppercase; margin: 0 0 10px; color: #d81b60; letter-spacing: 1px; }
         .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .forecast-item { color: #bbb; }
         .forecast-item b { color: #fff; display: block; }
 
         /* ===== BUCKETS ===== */
@@ -41,16 +37,18 @@
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
 
+        .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222; font-style: italic; }
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
         .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
 
         /* ===== MAP and POPUPS ===== */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
-        .popup-img { width: 100%; max-width: 200px; height: auto; border-radius: 4px; margin-top: 8px; display: block; }
         
-        /* Photography and Access Info in Popup */
-        .photo-info { margin-top: 10px; padding-top: 10px; border-top: 1px solid #333; font-size: 0.82em; line-height: 1.5; color: #ddd; }
-        .photo-info b { color: #d81b60; }
+        /* Popup Styling - Explicitly BLACK text */
+        .leaflet-popup-content { color: #000 !important; font-size: 0.9em; line-height: 1.4; }
+        .leaflet-popup-content strong { color: #d81b60; font-size: 1.1em; }
+        .popup-img { width: 100%; max-width: 200px; border-radius: 4px; margin: 8px 0; display: block; }
+        .popup-data { margin-top: 8px; border-top: 1px solid #ccc; padding-top: 8px; }
         .access-tag { display: inline-block; padding: 2px 6px; border-radius: 4px; background: #d81b60; color: #fff; font-weight: bold; font-size: 0.75em; margin-bottom: 5px; }
 
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -66,16 +64,16 @@
 
 <div id="app">
     <nav id="sidebar">
-        <h1>Oubaitori Collective</h1>
-        <div class="description">Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.</div>
+        <h1>Oubaitori Collective Blossom Trail</h1>
+        <div class="description">桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.</div>
 
         <div class="access-forecast">
-            <h2>Current Conditions</h2>
+            <h2>Trail Conditions</h2>
             <div class="forecast-grid">
                 <div class="forecast-item">🌦️ Weather: <b>Mild and Clear</b></div>
                 <div class="forecast-item">♿ Access: <b>Firm and Dry</b></div>
                 <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
-                <div class="forecast-item">🌙 Moon: <b>Waxing</b></div>
+                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
             </div>
         </div>
 
@@ -90,15 +88,46 @@
             </div>
         </div>
 
-        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content" id="list-1"></div></div>
-        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content" id="list-2"></div></div>
-        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content" id="list-3"></div></div>
-        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content" id="list-4"></div></div>
-        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content" id="list-5"></div></div>
+        <div class="bucket active" id="bucket-1">
+            <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath, body, and stillness.</div>
+                <div id="list-1"></div>
+            </div>
+        </div>
+        <div class="bucket" id="bucket-2">
+            <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="stage-narrative">Move toward expansive views. Reflect on your 'capacity' to grow and create space.</div>
+                <div id="list-2"></div>
+            </div>
+        </div>
+        <div class="bucket" id="bucket-3">
+            <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="stage-narrative">Allow movement and reflection. 'Be' in the current.</div>
+                <div id="list-3"></div>
+            </div>
+        </div>
+        <div class="bucket" id="bucket-4">
+            <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="stage-narrative">Enter the sanctuary where urban meets nature. Belonging without blending.</div>
+                <div id="list-4"></div>
+            </div>
+        </div>
+        <div class="bucket" id="bucket-5">
+            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="stage-narrative">Travel toward the coast. Wide skies and sea air. Freedom to Be.</div>
+                <div id="list-5"></div>
+            </div>
+        </div>
 
         <div style="background:#1a1a1a; border:1px solid #d81b60; padding:20px; border-radius:8px; margin-top:30px; font-size:0.9em; line-height:1.6;">
             <strong>Closing Vision</strong>
-            <p>Growth does not require pressure. Wherever your starting point, the destination is your choice. Join the Oubaitori Collective, where space to blossom truly exists.</p>
+            <p>Growth does not require pressure. Wherever your starting point, the destination is your choice.</p>
+            <p>Join the Oubaitori Collective, where space to blossom truly exists.</p>
         </div>
     </nav>
     <div id="map"></div>
@@ -122,40 +151,49 @@ function toggleBucket(id) {
     fSlider.oninput = function() { document.documentElement.style.setProperty('--font-scale', this.value / 100); };
 
     var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
+    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] });
 
     var sites = [
-        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", img: "white-harmony.jpg", dayPhoto: "10:30 (Morning Light)", nightPhoto: "23:15 (Lunar Apex)", access: "Paved and Level" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", dayPhoto: "14:00 (Afternoon Shadows)", nightPhoto: "23:22 (Walled Shadows)", access: "Gravel and Slopes" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", dayPhoto: "12:00 (High Sun)", nightPhoto: "23:25 (Cathedral Glow)", access: "Cobbles and Steep" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", dayPhoto: "11:00 (Soft Morning)", nightPhoto: "23:25 (Secluded Glow)", access: "Gravel Paths" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", dayPhoto: "15:00 (Late Sun)", nightPhoto: "23:30 (Open Vistas)", access: "Tarmac and Level" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", dayPhoto: "13:30 (Garden Bloom)", nightPhoto: "23:35 (Estate Silence)", access: "Firm and Accessible" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", dayPhoto: "09:00 (Golden Hour)", nightPhoto: "23:24 (Silhouette)", access: "Grass and Steep" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", dayPhoto: "08:30 (Sunrise)", nightPhoto: "23:18 (Sea Reflection)", access: "Promenade and Level" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", dayPhoto: "16:00 (Sea Spray)", nightPhoto: "23:14 (Lighthouse Light)", access: "Concrete and Exposed" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", dayPhoto: "11:30 (Park Activity)", nightPhoto: "23:16 (Lake Stillness)", access: "Tarmac Paths" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", dayPhoto: "10:00 (Dappled light)", nightPhoto: "23:26 (Forest Shadows)", access: "Woodland and Slopes" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", dayPhoto: "13:00 (Cityscape)", nightPhoto: "23:25 (Bridge Lights)", access: "Paved City" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", dayPhoto: "11:00 (Grand Bloom)", nightPhoto: "23:30 (Illuminated Paths)", access: "Fully Accessible" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, type: "landmark", img: "castle-eden.jpg", dayPhoto: "10:45 (Ancient Forest)", nightPhoto: "23:20 (Total Dark)", access: "Uneven Woodland" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", dayPhoto: "14:30 (Avenue View)", nightPhoto: "23:28 (Chapel Silhouette)", access: "Gravel and Varied" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", dayPhoto: "09:30 (Sea Air)", nightPhoto: "23:14 (Northern Horizon)", access: "Paved Seaside" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", dayPhoto: "15:30 (Cliff Shadows)", nightPhoto: "23:10 (Pier Lights)", access: "Steep and Lift" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", dayPhoto: "12:30 (Rolling Hills)", nightPhoto: "23:35 (Stargazing)", access: "Grass and Rugged" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", dayPhoto: "08:00 (Dawn Rays)", nightPhoto: "23:18 (Starry Keep)", access: "Sandy and Incline" }
+        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom", img: "white-harmony.jpg", dayPhoto: "10:30", nightPhoto: "23:15", access: "Paved and Level" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", dayPhoto: "14:00", nightPhoto: "23:22", access: "Gravel and Slopes" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", dayPhoto: "12:00", nightPhoto: "23:25", access: "Cobbles and Steep" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", dayPhoto: "11:00", nightPhoto: "23:25", access: "Gravel Paths" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", dayPhoto: "15:00", nightPhoto: "23:30", access: "Tarmac and Level" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", dayPhoto: "13:30", nightPhoto: "23:35", access: "Firm and Accessible" },
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", dayPhoto: "09:00", nightPhoto: "23:24", access: "Grass and Steep" },
+        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", dayPhoto: "08:30", nightPhoto: "23:18", access: "Promenade and Level" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", dayPhoto: "16:00", nightPhoto: "23:14", access: "Concrete and Exposed" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", dayPhoto: "11:30", nightPhoto: "23:16", access: "Tarmac Paths" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", dayPhoto: "10:00", nightPhoto: "23:26", access: "Woodland and Slopes" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", dayPhoto: "13:00", nightPhoto: "23:25", access: "Paved City" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", dayPhoto: "11:00", nightPhoto: "23:30", access: "Fully Accessible" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.75000, lon: -1.32639, type: "landmark", img: "castle-eden.jpg", dayPhoto: "10:45", nightPhoto: "23:20", access: "Uneven Woodland" },
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", dayPhoto: "14:30", nightPhoto: "23:28", access: "Gravel and Varied" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", dayPhoto: "09:30", nightPhoto: "23:14", access: "Paved Seaside" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", dayPhoto: "15:30", nightPhoto: "23:10", access: "Steep and Lift" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", dayPhoto: "12:30", nightPhoto: "23:35", access: "Grass and Rugged" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", dayPhoto: "08:00", nightPhoto: "23:18", access: "Sandy and Incline" }
     ];
+
+    var markers = [];
+    var trailCoords = [];
 
     sites.forEach(function(s) {
         var marker = L.marker([s.lat, s.lon], {icon: (s.type === "blossom" ? blossomIcon : new L.Icon.Default())}).addTo(map);
+        
         marker.bindPopup(`
             <strong>${s.name}</strong><br>
             <span class="access-tag">${s.access}</span><br>
             <img src='${s.img}' class='popup-img'>
-            <div class="photo-info">
-                ☀️ <b>Optimum Day Photo:</b> ${s.dayPhoto}<br>
-                🌙 <b>Optimum Night Photo:</b> ${s.nightPhoto}
+            <div class="popup-data">
+                ☀️ <b>Day Photo:</b> ${s.dayPhoto}<br>
+                🌙 <b>Night Photo:</b> ${s.nightPhoto}
             </div>
         `);
+        
+        markers.push(marker);
+        trailCoords.push([s.lat, s.lon]);
+
         var list = document.getElementById('list-' + s.stage);
         if(list) {
             var link = document.createElement('div');
@@ -165,9 +203,19 @@ function toggleBucket(id) {
         }
     });
 
+    // Restore Dotted Line
+    L.polyline(trailCoords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
+
+    // Restore Recentre Functionality
+    var vanMarker = L.marker([54.843, -1.470], {icon: vanIcon}).addTo(map);
+    document.getElementById('recenter-btn').onclick = function() {
+        map.setView(vanMarker.getLatLng(), 15);
+        vanMarker.openTooltip();
+    };
+
     // RADAR Toilets Layer
     var radarGroup = L.layerGroup();
-    [{n:"Houghton le Spring",lat:54.842,lon:-1.473},{n:"Durham",lat:54.776,lon:-1.577}].forEach(t => { 
+    [{n:"Houghton",lat:54.842,lon:-1.473},{n:"Durham",lat:54.776,lon:-1.577}].forEach(t => { 
         L.marker([t.lat,t.lon], {icon: L.divIcon({html:'🔑', className:'radar-marker', iconSize:[20,20]})}).bindPopup(t.n).addTo(radarGroup); 
     });
     document.getElementById('radar-toggle-btn').onclick = function() {
