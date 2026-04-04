@@ -9,7 +9,7 @@
         /* ===== UI FOUNDATIONS ===== */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* ===== SIDEBAR ===== */
@@ -19,21 +19,24 @@
             font-size: calc(1em * var(--font-scale));
         }
         h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 15px; }
-        
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.5; }
 
-        /* Local Authority Selector (Evidence Anchor) */
-        .la-selector { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #444; }
-        .la-selector label { font-size: 0.7em; text-transform: uppercase; color: #888; display: block; margin-bottom: 8px; }
-        .la-selector select { width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid #555; border-radius: 4px; }
+        /* Energy Pulse */
+        .pulse-check { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #333; }
+        .pulse-check h3 { font-size: 0.75em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; letter-spacing: 1px; }
+        .light-row { display: flex; gap: 10px; }
+        .light { flex: 1; height: 45px; border-radius: 8px; cursor: pointer; border: none; font-size: 1.3em; display: flex; align-items: center; justify-content: center; }
+        .thrive { background: #00c853; }
+        .masking { background: #ffd600; }
+        .burnout { background: #d81b60; }
 
-        /* Poll Boxes */
+        /* Evidence Poll Boxes */
         .poll-box { background: #111; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #d81b60; }
         .poll-q { font-size: 0.82em; margin-bottom: 12px; color: #fff; font-weight: bold; line-height: 1.4; }
-        .poll-btn { display: block; width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #333; color: #ddd; border-radius: 4px; font-size: 0.75em; text-align: left; cursor: pointer; }
+        .poll-btn { display: block; width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #333; color: #ddd; border-radius: 4px; font-size: 0.75em; text-align: left; cursor: pointer; line-height: 1.3; }
         .poll-btn:hover { background: #333; border-color: #00c853; color: #fff; }
 
-        /* ===== BUCKETS ===== */
+        /* Buckets */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
@@ -41,9 +44,15 @@
         .bucket.active .bucket-content { display: block; }
         
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #222; font-style: italic; }
+        .a11y-btn { width: 100%; padding: 12px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; text-decoration: none; display: block; font-size: 0.8em; }
 
+        /* Map */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
+
+        /* A11Y Modes */
+        body.high-contrast { background: #000 !important; color: #fff !important; }
+        body.dyslexia-font { font-family: 'Verdana', sans-serif !important; letter-spacing: 0.05em; line-height: 1.8; }
 
         @media screen and (max-width: 768px) {
             #app { flex-direction: column !important; }
@@ -56,37 +65,44 @@
 
 <div id="app">
     <nav id="sidebar">
-        <h1>Oubaitori Trail</h1>
+        <h1>Oubaitori Collective Blossom Trail</h1>
         
         <div class="welcome-msg">
             <strong>It is Okay to be Here.</strong><br>
-            Your presence is valid. We are gathering anonymous evidence to build a better support service for our community.
+            Your presence is valid. We are gathering anonymous evidence of need to build better neuroinclusive services in the North East and Teesside.
         </div>
 
-        <div class="la-selector">
-            <label>Select your Local Authority</label>
-            <select id="la-choice">
-                <option value="none">-- Please Select --</option>
-                <option value="sunderland">Sunderland</option>
-                <option value="durham">Durham</option>
-                <option value="south-tyneside">South Tyneside</option>
-                <option value="newcastle">Newcastle</option>
-                <option value="gateshead">Gateshead</option>
-                <option value="north-tyneside">North Tyneside</option>
-                <option value="other">Other / Outside Region</option>
-            </select>
+        <div class="pulse-check">
+            <h3>Energy Pulse Check</h3>
+            <div class="light-row">
+                <button class="light thrive" onclick="alert('Thrive log recorded.')">🟢</button>
+                <button class="light masking" onclick="alert('Masking log recorded.')">🟡</button>
+                <button class="light burnout" onclick="alert('Burnout log recorded.')">🔴</button>
+            </div>
+        </div>
+
+        <div class="bucket" id="bucket-la">
+            <div class="bucket-header" onclick="toggleBucket('la')"><strong>📍 Local Authority</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <select id="la-choice" style="width:100%; padding:10px; background:#222; color:#fff; border:1px solid #444;">
+                    <option value="none">-- Select Area --</option>
+                    <option>Sunderland</option><option>Durham</option><option>Gateshead</option><option>Newcastle</option>
+                    <option>North Tyneside</option><option>South Tyneside</option><option>Northumberland</option>
+                    <option>Hartlepool</option><option>Stockton-on-Tees</option><option>Middlesbrough</option>
+                    <option>Redcar and Cleveland</option><option>Darlington</option>
+                </select>
+            </div>
         </div>
 
         <div class="bucket active" id="bucket-1">
             <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Wellness check-in. Focus on breath and stillness.</div>
-                <div id="list-1"></div>
+                <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath and stillness.</div>
                 <div class="poll-box">
-                    <div class="poll-q">1. How often have you experienced overwhelm or burnout symptoms that affected your daily life in the last 12 months?</div>
-                    <button class="poll-btn" onclick="logEvidence('Q1', 'Frequent')">Weekly or more</button>
-                    <button class="poll-btn" onclick="logEvidence('Q1', 'Monthly')">Monthly</button>
-                    <button class="poll-btn" onclick="logEvidence('Q1', 'Occasional')">Occasionally</button>
+                    <div class="poll-q">1. In the past 6–12 months, how often have you experienced overwhelm, shutdown, or burnout symptoms?</div>
+                    <button class="poll-btn" onclick="logP(this)">Weekly or more</button>
+                    <button class="poll-btn" onclick="logP(this)">Monthly</button>
+                    <button class="poll-btn" onclick="logP(this)">Occasionally</button>
                 </div>
             </div>
         </div>
@@ -94,22 +110,61 @@
         <div class="bucket" id="bucket-2">
             <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div id="list-2"></div>
                 <div class="poll-box">
                     <div class="poll-q">2. What barriers have you faced in accessing support before or after assessment?</div>
-                    <button class="poll-btn" onclick="logEvidence('Q2', 'Wait Times')">Long wait times</button>
-                    <button class="poll-btn" onclick="logEvidence('Q2', 'Tailored Guidance')">Lack of tailored guidance</button>
-                    <button class="poll-btn" onclick="logEvidence('Q2', 'Navigation')">Difficulty navigating services</button>
+                    <button class="poll-btn" onclick="logP(this)">Long wait times</button>
+                    <button class="poll-btn" onclick="logP(this)">Lack of tailored guidance</button>
+                    <button class="poll-btn" onclick="logP(this)">Difficulty navigating services</button>
                 </div>
             </div>
         </div>
 
-        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content" id="list-3"></div></div>
-
-        <div style="background:#1a1a1a; border:1px solid #d81b60; padding:20px; border-radius:8px; margin-top:30px; font-size:0.9em; line-height:1.6;">
-            <strong>Why this matters</strong>
-            <p>Your anonymous answers help us secure funding for neuroinclusive coaching and holistic burnout recovery services.</p>
+        <div class="bucket" id="bucket-3">
+            <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="poll-box">
+                    <div class="poll-q">3. What signs do you notice in your body when stress builds, and how easy is it to regulate?</div>
+                    <button class="poll-btn" onclick="logP(this)">Very difficult to regulate</button>
+                    <button class="poll-btn" onclick="logP(this)">Easy with specific tools</button>
+                    <button class="poll-btn" onclick="logP(this)">Difficult but manageable</button>
+                </div>
+            </div>
         </div>
+
+        <div class="bucket" id="bucket-4">
+            <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="poll-box">
+                    <div class="poll-q">4. How confident do you feel in managing work demands without compromising your wellbeing?</div>
+                    <button class="poll-btn" onclick="logP(this)">Not confident at all</button>
+                    <button class="poll-btn" onclick="logP(this)">Somewhat confident</button>
+                    <button class="poll-btn" onclick="logP(this)">Very confident</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bucket" id="bucket-5">
+            <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="poll-box">
+                    <div class="poll-q">5. If you had access to holistic coaching and energy tools, what challenges would you address?</div>
+                    <button class="poll-btn" onclick="logP(this)">Stabilising energy and routines</button>
+                    <button class="poll-btn" onclick="logP(this)">Navigating workplace demands</button>
+                    <button class="poll-btn" onclick="logP(this)">Nervous system regulation</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bucket" id="bucket-a11y">
+            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Tools and Emergency</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
+                <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
+                <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
+                <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
+            </div>
+        </div>
+
     </nav>
     <div id="map"></div>
 </div>
@@ -120,43 +175,30 @@
 <script>
 function toggleBucket(id) {
     var target = document.getElementById('bucket-' + id);
-    if(typeof id === 'number') document.querySelectorAll('.bucket').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.bucket').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.bucket-content').forEach(c => c.style.display = 'none');
     target.classList.add('active');
+    target.querySelector('.bucket-content').style.display = 'block';
 }
 
-// LOGIC FOR EVIDENCE GATHERING
-function logEvidence(questionId, answer) {
+function logP(btn) {
     const la = document.getElementById('la-choice').value;
-    if (la === 'none') {
-        alert("Please select your Local Authority at the top first so we can map the need in your area.");
-        return;
-    }
-    
-    // This is where you would eventually add a Fetch() call to a Google Sheet/Tally
-    console.log(`Evidence Logged: Area: ${la} | ${questionId}: ${answer}`);
-    
-    // Visual feedback for user
-    event.target.parentElement.innerHTML = `<p style="color:#00c853; font-size:0.8em; font-style:italic;">Thank you. Your anonymous response for ${la} has been noted for our funding evidence.</p>`;
+    if(la === "none") { alert("Please select your Local Authority first."); return; }
+    btn.parentElement.innerHTML = `<p style="color:#00c853; font-size:0.8em; font-style:italic;">Response noted for ${la}. Thank you.</p>`;
 }
 
 (function () {
     var map = L.map('map').setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    var sites = [
-        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, access: "Paved and Level" }
-    ];
-
-    sites.forEach(function(s) {
-        var marker = L.marker([s.lat, s.lon]).addTo(map);
-        var list = document.getElementById('list-' + s.stage);
-        if(list) {
-            var link = document.createElement('div');
-            link.className = 'site-link'; link.textContent = s.name;
-            link.onclick = function() { map.flyTo([s.lat, s.lon], 14); };
-            list.appendChild(link);
+    var vanMarker = L.marker([54.843, -1.470]).addTo(map);
+    document.getElementById('recenter-btn').onclick = function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(p) {
+                var c = [p.coords.latitude, p.coords.longitude];
+                vanMarker.setLatLng(c); map.flyTo(c, 15);
+            });
         }
-    });
+    };
 })();
 </script>
 </body>
