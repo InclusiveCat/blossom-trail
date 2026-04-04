@@ -9,7 +9,7 @@
         /* ===== UI FOUNDATIONS ===== */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* ===== SIDEBAR ===== */
@@ -23,7 +23,7 @@
 
         h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
-        .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.5; color: #ccc; }
+        .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
         /* Forecast and Energy */
         .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.85em; }
@@ -33,7 +33,7 @@
         .pulse-check { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
         .pulse-check h3 { font-size: 0.7em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; letter-spacing: 1px; }
         .light-row { display: flex; gap: 8px; }
-        .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.75em; font-weight: bold; color: #000; text-transform: uppercase; transition: 0.2s; }
+        .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.72em; font-weight: bold; color: #000; text-transform: uppercase; transition: 0.2s; }
 
         /* Buckets and Polls */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
@@ -51,7 +51,7 @@
 
         /* A11Y Tabs */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; }
-        .a11y-tab { flex: 1; padding: 8px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.6em; text-transform: uppercase; font-weight: bold; }
+        .a11y-tab { flex: 1; padding: 8px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.58em; text-transform: uppercase; font-weight: bold; }
         .a11y-tab.active { color: #fff; background: #d81b60; }
         .a11y-pane { display: none; }
         .a11y-pane.active { display: block; }
@@ -66,7 +66,7 @@
 
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
-        /* Modes */
+        /* Accessibility Modes */
         body.high-contrast { background: #000 !important; color: #fff !important; }
         body.dyslexia-font { font-family: 'Verdana', sans-serif !important; letter-spacing: 0.05em; line-height: 1.8; }
 
@@ -85,7 +85,8 @@
         <span class="sub-header">It is Okay to be Here.</span>
         
         <div class="welcome-msg">
-            Join us in person on the Blossom Trail as we gather anonymous evidence to support the design of a new support service for neurodivergent adults across the North East of England. Not able to join us? We would still like to hear your views if you are are a neurodivergent adult. Your views matter to us!
+            Join us on the Oubaitori Collective Blossom Trail and we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
+            <strong>Not able to join us?</strong> We would still like to hear your views if you are a neurodivergent adult. Your views matter to us!
         </div>
 
         <div class="access-forecast">
@@ -216,13 +217,13 @@
                 <div id="pane-tech" class="a11y-pane">
                     <div style="font-size:0.8em; color:#ddd; line-height:1.4;">
                         <b>Sensory Reset:</b> Close your eyes and name 3 sounds you can hear.<br><br>
-                        <b>Box Breathing:</b> Inhale 4s, Hold 4s, Exhale 4s, Hold 4s.
+                        <b>Grounding:</b> Feel your feet on the earth. Visualise roots anchoring you.
                     </div>
                 </div>
 
                 <div id="pane-res" class="a11y-pane">
                     <div style="font-size:0.75em; color:#bbb;">
-                        <b>Equality Act 2010:</b> Rights to workplace adjustments.<br><br>
+                        <b>Equality Act 2010:</b> Your rights to workplace adjustments.<br><br>
                         <b>Access to Work:</b> Funding for job equipment and support.
                     </div>
                 </div>
@@ -266,8 +267,8 @@ function logP(btn) {
     var map = L.map('map').setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var slider = document.getElementById('f-slider');
-    slider.oninput = function() { document.documentElement.style.setProperty('--font-scale', this.value / 100); };
+    var fSlider = document.getElementById('f-slider');
+    fSlider.oninput = function() { document.documentElement.style.setProperty('--font-scale', this.value / 100); };
 
     var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
 
