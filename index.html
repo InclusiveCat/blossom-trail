@@ -9,7 +9,7 @@
         /* ===== UI FOUNDATIONS ===== */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* ===== SIDEBAR ===== */
@@ -24,10 +24,13 @@
         h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 15px; }
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.5; }
 
-        /* Energy Accounting */
-        .pulse-check { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #333; }
-        .pulse-check h3 { font-size: 0.7em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; letter-spacing: 1px; }
-        .light-row { display: flex; gap: 8px; }
+        /* Forecast and Energy */
+        .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.85em; }
+        .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .forecast-item b { color: #fff; display: block; }
+        
+        .pulse-check { background: #111; padding: 12px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        .light-row { display: flex; gap: 8px; margin-top: 5px; }
         .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.7em; font-weight: bold; color: #000; text-transform: uppercase; }
 
         /* BUCKETS and POLLS */
@@ -45,20 +48,19 @@
         .poll-btn:hover { border-color: #00c853; }
 
         /* ACCESSIBILITY TABS */
-        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
-        .a11y-tab { flex: 1; min-width: 70px; padding: 8px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.6em; text-transform: uppercase; font-weight: bold; }
+        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; }
+        .a11y-tab { flex: 1; padding: 8px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.6em; text-transform: uppercase; font-weight: bold; }
         .a11y-tab.active { color: #fff; background: #d81b60; }
         .a11y-pane { display: none; }
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 12px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.8em; text-align: center; text-decoration: none; display: block; }
 
-        /* MAP and LINKS */
+        /* MAP */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
-        .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-
+        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
+        .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
         body.high-contrast { background: #000 !important; color: #fff !important; }
@@ -75,11 +77,21 @@
 
 <div id="app">
     <nav id="sidebar">
-        <h1>Oubaitori Blossom Trail</h1>
+        <h1>Oubaitori Collective</h1>
         
         <div class="welcome-msg">
             <strong>It is Okay to be Here.</strong><br>
-            Anonymous evidence collection for North East and Teesside support. Your data helps us secure funding for neuroinclusive coaching.
+            Join us on the Oubaitori Collective Blossom Trail and we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.
+        </div>
+
+        <div class="access-forecast">
+            <h2 style="font-size:0.75em; text-transform:uppercase; margin-bottom:10px; color:#d81b60;">Current Conditions</h2>
+            <div class="forecast-grid">
+                <div class="forecast-item">🌦️ Weather: <b>Mild and Clear</b></div>
+                <div class="forecast-item">♿ Access: <b>Firm and Dry</b></div>
+                <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
+                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
+            </div>
         </div>
 
         <div class="pulse-check">
@@ -107,7 +119,7 @@
                 <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath, body, and stillness.</div>
                 <div id="list-1"></div>
                 <div class="poll-box">
-                    <div class="poll-q">1. In the past 12 months, how often have you experienced overwhelm or burnout affecting your life?</div>
+                    <div class="poll-q">1. In the past 12 months, how often have you experienced overwhelm or burnout symptoms that affected your life?</div>
                     <button class="poll-btn" onclick="logP(this)">Daily</button>
                     <button class="poll-btn" onclick="logP(this)">Weekly</button>
                     <button class="poll-btn" onclick="logP(this)">Monthly</button>
@@ -123,11 +135,11 @@
                 <div class="stage-narrative">Move toward expansive views. Reflect on your capacity to grow and create space.</div>
                 <div id="list-2"></div>
                 <div class="poll-box">
-                    <div class="poll-q">2. What barriers have you faced in accessing support before or after assessment?</div>
-                    <button class="poll-btn" onclick="logP(this)">Wait times over 1 year</button>
+                    <div class="poll-q">2. What barriers have you faced in accessing appropriate support before or after your neurodivergence assessment?</div>
+                    <button class="poll-btn" onclick="logP(this)">Long wait times (>1 year)</button>
                     <button class="poll-btn" onclick="logP(this)">Lack of tailored guidance</button>
-                    <button class="poll-btn" onclick="logP(this)">System navigation difficulty</button>
-                    <button class="poll-btn" onclick="logP(this)">Financial barriers</button>
+                    <button class="poll-btn" onclick="logP(this)">Difficulty navigating services</button>
+                    <button class="poll-btn" onclick="logP(this)">Financial / Cost barriers</button>
                     <button class="poll-btn" onclick="logP(this)">No barriers faced</button>
                 </div>
             </div>
@@ -136,14 +148,14 @@
         <div class="bucket" id="bucket-3">
             <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Allow movement and reflection. 'Be' in the current of the emotional journey.</div>
+                <div class="stage-narrative">Allow movement and reflection. 'Be' in the current of your emotional journey.</div>
                 <div id="list-3"></div>
                 <div class="poll-box">
                     <div class="poll-q">3. If you become stressed or overwhelmed, how easy is it for you to recover?</div>
                     <button class="poll-btn" onclick="logP(this)">Very easy</button>
-                    <button class="poll-btn" onclick="logP(this)">Somewhat easy</button>
-                    <button class="poll-btn" onclick="logP(this)">Neither easy nor hard</button>
-                    <button class="poll-btn" onclick="logP(this)">Somewhat difficult</button>
+                    <button class="poll-btn" onclick="logP(this)">Easy</button>
+                    <button class="poll-btn" onclick="logP(this)">Neutral</button>
+                    <button class="poll-btn" onclick="logP(this)">Difficult</button>
                     <button class="poll-btn" onclick="logP(this)">Very difficult</button>
                 </div>
             </div>
@@ -152,13 +164,13 @@
         <div class="bucket" id="bucket-4">
             <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Belonging without blending. Urban meets nature in a sanctuary.</div>
+                <div class="stage-narrative">Belonging without blending. Enter the sanctuary where urban meets nature.</div>
                 <div id="list-4"></div>
                 <div class="poll-box">
-                    <div class="poll-q">4. How confident do you feel in managing work demands without compromising wellbeing?</div>
+                    <div class="poll-q">4. How confident do you feel in managing work-related demands and communication without compromising wellbeing?</div>
                     <button class="poll-btn" onclick="logP(this)">Very confident</button>
                     <button class="poll-btn" onclick="logP(this)">Confident</button>
-                    <button class="poll-btn" onclick="logP(this)">Neutral</button>
+                    <button class="poll-btn" onclick="logP(this)">Unsure</button>
                     <button class="poll-btn" onclick="logP(this)">Low confidence</button>
                     <button class="poll-btn" onclick="logP(this)">No confidence</button>
                 </div>
@@ -171,12 +183,12 @@
                 <div class="stage-narrative">Travel toward the coast. Wide skies and sea air. Freedom to Be.</div>
                 <div id="list-5"></div>
                 <div class="poll-box">
-                    <div class="poll-q">5. What challenges would you hope holistic coaching would help you address most?</div>
-                    <button class="poll-btn" onclick="logP(this)">Energy stabilisation</button>
+                    <div class="poll-q">5. If you had access to holistic coaching and energy tools, what challenges would you hope it would help you address?</div>
+                    <button class="poll-btn" onclick="logP(this)">Stabilising energy/routines</button>
                     <button class="poll-btn" onclick="logP(this)">Workplace boundaries</button>
                     <button class="poll-btn" onclick="logP(this)">Nervous system regulation</button>
                     <button class="poll-btn" onclick="logP(this)">Executive function tools</button>
-                    <button class="poll-btn" onclick="logP(this)">General peer support</button>
+                    <button class="poll-btn" onclick="logP(this)">Managing burnout symptoms</button>
                 </div>
             </div>
         </div>
@@ -200,15 +212,14 @@
                 <div id="pane-tech" class="a11y-pane">
                     <div style="font-size:0.8em; color:#ddd; line-height:1.4;">
                         <b>Sensory Reset:</b> Close your eyes and name 3 sounds you can hear right now.<br><br>
-                        <b>Box Breathing:</b> Inhale 4s, Hold 4s, Exhale 4s, Hold 4s. Repeat 3 times.
+                        <b>Grounding:</b> Feel your feet on the earth. Visualise roots growing down to anchor you.
                     </div>
                 </div>
 
                 <div id="pane-res" class="a11y-pane">
                     <div style="font-size:0.75em; color:#bbb;">
-                        <b>Equality Act 2010:</b> Your right to reasonable adjustments at work.<br><br>
-                        <b>Access to Work:</b> Government grant for workplace support.<br><br>
-                        <a href="#" style="color:#d81b60;">Download Advocacy Guide</a>
+                        <b>Equality Act 2010:</b> Your rights to workplace adjustments.<br><br>
+                        <b>Access to Work:</b> Government support for job equipment/assistance.
                     </div>
                 </div>
 
@@ -243,8 +254,8 @@ function showPane(paneId) {
 
 function logP(btn) {
     const la = document.getElementById('la-choice').value;
-    if(la === "none") { alert("Select Local Authority first."); return; }
-    btn.parentElement.innerHTML = `<p style="color:#00c853; font-size:0.8em; font-style:italic;">Response recorded for ${la}. Thank you.</p>`;
+    if(la === "none") { alert("Please select your Local Authority first."); return; }
+    btn.parentElement.innerHTML = `<p style="color:#00c853; font-size:0.8em; font-style:italic;">Recorded for ${la}. Thank you.</p>`;
 }
 
 (function () {
