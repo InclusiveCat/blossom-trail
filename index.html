@@ -9,7 +9,7 @@
         /* UI FOUNDATIONS */
         *, *::before, *::after { box-sizing: border-box; }
         :root { --font-scale: 1; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* SIDEBAR */
@@ -21,30 +21,46 @@
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 15px; }
+        h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
-        /* Forecast Box */
-        .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.85em; }
-        .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .forecast-item b { color: #fff; display: block; }
-        
-        /* Buckets and Polls */
+        /* Live Conditions Grid */
+        .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
+        .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .forecast-item b { color: #fff; display: block; font-size: 1.1em; }
+
+        /* Energy Section */
+        .pulse-check { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        .pulse-check h3 { font-size: 0.75em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; }
+        .light-row { display: flex; gap: 8px; }
+        .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.7em; font-weight: bold; color: #000; text-transform: uppercase; }
+
+        /* Buckets */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; border-bottom: 1px solid #222; padding-bottom: 8px; }
-        
-        /* Map and Popups */
+
+        /* Tools Tabs */
+        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
+        .a11y-tab { flex: 1; padding: 10px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.55em; text-transform: uppercase; font-weight: bold; }
+        .a11y-tab.active { color: #fff; background: #d81b60; }
+        .a11y-pane { display: none; padding: 5px; font-size: 0.8em; line-height: 1.5; }
+        .a11y-pane.active { display: block; }
+        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; font-size: 0.9em; text-align: center; display: block; text-decoration: none; }
+
+        /* Map and Alerts */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wheelchair-alert { font-size: 0.75em; color: #d81b60; font-weight: bold; background: #fff0f3; padding: 8px; border-radius: 4px; border: 1px solid #d81b60; margin: 5px 0; line-height: 1.3; }
+        .wheelchair-alert { font-size: 0.75em; color: #d81b60; font-weight: bold; background: #fff0f3; padding: 8px; border-radius: 4px; border: 2px solid #d81b60; margin: 5px 0; line-height: 1.3; }
 
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+
+        body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
 
         @media screen and (max-width: 768px) {
             #app { flex-direction: column !important; }
@@ -61,17 +77,27 @@
         <span class="sub-header">It is Okay to be Here.</span>
         
         <div class="welcome-msg">
-            Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
-            <strong>Not able to join us?</strong> We would still like to hear from you. <br><br> Tell us how you're feeling right now and which area you live in. <br> <br> Then answer the questions in each of the 5 stages below. <strong>Your views matter to us!</strong> 
+            Join us on the Oubaitori Collective Blossom Trail and we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
+            <strong>Not able to join us?</strong> We would still like to hear your views if you are a neurodivergent adult. Your views matter to us!
         </div>
 
         <div class="access-forecast">
             <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:#d81b60;">Live Trail Conditions</h2>
             <div class="forecast-grid">
-                <div class="forecast-item">🌦️ Weather: <b id="live-weather">Loading...</b></div>
-                <div class="forecast-item">🌡️ Temperature: <b id="live-temp">--°C</b></div>
+                <div class="forecast-item">🌦️ Weather: <b id="val-w">Detecting...</b></div>
+                <div class="forecast-item">🌡️ Temperature: <b id="val-t">--°C</b></div>
+                <div class="forecast-item">💨 Wind: <b id="val-wind">-- mph</b></div>
                 <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
-                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
+                <div class="forecast-item">🌙 Moon Phase: <b>Waxing Gibbous</b></div>
+            </div>
+        </div>
+
+        <div class="pulse-check">
+            <h3>How are you feeling right now?</h3>
+            <div class="light-row">
+                <button class="light" style="background:#00c853;" onclick="alert('Logged: Thriving')">Thriving</button>
+                <button class="light" style="background:#ffd600;" onclick="alert('Logged: Masking')">Masking</button>
+                <button class="light" style="background:#d81b60;" onclick="alert('Logged: Burnout')">Burnout</button>
             </div>
         </div>
 
@@ -85,18 +111,58 @@
             </div>
         </div>
 
-        <div class="bucket active" id="bucket-1">
-            <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
+        <div id="stages-container"></div>
+
+        <div class="bucket" id="bucket-vision">
+            <div class="bucket-header" onclick="toggleBucket('vision')"><strong>🌸 The Closing Vision</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Begin with a wellness system check-in. Focus on breath, body, and stillness.</div>
-                <div id="list-1"></div>
+                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">Our vision is a sustainable, multi-seven-figure employee-owned trust where 80% of staff are neurodivergent, valuing unique individual growth without comparison.</p>
             </div>
         </div>
-        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Move toward expansive views. Reflect on your capacity to grow.</div><div id="list-2"></div></div></div>
-        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Allow movement and reflection. 'Be' in the current.</div><div id="list-3"></div></div></div>
-        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Belonging without blending. Sanctuary where urban meets nature.</div><div id="list-4"></div></div></div>
-        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breathe</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Travel toward the coast. Wide skies and sea air.</div><div id="list-5"></div></div></div>
 
+        <div class="bucket" id="bucket-a11y">
+            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Tools and Resources</strong><span>▼</span></div>
+            <div class="bucket-content">
+                <div class="a11y-tabs">
+                    <button class="a11y-tab active" onclick="showPane('disp', this)">Display</button>
+                    <button class="a11y-tab" onclick="showPane('tech', this)">Techniques</button>
+                    <button class="a11y-tab" onclick="showPane('nav', this)">Navigation</button>
+                    <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
+                </div>
+
+                <div id="pane-disp" class="a11y-pane active">
+                    <label>Font Size:</label>
+                    <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
+                </div>
+
+                <div id="pane-tech" class="a11y-pane">
+                    <ol style="padding-left:15px;">
+                        <li><b>5-4-3-2-1:</b> Name 5 things you see, 4 you feel...</li>
+                        <li><b>Box Breath:</b> Inhale 4s, Hold 4s, Exhale 4s, Hold 4s.</li>
+                        <li><b>Cold Water:</b> Splash face or hold a cold bottle.</li>
+                        <li><b>Weight:</b> Press hands firmly together for 5s.</li>
+                        <li><b>Humming:</b> Create low vibration in chest.</li>
+                    </ol>
+                </div>
+
+                <div id="pane-nav" class="a11y-pane">
+                    <p><b>Radar Key Accessible Toilets:</b></p>
+                    <ul style="padding-left:15px;">
+                        <li>Durham Market Place</li>
+                        <li>Sunderland Bridges</li>
+                        <li>Newcastle Eldon Square</li>
+                    </ul>
+                </div>
+
+                <div id="pane-em" class="a11y-pane">
+                    <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
+                    <a href="#" class="a11y-btn">📱 Text Relay (18000)</a>
+                    <p style="font-size:0.9em; margin-top:5px;">SMS Emergency: Text 'REGISTER' to 999 first.</p>
+                </div>
+            </div>
+        </div>
     </nav>
     <div id="map"></div>
 </div>
@@ -106,34 +172,38 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 function toggleBucket(id) {
-    var target = document.getElementById('bucket-' + id);
     document.querySelectorAll('.bucket').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.bucket-content').forEach(c => c.style.display = 'none');
-    target.classList.add('active');
-    target.querySelector('.bucket-content').style.display = 'block';
+    const t = document.getElementById('bucket-' + id);
+    t.classList.add('active'); t.querySelector('.bucket-content').style.display = 'block';
+}
+
+function showPane(p, btn) {
+    document.querySelectorAll('.a11y-pane').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.a11y-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('pane-' + p).classList.add('active'); btn.classList.add('active');
 }
 
 (function () {
     var map = L.map('map').setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var liveIsRaining = false;
-
+    var liveRain = false;
     async function fetchWeather() {
         try {
             const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=54.84&longitude=-1.47&current_weather=true");
             const data = await res.json();
             const wCode = data.current_weather.weathercode;
-            const temp = Math.round(data.current_weather.temperature);
+            const wind = data.current_weather.windspeed;
+            const temp = data.current_weather.temperature;
             
             let desc = "Clear";
-            if (wCode > 0) desc = "Cloudy";
-            if ([51, 61, 63, 65, 80].includes(wCode)) { desc = "Raining"; liveIsRaining = true; }
-
-            document.getElementById('live-weather').innerText = desc;
-            document.getElementById('live-temp').innerText = temp + "°C";
-            renderMapContent();
-        } catch (e) { renderMapContent(); }
+            if ([51, 61, 63, 65, 80].includes(wCode)) { desc = "Raining"; liveRain = true; }
+            document.getElementById('val-w').innerText = desc;
+            document.getElementById('val-t').innerText = Math.round(temp) + "°C";
+            document.getElementById('val-wind').innerText = Math.round(wind) + " mph";
+            renderTrail();
+        } catch (e) { renderTrail(); }
     }
 
     var sites = [
@@ -142,7 +212,7 @@ function toggleBucket(id) {
         { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", day: "12:00", night: "23:25", access: "Cobbles" },
         { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", day: "11:00", night: "23:25", access: "Gravel" },
         { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", day: "15:00", night: "23:30", access: "Tarmac" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", day: "13:30", night: "23:35", access: "Firm" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", day: "13:30", night: "23:35", access: "Sloped" },
         { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", day: "09:00", night: "23:24", access: "Grass" },
         { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", day: "08:30", night: "23:18", access: "Level" },
         { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", day: "16:00", night: "23:14", access: "Concrete" },
@@ -158,49 +228,38 @@ function toggleBucket(id) {
         { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", day: "08:00", night: "23:18", access: "Sandy" }
     ];
 
-    var bIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
+    const stages = [
+        { id: 1, name: "Reset", text: "Begin with a wellness system check-in. Focus on breath, body, and stillness." },
+        { id: 2, name: "Expansion", text: "Move toward expansive views. Reflect on your capacity to grow." },
+        { id: 3, name: "Flow", text: "Allow movement and reflection. 'Be' in the current." },
+        { id: 4, name: "Connection", text: "Belonging without blending. Sanctuary where urban meets nature." },
+        { id: 5, name: "Breath", text: "Travel toward the coast. Wide skies and sea air." }
+    ];
 
-    function renderMapContent() {
+    function renderTrail() {
+        const container = document.getElementById('stages-container'); container.innerHTML = '';
+        stages.forEach(st => {
+            const bucket = document.createElement('div'); bucket.className = 'bucket'; bucket.id = 'bucket-' + st.id;
+            bucket.innerHTML = `<div class="bucket-header" onclick="toggleBucket(${st.id})"><strong>Stage ${st.id}: ${st.name}</strong><span>▼</span></div>
+            <div class="bucket-content"><div class="stage-narrative">${st.text}</div><div id="list-${st.id}"></div></div>`;
+            container.appendChild(bucket);
+        });
+
         var coords = [];
-        sites.forEach(function(s) {
-            var marker = L.marker([s.lat, s.lon], {icon: (s.type === "blossom" ? bIcon : new L.Icon.Default())}).addTo(map);
-            
-            let wheelchairNote = "";
-            if (liveIsRaining && (s.access === "Gravel" || s.access === "Grass" || s.access === "Uneven")) {
-                wheelchairNote = `<div class="wheelchair-alert">⚠️ Access Alert: Surface may be soft or slippery for wheelchair users in current rain.</div>`;
-            }
-
-            marker.bindPopup(`
-                <div style="color:#000;">
-                    <strong style="color:#d81b60;">${s.name}</strong><br>
-                    <small>Surface: ${s.access}</small>
-                    ${wheelchairNote}
-                    <img src='${s.img}' class='popup-img'><br>
-                    <div style="font-size:0.85em; border-top:1px solid #ccc; padding-top:5px;">☀️ Day: ${s.day} | 🌙 Night: ${s.night}</div>
-                </div>
-            `);
+        sites.forEach(s => {
+            var marker = L.marker([s.lat, s.lon], {icon: (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default())}).addTo(map);
+            let alert = (liveRain && (s.access === 'Gravel' || s.access === 'Grass' || s.access === 'Sloped')) ? `<div class="wheelchair-alert">♿ Access Note: ${s.access} surface may be slippery or difficult in rain.</div>` : `<div>♿ Surface: ${s.access}</div>`;
+            marker.bindPopup(`<strong style="color:#d81b60;">${s.name}</strong><br>${alert}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small>`);
             coords.push([s.lat, s.lon]);
-            var list = document.getElementById('list-' + s.stage);
-            if(list && !list.innerHTML.includes(s.name)) {
-                var link = document.createElement('div');
-                link.className = 'site-link'; link.textContent = s.name;
-                link.onclick = function() { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
-                list.appendChild(link);
-            }
+            const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
+            link.onclick = () => { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
+            document.getElementById('list-' + s.stage).appendChild(link);
         });
         L.polyline(coords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
     }
 
     fetchWeather();
-
-    var vM = L.marker([54.843, -1.470], {icon: L.icon({iconUrl:'test-van.svg', iconSize:[44,44]})}).addTo(map);
-    document.getElementById('recenter-btn').onclick = function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(p) {
-                var c = [p.coords.latitude, p.coords.longitude]; vM.setLatLng(c); map.flyTo(c, 15);
-            });
-        }
-    };
+    document.getElementById('f-slider').oninput = (e) => document.documentElement.style.setProperty('--font-scale', e.target.value / 100);
 })();
 </script>
 </body>
