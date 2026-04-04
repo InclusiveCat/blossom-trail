@@ -1,879 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <title>Oubaitori Collective Blossom Trail</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Oubaitori Collective Blossom Trail - A personal growth journey across North East England">
-    <link rel="stylesheet" href="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css)"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* ===== RESET ===== */
+        /* ===== UI FOUNDATIONS ===== */
         *, *::before, *::after { box-sizing: border-box; }
-        body, html {
-            margin: 0; padding: 0;
-            height: 100%; width: 100%;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: #000;
-            overflow: hidden;
-        }
-
-        /* ===== LAYOUT ===== */
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
         #app { display: flex; height: 100vh; width: 100vw; }
 
         /* ===== SIDEBAR ===== */
-        #sidebar {
-            width: 380px;
-            min-width: 380px;
-            height: 100vh;
-            background: #000;
-            color: #fff;
-            overflow-y: auto;
-            padding: 20px 25px 30px;
-            border-right: 1px solid #222;
-            z-index: 200;
+        #sidebar { 
+            width: 380px; min-width: 380px; height: 100vh; background: #000; 
+            overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 200; 
         }
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* ===== MOBILE TOGGLE ===== */
-        #sidebar-toggle {
-            display: none;
-            position: fixed;
-            top: 12px; left: 12px;
-            z-index: 1100;
-            background: #d81b60;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 1.2em;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            line-height: 1;
+        /* ===== ACCORDION LOGIC ===== */
+        .stage-bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
+        .stage-header { 
+            background: #111; padding: 15px; cursor: pointer; display: flex; 
+            justify-content: space-between; align-items: center; transition: background 0.2s;
         }
+        .stage-header:hover { background: #1a1a1a; }
+        .stage-header strong { color: #d81b60; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+        .stage-content { display: none; padding: 10px; background: #050505; border-top: 1px solid #222; }
+        .stage-bucket.active .stage-content { display: block; }
+        .stage-icon { font-size: 0.8em; transition: transform 0.3s; color: #888; }
+        .stage-bucket.active .stage-icon { transform: rotate(180deg); }
 
-        /* ===== HEADER ===== */
-        h1 {
-            font-size: 1.5em;
-            margin: 0 0 14px;
-            letter-spacing: 1px;
-            color: #fff;
-            text-transform: uppercase;
-            border-bottom: 2px solid #d81b60;
-            padding-bottom: 10px;
-        }
-
-        /* ===== SIGNATURE ===== */
-        .signature-msg {
-            color: #ddd;
-            font-style: italic;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            border-left: 3px solid #d81b60;
-            padding-left: 12px;
-        }
-
-        /* ===== SIDEBAR IMAGE ===== */
-        .sidebar-placeholder {
-            width: 100%;
-            height: 160px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-            overflow: hidden;
-        }
-        .sidebar-placeholder img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* ===== STAGE CARDS ===== */
-        .stage-section { margin-bottom: 25px; }
-        .stage-title {
-            font-size: 0.72em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #888;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #222;
-            padding-bottom: 5px;
-        }
-        .stage-card {
-            background: #111;
-            padding: 14px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .stage-card strong {
-            color: #d81b60;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.92em;
-        }
-        .stage-card p {
-            margin: 0;
-            font-size: 0.82em;
-            line-height: 1.5;
-            color: #bbb;
-        }
-
-        /* ===== VISION BOX ===== */
-        .vision-box {
-            background: #1a1a1a;
-            border: 1px solid #d81b60;
-            color: #fff;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 0.88em;
-            line-height: 1.5;
-            margin-top: 18px;
-        }
-        .vision-box strong {
-            color: #d81b60;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* ===== SITE NAV LIST ===== */
-        .nav-title {
-            font-size: 0.72em;
-            color: #888;
-            text-transform: uppercase;
-            margin: 35px 0 12px;
-            letter-spacing: 2px;
-        }
-        .site-link {
-            display: block;
-            padding: 11px 13px;
-            margin-bottom: 5px;
-            background: #1a1a1a;
-            border-radius: 6px;
-            cursor: pointer;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.82em;
-            transition: background 0.2s, border-left-width 0.15s;
-            border-left: 0px solid #d81b60;
+        /* ===== SITE LINKS ===== */
+        .site-link { 
+            display: block; padding: 12px; margin-bottom: 6px; background: #111; 
+            border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s;
         }
         .site-link:hover { background: #222; border-left-width: 5px; }
-        .site-link:focus-visible { outline: 3px solid #d81b60; outline-offset: 2px; }
+        .site-name { font-weight: bold; display: block; font-size: 0.9em; margin-bottom: 3px; }
+        .site-meta { font-size: 0.72em; color: #888; line-height: 1.3; }
+        .tag-moon { color: #d81b60; }
 
-        /* ===== MAP ===== */
-        #map { flex-grow: 1; height: 100vh; }
+        /* ===== UI ELEMENTS ===== */
+        h1 { font-size: 1.4em; margin: 0 0 10px; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; }
+        .signature-msg { color: #ccc; font-style: italic; font-size: 0.85em; margin-bottom: 20px; border-left: 3px solid #d81b60; padding-left: 15px; line-height: 1.4; }
+        #map { flex-grow: 1; height: 100vh; background: #111; }
+        .popup-img { width: 100%; border-radius: 4px; margin-top: 8px; }
+        #recenter-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
-        /* ===== RECENTER BUTTON ===== */
-        #recenter-btn {
-            position: fixed;
-            bottom: 25px; right: 20px;
-            z-index: 1000;
-            padding: 12px 20px;
-            background: #d81b60;
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9em;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: background 0.2s;
-        }
-        #recenter-btn:hover { background: #b0003a; }
-
-        /* ===== ACCESSIBILITY WIDGET ===== */
-        #a11y-widget {
-            position: fixed;
-            bottom: 25px; left: 20px;
-            z-index: 1050;
-        }
-
-        #a11y-trigger {
-            padding: 11px 18px;
-            background: #111;
-            border: 2px solid #d81b60;
-            color: #fff;
-            font-size: 0.85em;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: background 0.2s;
-            white-space: nowrap;
-        }
-        #a11y-trigger:hover { background: #1a1a1a; }
-        #a11y-trigger:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-
-        /* ===== ACCESSIBILITY PANEL ===== */
-        #a11y-panel {
-            display: none;
-            position: absolute;
-            bottom: 52px; left: 0;
-            width: 300px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
-        }
-        #a11y-panel.open { display: block; }
-
-        /* Tab bar */
-        .a11y-tabs {
-            display: flex;
-            border-bottom: 1px solid #222;
-        }
-        .a11y-tab {
-            flex: 1;
-            padding: 11px 6px;
-            background: #0a0a0a;
-            color: #888;
-            border: none;
-            font-size: 0.72em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            border-bottom: 2px solid transparent;
-        }
-        .a11y-tab:hover { color: #fff; background: #161616; }
-        .a11y-tab.active {
-            color: #fff;
-            background: #111;
-            border-bottom-color: #d81b60;
-        }
-        .a11y-tab:focus-visible { outline: 3px solid #d81b60; outline-offset: -2px; }
-
-        /* Tab content */
-        .a11y-pane { display: none; padding: 16px; }
-        .a11y-pane.active { display: block; }
-
-        .a11y-section-label {
-            font-size: 0.68em;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #666;
-            margin: 0 0 12px;
-        }
-
-        /* Toggle rows */
-        .a11y-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 13px;
-        }
-        .a11y-row:last-child { margin-bottom: 0; }
-        .a11y-label {
-            font-size: 0.82em;
-            color: #ccc;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Toggle switch */
-        .a11y-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
-        .a11y-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
-        .sw-track {
-            position: absolute; inset: 0;
-            background: #333;
-            border-radius: 24px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .sw-track::after {
-            content: '';
-            position: absolute;
-            width: 18px; height: 18px;
-            background: #fff;
-            border-radius: 50%;
-            top: 3px; left: 3px;
-            transition: transform 0.2s;
-        }
-        .a11y-switch input:checked + .sw-track { background: #d81b60; }
-        .a11y-switch input:checked + .sw-track::after { transform: translateX(18px); }
-        .a11y-switch input:focus-visible + .sw-track { outline: 3px solid #fff; outline-offset: 2px; border-radius: 24px; }
-
-        /* Slider */
-        .a11y-slider-wrap { margin-bottom: 14px; }
-        .a11y-slider-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.82em;
-            color: #ccc;
-            margin-bottom: 7px;
-        }
-        .a11y-slider-header span { color: #d81b60; font-weight: bold; }
-        input[type=range].a11y-slider {
-            width: 100%;
-            accent-color: #d81b60;
-            cursor: pointer;
-        }
-
-        /* Navigation tab content */
-        .radar-toggle-btn {
-            display: block;
-            width: 100%;
-            padding: 11px;
-            background: #00c853;
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.83em;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .radar-toggle-btn:hover { background: #00a844; }
-        .radar-toggle-btn.active { background: #005720; color: #fff; }
-
-        .nav-info {
-            font-size: 0.78em;
-            color: #888;
-            line-height: 1.5;
-            margin-top: 8px;
-        }
-        .nav-info a { color: #00c853; }
-
-        /* Emergency tab content */
-        .bsl-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #d81b60;
-            color: #fff;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.85em;
-            transition: background 0.2s;
-            margin-bottom: 8px;
-        }
-        .bsl-btn:hover { background: #b0003a; }
-        .bsl-btn.secondary {
-            background: #1a1a1a;
-            border: 1px solid #d81b60;
-            font-weight: normal;
-        }
-        .bsl-btn.secondary:hover { background: #2a0018; }
-        .emergency-note {
-            font-size: 0.75em;
-            color: #888;
-            line-height: 1.5;
-            margin-top: 10px;
-        }
-
-        /* ===== ACCESSIBILITY BODY MODES ===== */
-        body.high-contrast #sidebar { background: #000; border-right-color: #fff; }
-        body.high-contrast #a11y-panel { background: #000; border-color: #fff; }
-        body.high-contrast .a11y-tabs { border-bottom-color: #fff; }
-        body.high-contrast .a11y-tab { background: #000; }
-        body.high-contrast .a11y-tab.active { background: #000; border-bottom-color: #fff; }
-        body.high-contrast .stage-card { background: #000; border: 1px solid #fff; }
-        body.high-contrast .vision-box { background: #000; border-color: #fff; }
-        body.high-contrast .site-link { background: #000; border: 1px solid #333; }
-        body.high-contrast h1 { border-bottom-color: #fff; }
-        body.high-contrast .stage-card strong,
-        body.high-contrast .vision-box strong { color: #fff; }
-        body.high-contrast .signature-msg { border-left-color: #fff; }
-        body.high-contrast #a11y-trigger { border-color: #fff; }
-
-        body.dyslexia-font #sidebar,
-        body.dyslexia-font .a11y-label,
-        body.dyslexia-font .site-link,
-        body.dyslexia-font .a11y-pane {
-            font-family: 'Verdana', 'Trebuchet MS', sans-serif;
-            letter-spacing: 0.05em;
-            word-spacing: 0.12em;
-            line-height: 1.8;
-        }
-
-        body.large-text #sidebar { font-size: 1.15em; }
-        body.large-text .a11y-pane { font-size: 1.05em; }
-
-        body.reduce-motion *,
-        body.reduce-motion *::before,
-        body.reduce-motion *::after {
-            transition: none !important;
-            animation: none !important;
-        }
-
-        /* ===== POPUPS ===== */
-        .leaflet-popup-content-wrapper {
-            border-radius: 8px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        .popup-img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-            margin-top: 8px;
-        }
-        .popup-toilet { font-size: 0.85em; color: #333; line-height: 1.5; }
-        .popup-toilet strong { color: #00843d; display: block; margin-bottom: 4px; }
-        .radar-badge {
-            display: inline-block;
-            background: #00c853;
-            color: #000;
-            font-size: 0.75em;
-            font-weight: bold;
-            padding: 2px 7px;
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-
-        /* ===== SKIP LINK ===== */
-        .skip-link {
-            position: absolute;
-            top: -100px; left: 0;
-            background: #d81b60;
-            color: #fff;
-            padding: 8px 14px;
-            z-index: 9999;
-            font-size: 0.9em;
-            border-radius: 0 0 6px 0;
-            text-decoration: none;
-        }
-        .skip-link:focus { top: 0; }
-
-        /* ===== MOBILE ===== */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
             #app { flex-direction: column; }
-            #sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-            #sidebar {
-                position: fixed;
-                top: 0; left: 0;
-                width: 88vw;
-                max-width: 380px;
-                height: 100vh;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 1000;
-                padding: 55px 20px 30px;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.8);
-                min-width: unset;
-            }
-            #sidebar.open { transform: translateX(0); }
-            #sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.6);
-                z-index: 999;
-            }
-            #sidebar-overlay.open { display: block; }
-            #map { width: 100vw; height: 100vh; }
-            #recenter-btn { bottom: 20px; right: 15px; padding: 10px 16px; font-size: 0.85em; }
-            #a11y-widget { bottom: 20px; left: 15px; }
-            #a11y-panel { width: 260px; }
-            h1 { font-size: 1.3em; }
-        }
-
-        @media (max-width: 400px) {
-            #sidebar { width: 95vw; }
-            #a11y-panel { width: 230px; }
+            #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222; min-width: auto; max-height: 50vh; }
+            #map { height: 50vh; }
         }
     </style>
 </head>
 <body>
 
-<a href="#map" class="skip-link">Skip to map</a>
-<button id="sidebar-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">☰</button>
-<div id="sidebar-overlay" role="presentation"></div>
-
 <div id="app">
-
-    <!-- ===== SIDEBAR ===== -->
-    <nav id="sidebar" aria-label="Trail navigation">
-        <h1>Oubaitori Collective Blossom Trail</h1>
-
-        <div class="signature-msg" role="note">
-            Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.
-        </div>
-
-        <div class="sidebar-placeholder">
-            <img src="blossom.jpg" alt="Blossom trail scenic landscape">
-        </div>
-
-        <div class="stage-section" role="region" aria-label="Trail stages">
-            <div class="stage-title">The 5 Stages of Growth</div>
-            <div class="stage-card">
-                <strong>Stage 1: Reset</strong>
-                <p>Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency. Anchor your mindset; the trail doesn't need to rush before growth. The direction you take, either North, South, East or West, all will bring unique experiences on your personal journey!</p>
+    <nav id="sidebar">
+        <h1>Oubaitori Trail</h1>
+        <div class="signature-msg">Anchor at Houghton-le-Spring. Explore at your own pace.</div>
+        
+        <div class="stage-bucket active" id="bucket-1">
+            <div class="stage-header" onclick="toggleBucket(1)">
+                <strong>Stage 1: Reset (The Anchor)</strong>
+                <span class="stage-icon">▼</span>
             </div>
-            <div class="stage-card">
+            <div class="stage-content" id="list-1"></div>
+        </div>
+
+        <div class="stage-bucket" id="bucket-2">
+            <div class="stage-header" onclick="toggleBucket(2)">
                 <strong>Stage 2: Expansion</strong>
-                <p>Washington or Durham: It's your choice! Move toward expansive views. Blossom here is open and wide. Reflect on your 'capacity' to grow and create space to integrate everything.</p>
+                <span class="stage-icon">▼</span>
             </div>
-            <div class="stage-card">
+            <div class="stage-content" id="list-2"></div>
+        </div>
+
+        <div class="stage-bucket" id="bucket-3">
+            <div class="stage-header" onclick="toggleBucket(3)">
                 <strong>Stage 3: Flow</strong>
-                <p>Angel of the North or wave watching at Seaham: You choose. Head along the fluid paths. Allow movement + reflection. Blossom reflects an emotional, fluid journey where you allow yourself to 'be' in the current.</p>
+                <span class="stage-icon">▼</span>
             </div>
-            <div class="stage-card">
+            <div class="stage-content" id="list-3"></div>
+        </div>
+
+        <div class="stage-bucket" id="bucket-4">
+            <div class="stage-header" onclick="toggleBucket(4)">
                 <strong>Stage 4: Connection</strong>
-                <p>Jesmond Dene or Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'. Balance your environment and find stillness in the heart of the region.</p>
+                <span class="stage-icon">▼</span>
             </div>
-            <div class="stage-card">
+            <div class="stage-content" id="list-4"></div>
+        </div>
+
+        <div class="stage-bucket" id="bucket-5">
+            <div class="stage-header" onclick="toggleBucket(5)">
                 <strong>Stage 5: Breath</strong>
-                <p>Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'. Use the wild coastal blossom to integrate the entire journey.</p>
+                <span class="stage-icon">▼</span>
             </div>
+            <div class="stage-content" id="list-5"></div>
         </div>
-
-        <div class="vision-box" role="note">
-            <strong>Closing Vision</strong>
-            <p>Growth doesn't require pressure. Wherever your starting point, the destination is your choice. A new landmark trail and a new community of belonging and choice.</p>
-            <p>Join the Oubaitori Collective, where space to blossom truly exists.</p>
-        </div>
-
-        <div class="nav-title">Join us and explore!</div>
-        <div id="site-list" role="list"></div>
     </nav>
-
-    <div id="map" role="main" aria-label="Interactive blossom trail map"></div>
+    <div id="map"></div>
 </div>
 
-<!-- ===== RECENTER BUTTON ===== -->
-<button id="recenter-btn" aria-label="Recenter map on your location">📍 Recenter on Me</button>
+<button id="recenter-btn">📍 Recenter on Van</button>
 
-<!-- ===== ACCESSIBILITY WIDGET ===== -->
-<div id="a11y-widget" role="region" aria-label="Accessibility settings">
-
-    <div id="a11y-panel" role="dialog" aria-label="Accessibility options" aria-modal="false">
-
-        <!-- Tab buttons -->
-        <div class="a11y-tabs" role="tablist" aria-label="Accessibility categories">
-            <button class="a11y-tab active" role="tab" aria-selected="true"  aria-controls="pane-display"  id="tab-display">Display</button>
-            <button class="a11y-tab"        role="tab" aria-selected="false" aria-controls="pane-navigate" id="tab-navigate">Navigate</button>
-            <button class="a11y-tab"        role="tab" aria-selected="false" aria-controls="pane-emergency" id="tab-emergency">Emergency</button>
-        </div>
-
-        <!-- DISPLAY TAB -->
-        <div class="a11y-pane active" id="pane-display" role="tabpanel" aria-labelledby="tab-display">
-            <p class="a11y-section-label">Display Settings</p>
-
-            <div class="a11y-slider-wrap">
-                <div class="a11y-slider-header">
-                    <span>Text Size</span>
-                    <span id="font-size-val">100%</span>
-                </div>
-                <input type="range" class="a11y-slider" id="font-size-slider"
-                       min="90" max="130" step="5" value="100"
-                       aria-label="Adjust text size">
-            </div>
-
-            <div class="a11y-row">
-                <label class="a11y-label" for="toggle-contrast">⬛ High Contrast</label>
-                <label class="a11y-switch">
-                    <input type="checkbox" id="toggle-contrast" role="switch" aria-checked="false">
-                    <span class="sw-track"></span>
-                </label>
-            </div>
-            <div class="a11y-row">
-                <label class="a11y-label" for="toggle-dyslexia">🔤 Dyslexia Font</label>
-                <label class="a11y-switch">
-                    <input type="checkbox" id="toggle-dyslexia" role="switch" aria-checked="false">
-                    <span class="sw-track"></span>
-                </label>
-            </div>
-            <div class="a11y-row">
-                <label class="a11y-label" for="toggle-largetext">🔍 Large Text</label>
-                <label class="a11y-switch">
-                    <input type="checkbox" id="toggle-largetext" role="switch" aria-checked="false">
-                    <span class="sw-track"></span>
-                </label>
-            </div>
-            <div class="a11y-row">
-                <label class="a11y-label" for="toggle-motion">✋ Reduce Motion</label>
-                <label class="a11y-switch">
-                    <input type="checkbox" id="toggle-motion" role="switch" aria-checked="false">
-                    <span class="sw-track"></span>
-                </label>
-            </div>
-        </div>
-
-        <!-- NAVIGATE TAB -->
-        <div class="a11y-pane" id="pane-navigate" role="tabpanel" aria-labelledby="tab-navigate">
-            <p class="a11y-section-label">Accessible Navigation</p>
-            <button class="radar-toggle-btn" id="radar-toggle" aria-pressed="false">
-                🔑 Show Accessible Toilets
-            </button>
-            <p class="nav-info">
-                Accessible toilet locations across the trail. A <strong style="color:#00c853">RADAR key</strong> is required.
-                Get yours from local councils, disability charities, or
-                <a href="[disabilityrightsuk.org](https://www.disabilityrightsuk.org/radar-nks-key-scheme)" target="_blank" rel="noopener noreferrer">Disability Rights UK</a>.
-            </p>
-        </div>
-
-        <!-- EMERGENCY TAB -->
-        <div class="a11y-pane" id="pane-emergency" role="tabpanel" aria-labelledby="tab-emergency">
-            <p class="a11y-section-label">Emergency Support</p>
-            <a href="[999bsl.co.uk](https://999bsl.co.uk)" target="_blank" rel="noopener noreferrer" class="bsl-btn"
-               aria-label="Open 999 BSL video emergency service in new tab">
-                🤟 999 BSL — Video Emergency Call
-            </a>
-            <a href="[emergencysms.net](https://www.emergencysms.net)" target="_blank" rel="noopener noreferrer" class="bsl-btn secondary"
-               aria-label="Register for Emergency SMS text 999 service in new tab">
-                📱 Register: Text 999 (Emergency SMS)
-            </a>
-            <p class="emergency-note">
-                999 BSL allows Deaf BSL users to make a live video call to emergency services — 24/7, free to use.
-                Emergency SMS lets you text 999 if you cannot make a voice call. Register in advance.
-            </p>
-        </div>
-
-    </div>
-
-    <button id="a11y-trigger" aria-label="Open accessibility options" aria-expanded="false" aria-controls="a11y-panel">
-        Accessibility
-    </button>
-
-</div>
-
-<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js)"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GCnc=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+// Accordion Toggle Function
+function toggleBucket(id) {
+    document.querySelectorAll('.stage-bucket').forEach(b => b.classList.remove('active'));
+    document.getElementById('bucket-' + id).classList.add('active');
+}
+
 (function () {
-
-    // ===== MOBILE SIDEBAR =====
-    var sidebarToggle = document.getElementById('sidebar-toggle');
-    var sidebar       = document.getElementById('sidebar');
-    var overlay       = document.getElementById('sidebar-overlay');
-
-    function openSidebar() {
-        sidebar.classList.add('open');
-        overlay.classList.add('open');
-        sidebarToggle.setAttribute('aria-expanded', 'true');
-    }
-    function closeSidebar() {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('open');
-        sidebarToggle.setAttribute('aria-expanded', 'false');
-    }
-    sidebarToggle.addEventListener('click', function () {
-        sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-    });
-    overlay.addEventListener('click', closeSidebar);
-
-    // ===== ACCESSIBILITY PANEL =====
-    var a11yTrigger = document.getElementById('a11y-trigger');
-    var a11yPanel   = document.getElementById('a11y-panel');
-
-    a11yTrigger.addEventListener('click', function () {
-        var isOpen = a11yPanel.classList.toggle('open');
-        a11yTrigger.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    // Close panel when clicking outside
-    document.addEventListener('click', function (e) {
-        if (!document.getElementById('a11y-widget').contains(e.target)) {
-            a11yPanel.classList.remove('open');
-            a11yTrigger.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // ===== TABS =====
-    var tabs  = document.querySelectorAll('.a11y-tab');
-    var panes = document.querySelectorAll('.a11y-pane');
-
-    tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-            tabs.forEach(function (t) {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
-            panes.forEach(function (p) { p.classList.remove('active'); });
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-            document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
-        });
-    });
-
-    // ===== TOGGLE SWITCHES =====
-    function makeToggle(id, bodyClass) {
-        var cb = document.getElementById(id);
-        cb.addEventListener('change', function () {
-            document.body.classList.toggle(bodyClass, cb.checked);
-            cb.setAttribute('aria-checked', String(cb.checked));
-        });
-    }
-    makeToggle('toggle-contrast',  'high-contrast');
-    makeToggle('toggle-dyslexia',  'dyslexia-font');
-    makeToggle('toggle-largetext', 'large-text');
-    makeToggle('toggle-motion',    'reduce-motion');
-
-    // ===== FONT SIZE SLIDER =====
-    var fontSlider = document.getElementById('font-size-slider');
-    var fontVal    = document.getElementById('font-size-val');
-    fontSlider.addEventListener('input', function () {
-        fontVal.textContent = fontSlider.value + '%';
-        sidebar.style.fontSize = (fontSlider.value / 100) + 'em';
-    });
-
-    // ===== MAP =====
-    var map = L.map('map', { zoomControl: true });
-
-    L.tileLayer('[{s}.tile.openstreetmap.org](https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png)', {
-        attribution: '&copy; <a href="[openstreetmap.org](https://www.openstreetmap.org/copyright)">OpenStreetMap</a> contributors',
-        maxZoom: 19
+    var map = L.map('map').setView([54.843, -1.470], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
     }).addTo(map);
 
-    // ===== ICONS =====
-    var blossomIcon = L.icon({
-        iconUrl:     'blossom1.svg',
-        iconSize:    [36, 36],
-        iconAnchor:  [18, 36],
-        popupAnchor: [0, -32]
-    });
+    var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -25] });
+    var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [40, 40], iconAnchor: [20, 20] });
 
-    var vanIcon = L.icon({
-        iconUrl:    'test-van.svg',
-        iconSize:   [50, 50],
-        iconAnchor: [25, 25]
-    });
-
-    var radarIcon = L.divIcon({
-        className: '',
-        html: '<div style="background:#00c853;color:#000;font-size:1em;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #005720;box-shadow:0 2px 6px rgba(0,0,0,0.4);" aria-label="Accessible toilet">🔑</div>',
-        iconSize:    [32, 32],
-        iconAnchor:  [16, 16],
-        popupAnchor: [0, -18]
-    });
-
-    // ===== TRAIL SITES =====
+    // Organized Site Data
     var sites = [
-        { name: "Houghton-le-Spring", lat: 54.8432688, lon: -1.4707168, img: "white-harmony.jpg", type: "blossom"  },
-        { name: "Washington Old Hall",  lat: 54.9027,    lon: -1.5165,   img: "washington.jpg",   type: "blossom"  },
-        { name: "Angel of the North",   lat: 54.9141,    lon: -1.5895,   img: "angel.jpg",        type: "landmark" },
-        { name: "Durham City",          lat: 54.773,     lon: -1.576,    img: "durham.jpg",       type: "landmark" },
-        { name: "Old Durham Gardens",   lat: 54.773,     lon: -1.558,    img: "old-durham.jpg",   type: "blossom"  },
-        { name: "Jesmond Dene",         lat: 54.9900,    lon: -1.5900,   img: "jesmond.jpg",      type: "blossom"  },
-        { name: "Tyne Bridge",          lat: 54.968,     lon: -1.606,    img: "tyne-bridge.jpg",  type: "landmark" },
-        { name: "Whitley Lodge",        lat: 55.0501,    lon: -1.4510,   img: "whitley.jpg",      type: "blossom"  },
-        { name: "South Marine Park",    lat: 55.0001,    lon: -1.4202,   img: "south-marine.jpg", type: "landmark" },
-        { name: "Roker Pier",           lat: 54.924,     lon: -1.365,    img: "roker.jpg",        type: "landmark" },
-        { name: "Preston Park",         lat: 54.5360,    lon: -1.3370,   img: "preston.jpg",      type: "blossom"  },
-        { name: "Ormesby Hall",         lat: 54.5432,    lon: -1.1830,   img: "ormesby.jpg",      type: "blossom"  },
-        { name: "Gibside",              lat: 54.9245,    lon: -1.7267,   img: "gibside.jpg",      type: "blossom"  },
-        { name: "Saltburn Pier",        lat: 54.586,     lon: -0.978,    img: "saltburn.jpg",     type: "landmark" },
-        { name: "Hadrian's Wall",       lat: 55.002,     lon: -2.360,    img: "hadrian.jpg",      type: "landmark" },
-        { name: "Alnwick Garden",       lat: 55.4155,    lon: -1.7060,   img: "alnwick.jpg",      type: "blossom"  },
-        { name: "Bamburgh Castle",      lat: 55.6089,    lon: -1.7099,   img: "bamburgh.jpg",     type: "landmark" },
-        { name: "Castle Eden Dene",     lat: 54.75000,   lon: -1.32639,  img: "castle-eden.jpg",  type: "landmark" },
-        { name: "Seaham",               lat: 54.823,     lon: -1.3189,   img: "seaham.jpg",       type: "landmark" }
+        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432, lon: -1.4707, img: "white-harmony.jpg", sensory: "🤫 Quiet Anchor", moon: "⭐ High Visibility" },
+        
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, img: "washington.jpg", sensory: "🧘 Enclosed", moon: "🌙 Garden Shadows" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, img: "durham.jpg", sensory: "🚶 Structured", moon: "🌙 Cathedral Glow" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, img: "old-durham.jpg", sensory: "🤫 Stillness", moon: "⭐ Clear Sky" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, img: "preston.jpg", sensory: "🚶 Level Ground", moon: "🌙 Wide View" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, img: "ormesby.jpg", sensory: "🤫 Silent", moon: "🌙 Stately" },
+
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, img: "angel.jpg", sensory: "🌬️ Exposed/Active", moon: "⭐ Silhouette" },
+        { name: "Seaham Coast", stage: 3, lat: 54.823, lon: -1.3189, img: "seaham.jpg", sensory: "🌊 Sound of Waves", moon: "🌙 Water Reflection" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, img: "roker.jpg", sensory: "🌊 High Sensory", moon: "🌙 Lighthouse" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, img: "south-marine.jpg", sensory: "🚶 Dynamic", moon: "⭐ Bright" },
+
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, img: "jesmond.jpg", sensory: "🌳 Nature Sanctuary", moon: "🌑 Dappled Light" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, img: "tyne-bridge.jpg", sensory: "🏙️ Urban Hum", moon: "🏙️ City Lights" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, img: "alnwick.jpg", sensory: "🚶 High Activity", moon: "🌙 Lit Paths" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, img: "castle-eden.jpg", sensory: "🌳 Deep Forest", moon: "🌑 Deep Dark" },
+
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, img: "gibside.jpg", sensory: "🌳 Wide Vistas", moon: "⭐ Dark Sky" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, img: "whitley.jpg", sensory: "🌊 Brisk Sea Air", moon: "🌙 Horizon" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, img: "saltburn.jpg", sensory: "🌊 Cliffs/Waves", moon: "🌙 Dramatic" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, img: "hadrian.jpg", sensory: "🌬️ Wild/Free", moon: "⭐ Stargazing" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, img: "bamburgh.jpg", sensory: "🌊 Expansive", moon: "⭐ Stark" }
     ];
 
-    // ===== RADAR TOILETS =====
-    var radarToilets = [
-        { name: "Houghton-le-Spring Town Centre", lat: 54.8420, lon: -1.4730, notes: "Near Market Place. RADAR key required." },
-        { name: "Washington Galleries",           lat: 54.9004, lon: -1.5230, notes: "Inside Washington Galleries shopping centre." },
-        { name: "Durham Bus Station",             lat: 54.7760, lon: -1.5770, notes: "Adjacent to the main bus station." },
-        { name: "Durham Market Place",            lat: 54.7745, lon: -1.5765, notes: "Town centre, near the Gala Theatre." },
-        { name: "Newcastle Grainger Market",      lat: 54.9726, lon: -1.6130, notes: "City centre. Managed facility." },
-        { name: "Jesmond Dene Car Park",          lat: 54.9910, lon: -1.5870, notes: "Main car park entrance, near café." },
-        { name: "South Shields Seafront",         lat: 55.0050, lon: -1.4250, notes: "Near Marine Park, seafront location." },
-        { name: "Roker Seafront",                 lat: 54.9250, lon: -1.3600, notes: "Promenade toilets, RADAR key required." },
-        { name: "Seaham Harbour",                 lat: 54.8400, lon: -1.3250, notes: "Harbour area public facilities." },
-        { name: "Saltburn Seafront",              lat: 54.5850, lon: -0.9820, notes: "Near the pier. Seasonal opening." },
-        { name: "Preston Park",                   lat: 54.5370, lon: -1.3380, notes: "Inside park near café area." },
-        { name: "Alnwick Bus Station",            lat: 55.4140, lon: -1.7040, notes: "Town centre, near Alnwick Garden." },
-        { name: "Bamburgh Village Car Park",      lat: 55.6080, lon: -1.7110, notes: "Village car park toilet block." },
-        { name: "Gibside Car Park",               lat: 54.9240, lon: -1.7280, notes: "National Trust car park facilities." },
-        { name: "Angel of the North Car Park",    lat: 54.9135, lon: -1.5910, notes: "Main visitor car park." }
-    ];
-
-    // ===== BUILD MARKERS =====
     var markerGroup = L.featureGroup();
     var trailCoords = [];
-    var siteList    = document.getElementById('site-list');
 
-    sites.forEach(function (s, index) {
-        var m = L.marker([s.lat, s.lon], s.type === 'blossom' ? { icon: blossomIcon } : {});
-        m.bindPopup(
-            '<strong style="font-size:1em;">' + s.name + '</strong>' +
-            '<img src="' + s.img + '" class="popup-img" alt="' + s.name + '">',
-            { maxWidth: 220 }
-        );
-        markerGroup.addLayer(m);
+    sites.forEach(function(s) {
+        // Add to Map
+        var m = L.marker([s.lat, s.lon], {icon: blossomIcon}).addTo(markerGroup);
+        m.bindPopup(`<strong>${s.name}</strong><br><span class="tag-moon">${s.moon}</span><img src='${s.img}' class='popup-img'>`);
         trailCoords.push([s.lat, s.lon]);
 
-        var link = document.createElement('a');
+        // Add to Accordion
+        var list = document.getElementById('list-' + s.stage);
+        var link = document.createElement('div');
         link.className = 'site-link';
-        link.setAttribute('role', 'listitem');
-        link.setAttribute('tabindex', '0');
-        link.textContent = (index + 1) + '. ' + s.name;
-        link.addEventListener('click', function () {
+        link.innerHTML = `
+            <span class="site-name">${s.name}</span>
+            <span class="site-meta">${s.sensory} | <span class="tag-moon">${s.moon}</span></span>
+        `;
+        link.onclick = function() {
             map.flyTo([s.lat, s.lon], 14);
             m.openPopup();
-            if (window.innerWidth <= 768) closeSidebar();
-        });
-        link.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); link.click(); }
-        });
-        siteList.appendChild(link);
+        };
+        list.appendChild(link);
     });
 
     markerGroup.addTo(map);
-
-    // Trail line
-    L.polyline(trailCoords, {
-        color: '#d81b60', weight: 4, opacity: 0.5, dashArray: '10, 15'
-    }).addTo(map);
-
+    L.polyline(trailCoords, {color: '#d81b60', weight: 2, opacity: 0.3, dashArray: '5, 10'}).addTo(map);
     map.fitBounds(markerGroup.getBounds().pad(0.1));
 
-    // ===== RADAR LAYER =====
-    var radarGroup   = L.featureGroup();
-    var radarVisible = false;
-
-    radarToilets.forEach(function (t) {
-        var m = L.marker([t.lat, t.lon], { icon: radarIcon });
-        m.bindPopup(
-            '<div class="popup-toilet">' +
-            '<span class="radar-badge">🔑 RADAR Key</span>' +
-            '<strong>' + t.name + '</strong>' +
-            t.notes + '</div>',
-            { maxWidth: 200 }
-        );
-        radarGroup.addLayer(m);
-    });
-
-    document.getElementById('radar-toggle').addEventListener('click', function () {
-        var btn = document.getElementById('radar-toggle');
-        radarVisible = !radarVisible;
-        if (radarVisible) {
-            radarGroup.addTo(map);
-            btn.textContent = '🔑 Hide Accessible Toilets';
-            btn.classList.add('active');
-            btn.setAttribute('aria-pressed', 'true');
-        } else {
-            map.removeLayer(radarGroup);
-            btn.textContent = '🔑 Show Accessible Toilets';
-            btn.classList.remove('active');
-            btn.setAttribute('aria-pressed', 'false');
-        }
-    });
-
-    // ===== LIVE LOCATION =====
-    var vanMarker = L.marker([54.842, -1.468], { icon: vanIcon }).addTo(map);
-    vanMarker.bindTooltip('You are here', { permanent: false, direction: 'top' });
-
-    if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function (pos) {
-            vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-        }, null, { enableHighAccuracy: true });
-    }
-
-    document.getElementById('recenter-btn').addEventListener('click', function () {
-        map.setView(vanMarker.getLatLng(), 15);
-    });
-
-}());
+    // Van Tracker
+    var vanMarker = L.marker([54.842, -1.468], {icon: vanIcon}).addTo(map);
+    document.getElementById('recenter-btn').onclick = function() { map.setView(vanMarker.getLatLng(), 15); };
+})();
 </script>
 </body>
 </html>
-
-
