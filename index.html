@@ -4,9 +4,10 @@
     <title>Oubaitori Collective Blossom Trail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Oubaitori Collective Blossom Trail - A personal growth journey across North East England">
-    <link rel="stylesheet" href="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css)" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css)"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ===== RESET ===== */
         *, *::before, *::after { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0;
@@ -17,11 +18,7 @@
         }
 
         /* ===== LAYOUT ===== */
-        #app {
-            display: flex;
-            height: 100vh;
-            width: 100vw;
-        }
+        #app { display: flex; height: 100vh; width: 100vw; }
 
         /* ===== SIDEBAR ===== */
         #sidebar {
@@ -34,17 +31,15 @@
             padding: 20px 25px 30px;
             border-right: 1px solid #222;
             z-index: 200;
-            transition: transform 0.3s ease;
         }
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        /* ===== MOBILE SIDEBAR TOGGLE ===== */
+        /* ===== MOBILE TOGGLE ===== */
         #sidebar-toggle {
             display: none;
             position: fixed;
-            top: 12px;
-            left: 12px;
+            top: 12px; left: 12px;
             z-index: 1100;
             background: #d81b60;
             color: #fff;
@@ -89,10 +84,7 @@
             border: 1px solid #333;
             overflow: hidden;
         }
-        .sidebar-placeholder img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-        }
+        .sidebar-placeholder img { width: 100%; height: 100%; object-fit: cover; }
 
         /* ===== STAGE CARDS ===== */
         .stage-section { margin-bottom: 25px; }
@@ -143,94 +135,6 @@
             margin-bottom: 5px;
         }
 
-        /* ===== 999 BSL EMERGENCY BOX ===== */
-        #bsl-box {
-            background: #1a0010;
-            border: 2px solid #d81b60;
-            border-radius: 10px;
-            padding: 16px;
-            margin: 20px 0;
-        }
-        #bsl-box h2 {
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #d81b60;
-            margin: 0 0 10px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        #bsl-box p {
-            font-size: 0.8em;
-            color: #ddd;
-            margin: 0 0 10px;
-            line-height: 1.5;
-        }
-        .bsl-btn {
-            display: block;
-            width: 100%;
-            padding: 11px;
-            background: #d81b60;
-            color: #fff;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-            transition: background 0.2s;
-            margin-bottom: 6px;
-        }
-        .bsl-btn:hover { background: #b0003a; }
-        .bsl-btn.secondary {
-            background: #2a0018;
-            border: 1px solid #d81b60;
-            font-weight: normal;
-        }
-        .bsl-btn.secondary:hover { background: #3d0025; }
-
-        /* ===== RADAR KEY BOX ===== */
-        #radar-box {
-            background: #001a0d;
-            border: 2px solid #00c853;
-            border-radius: 10px;
-            padding: 16px;
-            margin: 20px 0;
-        }
-        #radar-box h2 {
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #00c853;
-            margin: 0 0 8px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        #radar-box p {
-            font-size: 0.78em;
-            color: #ccc;
-            margin: 0 0 10px;
-            line-height: 1.5;
-        }
-        .radar-toggle-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background: #00c853;
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.83em;
-            cursor: pointer;
-            transition: background 0.2s;
-            text-align: center;
-        }
-        .radar-toggle-btn:hover { background: #00a844; }
-        .radar-toggle-btn.active { background: #005720; color: #fff; }
-
         /* ===== SITE NAV LIST ===== */
         .nav-title {
             font-size: 0.72em;
@@ -256,20 +160,16 @@
         .site-link:focus-visible { outline: 3px solid #d81b60; outline-offset: 2px; }
 
         /* ===== MAP ===== */
-        #map {
-            flex-grow: 1;
-            height: 100vh;
-        }
+        #map { flex-grow: 1; height: 100vh; }
 
         /* ===== RECENTER BUTTON ===== */
         #recenter-btn {
             position: fixed;
-            bottom: 25px;
-            right: 20px;
+            bottom: 25px; right: 20px;
             z-index: 1000;
             padding: 12px 20px;
             background: #d81b60;
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 30px;
             cursor: pointer;
@@ -283,135 +183,201 @@
         /* ===== ACCESSIBILITY WIDGET ===== */
         #a11y-widget {
             position: fixed;
-            bottom: 25px;
-            left: 20px;
-            z-index: 1000;
+            bottom: 25px; left: 20px;
+            z-index: 1050;
         }
+
         #a11y-trigger {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #1a1a1a;
+            padding: 11px 18px;
+            background: #111;
             border: 2px solid #d81b60;
             color: #fff;
-            font-size: 1.4em;
+            font-size: 0.85em;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            border-radius: 30px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: background 0.2s;
+            white-space: nowrap;
         }
-        #a11y-trigger:hover { background: #2a2a2a; }
+        #a11y-trigger:hover { background: #1a1a1a; }
         #a11y-trigger:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
+        /* ===== ACCESSIBILITY PANEL ===== */
         #a11y-panel {
             display: none;
             position: absolute;
-            bottom: 62px;
-            left: 0;
-            width: 270px;
+            bottom: 52px; left: 0;
+            width: 300px;
             background: #111;
             border: 1px solid #333;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
         }
         #a11y-panel.open { display: block; }
 
-        #a11y-panel h3 {
-            font-size: 0.72em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #888;
-            margin: 0 0 14px;
-            padding-bottom: 8px;
+        /* Tab bar */
+        .a11y-tabs {
+            display: flex;
             border-bottom: 1px solid #222;
         }
+        .a11y-tab {
+            flex: 1;
+            padding: 11px 6px;
+            background: #0a0a0a;
+            color: #888;
+            border: none;
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .a11y-tab:hover { color: #fff; background: #161616; }
+        .a11y-tab.active {
+            color: #fff;
+            background: #111;
+            border-bottom-color: #d81b60;
+        }
+        .a11y-tab:focus-visible { outline: 3px solid #d81b60; outline-offset: -2px; }
 
+        /* Tab content */
+        .a11y-pane { display: none; padding: 16px; }
+        .a11y-pane.active { display: block; }
+
+        .a11y-section-label {
+            font-size: 0.68em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #666;
+            margin: 0 0 12px;
+        }
+
+        /* Toggle rows */
         .a11y-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+            margin-bottom: 13px;
         }
         .a11y-row:last-child { margin-bottom: 0; }
-
         .a11y-label {
             font-size: 0.82em;
             color: #ccc;
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
         }
 
         /* Toggle switch */
-        .a11y-switch {
-            position: relative;
-            width: 42px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-        .a11y-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
-        .a11y-switch-track {
-            position: absolute;
-            inset: 0;
+        .a11y-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+        .a11y-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+        .sw-track {
+            position: absolute; inset: 0;
             background: #333;
             border-radius: 24px;
             cursor: pointer;
             transition: background 0.2s;
         }
-        .a11y-switch-track::after {
+        .sw-track::after {
             content: '';
             position: absolute;
-            width: 18px;
-            height: 18px;
+            width: 18px; height: 18px;
             background: #fff;
             border-radius: 50%;
-            top: 3px;
-            left: 3px;
+            top: 3px; left: 3px;
             transition: transform 0.2s;
         }
-        .a11y-switch input:checked + .a11y-switch-track { background: #d81b60; }
-        .a11y-switch input:checked + .a11y-switch-track::after { transform: translateX(18px); }
-        .a11y-switch input:focus-visible + .a11y-switch-track { outline: 3px solid #fff; outline-offset: 2px; }
+        .a11y-switch input:checked + .sw-track { background: #d81b60; }
+        .a11y-switch input:checked + .sw-track::after { transform: translateX(18px); }
+        .a11y-switch input:focus-visible + .sw-track { outline: 3px solid #fff; outline-offset: 2px; border-radius: 24px; }
 
-        /* Font size slider */
-        .a11y-slider-row {
-            margin-bottom: 12px;
-        }
-        .a11y-slider-label {
-            font-size: 0.82em;
-            color: #ccc;
+        /* Slider */
+        .a11y-slider-wrap { margin-bottom: 14px; }
+        .a11y-slider-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
+            font-size: 0.82em;
+            color: #ccc;
+            margin-bottom: 7px;
         }
-        .a11y-slider-label span { color: #d81b60; font-weight: bold; }
+        .a11y-slider-header span { color: #d81b60; font-weight: bold; }
         input[type=range].a11y-slider {
             width: 100%;
             accent-color: #d81b60;
             cursor: pointer;
         }
 
-        /* ===== ACCESSIBILITY MODES ===== */
-        body.large-text #sidebar { font-size: 1.15em; }
-        body.large-text .stage-card p { font-size: 0.92em; }
-        body.large-text .site-link { font-size: 0.9em; }
-        body.large-text #a11y-panel { font-size: 1.05em; }
+        /* Navigation tab content */
+        .radar-toggle-btn {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            background: #00c853;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.83em;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .radar-toggle-btn:hover { background: #00a844; }
+        .radar-toggle-btn.active { background: #005720; color: #fff; }
 
+        .nav-info {
+            font-size: 0.78em;
+            color: #888;
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+        .nav-info a { color: #00c853; }
+
+        /* Emergency tab content */
+        .bsl-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #d81b60;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85em;
+            transition: background 0.2s;
+            margin-bottom: 8px;
+        }
+        .bsl-btn:hover { background: #b0003a; }
+        .bsl-btn.secondary {
+            background: #1a1a1a;
+            border: 1px solid #d81b60;
+            font-weight: normal;
+        }
+        .bsl-btn.secondary:hover { background: #2a0018; }
+        .emergency-note {
+            font-size: 0.75em;
+            color: #888;
+            line-height: 1.5;
+            margin-top: 10px;
+        }
+
+        /* ===== ACCESSIBILITY BODY MODES ===== */
         body.high-contrast #sidebar { background: #000; border-right-color: #fff; }
         body.high-contrast #a11y-panel { background: #000; border-color: #fff; }
+        body.high-contrast .a11y-tabs { border-bottom-color: #fff; }
+        body.high-contrast .a11y-tab { background: #000; }
+        body.high-contrast .a11y-tab.active { background: #000; border-bottom-color: #fff; }
         body.high-contrast .stage-card { background: #000; border: 1px solid #fff; }
         body.high-contrast .vision-box { background: #000; border-color: #fff; }
-        body.high-contrast .site-link { background: #000; border: 1px solid #444; }
+        body.high-contrast .site-link { background: #000; border: 1px solid #333; }
         body.high-contrast h1 { border-bottom-color: #fff; }
-        body.high-contrast .stage-card strong { color: #fff; }
+        body.high-contrast .stage-card strong,
         body.high-contrast .vision-box strong { color: #fff; }
         body.high-contrast .signature-msg { border-left-color: #fff; }
         body.high-contrast #a11y-trigger { border-color: #fff; }
@@ -419,19 +385,24 @@
         body.dyslexia-font #sidebar,
         body.dyslexia-font .a11y-label,
         body.dyslexia-font .site-link,
-        body.dyslexia-font #a11y-panel {
+        body.dyslexia-font .a11y-pane {
             font-family: 'Verdana', 'Trebuchet MS', sans-serif;
-            letter-spacing: 0.04em;
-            word-spacing: 0.1em;
+            letter-spacing: 0.05em;
+            word-spacing: 0.12em;
             line-height: 1.8;
         }
 
-        body.reduce-motion * {
+        body.large-text #sidebar { font-size: 1.15em; }
+        body.large-text .a11y-pane { font-size: 1.05em; }
+
+        body.reduce-motion *,
+        body.reduce-motion *::before,
+        body.reduce-motion *::after {
             transition: none !important;
             animation: none !important;
         }
 
-        /* ===== MAP POPUPS ===== */
+        /* ===== POPUPS ===== */
         .leaflet-popup-content-wrapper {
             border-radius: 8px;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -442,13 +413,9 @@
             border-radius: 4px;
             margin-top: 8px;
         }
-        .popup-toilet {
-            font-size: 0.85em;
-            color: #333;
-            line-height: 1.5;
-        }
+        .popup-toilet { font-size: 0.85em; color: #333; line-height: 1.5; }
         .popup-toilet strong { color: #00843d; display: block; margin-bottom: 4px; }
-        .popup-toilet .radar-badge {
+        .radar-badge {
             display: inline-block;
             background: #00c853;
             color: #000;
@@ -462,8 +429,7 @@
         /* ===== SKIP LINK ===== */
         .skip-link {
             position: absolute;
-            top: -100px;
-            left: 0;
+            top: -100px; left: 0;
             background: #d81b60;
             color: #fff;
             padding: 8px 14px;
@@ -477,9 +443,7 @@
         /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             #app { flex-direction: column; }
-
             #sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-
             #sidebar {
                 position: fixed;
                 top: 0; left: 0;
@@ -491,9 +455,9 @@
                 z-index: 1000;
                 padding: 55px 20px 30px;
                 box-shadow: 4px 0 20px rgba(0,0,0,0.8);
+                min-width: unset;
             }
             #sidebar.open { transform: translateX(0); }
-
             #sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -502,21 +466,10 @@
                 z-index: 999;
             }
             #sidebar-overlay.open { display: block; }
-
             #map { width: 100vw; height: 100vh; }
-
-            #recenter-btn {
-                bottom: 20px;
-                right: 15px;
-                padding: 10px 16px;
-                font-size: 0.85em;
-            }
-
-            #a11y-widget {
-                bottom: 20px;
-                left: 15px;
-            }
-
+            #recenter-btn { bottom: 20px; right: 15px; padding: 10px 16px; font-size: 0.85em; }
+            #a11y-widget { bottom: 20px; left: 15px; }
+            #a11y-panel { width: 260px; }
             h1 { font-size: 1.3em; }
         }
 
@@ -529,14 +482,13 @@
 <body>
 
 <a href="#map" class="skip-link">Skip to map</a>
-
 <button id="sidebar-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">☰</button>
 <div id="sidebar-overlay" role="presentation"></div>
 
 <div id="app">
 
+    <!-- ===== SIDEBAR ===== -->
     <nav id="sidebar" aria-label="Trail navigation">
-
         <h1>Oubaitori Collective Blossom Trail</h1>
 
         <div class="signature-msg" role="note">
@@ -547,28 +499,6 @@
             <img src="blossom.jpg" alt="Blossom trail scenic landscape">
         </div>
 
-        <!-- 999 BSL -->
-        <div id="bsl-box" role="region" aria-label="Emergency BSL support">
-            <h2>🤟 999 BSL Emergency Service</h2>
-            <p>Deaf or hard of hearing? The 999 BSL service lets you make an emergency video call in British Sign Language — 24/7, free to use.</p>
-            <a href="[999bsl.co.uk](https://999bsl.co.uk)" target="_blank" rel="noopener noreferrer" class="bsl-btn" aria-label="Open 999 BSL emergency service website in new tab">
-                🚨 Open 999 BSL Service
-            </a>
-            <a href="[emergencysms.net](https://www.emergencysms.net)" target="_blank" rel="noopener noreferrer" class="bsl-btn secondary" aria-label="Register for Emergency SMS service in new tab">
-                📱 Register for Emergency SMS
-            </a>
-        </div>
-
-        <!-- RADAR KEY -->
-        <div id="radar-box" role="region" aria-label="Radar key accessible toilets">
-            <h2>🔑 Radar Key Toilets</h2>
-            <p>Toggle accessible toilet locations on the map. These require a <strong style="color:#00c853">RADAR key</strong> — available from local councils, disability charities, and many shops.</p>
-            <button class="radar-toggle-btn" id="radar-toggle" aria-pressed="false">
-                Show Accessible Toilets on Map
-            </button>
-        </div>
-
-        <!-- STAGES -->
         <div class="stage-section" role="region" aria-label="Trail stages">
             <div class="stage-title">The 5 Stages of Growth</div>
             <div class="stage-card">
@@ -601,79 +531,119 @@
 
         <div class="nav-title">Join us and explore!</div>
         <div id="site-list" role="list"></div>
-
     </nav>
 
     <div id="map" role="main" aria-label="Interactive blossom trail map"></div>
-
 </div>
 
-<!-- Recenter button -->
+<!-- ===== RECENTER BUTTON ===== -->
 <button id="recenter-btn" aria-label="Recenter map on your location">📍 Recenter on Me</button>
 
-<!-- Accessibility widget -->
+<!-- ===== ACCESSIBILITY WIDGET ===== -->
 <div id="a11y-widget" role="region" aria-label="Accessibility settings">
-    <div id="a11y-panel" role="dialog" aria-modal="false" aria-label="Accessibility options">
-        <h3>Accessibility Options</h3>
 
-        <div class="a11y-slider-row">
-            <div class="a11y-slider-label">
-                <span>Text Size</span>
-                <span id="font-size-val">100%</span>
+    <div id="a11y-panel" role="dialog" aria-label="Accessibility options" aria-modal="false">
+
+        <!-- Tab buttons -->
+        <div class="a11y-tabs" role="tablist" aria-label="Accessibility categories">
+            <button class="a11y-tab active" role="tab" aria-selected="true"  aria-controls="pane-display"  id="tab-display">Display</button>
+            <button class="a11y-tab"        role="tab" aria-selected="false" aria-controls="pane-navigate" id="tab-navigate">Navigate</button>
+            <button class="a11y-tab"        role="tab" aria-selected="false" aria-controls="pane-emergency" id="tab-emergency">Emergency</button>
+        </div>
+
+        <!-- DISPLAY TAB -->
+        <div class="a11y-pane active" id="pane-display" role="tabpanel" aria-labelledby="tab-display">
+            <p class="a11y-section-label">Display Settings</p>
+
+            <div class="a11y-slider-wrap">
+                <div class="a11y-slider-header">
+                    <span>Text Size</span>
+                    <span id="font-size-val">100%</span>
+                </div>
+                <input type="range" class="a11y-slider" id="font-size-slider"
+                       min="90" max="130" step="5" value="100"
+                       aria-label="Adjust text size">
             </div>
-            <input type="range" class="a11y-slider" id="font-size-slider"
-                   min="90" max="130" step="5" value="100"
-                   aria-label="Adjust text size">
+
+            <div class="a11y-row">
+                <label class="a11y-label" for="toggle-contrast">⬛ High Contrast</label>
+                <label class="a11y-switch">
+                    <input type="checkbox" id="toggle-contrast" role="switch" aria-checked="false">
+                    <span class="sw-track"></span>
+                </label>
+            </div>
+            <div class="a11y-row">
+                <label class="a11y-label" for="toggle-dyslexia">🔤 Dyslexia Font</label>
+                <label class="a11y-switch">
+                    <input type="checkbox" id="toggle-dyslexia" role="switch" aria-checked="false">
+                    <span class="sw-track"></span>
+                </label>
+            </div>
+            <div class="a11y-row">
+                <label class="a11y-label" for="toggle-largetext">🔍 Large Text</label>
+                <label class="a11y-switch">
+                    <input type="checkbox" id="toggle-largetext" role="switch" aria-checked="false">
+                    <span class="sw-track"></span>
+                </label>
+            </div>
+            <div class="a11y-row">
+                <label class="a11y-label" for="toggle-motion">✋ Reduce Motion</label>
+                <label class="a11y-switch">
+                    <input type="checkbox" id="toggle-motion" role="switch" aria-checked="false">
+                    <span class="sw-track"></span>
+                </label>
+            </div>
         </div>
 
-        <div class="a11y-row">
-            <label class="a11y-label" for="toggle-contrast">⬛ High Contrast</label>
-            <label class="a11y-switch">
-                <input type="checkbox" id="toggle-contrast" role="switch" aria-checked="false">
-                <span class="a11y-switch-track"></span>
-            </label>
+        <!-- NAVIGATE TAB -->
+        <div class="a11y-pane" id="pane-navigate" role="tabpanel" aria-labelledby="tab-navigate">
+            <p class="a11y-section-label">Accessible Navigation</p>
+            <button class="radar-toggle-btn" id="radar-toggle" aria-pressed="false">
+                🔑 Show Accessible Toilets
+            </button>
+            <p class="nav-info">
+                Accessible toilet locations across the trail. A <strong style="color:#00c853">RADAR key</strong> is required.
+                Get yours from local councils, disability charities, or
+                <a href="[disabilityrightsuk.org](https://www.disabilityrightsuk.org/radar-nks-key-scheme)" target="_blank" rel="noopener noreferrer">Disability Rights UK</a>.
+            </p>
         </div>
 
-        <div class="a11y-row">
-            <label class="a11y-label" for="toggle-dyslexia">🔤 Dyslexia Font</label>
-            <label class="a11y-switch">
-                <input type="checkbox" id="toggle-dyslexia" role="switch" aria-checked="false">
-                <span class="a11y-switch-track"></span>
-            </label>
+        <!-- EMERGENCY TAB -->
+        <div class="a11y-pane" id="pane-emergency" role="tabpanel" aria-labelledby="tab-emergency">
+            <p class="a11y-section-label">Emergency Support</p>
+            <a href="[999bsl.co.uk](https://999bsl.co.uk)" target="_blank" rel="noopener noreferrer" class="bsl-btn"
+               aria-label="Open 999 BSL video emergency service in new tab">
+                🤟 999 BSL — Video Emergency Call
+            </a>
+            <a href="[emergencysms.net](https://www.emergencysms.net)" target="_blank" rel="noopener noreferrer" class="bsl-btn secondary"
+               aria-label="Register for Emergency SMS text 999 service in new tab">
+                📱 Register: Text 999 (Emergency SMS)
+            </a>
+            <p class="emergency-note">
+                999 BSL allows Deaf BSL users to make a live video call to emergency services — 24/7, free to use.
+                Emergency SMS lets you text 999 if you cannot make a voice call. Register in advance.
+            </p>
         </div>
 
-        <div class="a11y-row">
-            <label class="a11y-label" for="toggle-motion">✋ Reduce Motion</label>
-            <label class="a11y-switch">
-                <input type="checkbox" id="toggle-motion" role="switch" aria-checked="false">
-                <span class="a11y-switch-track"></span>
-            </label>
-        </div>
-
-        <div class="a11y-row">
-            <label class="a11y-label" for="toggle-largetext">🔍 Large Text</label>
-            <label class="a11y-switch">
-                <input type="checkbox" id="toggle-largetext" role="switch" aria-checked="false">
-                <span class="a11y-switch-track"></span>
-            </label>
-        </div>
     </div>
 
     <button id="a11y-trigger" aria-label="Open accessibility options" aria-expanded="false" aria-controls="a11y-panel">
-        ♿
+        Accessibility
     </button>
+
 </div>
 
-<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js)" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GCnc=" crossorigin=""></script>
+<script src="[cdn.jsdelivr.net](https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js)"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN2GCnc=" crossorigin="anonymous"></script>
 <script>
-(function() {
+(function () {
 
     // ===== MOBILE SIDEBAR =====
     var sidebarToggle = document.getElementById('sidebar-toggle');
     var sidebar       = document.getElementById('sidebar');
     var overlay       = document.getElementById('sidebar-overlay');
 
-    function openSidebar()  {
+    function openSidebar() {
         sidebar.classList.add('open');
         overlay.classList.add('open');
         sidebarToggle.setAttribute('aria-expanded', 'true');
@@ -683,47 +653,64 @@
         overlay.classList.remove('open');
         sidebarToggle.setAttribute('aria-expanded', 'false');
     }
-    sidebarToggle.addEventListener('click', function() {
+    sidebarToggle.addEventListener('click', function () {
         sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     });
     overlay.addEventListener('click', closeSidebar);
 
-    // ===== ACCESSIBILITY WIDGET =====
+    // ===== ACCESSIBILITY PANEL =====
     var a11yTrigger = document.getElementById('a11y-trigger');
     var a11yPanel   = document.getElementById('a11y-panel');
 
-    a11yTrigger.addEventListener('click', function() {
+    a11yTrigger.addEventListener('click', function () {
         var isOpen = a11yPanel.classList.toggle('open');
         a11yTrigger.setAttribute('aria-expanded', String(isOpen));
     });
 
-    document.addEventListener('click', function(e) {
+    // Close panel when clicking outside
+    document.addEventListener('click', function (e) {
         if (!document.getElementById('a11y-widget').contains(e.target)) {
             a11yPanel.classList.remove('open');
             a11yTrigger.setAttribute('aria-expanded', 'false');
         }
     });
 
-    // Toggle helper
-    function makeToggle(checkboxId, bodyClass) {
-        var cb = document.getElementById(checkboxId);
-        cb.addEventListener('change', function() {
+    // ===== TABS =====
+    var tabs  = document.querySelectorAll('.a11y-tab');
+    var panes = document.querySelectorAll('.a11y-pane');
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            tabs.forEach(function (t) {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            panes.forEach(function (p) { p.classList.remove('active'); });
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+            document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+        });
+    });
+
+    // ===== TOGGLE SWITCHES =====
+    function makeToggle(id, bodyClass) {
+        var cb = document.getElementById(id);
+        cb.addEventListener('change', function () {
             document.body.classList.toggle(bodyClass, cb.checked);
             cb.setAttribute('aria-checked', String(cb.checked));
         });
     }
     makeToggle('toggle-contrast',  'high-contrast');
     makeToggle('toggle-dyslexia',  'dyslexia-font');
-    makeToggle('toggle-motion',    'reduce-motion');
     makeToggle('toggle-largetext', 'large-text');
+    makeToggle('toggle-motion',    'reduce-motion');
 
-    // Font size slider
-    var fontSlider  = document.getElementById('font-size-slider');
-    var fontSizeVal = document.getElementById('font-size-val');
-    fontSlider.addEventListener('input', function() {
-        var pct = fontSlider.value;
-        fontSizeVal.textContent = pct + '%';
-        sidebar.style.fontSize = (pct / 100) + 'em';
+    // ===== FONT SIZE SLIDER =====
+    var fontSlider = document.getElementById('font-size-slider');
+    var fontVal    = document.getElementById('font-size-val');
+    fontSlider.addEventListener('input', function () {
+        fontVal.textContent = fontSlider.value + '%';
+        sidebar.style.fontSize = (fontSlider.value / 100) + 'em';
     });
 
     // ===== MAP =====
@@ -750,7 +737,7 @@
 
     var radarIcon = L.divIcon({
         className: '',
-        html: '<div style="background:#00c853;color:#000;font-size:1.1em;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #005720;box-shadow:0 2px 6px rgba(0,0,0,0.4);" role="img" aria-label="Accessible toilet">🔑</div>',
+        html: '<div style="background:#00c853;color:#000;font-size:1em;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #005720;box-shadow:0 2px 6px rgba(0,0,0,0.4);" aria-label="Accessible toilet">🔑</div>',
         iconSize:    [32, 32],
         iconAnchor:  [16, 16],
         popupAnchor: [0, -18]
@@ -761,7 +748,7 @@
         { name: "Houghton-le-Spring", lat: 54.8432688, lon: -1.4707168, img: "white-harmony.jpg", type: "blossom"  },
         { name: "Washington Old Hall",  lat: 54.9027,    lon: -1.5165,   img: "washington.jpg",   type: "blossom"  },
         { name: "Angel of the North",   lat: 54.9141,    lon: -1.5895,   img: "angel.jpg",        type: "landmark" },
-        { name: "Durham City",          lat: 54.773,     lon: -1.576,    img: "durham.jpg",        type: "landmark" },
+        { name: "Durham City",          lat: 54.773,     lon: -1.576,    img: "durham.jpg",       type: "landmark" },
         { name: "Old Durham Gardens",   lat: 54.773,     lon: -1.558,    img: "old-durham.jpg",   type: "blossom"  },
         { name: "Jesmond Dene",         lat: 54.9900,    lon: -1.5900,   img: "jesmond.jpg",      type: "blossom"  },
         { name: "Tyne Bridge",          lat: 54.968,     lon: -1.606,    img: "tyne-bridge.jpg",  type: "landmark" },
@@ -776,7 +763,7 @@
         { name: "Alnwick Garden",       lat: 55.4155,    lon: -1.7060,   img: "alnwick.jpg",      type: "blossom"  },
         { name: "Bamburgh Castle",      lat: 55.6089,    lon: -1.7099,   img: "bamburgh.jpg",     type: "landmark" },
         { name: "Castle Eden Dene",     lat: 54.75000,   lon: -1.32639,  img: "castle-eden.jpg",  type: "landmark" },
-        { name: "Seaham",               lat: 54.823,     lon: -1.3189,   img: "seaham.jpg",       type: "landmark" },
+        { name: "Seaham",               lat: 54.823,     lon: -1.3189,   img: "seaham.jpg",       type: "landmark" }
     ];
 
     // ===== RADAR TOILETS =====
@@ -795,17 +782,16 @@
         { name: "Alnwick Bus Station",            lat: 55.4140, lon: -1.7040, notes: "Town centre, near Alnwick Garden." },
         { name: "Bamburgh Village Car Park",      lat: 55.6080, lon: -1.7110, notes: "Village car park toilet block." },
         { name: "Gibside Car Park",               lat: 54.9240, lon: -1.7280, notes: "National Trust car park facilities." },
-        { name: "Angel of the North Car Park",    lat: 54.9135, lon: -1.5910, notes: "Main visitor car park." },
+        { name: "Angel of the North Car Park",    lat: 54.9135, lon: -1.5910, notes: "Main visitor car park." }
     ];
 
-    // ===== BUILD TRAIL MARKERS =====
+    // ===== BUILD MARKERS =====
     var markerGroup = L.featureGroup();
     var trailCoords = [];
     var siteList    = document.getElementById('site-list');
 
-    sites.forEach(function(s, index) {
-        var markerOpts = (s.type === 'blossom') ? { icon: blossomIcon } : {};
-        var m = L.marker([s.lat, s.lon], markerOpts);
+    sites.forEach(function (s, index) {
+        var m = L.marker([s.lat, s.lon], s.type === 'blossom' ? { icon: blossomIcon } : {});
         m.bindPopup(
             '<strong style="font-size:1em;">' + s.name + '</strong>' +
             '<img src="' + s.img + '" class="popup-img" alt="' + s.name + '">',
@@ -815,16 +801,16 @@
         trailCoords.push([s.lat, s.lon]);
 
         var link = document.createElement('a');
-        link.className  = 'site-link';
+        link.className = 'site-link';
         link.setAttribute('role', 'listitem');
         link.setAttribute('tabindex', '0');
         link.textContent = (index + 1) + '. ' + s.name;
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             map.flyTo([s.lat, s.lon], 14);
             m.openPopup();
             if (window.innerWidth <= 768) closeSidebar();
         });
-        link.addEventListener('keydown', function(e) {
+        link.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); link.click(); }
         });
         siteList.appendChild(link);
@@ -832,44 +818,40 @@
 
     markerGroup.addTo(map);
 
-    // ===== TRAIL LINE =====
+    // Trail line
     L.polyline(trailCoords, {
-        color:     '#d81b60',
-        weight:    4,
-        opacity:   0.5,
-        dashArray: '10, 15'
+        color: '#d81b60', weight: 4, opacity: 0.5, dashArray: '10, 15'
     }).addTo(map);
 
     map.fitBounds(markerGroup.getBounds().pad(0.1));
 
-    // ===== RADAR TOILET LAYER =====
+    // ===== RADAR LAYER =====
     var radarGroup   = L.featureGroup();
     var radarVisible = false;
 
-    radarToilets.forEach(function(t) {
+    radarToilets.forEach(function (t) {
         var m = L.marker([t.lat, t.lon], { icon: radarIcon });
         m.bindPopup(
             '<div class="popup-toilet">' +
             '<span class="radar-badge">🔑 RADAR Key</span>' +
             '<strong>' + t.name + '</strong>' +
-            t.notes +
-            '</div>',
+            t.notes + '</div>',
             { maxWidth: 200 }
         );
         radarGroup.addLayer(m);
     });
 
-    document.getElementById('radar-toggle').addEventListener('click', function() {
-        radarVisible = !radarVisible;
+    document.getElementById('radar-toggle').addEventListener('click', function () {
         var btn = document.getElementById('radar-toggle');
+        radarVisible = !radarVisible;
         if (radarVisible) {
             radarGroup.addTo(map);
-            btn.textContent = 'Hide Accessible Toilets';
+            btn.textContent = '🔑 Hide Accessible Toilets';
             btn.classList.add('active');
             btn.setAttribute('aria-pressed', 'true');
         } else {
             map.removeLayer(radarGroup);
-            btn.textContent = 'Show Accessible Toilets on Map';
+            btn.textContent = '🔑 Show Accessible Toilets';
             btn.classList.remove('active');
             btn.setAttribute('aria-pressed', 'false');
         }
@@ -880,17 +862,18 @@
     vanMarker.bindTooltip('You are here', { permanent: false, direction: 'top' });
 
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function(pos) {
+        navigator.geolocation.watchPosition(function (pos) {
             vanMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
         }, null, { enableHighAccuracy: true });
     }
 
-    document.getElementById('recenter-btn').addEventListener('click', function() {
+    document.getElementById('recenter-btn').addEventListener('click', function () {
         map.setView(vanMarker.getLatLng(), 15);
     });
 
-})();
+}());
 </script>
 </body>
 </html>
+
 
