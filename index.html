@@ -3,105 +3,60 @@
 <head>
     <title>Oubaitori Collective Blossom Trail</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* ===== UI FOUNDATIONS ===== */
+        /* ===== BASE STYLES ===== */
         *, *::before, *::after { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
-        #app { display: flex; height: 100vh; width: 100vw; }
+        :root { --font-scale: 1; }
+        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
+        
+        #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
         /* ===== SIDEBAR ===== */
         #sidebar { 
             width: 380px; min-width: 380px; height: 100vh; background: #000; 
-            overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 10; 
+            overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 100;
+            font-size: calc(1em * var(--font-scale));
         }
-        #sidebar::-webkit-scrollbar { width: 4px; }
-        #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
-
-        h1 { font-size: 1.4em; margin: 0 0 10px; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; }
+        h1 { font-size: 1.4em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; }
         .description { font-size: 0.85em; line-height: 1.5; color: #ccc; margin-bottom: 20px; font-style: italic; border-left: 3px solid #d81b60; padding-left: 15px; }
         .sidebar-image { width: 100%; height: 160px; border-radius: 8px; margin-bottom: 15px; object-fit: cover; border: 1px solid #333; }
 
-        /* ===== ACCORDIONS ===== */
+        /* ===== ACCESSIBILITY PANEL ===== */
+        .a11y-slider-wrap { margin-bottom: 15px; padding: 10px; background: #111; border-radius: 6px; }
+        .a11y-slider-header { display: flex; justify-content: space-between; font-size: 0.8em; margin-bottom: 5px; color: #888; }
+        input[type=range] { width: 100%; accent-color: #d81b60; cursor: pointer; }
+
+        /* A11Y MODES */
+        body.high-contrast { background: #000 !important; color: #fff !important; }
+        body.high-contrast .bucket, body.high-contrast .site-link { border: 2px solid #fff !important; }
+        body.dyslexia-font { font-family: 'Verdana', sans-serif !important; letter-spacing: 0.05em; line-height: 1.8; }
+
+        /* ===== ACCORDIONS & LINKS ===== */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; color: #d81b60; }
+        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
-
-        /* Accessibility Styles */
-        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 10px; }
-        .a11y-tab { flex: 1; padding: 8px; background: #000; border: none; color: #888; cursor: pointer; font-size: 0.7em; text-transform: uppercase; }
-        .a11y-tab.active { color: #fff; border-bottom: 2px solid #d81b60; background: #111; }
-        .a11y-pane { display: none; }
-        .a11y-pane.active { display: block; }
-        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; text-decoration: none; display: block; font-size: 0.8em; }
-        .radar-btn { background: #00c853; color: #000; font-weight: bold; border: none; }
-        .radar-btn.active { background: #005720; color: #fff; }
-
+        
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; }
-
-        /* Site Links */
-        .site-link { display: block; padding: 10px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s; font-size: 0.85em; color: #fff; text-decoration: none; }
-        .site-link:hover { background: #222; border-left-width: 5px; }
-
-        /* Vision Box */
+        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
+        .site-link:hover { border-left-width: 5px; background: #1a1a1a; }
+        
         .vision-box { background: #1a1a1a; border: 1px solid #d81b60; padding: 15px; border-radius: 8px; margin-top: 25px; font-size: 0.85em; line-height: 1.5; }
-        .vision-box strong { color: #d81b60; display: block; margin-bottom: 5px; text-transform: uppercase; }
 
-        /* Map & Popups */
-        #map { flex-grow: 1; height: 100vh; background: #111; }
-        .popup-img { width: 100%; max-width: 200px; height: auto; border-radius: 4px; margin-top: 8px; display: block; }
+        /* ===== MAP & UI ===== */
+        #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
+        .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin-top: 8px; display: block; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
 
-        /* A11Y Modes */
-        body.high-contrast { background: #000; }
-        body.dyslexia-font { font-family: 'Verdana', sans-serif; letter-spacing: 0.05em; line-height: 1.6; }
-
-        /* ===== MOBILE OPTIMIZATION ===== */
-        @media (max-width: 768px) {
-        #app {
-        flex-direction: column; /* Stack sidebar on top of map */
+        /* ===== MOBILE FIXES ===== */
+        @media screen and (max-width: 768px) {
+            #app { flex-direction: column !important; }
+            #sidebar { width: 100% !important; min-width: 100% !important; height: 45vh !important; border-right: none; border-bottom: 2px solid #d81b60; padding: 15px; }
+            #map { height: 55vh !important; width: 100% !important; }
         }
-
-        #sidebar {
-        width: 100%; /* Take full width */
-        min-width: 100%;
-        height: 45vh; /* Occupy only 45% of the screen height */
-        border-right: none;
-        border-bottom: 2px solid #222; /* Visual divider */
-        padding: 15px; /* Tighter padding for small screens */
-        }
-
-        #map {
-        width: 100%;
-        height: 55vh; /* Map takes the remaining 55% */
-        }
-
-        /* Make links easier to hit with a thumb */
-        .site-link {
-        padding: 15px; 
-        margin-bottom: 10px;
-        font-size: 1em; /* Slightly larger text for readability */
-        }
-
-        /* Reposition the Recenter button so it doesn't block map attribution */
-        #recenter-btn {
-        bottom: 20px;
-        right: 10px;
-        padding: 10px 15px;
-        font-size: 0.8em;
-        }
-
-        /* Ensure the A11Y panel doesn't go off-screen */
-        #a11y-panel {
-        width: 90vw;
-        max-width: 320px;
-        left: 5vw;
-        }
-    }
-        
     </style>
 </head>
 <body>
@@ -115,35 +70,35 @@
         <div class="bucket" id="bucket-a11y">
             <div class="bucket-header" onclick="toggleBucket('a11y')"><strong style="color:white;">⚙️ Accessibility</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="a11y-tabs">
-                    <button class="a11y-tab active" onclick="showPane('display', this)">Display</button>
-                    <button class="a11y-tab" onclick="showPane('navigate', this)">Navigate</button>
-                    <button class="a11y-tab" onclick="showPane('emergency', this)">Emergency</button>
+                <div class="a11y-tabs" style="display:flex; border-bottom:1px solid #333; margin-bottom:10px;">
+                    <button style="flex:1; padding:5px; background:none; border:none; color:#fff; font-size:0.7em; cursor:pointer;" onclick="showPane('display', this)">DISPLAY</button>
+                    <button style="flex:1; padding:5px; background:none; border:none; color:#888; font-size:0.7em; cursor:pointer;" onclick="showPane('navigate', this)">NAVIGATE</button>
+                    <button style="flex:1; padding:5px; background:none; border:none; color:#888; font-size:0.7em; cursor:pointer;" onclick="showPane('emergency', this)">EMERGENCY</button>
                 </div>
                 <div id="display" class="a11y-pane active">
+                    <div class="a11y-slider-wrap">
+                        <div class="a11y-slider-header"><span>Text Size</span><span id="font-val">100%</span></div>
+                        <input type="range" id="font-slider" min="80" max="150" value="100">
+                    </div>
                     <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
                 </div>
-                <div id="navigate" class="a11y-pane">
-                    <button class="a11y-btn radar-btn" id="radar-toggle-btn">🔑 Show RADAR Toilets</button>
+                <div id="navigate" class="a11y-pane" style="display:none;">
+                    <button class="a11y-btn" id="radar-toggle-btn" style="background:#00c853; color:#000; font-weight:bold; border:none;">🔑 Show RADAR Toilets</button>
                 </div>
-                <div id="emergency" class="a11y-pane">
+                <div id="emergency" class="a11y-pane" style="display:none;">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL Call</a>
-                    <a href="https://emergencysms.net" target="_blank" class="a11y-btn">📱 Text 999</a>
                 </div>
             </div>
         </div>
 
-        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Houghton-le-Spring: Wellness system check-in.</div><div id="list-1"></div></div></div>
-        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Washington or Durham: Create space.</div><div id="list-2"></div></div></div>
-        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Angel or Seaham: Be in the current.</div><div id="list-3"></div></div></div>
-        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Dene areas: Belonging without blending.</div><div id="list-4"></div></div></div>
-        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Coastal areas: Freedom to Be.</div><div id="list-5"></div></div></div>
+        <div class="bucket active" id="bucket-1"><div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Wellness check-in. Anchor your mindset.</div><div id="list-1"></div></div></div>
+        <div class="bucket" id="bucket-2"><div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Create space to grow.</div><div id="list-2"></div></div></div>
+        <div class="bucket" id="bucket-3"><div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Allow movement and reflection.</div><div id="list-3"></div></div></div>
+        <div class="bucket" id="bucket-4"><div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Belonging without blending.</div><div id="list-4"></div></div></div>
+        <div class="bucket" id="bucket-5"><div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div><div class="bucket-content"><div class="stage-narrative">Freedom to Be.</div><div id="list-5"></div></div></div>
 
-        <div class="vision-box">
-            <strong>Closing Vision</strong>
-            Growth doesn't require pressure. Wherever your starting point, the destination is your choice. Join the Oubaitori Collective.
-        </div>
+        <div class="vision-box"><strong>Closing Vision</strong>Growth doesn't require pressure. Wherever your starting point, the destination is your choice.</div>
     </nav>
     <div id="map"></div>
 </div>
@@ -157,17 +112,21 @@ function toggleBucket(id) {
     if(typeof id === 'number') document.querySelectorAll('.bucket:not(#bucket-a11y)').forEach(b => b.classList.remove('active'));
     target.classList.toggle('active');
 }
-
 function showPane(id, btn) {
-    document.querySelectorAll('.a11y-pane').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.a11y-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
+    document.querySelectorAll('.a11y-pane').forEach(p => p.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.a11y-tab').forEach(t => t.style.color = '#888');
+    btn.style.color = '#fff';
 }
-
 (function () {
     var map = L.map('map').setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var slider = document.getElementById('font-slider');
+    slider.oninput = function() {
+        document.getElementById('font-val').innerText = this.value + "%";
+        document.documentElement.style.setProperty('--font-scale', this.value / 100);
+    };
 
     var blossomIcon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] });
@@ -196,43 +155,26 @@ function showPane(id, btn) {
     ];
 
     var radarToilets = [
-        { name: "Houghton Town Centre", lat: 54.8420, lon: -1.4730 },
-        { name: "Washington Galleries", lat: 54.9004, lon: -1.5230 },
-        { name: "Durham Bus Station", lat: 54.7760, lon: -1.5770 }
+        { name: "Houghton RADAR", lat: 54.8420, lon: -1.4730 },
+        { name: "Durham RADAR", lat: 54.7760, lon: -1.5770 }
     ];
 
     var trailCoords = [];
     sites.forEach(function(s) {
-        var icon = (s.type === "blossom") ? blossomIcon : new L.Icon.Default();
-        var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(map);
-        
-        // EXPLICIT POPUP STRING
-        var popupContent = "<strong>" + s.name + "</strong><br><img src='" + s.img + "' class='popup-img' alt='" + s.name + "'>";
-        marker.bindPopup(popupContent);
-        
+        var marker = L.marker([s.lat, s.lon], {icon: (s.type === "blossom" ? blossomIcon : new L.Icon.Default())}).addTo(map);
+        marker.bindPopup("<strong>"+s.name+"</strong><br><img src='"+s.img+"' class='popup-img'>");
         trailCoords.push([s.lat, s.lon]);
-
-        var list = document.getElementById('list-' + s.stage);
-        if(list) {
-            var link = document.createElement('div');
-            link.className = 'site-link';
-            link.textContent = s.name;
-            link.onclick = function() { 
-                map.flyTo([s.lat, s.lon], 14); 
-                marker.openPopup(); 
-            };
-            list.appendChild(link);
-        }
+        var link = document.createElement('div');
+        link.className = 'site-link'; link.textContent = s.name;
+        link.onclick = function() { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
+        document.getElementById('list-' + s.stage).appendChild(link);
     });
 
     var radarGroup = L.layerGroup();
     radarToilets.forEach(t => { L.marker([t.lat, t.lon], {icon: radarIcon}).bindPopup(t.name).addTo(radarGroup); });
-    
-    var radarVisible = false;
     document.getElementById('radar-toggle-btn').onclick = function() {
-        radarVisible = !radarVisible;
-        if(radarVisible) { map.addLayer(radarGroup); this.classList.add('active'); }
-        else { map.removeLayer(radarGroup); this.classList.remove('active'); }
+        this.classList.toggle('active');
+        if(this.classList.contains('active')) map.addLayer(radarGroup); else map.removeLayer(radarGroup);
     };
 
     L.polyline(trailCoords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(map);
