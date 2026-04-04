@@ -40,22 +40,24 @@
         .radar-btn { background: #00c853; color: #000; font-weight: bold; border: none; }
         .radar-btn.active { background: #005720; color: #fff; }
 
-        /* Stage Narrative */
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; }
 
         /* Site Links */
         .site-link { display: block; padding: 10px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; border-left: 0px solid #d81b60; transition: 0.15s; font-size: 0.85em; color: #fff; text-decoration: none; }
         .site-link:hover { background: #222; border-left-width: 5px; }
 
+        /* Vision Box */
+        .vision-box { background: #1a1a1a; border: 1px solid #d81b60; padding: 15px; border-radius: 8px; margin-top: 25px; font-size: 0.85em; line-height: 1.5; }
+        .vision-box strong { color: #d81b60; display: block; margin-bottom: 5px; text-transform: uppercase; }
+
         /* Map & Recenter */
         #map { flex-grow: 1; height: 100vh; background: #111; }
-        #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .popup-img { width: 100%; height: auto; border-radius: 4px; margin-top: 8px; }
+        #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
 
         /* A11Y Modes */
         body.high-contrast { background: #000; }
         body.dyslexia-font { font-family: 'Verdana', sans-serif; letter-spacing: 0.05em; line-height: 1.6; }
-
-        @media (max-width: 768px) { #app { flex-direction: column; } #sidebar { width: 100%; height: 45vh; min-width: auto; } #map { height: 55vh; } }
     </style>
 </head>
 <body>
@@ -63,7 +65,7 @@
 <div id="app">
     <nav id="sidebar">
         <h1>Oubaitori Collective Blossom Trail</h1>
-        <div class="description">桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.</div>
+        <div class="description">桜梅桃李 (Oubaitori): Bloom in your own time.</div>
         <img src="blossom.jpg" alt="Trail Narrative" class="sidebar-image">
 
         <div class="bucket" id="bucket-a11y">
@@ -91,7 +93,7 @@
         <div class="bucket active" id="bucket-1">
             <div class="bucket-header" onclick="toggleBucket(1)"><strong>Stage 1: Reset</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Houghton-le-Spring: Begin with a wellness system check-in. Focus on breath, body, and stillness. No destination urgency.</div>
+                <div class="stage-narrative">Houghton-le-Spring: Wellness system check-in. No destination urgency.</div>
                 <div id="list-1"></div>
             </div>
         </div>
@@ -99,7 +101,7 @@
         <div class="bucket" id="bucket-2">
             <div class="bucket-header" onclick="toggleBucket(2)"><strong>Stage 2: Expansion</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Washington or Durham: Move toward expansive views. Reflect on your 'capacity' to grow and create space to integrate everything.</div>
+                <div class="stage-narrative">Washington or Durham: Move toward expansive views. Create space to integrate.</div>
                 <div id="list-2"></div>
             </div>
         </div>
@@ -107,7 +109,7 @@
         <div class="bucket" id="bucket-3">
             <div class="bucket-header" onclick="toggleBucket(3)"><strong>Stage 3: Flow</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Angel of the North or Seaham: Allow movement + reflection. Blossom reflects an emotional journey where you allow yourself to 'be' in the current.</div>
+                <div class="stage-narrative">Angel of the North or Seaham: Allow movement + reflection. 'Be' in the current.</div>
                 <div id="list-3"></div>
             </div>
         </div>
@@ -115,7 +117,7 @@
         <div class="bucket" id="bucket-4">
             <div class="bucket-header" onclick="toggleBucket(4)"><strong>Stage 4: Connection</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Jesmond Dene or Castle Eden Dene: Enter the sanctuary where urban meets nature. Topic: 'Belonging without blending'.</div>
+                <div class="stage-narrative">Jesmond Dene or Castle Eden Dene: Belonging without blending.</div>
                 <div id="list-4"></div>
             </div>
         </div>
@@ -123,9 +125,14 @@
         <div class="bucket" id="bucket-5">
             <div class="bucket-header" onclick="toggleBucket(5)"><strong>Stage 5: Breath</strong><span>▼</span></div>
             <div class="bucket-content">
-                <div class="stage-narrative">Northumberland or Saltburn: Travel toward the coast. Wide skies and sea air. Topic: 'Freedom to Be'.</div>
+                <div class="stage-narrative">Northumberland or Saltburn: Wide skies and sea air. Freedom to Be.</div>
                 <div id="list-5"></div>
             </div>
+        </div>
+
+        <div class="vision-box">
+            <strong>Closing Vision</strong>
+            Growth doesn't require pressure. Wherever your starting point, the destination is your choice. Join the Oubaitori Collective.
         </div>
     </nav>
     <div id="map"></div>
@@ -156,27 +163,26 @@ function showPane(id, btn) {
     var vanIcon = L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] });
     var radarIcon = L.divIcon({ html: '🔑', className: 'radar-marker', iconSize: [20, 20] });
 
-    // FULL 19-SITE DATA SET
     var sites = [
-        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.75000, lon: -1.32639, type: "landmark" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark" }
+        { name: "Houghton-le-Spring", stage: 1, lat: 54.8432688, lon: -1.4707168, type: "blossom", img: "white-harmony.jpg" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg" },
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg" },
+        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.75000, lon: -1.32639, type: "landmark", img: "castle-eden.jpg" },
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg" }
     ];
 
     var radarToilets = [
@@ -188,7 +194,8 @@ function showPane(id, btn) {
     var trailCoords = [];
     sites.forEach(function(s) {
         var icon = (s.type === "blossom") ? blossomIcon : new L.Icon.Default();
-        var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(map).bindPopup("<strong>" + s.name + "</strong>");
+        var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(map);
+        marker.bindPopup("<strong>" + s.name + "</strong><br><img src='" + s.img + "' class='popup-img'>");
         trailCoords.push([s.lat, s.lon]);
 
         var list = document.getElementById('list-' + s.stage);
@@ -201,7 +208,6 @@ function showPane(id, btn) {
         }
     });
 
-    // RADAR Toggle Logic
     var radarGroup = L.layerGroup();
     radarToilets.forEach(t => { L.marker([t.lat, t.lon], {icon: radarIcon}).bindPopup(t.name).addTo(radarGroup); });
     
