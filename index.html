@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* UI FOUNDATIONS */
+        /* UI FOUNDATIONS & RESPONSIVENESS */
         *, *::before, *::after { box-sizing: border-box; }
-        :root { --font-scale: 1; }
+        :root { --font-scale: 1; --primary: #d81b60; --success: #00c853; }
         body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; transition: background 0.3s; }
         #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
 
-        /* SIDEBAR */
+        /* SIDEBAR - LAPTOP/DESKTOP */
         #sidebar { 
             width: 380px; min-width: 380px; height: 100vh; background: #000; 
             overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 100;
@@ -21,12 +21,12 @@
         #sidebar::-webkit-scrollbar { width: 4px; }
         #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
 
-        h1 { font-size: 1.3em; border-bottom: 2px solid #d81b60; padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
+        h1 { font-size: 1.3em; border-bottom: 2px solid var(--primary); padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
-        .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
+        .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid var(--success); padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
         /* Forecast Grid */
-        .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
+        .access-forecast { background: #1a1a1a; border: 1px solid var(--primary); border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
         .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .forecast-item b { color: #fff; display: block; }
 
@@ -36,40 +36,39 @@
         .light-row { display: flex; gap: 8px; }
         .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.72em; font-weight: bold; color: #000; text-transform: uppercase; }
 
-        /* Buckets & Narratives */
+        /* Buckets & Somatic Techniques */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
+        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: var(--primary); }
         .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
         .bucket.active .bucket-content { display: block; }
-
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; }
-        .technique-box { background: #1a1a1a; border-left: 3px solid #00c853; padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; line-height: 1.4; }
+        .technique-box { background: #1a1a1a; border-left: 3px solid var(--success); padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; line-height: 1.4; }
 
         /* Tools Tabs */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
         .a11y-tab { flex: 1; padding: 10px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.55em; text-transform: uppercase; font-weight: bold; }
-        .a11y-tab.active { color: #fff; background: #d81b60; }
+        .a11y-tab.active { color: #fff; background: var(--primary); }
         .a11y-pane { display: none; padding: 5px; font-size: 0.85em; }
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map Elements */
+        /* Map UI */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
-        .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
+        .wc-status-box { margin-top: 10px; padding: 8px; border-radius: 4px; background: #f8f9fa; border: 1px solid #ddd; }
+        .weather-alert { color: var(--primary); font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid var(--primary); line-height: 1.3; font-size: 0.85em; }
         
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
-        #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; transition: 0.2s; text-decoration: none; }
+        #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
-        body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
-
+        /* MOBILE ADJUSTMENTS */
         @media screen and (max-width: 768px) {
-            #app { flex-direction: column; }
-            #sidebar { width: 100%; height: 45vh; border-right: none; border-bottom: 1px solid #222; }
-            #map { height: 55vh; }
+            #app { flex-direction: column !important; }
+            #sidebar { width: 100% !important; min-width: 100% !important; height: 40vh !important; border-right: none; border-bottom: 1px solid #222; }
+            #map { height: 60vh !important; width: 100% !important; }
+            #recenter-btn { bottom: 20px; right: 10px; padding: 10px 15px; font-size: 0.8em; }
         }
     </style>
 </head>
@@ -89,22 +88,22 @@
         </div>
 
         <div class="access-forecast">
-            <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:#d81b60;">Live Trail Conditions</h2>
+            <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:var(--primary);">Live Trail Conditions</h2>
             <div class="forecast-grid">
                 <div class="forecast-item">🌦️ Weather: <b id="val-w">Detecting...</b></div>
-                <div class="forecast-item">🌡️ Temperature: <b id="val-t">--°C</b></div>
+                <div class="forecast-item">🌡️ Temp: <b id="val-t">--°C</b></div>
                 <div class="forecast-item">💨 Wind: <b id="val-wind">-- mph</b></div>
                 <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
-                <div class="forecast-item">🌙 Moon Phase: <b>Waxing Gibbous</b></div>
+                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
             </div>
         </div>
 
         <div class="pulse-check">
             <h3>How are you feeling right now?</h3>
             <div class="light-row">
-                <button class="light" style="background:#00c853;" onclick="alert('Log: Thriving')">Thriving</button>
+                <button class="light" style="background:var(--success);" onclick="alert('Log: Thriving')">Thriving</button>
                 <button class="light" style="background:#ffd600;" onclick="alert('Log: Masking')">Masking</button>
-                <button class="light" style="background:#d81b60;" onclick="alert('Log: Burnout')">Burnout</button>
+                <button class="light" style="background:var(--primary);" onclick="alert('Log: Burnout')">Burnout</button>
             </div>
         </div>
 
@@ -138,17 +137,14 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
-                    <label>Text Scaling:</label>
                     <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;"><b>Community Backup:</b> WC markers automatically appear at all 19 sites when zoomed in.</p>
                     <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
-                    <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
+                    <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:var(--primary)">🤟 999 BSL</a>
                     <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
                 </div>
             </div>
@@ -179,6 +175,7 @@ function showPane(p, btn) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var liveRain = false;
+    var radarEnabled = false;
     var markerLayer = L.layerGroup().addTo(map);
     var communityLayer = L.layerGroup().addTo(map);
     var trailLayer = L.layerGroup().addTo(map);
@@ -202,23 +199,23 @@ function showPane(p, btn) {
     const backupHubs = [
         { name: "Houghton Library", lat: 54.8452, lon: -1.4723, type: "WC / Radar Key Hub" },
         { name: "Houghton Primary Care", lat: 54.8445, lon: -1.4758, type: "NHS Accessible WC" },
-        { name: "Washington Old Hall Hub", lat: 54.903, lon: -1.516, type: "Verified Accessible WC" },
-        { name: "Durham Market Place", lat: 54.776, lon: -1.575, type: "Verified Radar WC" },
-        { name: "Preston Park Cafe Hub", lat: 54.535, lon: -1.336, type: "Accessible WC" },
-        { name: "Ormesby Hall Courtyard", lat: 54.544, lon: -1.182, type: "Verified WC" },
-        { name: "Angel of the North Public WC", lat: 54.914, lon: -1.588, type: "Nearby Facility" },
-        { name: "Byron Place (Seaham)", lat: 54.836, lon: -1.332, type: "Full Accessible Hub" },
-        { name: "Roker Pier Visitor Hub", lat: 54.922, lon: -1.368, type: "Verified WC" },
-        { name: "South Marine Park Cafe", lat: 55.000, lon: -1.421, type: "Accessible WC" },
-        { name: "Jesmond Dene Visitor Centre", lat: 54.991, lon: -1.589, type: "Verified WC" },
-        { name: "Tyne Bridge (Quayside Hub)", lat: 54.968, lon: -1.606, type: "Accessible WC" },
-        { name: "Alnwick Garden Centre", lat: 55.415, lon: -1.705, type: "Full Accessible Facility" },
-        { name: "Castle Eden Lodge Hub", lat: 54.749, lon: -1.325, type: "Nearby WC" },
-        { name: "Gibside Reception Hub", lat: 54.925, lon: -1.727, type: "Verified WC" },
+        { name: "Washington Hub Toilets", lat: 54.903, lon: -1.516, type: "Verified Accessible" },
+        { name: "Durham Market Place", lat: 54.776, lon: -1.575, type: "Radar Key Access" },
+        { name: "Preston Park Hub", lat: 54.535, lon: -1.336, type: "Verified WC" },
+        { name: "Ormesby Hall Courtyard", lat: 54.544, lon: -1.182, type: "Accessible Toilet" },
+        { name: "Angel of the North Public WC", lat: 54.914, lon: -1.588, type: "Nearby Access" },
+        { name: "Byron Place (Seaham)", lat: 54.836, lon: -1.332, type: "Verified Hub" },
+        { name: "Roker Pier Hub", lat: 54.922, lon: -1.368, type: "Accessible WC" },
+        { name: "South Marine Park", lat: 55.000, lon: -1.421, type: "Accessible Hub" },
+        { name: "Jesmond Dene Hub", lat: 54.991, lon: -1.589, type: "Verified Accessible" },
+        { name: "Tyne Bridge Quayside", lat: 54.968, lon: -1.605, type: "Accessible Hub" },
+        { name: "Alnwick Garden Centre", lat: 55.415, lon: -1.705, type: "Full Accessible" },
+        { name: "Castle Eden Hub", lat: 54.749, lon: -1.325, type: "Nearby WC" },
+        { name: "Gibside Hub", lat: 54.925, lon: -1.727, type: "Verified Accessible" },
         { name: "Whitley Lodge Library", lat: 55.051, lon: -1.450, type: "Accessible WC" },
-        { name: "Saltburn Pier Toilets", lat: 54.585, lon: -0.978, type: "Verified WC" },
+        { name: "Saltburn Pier Hub", lat: 54.585, lon: -0.977, type: "Radar Key Access" },
         { name: "Hadrian's Wall Visitor Hub", lat: 55.002, lon: -2.361, type: "Verified WC" },
-        { name: "Bamburgh Visitor Centre", lat: 55.609, lon: -1.710, type: "Accessible WC" }
+        { name: "Bamburgh Centre", lat: 55.609, lon: -1.710, type: "Accessible Facility" }
     ];
 
     var sites = [
@@ -244,11 +241,11 @@ function showPane(p, btn) {
     ];
 
     const stages = [
-        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Look around and name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors your nervous system in the present." },
-        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale for 4 seconds, hold for 4, exhale for 4, and hold empty for 4. This regulates heart rate and signals safety to the brain." },
-        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Hold your wrists under cold water or press a cold bottle against them for 30 seconds to help reset a triggered 'fight or flight' response." },
-        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug or press your palms together tightly for 5 seconds. Deep pressure help the brain process where the body is in space." },
-        { id: 5, title: "Breath", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low, steady note to feel the vibration in your chest. This stimulates the Vagus nerve to soothe stress internally." }
+        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Identify 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors you in the now." },
+        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale 4s, hold 4s, exhale 4s, hold 4s. This regulates heart rate and signals safety." },
+        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Run cold water over wrists for 30s to help reset a triggered nervous system." },
+        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug or press palms together tightly to process body position and reduce overwhelm." },
+        { id: 5, title: "Breathe", text: "Travel toward the coast.", technique: "<b>Technique 5: Vagus Nerve Humming</b><br>Hum a low, steady note to feel vibration in the chest, soothing the Vagus nerve internally." }
     ];
 
     function renderTrail() {
@@ -266,16 +263,20 @@ function showPane(p, btn) {
         sites.forEach(s => {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
-            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface soft/slippery in rain.</span>" : "";
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
+            
+            // WC LOGIC: Surface -> Icon -> Weather Advice
+            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) 
+                ? `<span class='weather-alert'>⚠️ Caution: ${s.access} surface soft/slippery in rain.</span>` : "";
+
+            marker.bindPopup(`<div style="color:#000;"><strong style="color:var(--primary);">${s.name}</strong><div class='wc-status-box'>Surface: ${s.access} <span class='wc-symbol'>♿</span></div>${advice}<img src='${s.img}' class='popup-img'></div>`);
+            
             coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
             link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); refreshCommunityLayer(); };
             const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
         });
-        
-        // REINSTATED DOTTED LINE
-        L.polyline(coords, {color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(trailLayer);
+
+        L.polyline(coords, {color: var(--primary), weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(trailLayer);
         initVan();
     }
 
