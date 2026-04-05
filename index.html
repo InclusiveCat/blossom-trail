@@ -58,6 +58,7 @@
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
+        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
         .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
         
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
@@ -178,9 +179,9 @@ function showPane(p, btn) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var liveRain = false;
-    var radarEnabled = false;
     var markerLayer = L.layerGroup().addTo(map);
     var communityLayer = L.layerGroup().addTo(map);
+    var trailLayer = L.layerGroup().addTo(map);
     var vanMarker = null;
 
     var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
@@ -198,7 +199,6 @@ function showPane(p, btn) {
         } catch (e) { renderTrail(); }
     }
 
-    // COMPREHENSIVE BACKUP DATA FOR ALL 19 SITES
     const backupHubs = [
         { name: "Houghton Library", lat: 54.8452, lon: -1.4723, type: "WC / Radar Key Hub" },
         { name: "Houghton Primary Care", lat: 54.8445, lon: -1.4758, type: "NHS Accessible WC" },
@@ -211,12 +211,12 @@ function showPane(p, btn) {
         { name: "Roker Pier Visitor Hub", lat: 54.922, lon: -1.368, type: "Verified WC" },
         { name: "South Marine Park Cafe", lat: 55.000, lon: -1.421, type: "Accessible WC" },
         { name: "Jesmond Dene Visitor Centre", lat: 54.991, lon: -1.589, type: "Verified WC" },
-        { name: "Tyne Bridge (Quayside Hub)", lat: 54.968, lon: -1.605, type: "Accessible WC" },
+        { name: "Tyne Bridge (Quayside Hub)", lat: 54.968, lon: -1.606, type: "Accessible WC" },
         { name: "Alnwick Garden Centre", lat: 55.415, lon: -1.705, type: "Full Accessible Facility" },
         { name: "Castle Eden Lodge Hub", lat: 54.749, lon: -1.325, type: "Nearby WC" },
         { name: "Gibside Reception Hub", lat: 54.925, lon: -1.727, type: "Verified WC" },
         { name: "Whitley Lodge Library", lat: 55.051, lon: -1.450, type: "Accessible WC" },
-        { name: "Saltburn Pier Lift Hub", lat: 54.585, lon: -0.977, type: "Verified WC" },
+        { name: "Saltburn Pier Toilets", lat: 54.585, lon: -0.978, type: "Verified WC" },
         { name: "Hadrian's Wall Visitor Hub", lat: 55.002, lon: -2.361, type: "Verified WC" },
         { name: "Bamburgh Visitor Centre", lat: 55.609, lon: -1.710, type: "Accessible WC" }
     ];
@@ -248,11 +248,12 @@ function showPane(p, btn) {
         { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale for 4 seconds, hold for 4, exhale for 4, and hold empty for 4. This regulates heart rate and signals safety to the brain." },
         { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Hold your wrists under cold water or press a cold bottle against them for 30 seconds to help reset a triggered 'fight or flight' response." },
         { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug or press your palms together tightly for 5 seconds. Deep pressure help the brain process where the body is in space." },
-        { id: 5, title: "Breathe", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low, steady note to feel the vibration in your chest. This stimulates the Vagus nerve to soothe stress internally." }
+        { id: 5, title: "Breath", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low, steady note to feel the vibration in your chest. This stimulates the Vagus nerve to soothe stress internally." }
     ];
 
     function renderTrail() {
         markerLayer.clearLayers();
+        trailLayer.clearLayers();
         const container = document.getElementById('stages-container'); container.innerHTML = '';
         stages.forEach(st => {
             const bucket = document.createElement('div'); bucket.className = 'bucket'; bucket.id = 'bucket-' + st.id;
@@ -261,16 +262,20 @@ function showPane(p, btn) {
             container.appendChild(bucket);
         });
 
+        var coords = [];
         sites.forEach(s => {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
             let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface soft/slippery in rain.</span>" : "";
             marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
-            
+            coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
             link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); refreshCommunityLayer(); };
             const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
         });
+        
+        // REINSTATED DOTTED LINE
+        L.polyline(coords, {color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(trailLayer);
         initVan();
     }
 
