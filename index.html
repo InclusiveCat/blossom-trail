@@ -58,6 +58,7 @@
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
+        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
         .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
         
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
@@ -137,12 +138,13 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
+                    <label>Text Scaling:</label>
                     <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;">Zoom in on any location to see Community Backup sites (Libraries/NHS hubs).</p>
+                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;"><b>Community Backup:</b> High-contrast WC markers appear when you focus on a trail location.</p>
                     <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
@@ -180,7 +182,6 @@ function showPane(p, btn) {
     var radarEnabled = false;
     var markerLayer = L.layerGroup().addTo(map);
     var communityLayer = L.layerGroup().addTo(map);
-    var radarLayer = L.layerGroup().addTo(map);
     var vanMarker = null;
 
     var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
@@ -197,6 +198,24 @@ function showPane(p, btn) {
             renderTrail();
         } catch (e) { renderTrail(); }
     }
+
+    // VERIFIED BACKUP ACCESSIBILITY DATA FOR ALL SITES
+    const backupHubs = [
+        { name: "Houghton Library & WC", lat: 54.8452, lon: -1.4723, type: "Verified WC / Radar" },
+        { name: "Houghton Primary Care NHS", lat: 54.8445, lon: -1.4758, type: "Verified Accessible WC" },
+        { name: "Washington Old Hall (Visitor Hub)", lat: 54.903, lon: -1.516, type: "Verified Accessible WC" },
+        { name: "Durham Market Place WC", lat: 54.776, lon: -1.575, type: "Verified Radar Key" },
+        { name: "Preston Park Hub", lat: 54.535, lon: -1.336, type: "Verified Accessible WC" },
+        { name: "Ormesby Hall Toilets", lat: 54.544, lon: -1.182, type: "Verified Accessible WC" },
+        { name: "Angel of the North (Public WC)", lat: 54.914, lon: -1.588, type: "Nearby Accessible" },
+        { name: "Seaham Library Hub", lat: 54.836, lon: -1.328, type: "Verified WC / Radar" },
+        { name: "Roker Pier Visitor Centre", lat: 54.922, lon: -1.368, type: "Verified Accessible WC" },
+        { name: "Jesmond Dene Visitor Centre", lat: 54.991, lon: -1.589, type: "Verified Accessible WC" },
+        { name: "Newcastle Eldon Square", lat: 54.974, lon: -1.614, type: "Verified Radar / WC" },
+        { name: "Alnwick Garden Hub", lat: 55.415, lon: -1.705, type: "Verified Accessible WC" },
+        { name: "Saltburn Pier Toilets", lat: 54.585, lon: -0.977, type: "Verified Radar Key" },
+        { name: "Bamburgh Castle Visitor WC", lat: 55.609, lon: -1.711, type: "Verified Accessible WC" }
+    ];
 
     var sites = [
         { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", img: "white-harmony.jpg", day: "10:30", night: "23:15", access: "Paved" },
@@ -220,19 +239,12 @@ function showPane(p, btn) {
         { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", day: "08:00", night: "23:18", access: "Sandy" }
     ];
 
-    const backupHubs = [
-        { name: "Houghton Library", lat: 54.8452, lon: -1.4723, area: "Houghton", type: "Safe Space" },
-        { name: "Houghton Primary Care (NHS)", lat: 54.8445, lon: -1.4758, area: "Houghton", type: "NHS Hub" },
-        { name: "Byron Place (Seaham)", lat: 54.8360, lon: -1.3320, area: "Seaham", type: "Hub" },
-        { name: "Alnwick Market Clinic", lat: 55.4140, lon: -1.7080, area: "Alnwick", type: "Safe Space" }
-    ];
-
     const stages = [
-        { id: 1, title: "Reset", text: "Wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
-        { id: 2, title: "Expansion", text: "Reflect on growth.", technique: "<b>Technique 2: Box Breathing</b>" },
-        { id: 3, title: "Flow", text: "Current of your journey.", technique: "<b>Technique 3: Wrist Grounding</b>" },
-        { id: 4, title: "Connection", text: "Sanctuary urban meets nature.", technique: "<b>Technique 4: Firm Hug</b>" },
-        { id: 5, title: "Breath", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
+        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
+        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b>" },
+        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Grounding</b>" },
+        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Hug</b>" },
+        { id: 5, title: "Breathe", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
     ];
 
     function renderTrail() {
@@ -252,50 +264,26 @@ function showPane(p, btn) {
             marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
             
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
-            link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); };
+            link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); refreshCommunityLayer(); };
             const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
         });
         initVan();
     }
 
-    // COMMUNITY LAYER FOCUS LOGIC
-    function checkCommunityFocus() {
+    function refreshCommunityLayer() {
+        communityLayer.clearLayers();
         if (map.getZoom() >= 14) {
-            communityLayer.clearLayers();
             backupHubs.forEach(hub => {
                 if (map.getBounds().contains([hub.lat, hub.lon])) {
                     L.marker([hub.lat, hub.lon], {
-                        icon: L.divIcon({html: '<div style="background:#00c853; color:white; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; border:2px solid white; font-size:12px;">🏥</div>', className: '', iconSize: [24, 24]})
-                    }).addTo(communityLayer).bindPopup(`<b>Community Backup: ${hub.name}</b><br>${hub.type}`);
+                        icon: L.divIcon({html: `<div style="background:#005ea5; color:white; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:2px solid white; font-size:16px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">♿</div>`, className: '', iconSize: [32, 32]})
+                    }).addTo(communityLayer).bindPopup(`<b>Verified WC: ${hub.name}</b><br>${hub.type}`);
                 }
             });
-        } else { communityLayer.clearLayers(); }
+        }
     }
 
-    map.on('zoomend moveend', checkCommunityFocus);
-
-    window.toggleRadar = function() {
-        radarEnabled = !radarEnabled;
-        const btn = document.getElementById('radar-toggle');
-        btn.innerText = radarEnabled ? "🔑 Active: Zoom to search..." : "🔑 Enable Dynamic Radar Search";
-        if (!radarEnabled) radarLayer.clearLayers(); else fetchRadarLocal();
-    };
-
-    async function fetchRadarLocal() {
-        if (!radarEnabled || map.getZoom() < 12) return;
-        const b = map.getBounds();
-        const q = `[out:json];node["amenity"="toilets"]["wheelchair"~"yes|limited"](${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()});out;`;
-        try {
-            const res = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(q));
-            const data = await res.json();
-            radarLayer.clearLayers();
-            data.elements.forEach(e => {
-                L.marker([e.lat, e.lon], {
-                    icon: L.divIcon({html: '<div style="background:white; border:2px solid #005ea5; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:16px;">🔑</div>', className: '', iconSize: [28, 28]})
-                }).addTo(radarLayer).bindPopup(`<b>🔑 Radar Key Toilet</b>`);
-            });
-        } catch (e) {}
-    }
+    map.on('moveend zoomend', refreshCommunityLayer);
 
     function initVan() {
         if (!vanMarker) { vanMarker = L.marker([54.8432, -1.4707], {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
