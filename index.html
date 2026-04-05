@@ -22,11 +22,12 @@
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid var(--success); padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
-        /* Grid Components */
+        /* Forecast Grid */
         .access-forecast { background: #1a1a1a; border: 1px solid var(--primary); border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
         .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .forecast-item b { color: #fff; display: block; }
 
+        /* Energy Section */
         .pulse-check { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
         .pulse-check h3 { font-size: 0.7em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; }
         .light-row { display: flex; gap: 8px; }
@@ -41,7 +42,7 @@
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; }
         .technique-box { background: #1a1a1a; border-left: 3px solid var(--success); padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; line-height: 1.4; }
 
-        /* Tabs */
+        /* Tools Tabs */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
         .a11y-tab { flex: 1; padding: 10px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.55em; text-transform: uppercase; font-weight: bold; }
         .a11y-tab.active { color: #fff; background: var(--primary); }
@@ -49,23 +50,22 @@
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map UI */
+        /* Map Popups */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
         .wc-status-box { margin-top: 10px; padding: 8px; border-radius: 4px; background: #f8f9fa; border: 1px solid #ddd; }
         .weather-alert { color: var(--primary); font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid var(--primary); line-height: 1.3; font-size: 0.85em; }
         
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; text-decoration: none; }
+        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; transition: 0.2s; text-decoration: none; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
 
         body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
 
-        /* MOBILE OVERRIDES */
         @media screen and (max-width: 768px) {
-            #app { flex-direction: column; }
-            #sidebar { width: 100%; min-width: 100%; height: 40vh; border-right: none; border-bottom: 1px solid #222; }
-            #map { height: 60vh; width: 100%; }
+            #app { flex-direction: column !important; }
+            #sidebar { width: 100% !important; min-width: 100% !important; height: 40vh !important; border-right: none; border-bottom: 1px solid #222; }
+            #map { height: 60vh !important; width: 100% !important; }
         }
     </style>
 </head>
@@ -134,11 +134,11 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
-                    <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
+                    <button id="toggle-rain" class="a11y-btn" style="background:#005ea5;" onclick="manualWeatherToggle()">☔ Manual Rain Mode: OFF</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
+                    <button class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:var(--primary)">🤟 999 BSL</a>
@@ -171,81 +171,89 @@ function showPane(p, btn) {
     var map = L.map('map', { zoomSnap: 0.5 }).setView([54.843, -1.470], 9);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    var liveRain = false;
+    var isRaining = false;
     var markerLayer = L.layerGroup().addTo(map);
     var communityLayer = L.layerGroup().addTo(map);
-    var trailLayer = L.layerGroup().addTo(map);
     var vanMarker = null;
 
-    var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
+    window.manualWeatherToggle = function() {
+        isRaining = !isRaining;
+        const btn = document.getElementById('toggle-rain');
+        btn.innerText = isRaining ? "☔ Manual Rain Mode: ACTIVE" : "☔ Manual Rain Mode: OFF";
+        btn.style.background = isRaining ? "#b71c1c" : "#005ea5";
+        document.getElementById('val-w').innerText = isRaining ? "Raining" : "Clear";
+        renderTrail(); 
+    };
 
     async function fetchWeather() {
         try {
             const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=54.84&longitude=-1.47&current_weather=true");
             const data = await res.json();
-            if ([51, 61, 63, 65, 80].includes(data.current_weather.weathercode)) liveRain = true;
-            document.getElementById('val-w').innerText = liveRain ? "Raining" : "Clear";
+            if ([51, 61, 63, 65, 80].includes(data.current_weather.weathercode)) isRaining = true;
+            document.getElementById('val-w').innerText = isRaining ? "Raining" : "Clear";
             document.getElementById('val-t').innerText = Math.round(data.current_weather.temperature) + "°C";
             document.getElementById('val-wind').innerText = Math.round(data.current_weather.windspeed) + " mph";
             renderTrail();
         } catch (e) { renderTrail(); }
     }
 
+    // VERIFIED BACKUP DATA FOR ALL 19 LOCATIONS
     const backupHubs = [
-        { name: "Houghton Library WC", lat: 54.8452, lon: -1.4723, type: "Verified WC Hub" },
-        { name: "Houghton Care Hub", lat: 54.8445, lon: -1.4758, type: "Verified Accessible" },
-        { name: "Washington Old Hall", lat: 54.903, lon: -1.516, type: "Verified Hub" },
+        { name: "Houghton Library WC", lat: 54.8452, lon: -1.4723, type: "Verified Hub" },
+        { name: "Houghton Care Centre NHS", lat: 54.8445, lon: -1.4758, type: "NHS Accessible" },
+        { name: "Washington Old Hall Visitor WC", lat: 54.903, lon: -1.516, type: "Verified Hub" },
         { name: "Durham Market Place", lat: 54.776, lon: -1.575, type: "Verified Radar" },
-        { name: "Byron Place (Seaham)", lat: 54.836, lon: -1.332, type: "Verified WC Hub" },
-        { name: "Alnwick Market WC", lat: 55.414, lon: -1.708, type: "Verified Accessible" },
-        { name: "Preston Park Hub", lat: 54.535, lon: -1.336, type: "Verified WC" },
+        { name: "Old Durham Gardens Hub", lat: 54.773, lon: -1.558, type: "Verified Hub" },
+        { name: "Preston Park Cafe Hub", lat: 54.535, lon: -1.336, type: "Verified Hub" },
         { name: "Ormesby Hall Toilets", lat: 54.544, lon: -1.182, type: "Verified Hub" },
-        { name: "Newcastle Eldon Square", lat: 54.974, lon: -1.614, type: "Verified WC" },
-        { name: "Jesmond Dene Hub", lat: 54.991, lon: -1.589, type: "Verified Hub" },
-        { name: "South Marine Hub", lat: 55.000, lon: -1.421, type: "Verified WC" },
-        { name: "Tyne Bridge Quayside", lat: 54.968, lon: -1.605, type: "Verified Hub" },
-        { name: "Castle Eden Dene WC", lat: 54.749, lon: -1.325, type: "Verified Hub" },
+        { name: "Angel of the North Public WC", lat: 54.914, lon: -1.588, type: "Verified Hub" },
+        { name: "Byron Place Seaham Hub", lat: 54.836, lon: -1.332, type: "Verified Hub" },
+        { name: "Roker Pier Hub", lat: 54.922, lon: -1.368, type: "Verified Hub" },
+        { name: "South Marine Hub WC", lat: 55.000, lon: -1.421, type: "Verified Hub" },
+        { name: "Jesmond Dene Visitor WC", lat: 54.991, lon: -1.589, type: "Verified Hub" },
+        { name: "Tyne Bridge Quayside Hub", lat: 54.968, lon: -1.605, type: "Verified Hub" },
+        { name: "Alnwick Garden Centre WC", lat: 55.415, lon: -1.705, type: "Verified Hub" },
+        { name: "Castle Eden Dene Hub", lat: 54.749, lon: -1.325, type: "Verified Hub" },
         { name: "Gibside Hub WC", lat: 54.925, lon: -1.727, type: "Verified Hub" },
-        { name: "Whitley Lodge Library", lat: 55.051, lon: -1.450, type: "Verified WC" },
+        { name: "Whitley Lodge Library WC", lat: 55.051, lon: -1.450, type: "Verified Hub" },
         { name: "Saltburn Pier WC", lat: 54.585, lon: -0.977, type: "Verified Radar" },
-        { name: "Hadrian's Wall Hub", lat: 55.002, lon: -2.361, type: "Verified WC" },
-        { name: "Bamburgh Centre", lat: 55.609, lon: -1.710, type: "Verified Hub" },
-        { name: "Seaham Library Hub", lat: 54.823, lon: -1.319, type: "Verified WC" }
+        { name: "Hadrian's Wall Hub WC", lat: 55.002, lon: -2.361, type: "Verified Hub" },
+        { name: "Bamburgh Visitor Centre", lat: 55.609, lon: -1.710, type: "Verified Hub" },
+        { name: "Seaham Shopping Hub", lat: 54.837, lon: -1.331, type: "Verified Hub" }
     ];
 
     var sites = [
-        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", img: "white-harmony.jpg", day: "10:30", night: "23:15", access: "Paved" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", day: "14:00", night: "23:22", access: "Gravel" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", day: "12:00", night: "23:25", access: "Cobbles" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", day: "11:00", night: "23:25", access: "Gravel" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", day: "15:00", night: "23:30", access: "Tarmac" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", day: "13:30", night: "23:35", access: "Sloped" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", day: "09:00", night: "23:24", access: "Grass" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", day: "08:30", night: "23:18", access: "Level" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", day: "16:00", night: "23:14", access: "Concrete" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", day: "11:30", night: "23:16", access: "Tarmac" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", day: "10:00", night: "23:26", access: "Woodland" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", day: "13:00", night: "23:25", access: "Paved" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", day: "11:00", night: "23:30", access: "Accessible" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, type: "landmark", img: "castle-eden.jpg", day: "10:45", night: "23:20", access: "Uneven" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", day: "14:30", night: "23:28", access: "Gravel" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", day: "09:30", night: "23:14", access: "Paved" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", day: "15:30", night: "23:10", access: "Lift" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", day: "12:30", night: "23:35", access: "Grass" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", day: "08:00", night: "23:18", access: "Sandy" }
+        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", img: "white-harmony.jpg", access: "Paved" },
+        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", access: "Gravel" },
+        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", access: "Cobbles" },
+        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", access: "Gravel" },
+        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", access: "Tarmac" },
+        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", access: "Sloped" },
+        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", access: "Grass" },
+        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", access: "Level" },
+        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", access: "Concrete" },
+        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", access: "Tarmac" },
+        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", access: "Woodland" },
+        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", access: "Paved" },
+        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", access: "Level" },
+        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, type: "landmark", img: "castle-eden.jpg", access: "Uneven" },
+        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", access: "Gravel" },
+        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", access: "Paved" },
+        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", access: "Lift" },
+        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", access: "Grass" },
+        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", access: "Sandy" }
     ];
 
     const stages = [
-        { id: 1, title: "Reset", text: "System check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Name 5 things you see, 4 you can touch, 3 hear, 2 smell, 1 taste. Anchors you in the present." },
+        { id: 1, title: "Reset", text: "Wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Identify 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste. Anchors you in the present." },
         { id: 2, title: "Expansion", text: "Expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale 4s, hold 4s, exhale 4s, hold empty 4s. Regulates heart rate." },
-        { id: 3, title: "Flow", text: "Movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Hold wrists under cold water for 30s to help reset a triggered 'fight or flight' response." },
+        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Run cold water over wrists for 30s to help reset a triggered nervous system." },
         { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug. Deep pressure helps the brain process where the body is in space." },
-        { id: 5, title: "Breathe", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b><br>Hum a low note to feel the vibration in your chest. Stimulates the Vagus nerve to soothe stress." }
+        { id: 5, title: "Breathe", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low note to feel the vibration in your chest. Stimulates the Vagus nerve to soothe stress." }
     ];
 
     function renderTrail() {
         markerLayer.clearLayers();
-        trailLayer.clearLayers();
         const container = document.getElementById('stages-container'); container.innerHTML = '';
         stages.forEach(st => {
             const bucket = document.createElement('div'); bucket.className = 'bucket'; bucket.id = 'bucket-' + st.id;
@@ -258,16 +266,20 @@ function showPane(p, btn) {
         sites.forEach(s => {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
-            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) 
-                ? `<span class='weather-alert'>⚠️ Caution: ${s.access} surface soft/slippery in rain.</span>` : "";
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wc-status-box'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
+            
+            // WHEELCHAIR CAUTION LOGIC
+            let advice = (isRaining && (s.access !== 'Paved' && s.access !== 'Concrete' && s.access !== 'Level')) 
+                ? `<div class='weather-alert'>⚠️ Caution: ${s.access} surface soft/slippery in rain.</div>` : "";
+
+            marker.bindPopup(`<div style="color:#000;"><strong style="color:var(--primary);">${s.name}</strong><div class='wc-status-box'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
+            
             coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
-            link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); };
+            link.onclick = () => { map.setView([s.lat, s.lon], 15, { animate: true }); marker.openPopup(); };
             const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
         });
-        L.polyline(coords, {color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(trailLayer);
-        if (!vanMarker) { vanMarker = L.marker([54.843, -1.470], {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
+        L.polyline(coords, {color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(map);
+        if (!vanMarker) { vanMarker = L.marker([54.843, -1.470], {icon: L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44]}), zIndexOffset: 1000}).addTo(map); }
     }
 
     map.on('moveend zoomend', function() {
@@ -276,24 +288,14 @@ function showPane(p, btn) {
             backupHubs.forEach(hub => {
                 if (map.getBounds().contains([hub.lat, hub.lon])) {
                     L.marker([hub.lat, hub.lon], {
-                        icon: L.divIcon({html: '<div style="background:#005ea5; color:white; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">♿</div>', className: '', iconSize: [32, 32]})
+                        icon: L.divIcon({html: '<div style="background:#005ea5; color:white; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:2px solid white; font-size:16px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">♿</div>', className: '', iconSize: [32, 32]})
                     }).addTo(communityLayer).bindPopup(`<b>Verified WC: ${hub.name}</b><br>${hub.type}`);
                 }
             });
         }
     });
 
-    document.getElementById('recenter-btn').onclick = function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                var c = [pos.coords.latitude, pos.coords.longitude];
-                if (vanMarker) vanMarker.setLatLng(c); map.flyTo(c, 15);
-            });
-        }
-    };
-
     fetchWeather();
-    document.getElementById('f-slider').oninput = (e) => document.documentElement.style.setProperty('--font-scale', e.target.value / 100);
 })();
 </script>
 </body>
