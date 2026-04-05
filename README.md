@@ -1,40 +1,36 @@
+Here is the updated documentation for your project. I have revised it to reflect all the major technical enhancements we have implemented, including the **Accessibility Suite**, **Live Weather Logic**, **Somatic Techniques**, and the **Community Backup Layer**.
+
+---
+
 # 🌸 Oubaitori Blossom Trail — Interactive Map
 
-The **Oubaitori Blossom Trail** is a mobile‑first, interactive map experience designed for the North East of England. 
+The **Oubaitori Blossom Trail** is a mobile‑optimised, high-accessibility interactive map experience designed for the North East of England. 
 
-The purpose of the trail is to raise awareness of the **Oubaitori Collective** a social enterprise that is committed to empowering neurodivergent adults to thrive through job and enterprise coaching, holistic wellbeing practices and advocacy.
+The purpose of the trail is to raise awareness of the **Oubaitori Collective**, a social enterprise committed to empowering neurodivergent adults to thrive through job and enterprise coaching, holistic wellbeing practices, and advocacy.
 
-The trail map blends geographic navigation with the Japanese philosophical principle **Oubaitori (桜梅桃李)** — the idea that Cherry, Plum, Peach, and Apricot blossoms each bloom in their own time, reminding us that every journey unfolds uniquely.
-
-This documentation provides a technical and narrative overview of the project, including architecture, implementation, and future roadmap.
+The trail blends geographic navigation with the Japanese philosophical principle **Oubaitori (桜梅桃李)** — the idea that Cherry, Plum, Peach, and Apricot blossoms each bloom in their own time, reminding us that every journey unfolds uniquely.
 
 ---
 
 ## 🌿 Project Overview
 
-The Blossom Trail guides users through a curated **17‑site route** of historic landmarks and seasonal blossom locations across the North East.
+The Blossom Trail guides users through a curated **19‑site route** of historic landmarks and seasonal blossom locations across 12 Local Authorities in the North East.
 
-The experience is built around:
+### **Core Experience Features**
+- **Live GPS Tracking:** Real-time vehicle tracking via a custom "Van" marker.
+- **Weather-Aware Accessibility:** Map pop-ups dynamically advise wheelchair users on terrain safety (e.g., mud/slip warnings for gravel or grass) based on live local rain data.
+- **Energy Accounting:** A integrated "Pulse Check" system allowing users to log their energy status (Thriving, Masking, Burnout).
+- **Community Backup Layer:** A focus-triggered system that displays verified accessible toilets, NHS hubs, and libraries when a user zooms in on a trail site.
+- **Somatic Regulation:** Each of the 5 narrative stages includes a step-by-step somatic grounding technique to manage sensory overwhelm.
 
-- Live GPS tracking of a moving vehicle  
-- A narrative arc inspired by Oubaitori  
-- A calm, mobile‑first interface  
-- Custom blossom and landmark iconography  
-- Visual storytelling through site imagery  
-
-**Signature Message**  
-> “Based on the Japanese principle 桜梅桃李 (Oubaitori): Just as the Cherry, Plum, Peach, and Apricot bloom in their own time, each journey is unique.”
+**Our Vision** > “Supporting neurodivergent adults to recover, regulate, and thrive.”
 
 **5‑Stage Narrative Framework**
-1. Reset  
-2. Expansion  
-3. Flow  
-4. Connection  
-5. Breath  
-
-**Closing Vision**  
-The trail concludes at **Houghton‑le‑Spring**, anchoring the message:  
-> “Growth doesn’t require pressure.”
+1. **Reset:** Wellness system check-in and grounding.
+2. **Expansion:** Moving toward expansive views and growth.
+3. **Flow:** Allowing movement and reflection in the current moment.
+4. **Connection:** Belonging without blending; where urban meets nature.
+5. **Breath:** Reaching the coast for wide skies and freedom.
 
 ---
 
@@ -42,66 +38,59 @@ The trail concludes at **Houghton‑le‑Spring**, anchoring the message:
 
 | Component | Technology | Purpose |
 |----------|------------|---------|
-| **Mapping Engine** | Leaflet.js | Renders map, markers, and path lines |
-| **Base Maps** | OpenStreetMap | Light, high‑detail geographic tiles |
-| **Location Tracking** | Geolocation API | Drives the live van icon via `navigator.geolocation` |
-| **UI/UX** | HTML5 & CSS3 | Responsive, high‑contrast sidebar and layout |
-| **Iconography** | SVG Vectors | Custom blossom and landmark markers |
-
-The application is intentionally built as a **lightweight SPA** for zero‑cost, high‑performance deployment.
+| **Mapping Engine** | Leaflet.js | Renders map, markers, and dotted trail path |
+| **Data Source** | Open-Meteo API | Provides live weather data for accessibility logic |
+| **Location Tracking** | Geolocation API | Drives the live van icon via GPS |
+| **Dynamic Search** | Overpass API | Powers the live "Radar Key" toilet search logic |
+| **UI/UX** | HTML5 / CSS3 | Mobile-responsive sidebar with dyslexia-friendly font toggles |
 
 ---
 
 ## 🧱 Project Architecture
 
-To maintain full functionality, the following files must remain in the **root directory**:
+To maintain full functionality, the following assets must remain in the **root directory**:
 
-- `index.html` — contains all HTML, CSS, and JavaScript logic  
-- `blossom1.svg` — icon for blossom‑focused locations  
-- `test-van.svg` — dynamic icon representing the live vehicle position  
-- **17 image assets** (`.jpg`) used for pop‑ups and sidebar visuals  
-  - e.g., `houghton.jpg`, `alnwick.jpg`, etc.
-
-All logic is embedded directly into `index.html` to ensure compatibility with GitHub Pages.
+- `index.html` — The master file containing all UI, CSS, and JavaScript logic.
+- `blossom1.svg` — Icon for blossom‑focused locations.
+- `test-van.svg` — Dynamic icon for live vehicle position tracking.
+- **19 Image Assets** (`.jpg`) — High-quality visuals for site pop‑ups.
+- **CSS Variables** — Used for global scaling (Font Size Slider) and High Contrast mode.
 
 ---
 
-## 🚀 Deployment Guide
+## 🚀 Accessibility Standards
 
-The Geolocation API requires **HTTPS**, which GitHub Pages provides automatically.
+The map is built specifically to support neurodivergent and disabled users:
+- **Dyslexia Font Toggle:** Instantly switches the UI to a high-readability typeface.
+- **Weather Logic:** Automatically triggers cautionary warnings for non-paved surfaces during rain.
+- **Emergency Suite:** Quick-access links for **999 BSL** and **Relay UK** (Text Relay) directly in the sidebar.
+- **Manual Overrides:** A manual "Rain Mode" toggle in the Tools tab for when API data is delayed.
+- **Visual Calm:** Smooth panning transitions (replacing jarring zoom movements) to prevent vestibular distress.
+
+---
+
+## 🛠️ Deployment Guide
 
 ### **1. Prepare Local Files**
-Place `index.html`, SVGs, and JPG assets together in a single folder.
+Place `index.html`, SVGs, and all 19 JPG assets together in a single folder.
 
 ### **2. Upload to GitHub**
-Create a **public repository** and upload the folder contents.
+Create a public repository and upload the folder contents.
 
 ### **3. Enable GitHub Pages**
-- Go to **Settings → Pages**  
-- Set **Source: main branch**  
-- Click **Save**
-
-### **4. Launch the Trail**
-Open the generated URL on a mobile device and grant **Location Permissions** when prompted.
+- Go to **Settings → Pages**
+- Set **Source: main branch**
+- Click **Save** (Ensure the URL begins with `https://` for GPS tracking to function).
 
 ---
 
-## 🌸 Future Enhancements
+## 🌸 Future Roadmap
 
-### **Geofencing Audio**
-Trigger Oubaitori‑themed narrations automatically when entering a site radius.
-
-### **Progress Persistence**
-Use `localStorage` to track visited sites across multiple days.
-
-### **Bloom Density API**
-Integrate horticultural data to show real‑time blossom conditions.
-
-### **Offline Support**
-Add a PWA manifest to enable offline map access in rural areas.
+- **Horticultural Density API:** Predicting peak bloom times across the North East.
+- **PWA Integration:** Full offline support to ensure safety in low-signal rural trail sections.
+- **User Contribution:** Anonymous evidence-gathering portal for neuro-inclusion feedback.
 
 ---
 
 ## 📜 License
-MIT License (or specify your preferred license).
-
+MIT License — *The Oubaitori Collective.*
