@@ -54,11 +54,10 @@
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map Elements */
+        /* Map Popups */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
         .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
         
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
@@ -138,14 +137,13 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
-                    <label>Text Scaling:</label>
                     <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable GB Toilet Map Search</button>
-                    <p style="font-size:0.75em; color:#bbb;">Click to dynamically load accessible toilets from the Great British Public Toilet Map in your current view.</p>
+                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;">Zoom in on any location to see Community Backup sites (Libraries/NHS hubs).</p>
+                    <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
@@ -181,13 +179,11 @@ function showPane(p, btn) {
     var liveRain = false;
     var radarEnabled = false;
     var markerLayer = L.layerGroup().addTo(map);
+    var communityLayer = L.layerGroup().addTo(map);
     var radarLayer = L.layerGroup().addTo(map);
     var vanMarker = null;
 
     var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
-    function initVan() {
-        if (!vanMarker) { vanMarker = L.marker([54.8432, -1.4707], {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
-    }
 
     async function fetchWeather() {
         try {
@@ -224,12 +220,19 @@ function showPane(p, btn) {
         { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", day: "08:00", night: "23:18", access: "Sandy" }
     ];
 
+    const backupHubs = [
+        { name: "Houghton Library", lat: 54.8452, lon: -1.4723, area: "Houghton", type: "Safe Space" },
+        { name: "Houghton Primary Care (NHS)", lat: 54.8445, lon: -1.4758, area: "Houghton", type: "NHS Hub" },
+        { name: "Byron Place (Seaham)", lat: 54.8360, lon: -1.3320, area: "Seaham", type: "Hub" },
+        { name: "Alnwick Market Clinic", lat: 55.4140, lon: -1.7080, area: "Alnwick", type: "Safe Space" }
+    ];
+
     const stages = [
-        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
-        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b>" },
-        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Grounding</b>" },
-        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Hug</b>" },
-        { id: 5, title: "Breathe", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
+        { id: 1, title: "Reset", text: "Wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
+        { id: 2, title: "Expansion", text: "Reflect on growth.", technique: "<b>Technique 2: Box Breathing</b>" },
+        { id: 3, title: "Flow", text: "Current of your journey.", technique: "<b>Technique 3: Wrist Grounding</b>" },
+        { id: 4, title: "Connection", text: "Sanctuary urban meets nature.", technique: "<b>Technique 4: Firm Hug</b>" },
+        { id: 5, title: "Breath", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
     ];
 
     function renderTrail() {
@@ -242,55 +245,67 @@ function showPane(p, btn) {
             container.appendChild(bucket);
         });
 
-        var coords = [];
         sites.forEach(s => {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
-            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface may be soft or slippery for wheelchairs in current rain.</span>" : "";
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
-            coords.push([s.lat, s.lon]);
+            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface soft/slippery in rain.</span>" : "";
+            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
+            
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
-            link.onclick = () => { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
-            document.getElementById('list-' + s.stage).appendChild(link);
+            link.onclick = () => { map.flyTo([s.lat, s.lon], 16); marker.openPopup(); };
+            const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
         });
-        L.polyline(coords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(markerLayer);
         initVan();
     }
 
-    // GB TOILET MAP INTEGRATION
+    // COMMUNITY LAYER FOCUS LOGIC
+    function checkCommunityFocus() {
+        if (map.getZoom() >= 14) {
+            communityLayer.clearLayers();
+            backupHubs.forEach(hub => {
+                if (map.getBounds().contains([hub.lat, hub.lon])) {
+                    L.marker([hub.lat, hub.lon], {
+                        icon: L.divIcon({html: '<div style="background:#00c853; color:white; border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center; border:2px solid white; font-size:12px;">🏥</div>', className: '', iconSize: [24, 24]})
+                    }).addTo(communityLayer).bindPopup(`<b>Community Backup: ${hub.name}</b><br>${hub.type}`);
+                }
+            });
+        } else { communityLayer.clearLayers(); }
+    }
+
+    map.on('zoomend moveend', checkCommunityFocus);
+
     window.toggleRadar = function() {
         radarEnabled = !radarEnabled;
         const btn = document.getElementById('radar-toggle');
-        btn.innerText = radarEnabled ? "🔑 Loading GB Toilet Data..." : "🔑 Enable GB Toilet Map Search";
-        btn.style.background = radarEnabled ? "#00c853" : "#005ea5";
-        if (radarEnabled) fetchGBToilets(); else radarLayer.clearLayers();
+        btn.innerText = radarEnabled ? "🔑 Active: Zoom to search..." : "🔑 Enable Dynamic Radar Search";
+        if (!radarEnabled) radarLayer.clearLayers(); else fetchRadarLocal();
     };
 
-    async function fetchGBToilets() {
-        if (!radarEnabled) return;
+    async function fetchRadarLocal() {
+        if (!radarEnabled || map.getZoom() < 12) return;
         const b = map.getBounds();
-        // Dynamic fetch from Great British Public Toilet Map API
-        const url = `https://www.toiletmap.org.uk/api/loos/nearby?lat=${map.getCenter().lat}&lng=${map.getCenter().lng}&limit=30`;
+        const q = `[out:json];node["amenity"="toilets"]["wheelchair"~"yes|limited"](${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()});out;`;
         try {
-            const res = await fetch(url);
+            const res = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(q));
             const data = await res.json();
             radarLayer.clearLayers();
-            data.forEach(loo => {
-                L.marker([loo.location.coordinates[1], loo.location.coordinates[0]], {
-                    icon: L.divIcon({html: '<div style="background:#005ea5; border:2px solid white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:16px;">🔑</div>', className: '', iconSize: [28, 28]})
-                }).addTo(radarLayer).bindPopup(`<b>🔑 Public Toilet (GBPTM)</b><br>${loo.name || 'Accessible Facility'}`);
+            data.elements.forEach(e => {
+                L.marker([e.lat, e.lon], {
+                    icon: L.divIcon({html: '<div style="background:white; border:2px solid #005ea5; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:16px;">🔑</div>', className: '', iconSize: [28, 28]})
+                }).addTo(radarLayer).bindPopup(`<b>🔑 Radar Key Toilet</b>`);
             });
-        } catch (err) { console.log("GBPTM API fetch error"); }
+        } catch (e) {}
     }
 
-    map.on('moveend', () => { if (radarEnabled) fetchGBToilets(); });
+    function initVan() {
+        if (!vanMarker) { vanMarker = L.marker([54.8432, -1.4707], {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
+    }
 
     document.getElementById('recenter-btn').onclick = function() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var c = [pos.coords.latitude, pos.coords.longitude];
-                if (vanMarker) { vanMarker.setLatLng(c); }
-                map.flyTo(c, 15);
+                if (vanMarker) vanMarker.setLatLng(c); map.flyTo(c, 15);
             });
         }
     };
