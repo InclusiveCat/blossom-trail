@@ -140,12 +140,11 @@
                     <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <button class="a11y-btn" onclick="renderRadarMarkers()">Show Radar Key Locations</button>
+                    <button class="a11y-btn" style="background:#005ea5; font-weight:bold;" onclick="renderRadarMarkers()">🔑 Show Radar Key Locations</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
                     <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
-                    <p style="font-size:0.8em; color:#bbb; margin-top:5px;">SMS 999: Text 'REGISTER' to 999 first.</p>
                 </div>
             </div>
         </div>
@@ -215,11 +214,11 @@ function showPane(p, btn) {
     ];
 
     const stages = [
-        { id: 1, title: "Reset", text: "Begin with a wellness system check-in. Focus on breath, body, and stillness.", technique: "<b>Technique 1: 5-4-3-2-1</b> - Name 5 things you can see, 4 you can feel, 3 you hear, 2 you smell, and 1 you can taste." },
-        { id: 2, title: "Expansion", text: "Move toward expansive views. Reflect on your capacity to grow and create space.", technique: "<b>Technique 2: Box Breathing</b> - Inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 4 times." },
-        { id: 3, title: "Flow", text: "Allow movement and reflection. 'Be' in the current of your journey.", technique: "<b>Technique 3: Wrist Grounding</b> - Splash cold water on your wrists or hold a cold bottle to ground your nervous system." },
-        { id: 4, title: "Connection", text: "Belonging without blending. Urban meets nature in a sanctuary.", technique: "<b>Technique 4: Firm Hug</b> - Cross your arms and give yourself a firm hug to provide calming proprioceptive input." },
-        { id: 5, title: "Breath", text: "Travel toward the coast. Wide skies and sea air. Freedom to Be.", technique: "<b>Technique 5: Humming</b> - Close your mouth and hum a low note, feeling the vibration in your chest to soothe the vagus nerve." }
+        { id: 1, title: "Reset", text: "Begin with a wellness system check-in. Focus on breath, body, and stillness.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
+        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b>" },
+        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Grounding</b>" },
+        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Hug</b>" },
+        { id: 5, title: "Breath", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
     ];
 
     function renderTrail() {
@@ -236,10 +235,7 @@ function showPane(p, btn) {
         sites.forEach(s => {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
-            
-            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete' && s.access !== 'Level')) 
-                ? "<span class='weather-alert'>⚠️ Caution: Surface may be soft or slippery for wheelchairs in current rain.</span>" : "";
-
+            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface may be soft or slippery for wheelchairs in current rain.</span>" : "";
             marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
             coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
@@ -250,21 +246,14 @@ function showPane(p, btn) {
     }
 
     window.renderRadarMarkers = function() {
-        radarLayer.clearLayers();
-        const toilets = [
-            {lat: 54.776, lon: -1.575, name: "Durham Market Place"}, 
-            {lat: 54.906, lon: -1.383, name: "Sunderland Bridges"}, 
-            {lat: 54.973, lon: -1.613, name: "Newcastle Eldon Square"}, 
-            {lat: 54.835, lon: -1.468, name: "Houghton Library"}
-        ];
-        toilets.forEach(t => {
-            L.marker([t.lat, t.lon], {
-                icon: L.icon({
-                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/2313/2313360.png', 
-                    iconSize:[25,25]
-                })
-            }).addTo(radarLayer).bindPopup(`<b>Radar Key Accessible Toilet</b><br>${t.name}`);
+        if (radarLayer.getLayers().length > 0) { radarLayer.clearLayers(); return; }
+        const keyIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/1041/1041926.png', 
+            iconSize: [35, 35],
+            iconAnchor: [17, 17]
         });
+        const toilets = [{lat: 54.776, lon: -1.575, name: "Durham Market Place"}, {lat: 54.906, lon: -1.383, name: "Sunderland Bridges"}];
+        toilets.forEach(t => L.marker([t.lat, t.lon], {icon: keyIcon}).addTo(radarLayer).bindPopup(`<b>🔑 Radar Key Toilet</b><br>${t.name}`));
         map.flyTo([54.843, -1.470], 10);
     };
 
@@ -273,7 +262,7 @@ function showPane(p, btn) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(pos) {
                 var c = [pos.coords.latitude, pos.coords.longitude];
-                if (!vanMarker) { vanMarker = L.marker(c, {icon: vanIcon}).addTo(map); }
+                if (!vanMarker) { vanMarker = L.marker(c, {icon: vanIcon, zIndexOffset: 1000}).addTo(map); }
                 else { vanMarker.setLatLng(c); }
                 map.flyTo(c, 15);
             });
