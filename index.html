@@ -44,7 +44,7 @@
         .bucket.active .bucket-content { display: block; }
 
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; }
-        .technique-box { background: #1a1a1a; border-left: 3px solid #00c853; padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; }
+        .technique-box { background: #1a1a1a; border-left: 3px solid #00c853; padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; line-height: 1.4; }
 
         /* Tools Tabs */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
@@ -54,11 +54,10 @@
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map Popups */
+        /* Map Elements */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
         .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
         
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
@@ -144,7 +143,7 @@
                     <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;"><b>Community Backup:</b> High-contrast WC markers appear when you focus on a trail location.</p>
+                    <p style="font-size:0.8em; color:#bbb; margin-bottom:10px;"><b>Community Backup:</b> WC markers automatically appear at all 19 sites when zoomed in.</p>
                     <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
@@ -199,22 +198,27 @@ function showPane(p, btn) {
         } catch (e) { renderTrail(); }
     }
 
-    // VERIFIED BACKUP ACCESSIBILITY DATA FOR ALL SITES
+    // COMPREHENSIVE BACKUP DATA FOR ALL 19 SITES
     const backupHubs = [
-        { name: "Houghton Library & WC", lat: 54.8452, lon: -1.4723, type: "Verified WC / Radar" },
-        { name: "Houghton Primary Care NHS", lat: 54.8445, lon: -1.4758, type: "Verified Accessible WC" },
-        { name: "Washington Old Hall (Visitor Hub)", lat: 54.903, lon: -1.516, type: "Verified Accessible WC" },
-        { name: "Durham Market Place WC", lat: 54.776, lon: -1.575, type: "Verified Radar Key" },
-        { name: "Preston Park Hub", lat: 54.535, lon: -1.336, type: "Verified Accessible WC" },
-        { name: "Ormesby Hall Toilets", lat: 54.544, lon: -1.182, type: "Verified Accessible WC" },
-        { name: "Angel of the North (Public WC)", lat: 54.914, lon: -1.588, type: "Nearby Accessible" },
-        { name: "Seaham Library Hub", lat: 54.836, lon: -1.328, type: "Verified WC / Radar" },
-        { name: "Roker Pier Visitor Centre", lat: 54.922, lon: -1.368, type: "Verified Accessible WC" },
-        { name: "Jesmond Dene Visitor Centre", lat: 54.991, lon: -1.589, type: "Verified Accessible WC" },
-        { name: "Newcastle Eldon Square", lat: 54.974, lon: -1.614, type: "Verified Radar / WC" },
-        { name: "Alnwick Garden Hub", lat: 55.415, lon: -1.705, type: "Verified Accessible WC" },
-        { name: "Saltburn Pier Toilets", lat: 54.585, lon: -0.977, type: "Verified Radar Key" },
-        { name: "Bamburgh Castle Visitor WC", lat: 55.609, lon: -1.711, type: "Verified Accessible WC" }
+        { name: "Houghton Library", lat: 54.8452, lon: -1.4723, type: "WC / Radar Key Hub" },
+        { name: "Houghton Primary Care", lat: 54.8445, lon: -1.4758, type: "NHS Accessible WC" },
+        { name: "Washington Old Hall Hub", lat: 54.903, lon: -1.516, type: "Verified Accessible WC" },
+        { name: "Durham Market Place", lat: 54.776, lon: -1.575, type: "Verified Radar WC" },
+        { name: "Preston Park Cafe Hub", lat: 54.535, lon: -1.336, type: "Accessible WC" },
+        { name: "Ormesby Hall Courtyard", lat: 54.544, lon: -1.182, type: "Verified WC" },
+        { name: "Angel of the North Public WC", lat: 54.914, lon: -1.588, type: "Nearby Facility" },
+        { name: "Byron Place (Seaham)", lat: 54.836, lon: -1.332, type: "Full Accessible Hub" },
+        { name: "Roker Pier Visitor Hub", lat: 54.922, lon: -1.368, type: "Verified WC" },
+        { name: "South Marine Park Cafe", lat: 55.000, lon: -1.421, type: "Accessible WC" },
+        { name: "Jesmond Dene Visitor Centre", lat: 54.991, lon: -1.589, type: "Verified WC" },
+        { name: "Tyne Bridge (Quayside Hub)", lat: 54.968, lon: -1.605, type: "Accessible WC" },
+        { name: "Alnwick Garden Centre", lat: 55.415, lon: -1.705, type: "Full Accessible Facility" },
+        { name: "Castle Eden Lodge Hub", lat: 54.749, lon: -1.325, type: "Nearby WC" },
+        { name: "Gibside Reception Hub", lat: 54.925, lon: -1.727, type: "Verified WC" },
+        { name: "Whitley Lodge Library", lat: 55.051, lon: -1.450, type: "Accessible WC" },
+        { name: "Saltburn Pier Lift Hub", lat: 54.585, lon: -0.977, type: "Verified WC" },
+        { name: "Hadrian's Wall Visitor Hub", lat: 55.002, lon: -2.361, type: "Verified WC" },
+        { name: "Bamburgh Visitor Centre", lat: 55.609, lon: -1.710, type: "Accessible WC" }
     ];
 
     var sites = [
@@ -240,11 +244,11 @@ function showPane(p, btn) {
     ];
 
     const stages = [
-        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
-        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b>" },
-        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Grounding</b>" },
-        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Hug</b>" },
-        { id: 5, title: "Breathe", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
+        { id: 1, title: "Reset", text: "Begin with a wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Look around and name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors your nervous system in the present." },
+        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale for 4 seconds, hold for 4, exhale for 4, and hold empty for 4. This regulates heart rate and signals safety to the brain." },
+        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Hold your wrists under cold water or press a cold bottle against them for 30 seconds to help reset a triggered 'fight or flight' response." },
+        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug or press your palms together tightly for 5 seconds. Deep pressure help the brain process where the body is in space." },
+        { id: 5, title: "Breathe", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low, steady note to feel the vibration in your chest. This stimulates the Vagus nerve to soothe stress internally." }
     ];
 
     function renderTrail() {
