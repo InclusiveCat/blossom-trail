@@ -54,7 +54,7 @@
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map Popups */
+        /* Map Elements */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
@@ -67,8 +67,9 @@
         body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
 
         @media screen and (max-width: 768px) {
-            #sidebar { width: 100% !important; min-width: 100% !important; height: 45vh !important; }
-            #map { height: 55vh !important; width: 100% !important; }
+            #app { flex-direction: column; }
+            #sidebar { width: 100%; height: 45vh; border-right: none; border-bottom: 1px solid #222; }
+            #map { height: 55vh; }
         }
     </style>
 </head>
@@ -122,7 +123,9 @@
         <div class="bucket" id="bucket-vision">
             <div class="bucket-header" onclick="toggleBucket('vision')"><strong>🌸 Our Vision</strong><span>▼</span></div>
             <div class="bucket-content">
-                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">Supporting neurodivergent adults to recover, regulate, and thrive.</p>
+                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">
+                    <strong>Our vision:</strong> Supporting neurodivergent adults to recover, regulate, and thrive.
+                </p>
             </div>
         </div>
 
@@ -135,13 +138,13 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
-                    <label>Font Size:</label>
+                    <label>Text Scaling:</label>
                     <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
                     <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
                     <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <button class="a11y-btn" style="background:#005ea5; font-weight:bold;" onclick="renderRadarMarkers()">🔑 Toggle Radar Key Toilets</button>
+                    <button id="radar-toggle" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
@@ -175,9 +178,15 @@ function showPane(p, btn) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     var liveRain = false;
+    var radarEnabled = false;
     var markerLayer = L.layerGroup().addTo(map);
     var radarLayer = L.layerGroup().addTo(map);
     var vanMarker = null;
+
+    var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
+    function initVan() {
+        if (!vanMarker) { vanMarker = L.marker([54.8432, -1.4707], {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
+    }
 
     async function fetchWeather() {
         try {
@@ -215,11 +224,11 @@ function showPane(p, btn) {
     ];
 
     const stages = [
-        { id: 1, title: "Reset", text: "Begin with a wellness system check-in. Focus on breath, body, and stillness.", technique: "<b>Technique 1: 5-4-3-2-1</b>" },
-        { id: 2, title: "Expansion", text: "Move toward expansive views.", technique: "<b>Technique 2: Box Breathing</b>" },
-        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Grounding</b>" },
-        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Hug</b>" },
-        { id: 5, title: "Breathe", text: "Wide skies and sea air.", technique: "<b>Technique 5: Humming</b>" }
+        { id: 1, title: "Reset", text: "Begin with a wellness system check-in. Focus on breath, body, and stillness.", technique: "<b>Technique 1: 5-4-3-2-1</b> - Name 5 things you can see, 4 you can feel, 3 you hear, 2 you smell, and 1 you can taste." },
+        { id: 2, title: "Expansion", text: "Move toward expansive views. Reflect on your capacity to grow.", technique: "<b>Technique 2: Box Breathing</b> - Inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 4 times." },
+        { id: 3, title: "Flow", text: "Allow movement and reflection. 'Be' in the current of your journey.", technique: "<b>Technique 3: Wrist Grounding</b> - Splash cold water on your wrists to ground your nervous system." },
+        { id: 4, title: "Connection", text: "Belonging without blending. Urban meets nature in a sanctuary.", technique: "<b>Technique 4: Firm Hug</b> - Cross your arms and give yourself a firm hug for proprioceptive input." },
+        { id: 5, title: "Breathe", text: "Travel toward the coast. Wide skies and sea air. Freedom to Be.", technique: "<b>Technique 5: Humming</b> - Hum a low note, feeling the vibration in your chest to soothe the vagus nerve." }
     ];
 
     function renderTrail() {
@@ -237,38 +246,41 @@ function showPane(p, btn) {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
             let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) ? "<span class='weather-alert'>⚠️ Caution: Surface may be soft or slippery for wheelchairs in current rain.</span>" : "";
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
+            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} <span class='wc-symbol'>♿</span></div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
             coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
             link.onclick = () => { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
             document.getElementById('list-' + s.stage).appendChild(link);
         });
         L.polyline(coords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(markerLayer);
-        
-        // RE-INITIALISE VAN ON RENDER
         initVan();
     }
 
-    window.renderRadarMarkers = function() {
-        if (radarLayer.getLayers().length > 0) { radarLayer.clearLayers(); return; }
-        const keyIcon = L.divIcon({
-            html: '<div style="background:white; border:2px solid #005ea5; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">🔑</div>',
-            className: '', iconSize: [30, 30], iconAnchor: [15, 15]
-        });
-        const locations = [
-            {lat: 54.776, lon: -1.575, name: "Durham Market Place"}, {lat: 54.906, lon: -1.383, name: "Sunderland Bridges"},
-            {lat: 54.973, lon: -1.613, name: "Newcastle Eldon Square"}, {lat: 54.835, lon: -1.468, name: "Houghton Library"}
-        ];
-        locations.forEach(t => L.marker([t.lat, t.lon], {icon: keyIcon}).addTo(radarLayer).bindPopup(`<b>🔑 Radar Key Toilet</b><br>${t.name}`));
-        map.fitBounds(L.latLngBounds(locations.map(t => [t.lat, t.lon])), {padding: [50, 50]});
+    window.toggleRadar = function() {
+        radarEnabled = !radarEnabled;
+        const btn = document.getElementById('radar-toggle');
+        btn.innerText = radarEnabled ? "🔑 Active: Searching Local Area..." : "🔑 Enable Dynamic Radar Search";
+        btn.style.background = radarEnabled ? "#00c853" : "#005ea5";
+        if (radarEnabled) fetchRadarLocal(); else radarLayer.clearLayers();
     };
 
-    var vIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
-    
-    function initVan() {
-        const start = [54.8432, -1.4707];
-        if (!vanMarker) { vanMarker = L.marker(start, {icon: vIcon, zIndexOffset: 1000}).addTo(map); }
+    async function fetchRadarLocal() {
+        if (!radarEnabled) return;
+        const b = map.getBounds();
+        const query = `[out:json];node["amenity"="toilets"]["wheelchair"~"yes|limited"](${b.getSouth()},${b.getWest()},${b.getNorth()},${b.getEast()});out;`;
+        try {
+            const res = await fetch("https://overpass-api.de/api/interpreter?data=" + encodeURIComponent(query));
+            const data = await res.json();
+            radarLayer.clearLayers();
+            data.elements.forEach(e => {
+                L.marker([e.lat, e.lon], {
+                    icon: L.divIcon({html: '<div style="background:white; border:2px solid #005ea5; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:16px;">🔑</div>', className: '', iconSize: [28, 28]})
+                }).addTo(radarLayer).bindPopup(`<b>🔑 Radar Key Toilet</b><br>Accessibility: ${e.tags.wheelchair || 'Yes'}`);
+            });
+        } catch (err) { console.log("Radar fetch error"); }
     }
+
+    map.on('moveend', () => { if (radarEnabled) fetchRadarLocal(); });
 
     document.getElementById('recenter-btn').onclick = function() {
         if (navigator.geolocation) {
