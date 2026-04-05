@@ -25,18 +25,17 @@
         .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
         .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid #00c853; padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
 
-        /* Forecast Grid */
+        /* Forecast and Energy */
         .access-forecast { background: #1a1a1a; border: 1px solid #d81b60; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
         .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .forecast-item b { color: #fff; display: block; }
-
-        /* Energy Section */
+        
         .pulse-check { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
         .pulse-check h3 { font-size: 0.7em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; }
         .light-row { display: flex; gap: 8px; }
         .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.72em; font-weight: bold; color: #000; text-transform: uppercase; }
 
-        /* Buckets & Narratives */
+        /* Buckets */
         .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
         .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: #d81b60; }
@@ -44,7 +43,7 @@
         .bucket.active .bucket-content { display: block; }
 
         .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; }
-        .technique-box { background: #1a1a1a; border-left: 3px solid #00c853; padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; }
+        .technique-box { background: #1a1a1a; border-left: 3px solid #00c853; padding: 10px; margin-top: 15px; font-size: 0.8em; color: #fff; }
 
         /* Tools Tabs */
         .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
@@ -54,12 +53,12 @@
         .a11y-pane.active { display: block; }
         .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
 
-        /* Map Popups */
+        /* Map and Alerts */
         #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
         .leaflet-popup-content-wrapper { color: #000 !important; }
         .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wc-symbol { font-size: 1.2em; vertical-align: middle; }
-        .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid #d81b60; line-height: 1.3; }
+        .wheelchair-note { font-size: 0.8em; margin-top: 5px; font-weight: bold; color: #000; }
+        .weather-alert { color: #d81b60; font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 4px; border-radius: 3px; border: 1px solid #d81b60; }
         
         .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; border-left: 0px solid #d81b60; transition: 0.2s; text-decoration: none; }
         #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: #d81b60; color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -67,9 +66,8 @@
         body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
 
         @media screen and (max-width: 768px) {
-            #app { flex-direction: column; }
-            #sidebar { width: 100%; height: 45vh; border-right: none; border-bottom: 1px solid #222; }
-            #map { height: 55vh; }
+            #sidebar { width: 100% !important; min-width: 100% !important; height: 45vh !important; }
+            #map { height: 55vh !important; width: 100% !important; }
         }
     </style>
 </head>
@@ -82,7 +80,10 @@
         
         <div class="welcome-msg">
             Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
-            <strong>Not able to join us?</strong> We would still like to hear your views. <br> <br>Tell us how you are feeling right now and which area you live in. <br><br>Then complete the question in each stage of the trail below. <br><br> <strong>Your views matter to us!</strong>
+            <strong>Not able to join us?</strong> We would still like to hear your views.<br><br>
+            Tell us how you are feeling right now and which area you live in.<br><br>
+            Then complete the question in each stage of the trail below.<br><br>
+            <strong>Your views matter to us!</strong>
         </div>
 
         <div class="access-forecast">
@@ -120,10 +121,7 @@
         <div class="bucket" id="bucket-vision">
             <div class="bucket-header" onclick="toggleBucket('vision')"><strong>🌸 Our Vision</strong><span>▼</span></div>
             <div class="bucket-content">
-                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">
-                    <strong>Closing vision:<br></strong>Growth doesn't require pressure. Wherever your starting point, the destination is your choice. <br> A new landmark trail and a new community of belonging and choice.
-                    <br><br>Join the Oubaitori Collective, where space to blossom truly exists.                 
-                </p>
+                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">Our vision is a sustainable, multi-seven-figure employee-owned trust where 80% of staff are neurodivergent, valuing unique individual growth without comparison.</p>
             </div>
         </div>
 
@@ -136,17 +134,18 @@
                     <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
                 </div>
                 <div id="pane-disp" class="a11y-pane active">
+                    <label>Font Size:</label>
                     <input type="range" id="f-slider" min="80" max="150" value="100" style="width:100%; margin-bottom:15px;">
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Font</button>
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
+                    <button class="a11y-btn" onclick="document.body.classList.toggle('high-contrast')">High Contrast Mode</button>
                 </div>
                 <div id="pane-nav" class="a11y-pane">
-                    <button class="a11y-btn" onclick="showRadarKeys()">Show Radar Key Locations</button>
+                    <button class="a11y-btn" onclick="renderRadarMarkers()">Show Radar Key Locations</button>
                 </div>
                 <div id="pane-em" class="a11y-pane">
                     <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:#d81b60">🤟 999 BSL</a>
                     <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
-                    <p style="font-size:0.8em; color:#bbb; margin-top:5px;">SMS: Text 'REGISTER' to 999.</p>
+                    <p style="font-size:0.8em; color:#bbb; margin-top:5px;">SMS 999: Text 'REGISTER' to 999 first.</p>
                 </div>
             </div>
         </div>
@@ -178,6 +177,7 @@ function showPane(p, btn) {
     var liveRain = false;
     var markerLayer = L.layerGroup().addTo(map);
     var radarLayer = L.layerGroup().addTo(map);
+    var vanMarker = null;
 
     async function fetchWeather() {
         try {
@@ -219,7 +219,7 @@ function showPane(p, btn) {
         { id: 2, title: "Expansion", text: "Move toward expansive views. Reflect on your capacity to grow and create space.", technique: "<b>Technique 2: Box Breathing</b> - Inhale for 4 seconds, hold for 4, exhale for 4, hold for 4. Repeat 4 times." },
         { id: 3, title: "Flow", text: "Allow movement and reflection. 'Be' in the current of your journey.", technique: "<b>Technique 3: Wrist Grounding</b> - Splash cold water on your wrists or hold a cold bottle to ground your nervous system." },
         { id: 4, title: "Connection", text: "Belonging without blending. Urban meets nature in a sanctuary.", technique: "<b>Technique 4: Firm Hug</b> - Cross your arms and give yourself a firm hug to provide calming proprioceptive input." },
-        { id: 5, title: "Breathe", text: "Travel toward the coast. Wide skies and sea air. Freedom to Be.", technique: "<b>Technique 5: Humming</b> - Close your mouth and hum a low note, feeling the vibration in your chest to soothe the vagus nerve." }
+        { id: 5, title: "Breath", text: "Travel toward the coast. Wide skies and sea air. Freedom to Be.", technique: "<b>Technique 5: Humming</b> - Close your mouth and hum a low note, feeling the vibration in your chest to soothe the vagus nerve." }
     ];
 
     function renderTrail() {
@@ -237,10 +237,10 @@ function showPane(p, btn) {
             var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30]}) : new L.Icon.Default());
             var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
             
-            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete')) 
+            let advice = (liveRain && (s.access !== 'Paved' && s.access !== 'Concrete' && s.access !== 'Level')) 
                 ? "<span class='weather-alert'>⚠️ Caution: Surface may be soft or slippery for wheelchairs in current rain.</span>" : "";
 
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} <span class='wc-symbol'>♿</span></div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
+            marker.bindPopup(`<div style="color:#000;"><strong style="color:#d81b60;">${s.name}</strong><div class='wheelchair-note'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'><br><small>☀️ Day: ${s.day} | 🌙 Night: ${s.night}</small></div>`);
             coords.push([s.lat, s.lon]);
             const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
             link.onclick = () => { map.flyTo([s.lat, s.lon], 14); marker.openPopup(); };
@@ -249,11 +249,35 @@ function showPane(p, btn) {
         L.polyline(coords, {color: '#d81b60', weight: 3, opacity: 0.5, dashArray: '8, 12'}).addTo(markerLayer);
     }
 
-    window.showRadarKeys = function() {
+    window.renderRadarMarkers = function() {
         radarLayer.clearLayers();
-        const toilets = [[54.776, -1.575], [54.906, -1.383], [54.973, -1.613], [54.835, -1.468]];
-        toilets.forEach(t => L.marker(t, {icon: L.icon({iconUrl: 'https://cdn-icons-png.flaticon.com/512/2313/2313360.png', iconSize:[25,25]})}).addTo(radarLayer).bindPopup("<b>Radar Key Accessible Toilet</b>"));
-        map.fitBounds(L.latLngBounds(toilets));
+        const toilets = [
+            {lat: 54.776, lon: -1.575, name: "Durham Market Place"}, 
+            {lat: 54.906, lon: -1.383, name: "Sunderland Bridges"}, 
+            {lat: 54.973, lon: -1.613, name: "Newcastle Eldon Square"}, 
+            {lat: 54.835, lon: -1.468, name: "Houghton Library"}
+        ];
+        toilets.forEach(t => {
+            L.marker([t.lat, t.lon], {
+                icon: L.icon({
+                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/2313/2313360.png', 
+                    iconSize:[25,25]
+                })
+            }).addTo(radarLayer).bindPopup(`<b>Radar Key Accessible Toilet</b><br>${t.name}`);
+        });
+        map.flyTo([54.843, -1.470], 10);
+    };
+
+    var vanIcon = L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44], iconAnchor: [22, 22]});
+    document.getElementById('recenter-btn').onclick = function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                var c = [pos.coords.latitude, pos.coords.longitude];
+                if (!vanMarker) { vanMarker = L.marker(c, {icon: vanIcon}).addTo(map); }
+                else { vanMarker.setLatLng(c); }
+                map.flyTo(c, 15);
+            });
+        }
     };
 
     fetchWeather();
