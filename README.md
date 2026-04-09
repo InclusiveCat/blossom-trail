@@ -4,7 +4,7 @@ Here is the updated documentation for your project. I have revised it to reflect
 
 # 🌸 Oubaitori Blossom Trail — Interactive Map
 
-The **Oubaitori Blossom Trail** is a mobile‑optimised, high-accessibility interactive map experience designed for the North East of England. 
+The **Oubaitori Blossom Trail** is a mobile‑optimised, high-accessibility interactive map experience designed for the North East of England and beyond. 
 
 The purpose of the trail is to raise awareness of the **Oubaitori Collective**, a social enterprise committed to empowering neurodivergent adults to thrive through job and enterprise coaching, holistic wellbeing practices, and advocacy.
 
@@ -86,7 +86,7 @@ Create a public repository and upload the folder contents.
 
 ## 🌸 Future Roadmap
 
-- **Horticultural Density API:** Predicting peak bloom times across the North East.
+- **Horticultural Density API:** Predicting peak bloom times across the North East and the wider UK.
 - **PWA Integration:** Full offline support to ensure safety in low-signal rural trail sections.
 - **User Contribution:** Anonymous evidence-gathering portal for neuro-inclusion feedback.
 

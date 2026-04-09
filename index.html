@@ -1,302 +1,1849 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+
 <head>
     <title>Oubaitori Collective Blossom Trail</title>
     <meta charset="UTF-8">
+    <meta name="description"
+        content="Join the Oubaitori Collective Blossom Trail — gathering anonymous evidence to design new neurodivergent support services across the North East of England and beyond.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d81b60">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* UI FOUNDATIONS & RESPONSIVENESS */
-        *, *::before, *::after { box-sizing: border-box; }
-        :root { --font-scale: 1; --primary: #d81b60; --success: #00c853; }
-        body, html { margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; font-family: 'Helvetica Neue', Arial, sans-serif; background: #000; color: #fff; }
-        #app { display: flex; height: 100vh; width: 100vw; flex-direction: row; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-scale: 1;
+            --primary: #d81b60;
+            --success: #00c853;
+            --accent: #7c4dff;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        #app {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            flex-direction: row;
+        }
 
         /* SIDEBAR */
-        #sidebar { 
-            width: 380px; min-width: 380px; height: 100vh; background: #000; 
-            overflow-y: auto; padding: 25px; border-right: 1px solid #222; z-index: 100;
+        #sidebar {
+            width: 380px;
+            min-width: 380px;
+            height: 100vh;
+            background: #000;
+            overflow-y: auto;
+            padding: 25px;
+            border-right: 1px solid #222;
+            z-index: 100;
             font-size: calc(1em * var(--font-scale));
         }
-        h1 { font-size: 1.3em; border-bottom: 2px solid var(--primary); padding-bottom: 10px; text-transform: uppercase; margin-bottom: 5px; }
-        .sub-header { font-size: 1.1em; font-weight: bold; color: #fff; margin-bottom: 10px; display: block; }
-        .welcome-msg { font-size: 0.85em; background: #111; border-left: 4px solid var(--success); padding: 12px; margin-bottom: 20px; line-height: 1.6; color: #ccc; }
+
+        h1 {
+            font-size: 1.3em;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .sub-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .welcome-msg {
+            font-size: 0.85em;
+            background: #111;
+            border-left: 4px solid var(--success);
+            padding: 12px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #ccc;
+        }
 
         /* Forecast Grid */
-        .access-forecast { background: #1a1a1a; border: 1px solid var(--primary); border-radius: 8px; padding: 15px; margin-bottom: 20px; font-size: 0.82em; }
-        .forecast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .forecast-item b { color: #fff; display: block; }
+        .access-forecast {
+            background: #1a1a1a;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.82em;
+        }
+
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .forecast-item b {
+            color: #fff;
+            display: block;
+        }
 
         /* Energy Section */
-        .pulse-check { background: #111; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
-        .pulse-check h3 { font-size: 0.7em; text-transform: uppercase; margin: 0 0 10px; color: #aaa; }
-        .light-row { display: flex; gap: 8px; }
-        .light { flex: 1; height: 40px; border-radius: 6px; cursor: pointer; border: none; font-size: 0.72em; font-weight: bold; color: #000; text-transform: uppercase; }
+        .pulse-check {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
 
-        /* Buckets & Somatic Techniques */
-        .bucket { margin-bottom: 12px; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
-        .bucket-header { background: #111; padding: 12px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .bucket-header strong { font-size: 0.8em; text-transform: uppercase; color: var(--primary); }
-        .bucket-content { display: none; padding: 15px; background: #050505; border-top: 1px solid #222; }
-        .bucket.active .bucket-content { display: block; }
-        .stage-narrative { font-size: 0.82em; line-height: 1.5; color: #bbb; margin-bottom: 12px; font-style: italic; }
-        .technique-box { background: #1a1a1a; border-left: 3px solid var(--success); padding: 12px; margin-top: 15px; font-size: 0.85em; color: #fff; line-height: 1.4; }
+        .pulse-check h3 {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            margin: 0 0 10px;
+            color: #aaa;
+        }
+
+        .light-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .light {
+            flex: 1;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-size: 0.72em;
+            font-weight: bold;
+            color: #000;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .light.selected {
+            border-color: #fff;
+            outline: 2px solid #fff;
+        }
+
+        /* Buckets */
+        .bucket {
+            margin-bottom: 12px;
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .bucket-header {
+            background: #111;
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .bucket-header strong {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .bucket-arrow {
+            transition: transform 0.25s ease;
+            display: inline-block;
+            font-style: normal;
+        }
+
+        .bucket.active .bucket-arrow {
+            transform: rotate(180deg);
+        }
+
+        .bucket-content {
+            display: none;
+            padding: 15px;
+            background: #050505;
+            border-top: 1px solid #222;
+        }
+
+        .bucket.active .bucket-content {
+            display: block;
+        }
+
+        .stage-narrative {
+            font-size: 0.82em;
+            line-height: 1.5;
+            color: #bbb;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .technique-box {
+            background: #1a1a1a;
+            border-left: 3px solid var(--success);
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #fff;
+            line-height: 1.4;
+        }
 
         /* Tools Tabs */
-        .a11y-tabs { display: flex; border-bottom: 1px solid #333; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
-        .a11y-tab { flex: 1; padding: 10px 2px; background: #222; border: none; color: #aaa; cursor: pointer; font-size: 0.55em; text-transform: uppercase; font-weight: bold; }
-        .a11y-tab.active { color: #fff; background: var(--primary); }
-        .a11y-pane { display: none; padding: 5px; font-size: 0.85em; }
-        .a11y-pane.active { display: block; }
-        .a11y-btn { width: 100%; padding: 10px; margin-bottom: 8px; background: #333; border: 1px solid #444; color: #fff; border-radius: 6px; cursor: pointer; text-align: center; display: block; text-decoration: none; font-size: 0.9em; }
+        .a11y-tabs {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 15px;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
 
-        /* Map Popups */
-        #map { flex-grow: 1; height: 100vh; background: #111; z-index: 1; }
-        .leaflet-popup-content-wrapper { color: #000 !important; }
-        .popup-img { width: 100%; max-width: 180px; border-radius: 4px; margin: 8px 0; display: block; }
-        .wc-status-box { margin-top: 10px; padding: 8px; border-radius: 4px; background: #f8f9fa; border: 1px solid #ddd; }
-        .weather-alert { color: var(--primary); font-weight: bold; display: block; margin-top: 5px; background: #fff0f3; padding: 6px; border-radius: 3px; border: 1px solid var(--primary); line-height: 1.3; font-size: 0.85em; }
-        
-        .site-link { display: block; padding: 12px; margin-bottom: 6px; background: #111; border-radius: 6px; cursor: pointer; font-size: 0.85em; color: #fff; transition: 0.2s; text-decoration: none; }
-        #recenter-btn { position: fixed; bottom: 30px; right: 20px; z-index: 1000; padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .a11y-tab {
+            flex: 1;
+            padding: 10px 2px;
+            background: #222;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 0.55em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-        body.dyslexia-font { font-family: 'OpenDyslexic', 'Verdana', sans-serif !important; }
+        .a11y-tab.active {
+            color: #fff;
+            background: var(--primary);
+        }
+
+        .a11y-pane {
+            display: none;
+            padding: 5px;
+            font-size: 0.85em;
+        }
+
+        .a11y-pane.active {
+            display: block;
+        }
+
+        .a11y-btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #333;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        /* Map */
+        #map {
+            flex-grow: 1;
+            height: 100vh;
+            background: #111;
+            z-index: 1;
+        }
+
+        .leaflet-popup-content-wrapper {
+            color: #000 !important;
+        }
+
+        .popup-img {
+            width: 100%;
+            max-width: 180px;
+            border-radius: 4px;
+            margin: 8px 0;
+            display: block;
+        }
+
+        .wc-status-box {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+
+        .weather-alert {
+            color: var(--primary);
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+            background: #fff0f3;
+            padding: 6px;
+            border-radius: 3px;
+            border: 1px solid var(--primary);
+            line-height: 1.3;
+            font-size: 0.85em;
+        }
+
+        .site-link {
+            display: block;
+            padding: 12px;
+            margin-bottom: 6px;
+            background: #111;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: #fff;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .site-link:hover {
+            background: #1a1a1a;
+        }
+
+        #recenter-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dyslexia-font {
+            font-family: 'OpenDyslexic', 'Verdana', sans-serif !important;
+        }
+
+        /* Region / LA */
+        .location-step {
+            margin-bottom: 12px;
+        }
+
+        .field-label {
+            font-size: 0.74em;
+            text-transform: uppercase;
+            color: #aaa;
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .styled-select {
+            width: 100%;
+            padding: 10px;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+
+        .styled-select:focus {
+            outline: 2px solid var(--primary);
+        }
+
+        /* Professional Status */
+        .radio-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82em;
+            line-height: 1.4;
+            transition: 0.15s;
+        }
+
+        .radio-option:hover {
+            border-color: var(--primary);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary);
+            background: #2a0018;
+        }
+
+        .radio-option input[type="radio"] {
+            accent-color: var(--primary);
+            min-width: 16px;
+            margin-top: 2px;
+            pointer-events: none;
+        }
+
+        /* Likert */
+        .research-disclaimer {
+            font-size: 0.78em;
+            color: #888;
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding: 8px 10px;
+            margin: 12px 0;
+            background: #0d0d0d;
+            line-height: 1.5;
+        }
+
+        .likert-statement {
+            font-size: 0.85em;
+            color: #fff;
+            background: #111;
+            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .likert-scale {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin: 10px 0;
+        }
+
+        .likert-btn {
+            background: #222;
+            border: 1px solid #333;
+            color: #aaa;
+            border-radius: 8px;
+            padding: 10px 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.15s;
+        }
+
+        .likert-btn:hover {
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .likert-btn.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .likert-num {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .likert-label {
+            display: block;
+            font-size: 0.6em;
+            text-transform: uppercase;
+            margin-top: 3px;
+            line-height: 1.3;
+        }
+
+        /* Back / Next nav */
+        .stage-nav {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.15s;
+        }
+
+        .nav-btn.back {
+            background: #1a1a1a;
+            color: #aaa;
+        }
+
+        .nav-btn.back:hover {
+            background: #222;
+            color: #fff;
+        }
+
+        .nav-btn.next {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .nav-btn.next:hover {
+            opacity: 0.85;
+        }
+
+        .nav-btn.only {
+            flex: 1;
+        }
+
+        /* Qualitative fields */
+        .qa-label {
+            font-size: 0.74em;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .qa-prompt {
+            font-size: 0.8em;
+            color: #bbb;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .qa-textarea {
+            width: 100%;
+            min-height: 90px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 0.85em;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .qa-textarea:focus {
+            outline: 2px solid var(--primary);
+            border-color: var(--primary);
+        }
+
+        .qa-field {
+            margin-bottom: 18px;
+        }
+
+        .optional-note {
+            font-size: 0.78em;
+            color: #666;
+            margin-bottom: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--success);
+            color: #000;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: 0.15s;
+            margin-top: 4px;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .thank-you-msg {
+            display: none;
+            background: #0a1f0a;
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--success);
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        .thank-you-msg.visible {
+            display: block;
+        }
+
+        /* Mode badge */
+        .mode-badge {
+            display: inline-block;
+            font-size: 0.68em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .mode-badge.full {
+            background: #d81b6020;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .mode-badge.light {
+            background: #7c4dff20;
+            color: #7c4dff;
+            border: 1px solid #7c4dff;
+        }
+
+        /* Light mode landmark cards */
+        .landmark-card {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .landmark-card:hover {
+            border-color: #7c4dff;
+        }
+
+        .landmark-card img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 4px;
+            flex-shrink: 0;
+            background: #222;
+        }
+
+        .landmark-card .lm-info strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .landmark-card .lm-info span {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .blossom-placeholder {
+            text-align: center;
+            padding: 18px 10px;
+            color: #444;
+            font-size: 0.82em;
+            line-height: 1.6;
+        }
+
+        .blossom-placeholder .bp-icon {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .light-mode-notice {
+            font-size: 0.78em;
+            color: #555;
+            border-left: 3px solid #7c4dff;
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            background: #0d0d0d;
+            line-height: 1.5;
+        }
 
         @media screen and (max-width: 768px) {
-            #app { flex-direction: column !important; }
-            #sidebar { width: 100% !important; min-width: 100% !important; height: 40vh !important; border-right: none; border-bottom: 1px solid #222; }
-            #map { height: 60vh !important; width: 100% !important; }
+            #app {
+                flex-direction: column !important;
+            }
+
+            #sidebar {
+                width: 100% !important;
+                min-width: 100% !important;
+                height: 40vh !important;
+                border-right: none;
+                border-bottom: 1px solid #222;
+            }
+
+            #map {
+                height: 60vh !important;
+                width: 100% !important;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<div id="app">
-    <nav id="sidebar">
-        <h1>Oubaitori Collective Blossom Trail</h1>
-        <span class="sub-header">It is Okay to be Here.</span>
-        
-        <div class="welcome-msg">
-            Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England.<br><br>
-            <strong>Not able to join us?</strong> We would still like to hear your views.<br><br>
-            Tell us how you are feeling right now and which area you live in.<br><br>
-            Then complete the question in each stage of the trail below.<br><br>
-            <strong>Your views matter to us!</strong>
-        </div>
+    <div id="app">
+        <nav id="sidebar">
+            <h1>Oubaitori Collective Blossom Trail</h1>
+            <span class="sub-header">It is Okay to be Here.</span>
 
-        <div class="access-forecast">
-            <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:var(--primary);">Live Trail Conditions</h2>
-            <div class="forecast-grid">
-                <div class="forecast-item">🌦️ Weather: <b id="val-w">Detecting...</b></div>
-                <div class="forecast-item">🌡️ Temp: <b id="val-t">--°C</b></div>
-                <div class="forecast-item">💨 Wind: <b id="val-wind">-- mph</b></div>
-                <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
-                <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
+            <div class="welcome-msg">
+                Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a
+                new support service for neurodivergent adults across the North East of England and beyond.<br><br>
+                <strong>Not able to join us?</strong> We would still like to hear your views.<br><br>
+                Tell us how you are feeling right now and which area you live in. Then complete the question in each
+                stage of the trail below.<br><br>
+                <strong>Your views matter to us!</strong>
             </div>
-        </div>
 
-        <div class="pulse-check">
-            <h3>How are you feeling right now?</h3>
-            <div class="light-row">
-                <button class="light" style="background:var(--success);" onclick="alert('Log: Thriving')">Thriving</button>
-                <button class="light" style="background:#ffd600;" onclick="alert('Log: Masking')">Masking</button>
-                <button class="light" style="background:var(--primary);" onclick="alert('Log: Burnout')">Burnout</button>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-la">
-            <div class="bucket-header" onclick="toggleBucket('la')"><strong>📍 Local Authority</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <select id="la-choice" style="width:100%; padding:10px; background:#222; color:#fff; border:1px solid #444;">
-                    <option value="none">-- Select Authority --</option>
-                    <option>Darlington</option><option>Durham</option><option>Gateshead</option><option>Hartlepool</option><option>Middlesbrough</option><option>Newcastle</option><option>North Tyneside</option><option>Northumberland</option><option>Redcar and Cleveland</option><option>South Tyneside</option><option>Stockton-on-Tees</option><option>Sunderland</option>
-                </select>
-            </div>
-        </div>
-
-        <div id="stages-container"></div>
-
-        <div class="bucket" id="bucket-vision">
-            <div class="bucket-header" onclick="toggleBucket('vision')"><strong>🌸 Our Vision</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <p style="font-size:0.85em; line-height:1.6; color:#ccc;">
-                    <strong>Our vision:</strong> Supporting neurodivergent adults to recover, regulate, and thrive.
-                </p>
-            </div>
-        </div>
-
-        <div class="bucket" id="bucket-a11y">
-            <div class="bucket-header" onclick="toggleBucket('a11y')"><strong>⚙️ Tools and Resources</strong><span>▼</span></div>
-            <div class="bucket-content">
-                <div class="a11y-tabs">
-                    <button class="a11y-tab active" onclick="showPane('disp', this)">Display</button>
-                    <button class="a11y-tab" onclick="showPane('nav', this)">Navigation</button>
-                    <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
-                </div>
-                <div id="pane-disp" class="a11y-pane active">
-                    <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia Friendly Font</button>
-                    <button id="toggle-rain" class="a11y-btn" style="background:#005ea5;" onclick="manualWeatherToggle()">☔ Manual Rain Mode: OFF</button>
-                </div>
-                <div id="pane-nav" class="a11y-pane">
-                    <button class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()">🔑 Enable Dynamic Radar Search</button>
-                </div>
-                <div id="pane-em" class="a11y-pane">
-                    <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn" style="background:var(--primary)">🤟 999 BSL</a>
-                    <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
+            <div class="access-forecast">
+                <h2 style="font-size:0.7em; text-transform:uppercase; margin-bottom:10px; color:var(--primary);">Live
+                    Trail Conditions</h2>
+                <div class="forecast-grid">
+                    <div class="forecast-item">🌦️ Weather: <b id="val-w">Detecting...</b></div>
+                    <div class="forecast-item">🌡️ Temp: <b id="val-t">--°C</b></div>
+                    <div class="forecast-item">💨 Wind: <b id="val-wind">-- mph</b></div>
+                    <div class="forecast-item">🍃 Pollen: <b>Low (Green)</b></div>
+                    <div class="forecast-item">🌙 Moon: <b>Waxing Gibbous</b></div>
+                    <div class="forecast-item" style="grid-column:1/-1;">🌸 Bloom: <b id="bloom-badge" style="color:#555;">Calculating...</b></div>
                 </div>
             </div>
-        </div>
-    </nav>
-    <div id="map"></div>
-</div>
 
-<button id="recenter-btn">🚐 Recentre</button>
+            <div class="pulse-check">
+                <h3>How are you feeling right now?</h3>
+                <div class="light-row">
+                    <button class="light" id="energy-thriving" style="background:var(--success);"
+                        onclick="selectEnergy('Thriving', this)">Thriving</button>
+                    <button class="light" id="energy-masking" style="background:#ffd600;"
+                        onclick="selectEnergy('Masking', this)">Masking</button>
+                    <button class="light" id="energy-burnout" style="background:var(--primary);"
+                        onclick="selectEnergy('Burnout', this)">Burnout</button>
+                </div>
+            </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-function toggleBucket(id) {
-    document.querySelectorAll('.bucket').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.bucket-content').forEach(c => c.style.display = 'none');
-    const t = document.getElementById('bucket-' + id);
-    if(t) { t.classList.add('active'); t.querySelector('.bucket-content').style.display = 'block'; }
-}
+            <!-- LOCATION BUCKET -->
+            <div class="bucket" id="bucket-la">
+                <div class="bucket-header" onclick="toggleBucket('la')">
+                    <strong>📍 Your Location</strong>
+                    <span class="bucket-arrow">▼</span>
+                </div>
+                <div class="bucket-content">
+                    <p style="font-size:0.78em; color:#666; margin:0 0 12px; line-height:1.5;">We use your location to
+                        understand how support services vary by area. Your answer is completely anonymous.</p>
+                    <div id="loc-progress"
+                        style="display:none; font-size:0.72em; color:#555; margin-bottom:12px; letter-spacing:0.3px;">
+                    </div>
+                    <div class="location-step">
+                        <span class="field-label">Where are you based?</span>
+                        <p style="font-size:0.76em; color:#555; margin:0 0 6px;">Just 2–3 quick selections — each one
+                            narrows the next.</p>
+                        <select id="nation-choice" class="styled-select" onchange="onNationChange()"
+                            aria-label="Select your nation">
+                            <option value="">-- Select Nation --</option>
+                            <option value="england">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</option>
+                            <option value="scotland">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</option>
+                            <option value="wales">🏴󠁧󠁢󠁷󠁬󠁳󠁿 Wales</option>
+                            <option value="ni">🇬🇧 Northern Ireland</option>
+                            <option value="online">🌐 Online / Not in UK</option>
+                        </select>
+                    </div>
+                    <div class="location-step" id="region-step" style="display:none;">
+                        <span class="field-label">Which region?</span>
+                        <p style="font-size:0.76em; color:#555; margin:0 0 6px;">Select the region closest to where you
+                            live or work.</p>
+                        <select id="region-choice" class="styled-select" onchange="onRegionChange()"
+                            aria-label="Select your region">
+                            <option value="">-- Select Region --</option>
+                        </select>
+                    </div>
+                    <div class="location-step" id="la-step" style="display:none;">
+                        <span class="field-label">Last step — your local area</span>
+                        <p id="la-hint" style="font-size:0.76em; color:#555; margin:0 0 6px;">Choose the council area
+                            that covers where you live.</p>
+                        <select id="la-choice" class="styled-select"
+                            onchange="surveyData.localAuthority = this.value; updateLocProgress(); onAuthorityChange(); logPreview();"
+                            aria-label="Select your local authority">
+                            <option value="">-- Select Local Authority --</option>
+                        </select>
+                    </div>
+                    <div class="location-step" id="online-note" style="display:none;">
+                        <p
+                            style="font-size:0.82em; color:#aaa; background:#111; border-left:3px solid var(--accent); padding:10px; border-radius:4px; margin:0;">
+                            You have selected <strong style="color:#fff;">Online / Not in UK</strong>. Your responses
+                            will be tagged for remote service design. No region or local authority is required.</p>
+                    </div>
+                    <div class="stage-nav">
+                        <button class="nav-btn next only" onclick="advanceTo('prof')">Next → My Current Path</button>
+                    </div>
+                </div>
+            </div>
 
-function showPane(p, btn) {
-    document.querySelectorAll('.a11y-pane').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.a11y-tab').forEach(el => el.classList.remove('active'));
-    document.getElementById('pane-' + p).classList.add('active'); btn.classList.add('active');
-}
+            <!-- PROFESSIONAL STATUS BUCKET -->
+            <div class="bucket" id="bucket-prof">
+                <div class="bucket-header" onclick="toggleBucket('prof')">
+                    <strong>🧭 My Current Path</strong>
+                    <span class="bucket-arrow">▼</span>
+                </div>
+                <div class="bucket-content">
+                    <div class="stage-narrative">Select the option that best describes where you are right now. There is
+                        no right or wrong answer.</div>
+                    <div class="radio-options" id="prof-options">
+                        <label class="radio-option" id="prof-opt-1"
+                            onclick="selectProfStatus(this, 'Active in Employment')">
+                            <input type="radio" name="prof-status" value="Active in Employment"> Active in Employment
+                        </label>
+                        <label class="radio-option" id="prof-opt-2"
+                            onclick="selectProfStatus(this, 'Active in Enterprise')">
+                            <input type="radio" name="prof-status" value="Active in Enterprise"> Active in Enterprise
+                        </label>
+                        <label class="radio-option" id="prof-opt-3"
+                            onclick="selectProfStatus(this, 'Preparing for Opportunity')">
+                            <input type="radio" name="prof-status" value="Preparing for Opportunity"> Preparing for
+                            Opportunity
+                        </label>
+                        <label class="radio-option" id="prof-opt-4"
+                            onclick="selectProfStatus(this, 'Prioritising Personal Wellbeing')">
+                            <input type="radio" name="prof-status" value="Prioritising Personal Wellbeing"> Prioritising
+                            Personal Wellbeing
+                        </label>
+                        <label class="radio-option" id="prof-opt-5"
+                            onclick="selectProfStatus(this, 'Intentional Autonomy')">
+                            <input type="radio" name="prof-status" value="Intentional Autonomy"> Intentional Autonomy
+                        </label>
+                        <label class="radio-option" id="prof-opt-6" onclick="selectProfStatus(this, 'Other')">
+                            <input type="radio" name="prof-status" value="Other">
+                            <span>Other: <em>"My current path is not listed here / I prefer not to categorise my
+                                    status."</em></span>
+                        </label>
+                    </div>
+                    <div class="stage-nav">
+                        <button class="nav-btn back" onclick="advanceTo('la')">← Back</button>
+                        <button class="nav-btn next" onclick="advanceTo(1)">Next → Stage 1</button>
+                    </div>
+                </div>
+            </div>
 
-(function () {
-    var map = L.map('map', { zoomSnap: 0.5 }).setView([54.843, -1.470], 9);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            <!-- DYNAMIC STAGE BUCKETS -->
+            <div id="stages-container"></div>
 
-    var isRaining = false;
-    var markerLayer = L.layerGroup().addTo(map);
-    var communityLayer = L.layerGroup().addTo(map);
-    var vanMarker = null;
+            <!-- FINAL SURVEY BUCKET -->
+            <div class="bucket" id="bucket-final">
+                <div class="bucket-header" onclick="toggleBucket('final')">
+                    <strong>📋 Share Your Experience</strong>
+                    <span class="bucket-arrow">▼</span>
+                </div>
+                <div class="bucket-content">
+                    <p class="optional-note">Both fields below are <strong style="color:#fff;">optional</strong>. You
+                        can submit now — your stage responses are already saved.</p>
+                    <div class="qa-field">
+                        <span class="qa-label">Service Gap Analysis</span>
+                        <p class="qa-prompt">What specific daily tasks drain your energy most, and what support is
+                            currently missing from local services that would help you manage burnout?</p>
+                        <textarea class="qa-textarea" id="field-gaps"
+                            placeholder="Share as much or as little as you'd like..."></textarea>
+                    </div>
+                    <div class="qa-field">
+                        <span class="qa-label">Community Asset Mapping</span>
+                        <p class="qa-prompt">Are there any specific services, groups, or digital tools in your local
+                            area that ARE working well for you? We would love to learn from these successes.</p>
+                        <textarea class="qa-textarea" id="field-assets"
+                            placeholder="Share any successes you've found..."></textarea>
+                    </div>
+                    <button class="submit-btn" id="submit-btn" onclick="submitSurvey()">✓ Submit My Responses</button>
+                    <div class="thank-you-msg" id="thank-you-msg">
+                        💙 Thank you for contributing to the trail.<br><br>
+                        Your responses have been recorded anonymously and will help us design better support services
+                        for neurodivergent adults across the North East and beyond.
+                        <div id="test-payload-panel"
+                            style="display:none; margin-top:16px; text-align:left; background:#000; border:1px solid #333; border-radius:6px; padding:12px;">
+                            <p
+                                style="font-size:0.7em; text-transform:uppercase; letter-spacing:0.5px; color:#555; margin:0 0 8px;">
+                                &#x1F9EA; Test Mode — Captured Payload (remove before live launch)</p>
+                            <pre id="test-payload-json"
+                                style="font-size:0.72em; color:#00c853; white-space:pre-wrap; word-break:break-all; margin:0; font-family:monospace; line-height:1.5;"></pre>
+                        </div>
+                    </div>
+                    <div class="stage-nav">
+                        <button class="nav-btn back only" onclick="advanceTo(5)">← Back to Stage 5</button>
+                    </div>
+                </div>
+            </div>
 
-    window.manualWeatherToggle = function() {
-        isRaining = !isRaining;
-        const btn = document.getElementById('toggle-rain');
-        btn.innerText = isRaining ? "☔ Manual Rain Mode: ACTIVE" : "☔ Manual Rain Mode: OFF";
-        btn.style.background = isRaining ? "#b71c1c" : "#005ea5";
-        document.getElementById('val-w').innerText = isRaining ? "Raining" : "Clear";
-        renderTrail(); 
-    };
+            <!-- VISION -->
+            <div class="bucket" id="bucket-vision">
+                <div class="bucket-header" onclick="toggleBucket('vision')">
+                    <strong>🌸 Our Vision</strong>
+                    <span class="bucket-arrow">▼</span>
+                </div>
+                <div class="bucket-content">
+                    <p style="font-size:0.85em; line-height:1.6; color:#ccc;">
+                        <strong>Our vision:</strong> Supporting neurodivergent adults to recover, regulate, and thrive.
+                    </p>
+                </div>
+            </div>
 
-    async function fetchWeather() {
-        try {
-            const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=54.84&longitude=-1.47&current_weather=true");
-            const data = await res.json();
-            if ([51, 61, 63, 65, 80].includes(data.current_weather.weathercode)) isRaining = true;
-            document.getElementById('val-w').innerText = isRaining ? "Raining" : "Clear";
-            document.getElementById('val-t').innerText = Math.round(data.current_weather.temperature) + "°C";
-            document.getElementById('val-wind').innerText = Math.round(data.current_weather.windspeed) + " mph";
-            renderTrail();
-        } catch (e) { renderTrail(); }
-    }
+            <!-- TOOLS -->
+            <div class="bucket" id="bucket-a11y">
+                <div class="bucket-header" onclick="toggleBucket('a11y')">
+                    <strong>⚙️ Tools and Resources</strong>
+                    <span class="bucket-arrow">▼</span>
+                </div>
+                <div class="bucket-content">
+                    <div class="a11y-tabs">
+                        <button class="a11y-tab active" onclick="showPane('disp', this)">Display</button>
+                        <button class="a11y-tab" onclick="showPane('nav', this)">Navigation</button>
+                        <button class="a11y-tab" onclick="showPane('em', this)">Emergency</button>
+                    </div>
+                    <div id="pane-disp" class="a11y-pane active">
+                        <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia
+                            Friendly Font</button>
+                        <button id="toggle-rain" class="a11y-btn" style="background:#005ea5;"
+                            onclick="manualWeatherToggle()">☔ Manual Rain Mode: OFF</button>
+                    </div>
+                    <div id="pane-nav" class="a11y-pane">
+                        <button id="btn-radar" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()" title="Search for accessible toilets and radar-key facilities in the current map view">🔑 Enable Dynamic Radar Search</button>
+                        <p style="font-size:0.72em;color:#555;margin:6px 0 0;line-height:1.5;">
+                            <span style="color:#005ea5;">♿ Blue</span> = Accessible Toilet &nbsp;|&nbsp;
+                            <span style="color:#7c4dff;">🔑 Purple</span> = Radar Key Required<br>
+                            Updates as you pan the map. Works across all UK areas.
+                        </p>
+                    </div>
+                    <div id="pane-em" class="a11y-pane">
+                        <a href="https://999bsl.co.uk" target="_blank" class="a11y-btn"
+                            style="background:var(--primary)">🤟 999 BSL</a>
+                        <a href="https://www.relayuk.bt.com" target="_blank" class="a11y-btn">💬 Relay UK</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
 
-    // VERIFIED BACKUP DATA FOR ALL 19 LOCATIONS
-    const backupHubs = [
-        { name: "Houghton Library WC", lat: 54.8452, lon: -1.4723, type: "Verified Hub" },
-        { name: "Houghton Care Centre NHS", lat: 54.8445, lon: -1.4758, type: "NHS Accessible" },
-        { name: "Washington Old Hall Visitor WC", lat: 54.903, lon: -1.516, type: "Verified Hub" },
-        { name: "Durham Market Place", lat: 54.776, lon: -1.575, type: "Verified Radar" },
-        { name: "Old Durham Gardens Hub", lat: 54.773, lon: -1.558, type: "Verified Hub" },
-        { name: "Preston Park Cafe Hub", lat: 54.535, lon: -1.336, type: "Verified Hub" },
-        { name: "Ormesby Hall Toilets", lat: 54.544, lon: -1.182, type: "Verified Hub" },
-        { name: "Angel of the North Public WC", lat: 54.914, lon: -1.588, type: "Verified Hub" },
-        { name: "Byron Place Seaham Hub", lat: 54.836, lon: -1.332, type: "Verified Hub" },
-        { name: "Roker Pier Hub", lat: 54.922, lon: -1.368, type: "Verified Hub" },
-        { name: "South Marine Hub WC", lat: 55.000, lon: -1.421, type: "Verified Hub" },
-        { name: "Jesmond Dene Visitor WC", lat: 54.991, lon: -1.589, type: "Verified Hub" },
-        { name: "Tyne Bridge Quayside Hub", lat: 54.968, lon: -1.605, type: "Verified Hub" },
-        { name: "Alnwick Garden Centre WC", lat: 55.415, lon: -1.705, type: "Verified Hub" },
-        { name: "Castle Eden Dene Hub", lat: 54.749, lon: -1.325, type: "Verified Hub" },
-        { name: "Gibside Hub WC", lat: 54.925, lon: -1.727, type: "Verified Hub" },
-        { name: "Whitley Lodge Library WC", lat: 55.051, lon: -1.450, type: "Verified Hub" },
-        { name: "Saltburn Pier WC", lat: 54.585, lon: -0.977, type: "Verified Radar" },
-        { name: "Hadrian's Wall Hub WC", lat: 55.002, lon: -2.361, type: "Verified Hub" },
-        { name: "Bamburgh Visitor Centre", lat: 55.609, lon: -1.710, type: "Verified Hub" },
-        { name: "Seaham Shopping Hub", lat: 54.837, lon: -1.331, type: "Verified Hub" }
-    ];
+        <div id="map"></div>
+    </div>
 
-    var sites = [
-        { name: "Houghton le Spring", stage: 1, lat: 54.8432, lon: -1.4707, type: "blossom", img: "white-harmony.jpg", access: "Paved" },
-        { name: "Washington Old Hall", stage: 2, lat: 54.9027, lon: -1.5165, type: "blossom", img: "washington.jpg", access: "Gravel" },
-        { name: "Durham City", stage: 2, lat: 54.773, lon: -1.576, type: "landmark", img: "durham.jpg", access: "Cobbles" },
-        { name: "Old Durham Gardens", stage: 2, lat: 54.773, lon: -1.558, type: "blossom", img: "old-durham.jpg", access: "Gravel" },
-        { name: "Preston Park", stage: 2, lat: 54.5360, lon: -1.3370, type: "blossom", img: "preston.jpg", access: "Tarmac" },
-        { name: "Ormesby Hall", stage: 2, lat: 54.5432, lon: -1.1830, type: "blossom", img: "ormesby.jpg", access: "Sloped" },
-        { name: "Angel of the North", stage: 3, lat: 54.9141, lon: -1.5895, type: "landmark", img: "angel.jpg", access: "Grass" },
-        { name: "Seaham", stage: 3, lat: 54.823, lon: -1.3189, type: "landmark", img: "seaham.jpg", access: "Level" },
-        { name: "Roker Pier", stage: 3, lat: 54.924, lon: -1.365, type: "landmark", img: "roker.jpg", access: "Concrete" },
-        { name: "South Marine Park", stage: 3, lat: 55.0001, lon: -1.4202, type: "landmark", img: "south-marine.jpg", access: "Tarmac" },
-        { name: "Jesmond Dene", stage: 4, lat: 54.9900, lon: -1.5900, type: "blossom", img: "jesmond.jpg", access: "Woodland" },
-        { name: "Tyne Bridge", stage: 4, lat: 54.968, lon: -1.606, type: "landmark", img: "tyne-bridge.jpg", access: "Paved" },
-        { name: "Alnwick Garden", stage: 4, lat: 55.4155, lon: -1.7060, type: "blossom", img: "alnwick.jpg", access: "Level" },
-        { name: "Castle Eden Dene", stage: 4, lat: 54.7500, lon: -1.3263, type: "landmark", img: "castle-eden.jpg", access: "Uneven" },
-        { name: "Gibside", stage: 5, lat: 54.9245, lon: -1.7267, type: "blossom", img: "gibside.jpg", access: "Gravel" },
-        { name: "Whitley Lodge", stage: 5, lat: 55.0501, lon: -1.4510, type: "blossom", img: "whitley.jpg", access: "Paved" },
-        { name: "Saltburn Pier", stage: 5, lat: 54.586, lon: -0.978, type: "landmark", img: "saltburn.jpg", access: "Lift" },
-        { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: "landmark", img: "hadrian.jpg", access: "Grass" },
-        { name: "Bamburgh Castle", stage: 5, lat: 55.6089, lon: -1.7099, type: "landmark", img: "bamburgh.jpg", access: "Sandy" }
-    ];
+    <button id="recenter-btn">🚐 Recentre</button>
 
-    const stages = [
-        { id: 1, title: "Reset", text: "Wellness system check-in.", technique: "<b>Technique 1: 5-4-3-2-1</b><br>Identify 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste. Anchors you in the present." },
-        { id: 2, title: "Expansion", text: "Expansive views.", technique: "<b>Technique 2: Box Breathing</b><br>Inhale 4s, hold 4s, exhale 4s, hold empty 4s. Regulates heart rate." },
-        { id: 3, title: "Flow", text: "Allow movement and reflection.", technique: "<b>Technique 3: Wrist Cooling</b><br>Run cold water over wrists for 30s to help reset a triggered nervous system." },
-        { id: 4, title: "Connection", text: "Belonging without blending.", technique: "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug. Deep pressure helps the brain process where the body is in space." },
-        { id: 5, title: "Breathe", text: "Travel toward the coast.", technique: "<b>Technique 5: Humming</b><br>Hum a low note to feel the vibration in your chest. Stimulates the Vagus nerve to soothe stress." }
-    ];
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // ================================================================
+        // 1. IDENTITY & SESSION LAYER
+        // ================================================================
 
-    function renderTrail() {
-        markerLayer.clearLayers();
-        const container = document.getElementById('stages-container'); container.innerHTML = '';
-        stages.forEach(st => {
-            const bucket = document.createElement('div'); bucket.className = 'bucket'; bucket.id = 'bucket-' + st.id;
-            bucket.innerHTML = `<div class="bucket-header" onclick="toggleBucket(${st.id})"><strong>Stage ${st.id}: ${st.title}</strong><span>▼</span></div>
-            <div class="bucket-content"><div class="stage-narrative">${st.text}</div><div id="list-${st.id}"></div><div class="technique-box">${st.technique}</div></div>`;
-            container.appendChild(bucket);
-        });
-
-        var coords = [];
-        sites.forEach(s => {
-            var icon = (s.type === 'blossom' ? L.icon({iconUrl: 'blossom1.svg', iconSize: [32, 32]}) : new L.Icon.Default());
-            var marker = L.marker([s.lat, s.lon], {icon: icon}).addTo(markerLayer);
-            
-            // WHEELCHAIR CAUTION LOGIC
-            let advice = (isRaining && (s.access !== 'Paved' && s.access !== 'Concrete' && s.access !== 'Level')) 
-                ? `<div class='weather-alert'>⚠️ Caution: ${s.access} surface soft/slippery in rain.</div>` : "";
-
-            marker.bindPopup(`<div style="color:#000;"><strong style="color:var(--primary);">${s.name}</strong><div class='wc-status-box'>Surface: ${s.access} ♿</div>${advice}<img src='${s.img}' class='popup-img'></div>`);
-            
-            coords.push([s.lat, s.lon]);
-            const link = document.createElement('div'); link.className = 'site-link'; link.textContent = s.name;
-            link.onclick = () => { map.setView([s.lat, s.lon], 15, { animate: true }); marker.openPopup(); };
-            const lBox = document.getElementById('list-' + s.stage); if(lBox) lBox.appendChild(link);
-        });
-        L.polyline(coords, {color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15'}).addTo(map);
-        if (!vanMarker) { vanMarker = L.marker([54.843, -1.470], {icon: L.icon({iconUrl: 'test-van.svg', iconSize: [44, 44]}), zIndexOffset: 1000}).addTo(map); }
-    }
-
-    map.on('moveend zoomend', function() {
-        communityLayer.clearLayers();
-        if (map.getZoom() >= 14) {
-            backupHubs.forEach(hub => {
-                if (map.getBounds().contains([hub.lat, hub.lon])) {
-                    L.marker([hub.lat, hub.lon], {
-                        icon: L.divIcon({html: '<div style="background:#005ea5; color:white; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:2px solid white; font-size:16px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">♿</div>', className: '', iconSize: [32, 32]})
-                    }).addTo(communityLayer).bindPopup(`<b>Verified WC: ${hub.name}</b><br>${hub.type}`);
-                }
+        function generateGUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
             });
         }
-    });
 
-    fetchWeather();
-})();
-</script>
+        // Privacy: suppress GitHub.io referral UI feedback silently
+        if (document.referrer && document.referrer.indexOf('github.io') !== -1) {
+            console.log('[BLOSSOM TRAIL] GitHub.io referral detected — suppressed from UI.');
+        }
+
+        // Session init
+        window.SESSION_GUID = sessionStorage.getItem('blossom_guid') || generateGUID();
+        sessionStorage.setItem('blossom_guid', window.SESSION_GUID);
+
+        // Source detection
+        var _urlParams = new URLSearchParams(window.location.search);
+        window.SESSION_SOURCE = _urlParams.get('source') || 'direct';
+
+        console.log('[BLOSSOM TRAIL] Session started. GUID: ' + window.SESSION_GUID + ' | Source: ' + window.SESSION_SOURCE);
+
+        // Survey data store
+        var surveyData = {
+            guid: window.SESSION_GUID,
+            source: window.SESSION_SOURCE,
+            energy: null,
+            country: null,
+            region: null,
+            localAuthority: null,
+            professionalStatus: null,
+            likert: { 1: null, 2: null, 3: null, 4: null, 5: null },
+            serviceGapAnalysis: '',
+            communityAssetMapping: '',
+            timestamp: null
+        };
+
+        function buildPayload() {
+            surveyData.timestamp = new Date().toISOString();
+            surveyData.serviceGapAnalysis = (document.getElementById('field-gaps') || {}).value || '';
+            surveyData.communityAssetMapping = (document.getElementById('field-assets') || {}).value || '';
+            return JSON.parse(JSON.stringify(surveyData)); // deep copy
+        }
+
+        // ================================================================
+        // UK DELIVERY MODE — Regional configuration table
+        // To promote a region from Light to Full:
+        //   1. Set REGION_MODES['region-key'] = 'full'
+        //   2. Add sites[] entries for that region
+        //   3. No other code changes needed.
+        // ================================================================
+        var REGION_MODES = {
+            'eng-ne': 'full'        // North East — Full blossom trail
+            // All other regions default to 'light'
+        };
+
+        // Map centroids for Light Mode pan-on-select
+        var REGION_CENTROIDS = {
+            'eng-ne': [54.843, -1.470], 'eng-nw': [53.50, -2.5], 'eng-yh': [53.80, -1.5],
+            'eng-em': [52.60, -1.0], 'eng-wm': [52.40, -1.8], 'eng-ee': [52.20, 0.2],
+            'eng-lo-c': [51.50, -0.13], 'eng-lo-e': [51.50, 0.00], 'eng-lo-n': [51.62, -0.15],
+            'eng-lo-s': [51.38, -0.10], 'eng-lo-w': [51.50, -0.30], 'eng-se': [51.20, -0.5],
+            'eng-sw': [51.10, -2.5], 'sco-ne': [57.15, -2.11], 'sco-hi': [57.50, -4.5],
+            'sco-tf': [56.50, -3.0], 'sco-ce': [56.00, -3.8], 'sco-el': [55.95, -3.19],
+            'sco-gc': [55.87, -4.25], 'sco-ay': [55.50, -4.6], 'sco-sb': [55.30, -2.8],
+            'wal-n': [53.10, -3.8], 'wal-m': [52.30, -3.5], 'wal-sw': [51.70, -4.2],
+            'wal-se': [51.50, -3.2], 'ni-all': [54.65, -6.7], 'online': [54.50, -2.5]
+        };
+
+        // ================================================================
+        // UK LANDMARK TABLE — Add entries to expand Light Mode coverage.
+        // Fields: name, lat, lon, desc, img (Wikimedia Commons thumbnail URL or '')
+        // ================================================================
+        var UK_LANDMARKS = {
+            'eng-lo-c': [
+                { name: 'Houses of Parliament', lat: 51.4994, lon: -0.1248, desc: 'Iconic seat of UK democracy on the Thames.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Houses.of.parliament.overall.arp.jpg/280px-Houses.of.parliament.overall.arp.jpg' },
+                { name: "St Paul's Cathedral", lat: 51.5138, lon: -0.0984, desc: 'Wren masterpiece and city landmark.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Saint_Pauls_aerial.jpg/280px-Saint_Pauls_aerial.jpg' },
+                { name: 'Tate Modern', lat: 51.5074, lon: -0.0994, desc: 'World-class contemporary art on the South Bank.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Tate_Modern_seen_from_St_Paul%27s.jpg/280px-Tate_Modern_seen_from_St_Paul%27s.jpg' },
+                { name: 'Borough Market', lat: 51.5055, lon: -0.0909, desc: "London's oldest and most celebrated food market.", img: '' },
+                { name: 'Somerset House', lat: 51.5112, lon: -0.1167, desc: 'Arts, culture and events on the Strand.', img: '' }
+            ],
+            'eng-lo-e': [
+                { name: 'Tower of London', lat: 51.5081, lon: -0.0759, desc: 'Historic royal fortress and UNESCO World Heritage Site.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Tower_of_London_viewed_from_the_River_Thames.jpg/280px-Tower_of_London_viewed_from_the_River_Thames.jpg' },
+                { name: 'Canary Wharf', lat: 51.5054, lon: -0.0235, desc: 'Major financial hub and waterfront quarter.', img: '' },
+                { name: 'Queen Elizabeth Olympic Park', lat: 51.5404, lon: -0.0166, desc: '2012 Games legacy park in Stratford.', img: '' },
+                { name: 'Greenwich Park', lat: 51.4769, lon: -0.0005, desc: 'Royal park with Observatory and panoramic views.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Greenwich_Park_1.jpg/280px-Greenwich_Park_1.jpg' },
+                { name: 'Brick Lane', lat: 51.5228, lon: -0.0718, desc: 'Vibrant street arts and cultural corridor.', img: '' }
+            ],
+            'eng-lo-n': [
+                { name: 'Alexandra Palace', lat: 51.5959, lon: -0.1310, desc: 'Victorian entertainment palace with panoramic London views.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Alexandra_Palace_general_view_2011.jpg/280px-Alexandra_Palace_general_view_2011.jpg' },
+                { name: 'Kenwood House', lat: 51.5718, lon: -0.1677, desc: 'Neoclassical villa on Hampstead Heath.', img: '' },
+                { name: 'Hampstead Heath', lat: 51.5626, lon: -0.1578, desc: 'Ancient parkland and swimming ponds.', img: '' }
+            ],
+            'eng-lo-s': [
+                { name: 'Crystal Palace Park', lat: 51.4213, lon: -0.0748, desc: 'Victorian park with prehistoric dinosaur sculptures.', img: '' },
+                { name: 'Battersea Power Station', lat: 51.4837, lon: -0.1440, desc: 'Iconic art-deco landmark transformed into arts and leisure destination.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Battersea_Power_Station_2016.jpg/280px-Battersea_Power_Station_2016.jpg' },
+                { name: 'Dulwich Picture Gallery', lat: 51.4469, lon: -0.0852, desc: "England's first purpose-built public art gallery.", img: '' },
+                { name: 'Kew Gardens', lat: 51.4787, lon: -0.2956, desc: 'Royal Botanic Gardens — UNESCO World Heritage Site.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Kew_Gardens_Palm_House%2C_London_-_July_2009.jpg/280px-Kew_Gardens_Palm_House%2C_London_-_July_2009.jpg' }
+            ],
+            'eng-lo-w': [
+                { name: 'Wembley Stadium', lat: 51.5560, lon: -0.2796, desc: 'National stadium and music venue.', img: '' },
+                { name: 'Portobello Road', lat: 51.5145, lon: -0.2060, desc: 'Antiques market and cultural landmark.', img: '' },
+                { name: 'Kew Gardens', lat: 51.4787, lon: -0.2956, desc: 'Royal Botanic Gardens — UNESCO World Heritage Site.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Kew_Gardens_Palm_House%2C_London_-_July_2009.jpg/280px-Kew_Gardens_Palm_House%2C_London_-_July_2009.jpg' },
+                { name: 'Holland Park', lat: 51.5015, lon: -0.2045, desc: 'Tranquil parkland with Japanese Kyoto Garden.', img: '' }
+            ],
+            'eng-nw': [
+                { name: 'Salford Quays', lat: 53.4727, lon: -2.2984, desc: 'MediaCityUK and iconic waterfront regeneration.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Salford_Quays_and_Old_Trafford.jpg/280px-Salford_Quays_and_Old_Trafford.jpg' },
+                { name: 'Albert Dock Liverpool', lat: 53.3997, lon: -2.9923, desc: 'UNESCO Heritage waterfront and cultural quarter.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Albert_Dock%2C_Liverpool_-_geograph.org.uk_-_3217985.jpg/280px-Albert_Dock%2C_Liverpool_-_geograph.org.uk_-_3217985.jpg' },
+                { name: 'Manchester Museum of Science', lat: 53.4774, lon: -2.2349, desc: 'World-class science and industry heritage.', img: '' },
+                { name: 'Whitworth Gallery', lat: 53.4570, lon: -2.2306, desc: 'International art in the heart of Manchester.', img: '' },
+                { name: 'Liverpool Cathedral', lat: 53.3988, lon: -2.9712, desc: 'The largest cathedral in the UK.', img: '' }
+            ],
+            'eng-yh': [
+                { name: 'York Minster', lat: 53.9622, lon: -1.0815, desc: 'One of the world\'s greatest Gothic cathedrals.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/York_Minster_from_the_South_West.jpg/280px-York_Minster_from_the_South_West.jpg' },
+                { name: 'Yorkshire Sculpture Park', lat: 53.6125, lon: -1.5761, desc: '500 acres of landscape with world-class sculpture.', img: '' },
+                { name: 'Leeds City Museum', lat: 53.7993, lon: -1.5491, desc: 'Free museum at the heart of Leeds.', img: '' },
+                { name: 'Sheffield Winter Garden', lat: 53.3779, lon: -1.4692, desc: 'One of the largest temperate glasshouses in the UK.', img: '' }
+            ],
+            'eng-em': [
+                { name: 'Nottingham Castle', lat: 52.9524, lon: -1.1539, desc: 'Historic castle and museum at the city\'s heart.', img: '' },
+                { name: 'National Space Centre', lat: 52.6614, lon: -1.1025, desc: 'UK\'s largest space attraction in Leicester.', img: '' },
+                { name: 'Lincoln Cathedral', lat: 53.2342, lon: -0.5395, desc: 'Medieval cathedral dominating the Lincoln skyline.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Lincoln_Cathedral_from_the_south_west.jpg/280px-Lincoln_Cathedral_from_the_south_west.jpg' }
+            ],
+            'eng-wm': [
+                { name: 'Birmingham Museum & Art Gallery', lat: 52.4797, lon: -1.9025, desc: 'World collections in the civic heart of Birmingham.', img: '' },
+                { name: 'Coventry Cathedral', lat: 52.4080, lon: -1.5088, desc: 'Symbol of reconciliation rebuilt after WWII.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Coventry_Cathedral_aerial.jpg/280px-Coventry_Cathedral_aerial.jpg' },
+                { name: 'Black Country Living Museum', lat: 52.5113, lon: -2.0519, desc: 'Open-air industrial heritage experience.', img: '' }
+            ],
+            'eng-ee': [
+                { name: 'Cambridge Backs', lat: 52.2054, lon: 0.1132, desc: 'Iconic meadows and bridges behind the colleges.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Cambridge_Backs.jpg/280px-Cambridge_Backs.jpg' },
+                { name: 'Ely Cathedral', lat: 52.3986, lon: 0.2634, desc: 'The Ship of the Fens rising from the flatlands.', img: '' },
+                { name: 'Sutton Hoo', lat: 52.0896, lon: 1.3382, desc: 'Anglo-Saxon royal burial site — National Trust.', img: '' }
+            ],
+            'eng-se': [
+                { name: 'Brighton Pavilion', lat: 50.8224, lon: -0.1372, desc: 'Exotic royal palace on the Sussex coast.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/The_Royal_Pavilion_at_Brighton.jpg/280px-The_Royal_Pavilion_at_Brighton.jpg' },
+                { name: 'Canterbury Cathedral', lat: 51.2798, lon: 1.0830, desc: 'Mother Church of the Anglican Communion.', img: '' },
+                { name: 'Windsor Castle', lat: 51.4839, lon: -0.6044, desc: 'Oldest and largest occupied castle in the world.', img: '' },
+                { name: 'Oxford Bodleian Library', lat: 51.7543, lon: -1.2541, desc: 'One of the world\'s oldest university libraries.', img: '' }
+            ],
+            'eng-sw': [
+                { name: 'Bristol Harbourside', lat: 51.4495, lon: -2.5977, desc: 'Vibrant waterfront arts and culture quarter.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Bristol_Harbourside.jpg/280px-Bristol_Harbourside.jpg' },
+                { name: 'Bath Roman Baths', lat: 51.3814, lon: -2.3595, desc: 'UNESCO World Heritage Roman bathing complex.', img: '' },
+                { name: 'Stonehenge', lat: 51.1789, lon: -1.8262, desc: 'Prehistoric monument on Salisbury Plain.', img: '' }
+            ],
+            'sco-el': [
+                { name: 'Edinburgh Castle', lat: 55.9486, lon: -3.1999, desc: 'Iconic fortress dominating the Edinburgh skyline.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Edinburgh_Castle_from_the_north.jpg/280px-Edinburgh_Castle_from_the_north.jpg' },
+                { name: 'Scottish Parliament', lat: 55.9519, lon: -3.1744, desc: 'Home of devolved Scottish government at Holyrood.', img: '' },
+                { name: "Arthur's Seat", lat: 55.9447, lon: -3.1615, desc: 'Ancient volcano and city park in Holyrood Park.', img: '' }
+            ],
+            'sco-gc': [
+                { name: 'Kelvingrove Museum', lat: 55.8684, lon: -4.2878, desc: 'Scotland\'s most visited free attraction.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kelvingrove_Art_Gallery_and_Museum.jpg/280px-Kelvingrove_Art_Gallery_and_Museum.jpg' },
+                { name: 'Glasgow Cathedral', lat: 55.8641, lon: -4.2384, desc: 'Scotland\'s finest medieval cathedral.', img: '' }
+            ],
+            'sco-hi': [
+                { name: 'Loch Ness', lat: 57.3229, lon: -4.4243, desc: 'Legendary deep-water loch in the Great Glen.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Loch_Ness_overlooking_Urquhart_Castle.jpg/280px-Loch_Ness_overlooking_Urquhart_Castle.jpg' },
+                { name: 'Glencoe', lat: 56.6755, lon: -5.1026, desc: 'Breathtaking glaciated valley — iconic Highland scenery.', img: '' }
+            ],
+            'wal-se': [
+                { name: 'Cardiff Castle', lat: 51.4837, lon: -3.1817, desc: 'Norman castle at the heart of the Welsh capital.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Cardiff_castle_panorama.jpg/280px-Cardiff_castle_panorama.jpg' },
+                { name: 'Wales Millennium Centre', lat: 51.4641, lon: -3.1674, desc: 'Arts and cultural landmark on Cardiff Bay.', img: '' }
+            ],
+            'wal-n': [
+                { name: 'Conwy Castle', lat: 53.2808, lon: -3.8320, desc: 'UNESCO World Heritage medieval fortress.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Conwy_castle_from_NE.jpg/280px-Conwy_castle_from_NE.jpg' },
+                { name: 'Snowdonia National Park', lat: 53.0686, lon: -3.8699, desc: 'Dramatic mountain landscapes in North Wales.', img: '' }
+            ],
+            'ni-all': [
+                { name: "Titanic Belfast", lat: 54.6073, lon: -5.9111, desc: 'The world\'s largest Titanic visitor experience.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Titanic_Belfast_2013.jpg/280px-Titanic_Belfast_2013.jpg' },
+                { name: "Giant's Causeway", lat: 55.2408, lon: -6.5116, desc: '40,000 interlocking basalt columns — UNESCO site.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Causeway-code_poet-4.jpg/280px-Causeway-code_poet-4.jpg' },
+                { name: 'Derry City Walls', lat: 54.9975, lon: -7.3223, desc: 'Best-preserved city walls in the British Isles.', img: '' }
+            ]
+        };
+
+        // Detect delivery mode from selected local authority
+        function detectMode(localAuthority) {
+            var neAuthorities = UK_LOCATIONS['eng-ne'] ? UK_LOCATIONS['eng-ne'].regions['eng-ne'].authorities : ['County Durham', 'Darlington', 'Gateshead', 'Hartlepool', 'Middlesbrough', 'Newcastle upon Tyne', 'North Tyneside', 'Northumberland', 'Redcar and Cleveland', 'South Tyneside', 'Stockton-on-Tees', 'Sunderland'];
+            if (localAuthority && neAuthorities.indexOf(localAuthority) !== -1) return 'full';
+            return 'light';
+        }
+
+        // Called when a local authority is selected — updates mode and re-renders trail
+        window.onAuthorityChange = function () {
+            var mode = detectMode(surveyData.localAuthority);
+            surveyData.deliveryMode = mode;
+            console.log('[BLOSSOM TRAIL] Mode:', mode, '| LA:', surveyData.localAuthority);
+            if (window._renderTrail) window._renderTrail();
+        };
+
+        function logPreview() {
+            console.log('[BLOSSOM TRAIL PAYLOAD PREVIEW]', buildPayload());
+        }
+
+        // ================================================================
+        // 2. SURVEY INTERACTION
+        // ================================================================
+
+        function selectEnergy(val, btn) {
+            document.querySelectorAll('.light').forEach(function (b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            surveyData.energy = val;
+            logPreview();
+        }
+
+        // ================================================================
+        // UK LOCATIONS — Modular 3-level hierarchy: Country > Region > LA
+        // To add a new authority: append to the relevant region's 'authorities' array.
+        // To add a new region:    add a new key under the country's 'regions' object.
+        // To add a new country:   add a new top-level key to UK_LOCATIONS.
+        // ================================================================
+        var UK_LOCATIONS = {
+            england: {
+                label: 'England',
+                regions: {
+                    'eng-ne': { label: 'North East England', authorities: ['County Durham', 'Darlington', 'Gateshead', 'Hartlepool', 'Middlesbrough', 'Newcastle upon Tyne', 'North Tyneside', 'Northumberland', 'Redcar and Cleveland', 'South Tyneside', 'Stockton-on-Tees', 'Sunderland'] },
+                    'eng-nw': { label: 'North West England', authorities: ['Blackburn with Darwen', 'Blackpool', 'Bolton', 'Bury', 'Cheshire East', 'Cheshire West and Chester', 'Cumberland', 'Halton', 'Knowsley', 'Lancaster', 'Liverpool', 'Manchester', 'Oldham', 'Rochdale', 'Salford', 'Sefton', 'St Helens', 'Stockport', 'Tameside', 'Trafford', 'Warrington', 'Westmorland and Furness', 'Wigan', 'Wirral'] },
+                    'eng-yh': { label: 'Yorkshire and the Humber', authorities: ['Barnsley', 'Bradford', 'Calderdale', 'Doncaster', 'East Riding of Yorkshire', 'Kingston upon Hull', 'Kirklees', 'Leeds', 'North East Lincolnshire', 'North Lincolnshire', 'Rotherham', 'Sheffield', 'Wakefield', 'York'] },
+                    'eng-em': { label: 'East Midlands', authorities: ['Derby', 'Derbyshire', 'Leicester', 'Leicestershire', 'Lincolnshire', 'North Northamptonshire', 'Nottingham', 'Nottinghamshire', 'Rutland', 'West Northamptonshire'] },
+                    'eng-wm': { label: 'West Midlands', authorities: ['Birmingham', 'Coventry', 'Dudley', 'Herefordshire', 'Sandwell', 'Shropshire', 'Solihull', 'Staffordshire', 'Stoke-on-Trent', 'Telford and Wrekin', 'Walsall', 'Warwickshire', 'Wolverhampton', 'Worcestershire'] },
+                    'eng-ee': { label: 'East of England', authorities: ['Bedford', 'Cambridgeshire', 'Central Bedfordshire', 'Essex', 'Hertfordshire', 'Luton', 'Norfolk', 'Peterborough', 'Southend-on-Sea', 'Suffolk', 'Thurrock'] },
+                    // London — 5 intuitive public-facing geographic zones (all 33 boroughs covered)
+                    'eng-lo-c': { label: 'London — Central', authorities: ['Camden', 'City of London', 'Islington', 'Kensington and Chelsea', 'Lambeth', 'Southwark', 'Westminster'] },
+                    'eng-lo-e': { label: 'London — East', authorities: ['Barking and Dagenham', 'Bexley', 'Greenwich', 'Hackney', 'Havering', 'Lewisham', 'Newham', 'Redbridge', 'Tower Hamlets', 'Waltham Forest'] },
+                    'eng-lo-n': { label: 'London — North', authorities: ['Barnet', 'Enfield', 'Haringey'] },
+                    'eng-lo-s': { label: 'London — South', authorities: ['Bromley', 'Croydon', 'Kingston upon Thames', 'Merton', 'Sutton', 'Wandsworth'] },
+                    'eng-lo-w': { label: 'London — West', authorities: ['Brent', 'Ealing', 'Hammersmith and Fulham', 'Harrow', 'Hillingdon', 'Hounslow', 'Richmond upon Thames'] },
+                    'eng-se': { label: 'South East England', authorities: ['Bracknell Forest', 'Brighton and Hove', 'Buckinghamshire', 'East Sussex', 'Hampshire', 'Isle of Wight', 'Kent', 'Medway', 'Milton Keynes', 'Oxfordshire', 'Portsmouth', 'Reading', 'Slough', 'Southampton', 'Surrey', 'West Berkshire', 'West Sussex', 'Windsor and Maidenhead', 'Wokingham'] },
+                    'eng-sw': { label: 'South West England', authorities: ['Bath and North East Somerset', 'Bournemouth Christchurch and Poole', 'Bristol', 'Cornwall', 'Devon', 'Dorset', 'Gloucestershire', 'Isles of Scilly', 'North Somerset', 'Plymouth', 'Somerset', 'South Gloucestershire', 'Swindon', 'Torbay', 'Wiltshire'] }
+                }
+            },
+            scotland: {
+                label: 'Scotland',
+                regions: {
+                    'sco-ne': { label: 'North East Scotland', authorities: ['Aberdeen City', 'Aberdeenshire', 'Moray'] },
+                    'sco-hi': { label: 'Highlands and Islands', authorities: ['Argyll and Bute', 'Eilean Siar', 'Highland', 'Orkney Islands', 'Shetland Islands'] },
+                    'sco-tf': { label: 'Tayside and Fife', authorities: ['Angus', 'Dundee City', 'Fife', 'Perth and Kinross'] },
+                    'sco-ce': { label: 'Central Scotland', authorities: ['Clackmannanshire', 'Falkirk', 'Stirling'] },
+                    'sco-el': { label: 'Edinburgh and Lothians', authorities: ['City of Edinburgh', 'East Lothian', 'Midlothian', 'West Lothian'] },
+                    'sco-gc': { label: 'Glasgow and Clyde Valley', authorities: ['East Dunbartonshire', 'East Renfrewshire', 'Glasgow City', 'Inverclyde', 'North Lanarkshire', 'Renfrewshire', 'South Lanarkshire', 'West Dunbartonshire'] },
+                    'sco-ay': { label: 'Ayrshire', authorities: ['East Ayrshire', 'North Ayrshire', 'South Ayrshire'] },
+                    'sco-sb': { label: 'Scottish Borders and South', authorities: ['Dumfries and Galloway', 'Scottish Borders'] }
+                }
+            },
+            wales: {
+                label: 'Wales',
+                regions: {
+                    'wal-n': { label: 'North Wales', authorities: ['Conwy', 'Denbighshire', 'Flintshire', 'Gwynedd', 'Isle of Anglesey', 'Wrexham'] },
+                    'wal-m': { label: 'Mid Wales', authorities: ['Ceredigion', 'Powys'] },
+                    'wal-sw': { label: 'South West Wales', authorities: ['Carmarthenshire', 'Neath Port Talbot', 'Pembrokeshire', 'Swansea'] },
+                    'wal-se': { label: 'South East Wales', authorities: ['Blaenau Gwent', 'Bridgend', 'Caerphilly', 'Cardiff', 'Merthyr Tydfil', 'Monmouthshire', 'Newport', 'Rhondda Cynon Taf', 'Torfaen', 'Vale of Glamorgan'] }
+                }
+            },
+            ni: {
+                label: 'Northern Ireland',
+                regions: {
+                    'ni-all': { label: 'Northern Ireland', authorities: ['Antrim and Newtownabbey', 'Ards and North Down', 'Armagh City Banbridge and Craigavon', 'Belfast', 'Causeway Coast and Glens', 'Derry City and Strabane', 'Fermanagh and Omagh', 'Lisburn and Castlereagh', 'Mid and East Antrim', 'Mid Ulster', 'Newry Mourne and Down'] }
+                }
+            },
+            online: { label: 'Online / Not in UK', regions: {} }
+        };
+
+        function onNationChange() {
+            var nation = document.getElementById('nation-choice').value;
+            surveyData.country = (UK_LOCATIONS[nation] || {}).label || null;
+            surveyData.region = null;
+            surveyData.localAuthority = null;
+
+            var regionStep = document.getElementById('region-step');
+            var laStep = document.getElementById('la-step');
+            var onlineNote = document.getElementById('online-note');
+            var regionSel = document.getElementById('region-choice');
+
+            // Reset downstream
+            regionSel.innerHTML = '<option value="">-- Select Region --</option>';
+            document.getElementById('la-choice').innerHTML = '<option value="">-- Select Local Authority --</option>';
+            regionStep.style.display = 'none';
+            laStep.style.display = 'none';
+            onlineNote.style.display = 'none';
+
+            if (nation === 'online') {
+                onlineNote.style.display = 'block';
+            } else if (nation && UK_LOCATIONS[nation]) {
+                var regions = UK_LOCATIONS[nation].regions;
+                var keys = Object.keys(regions);
+
+                if (nation === 'england') {
+                    // For England: group London ONS sub-regions under a single optgroup
+                    var nonLondon = keys.filter(function (k) { return k.indexOf('eng-lo') !== 0; });
+                    var londonKeys = keys.filter(function (k) { return k.indexOf('eng-lo') === 0; });
+
+                    nonLondon.forEach(function (key) {
+                        var opt = document.createElement('option');
+                        opt.value = key;
+                        opt.textContent = regions[key].label;
+                        regionSel.appendChild(opt);
+                    });
+
+                    if (londonKeys.length) {
+                        var grp = document.createElement('optgroup');
+                        grp.label = '── London (by ONS area) ──';
+                        londonKeys.forEach(function (key) {
+                            var opt = document.createElement('option');
+                            opt.value = key;
+                            // Show just the sub-region part after the em-dash for brevity
+                            opt.textContent = regions[key].label.replace('London — ', '');
+                            grp.appendChild(opt);
+                        });
+                        regionSel.appendChild(grp);
+                    }
+                    regionStep.style.display = 'block';
+                } else if (nation === 'ni') {
+                    // Northern Ireland only has one region — auto-select and skip region step
+                    regionSel.value = 'ni-all';
+                    onRegionChange();
+                } else {
+                    keys.forEach(function (key) {
+                        var opt = document.createElement('option');
+                        opt.value = key;
+                        opt.textContent = regions[key].label;
+                        regionSel.appendChild(opt);
+                    });
+                    regionStep.style.display = 'block';
+                }
+            }
+            updateLocProgress();
+            logPreview();
+        }
+
+        function onRegionChange() {
+            var nation = document.getElementById('nation-choice').value;
+            var regionKey = document.getElementById('region-choice').value;
+            var regionData = ((UK_LOCATIONS[nation] || {}).regions || {})[regionKey];
+
+            surveyData.region = regionData ? regionData.label : null;
+            surveyData.localAuthority = null;
+
+            var laStep = document.getElementById('la-step');
+            var laSelect = document.getElementById('la-choice');
+
+            if (regionData && regionData.authorities.length) {
+                laSelect.innerHTML = '<option value="">-- Select Local Authority --</option>';
+                regionData.authorities.forEach(function (la) {
+                    var opt = document.createElement('option');
+                    opt.value = la; opt.textContent = la;
+                    laSelect.appendChild(opt);
+                });
+                laStep.style.display = 'block';
+                // Update LA hint with count
+                var count = regionData.authorities.length;
+                var hint = document.getElementById('la-hint');
+                if (hint) hint.textContent = count + ' areas listed — choose the one that covers where you live.';
+            } else {
+                laStep.style.display = 'none';
+            }
+            updateLocProgress();
+            logPreview();
+        }
+
+        // Live location progress summary — reduces navigational uncertainty
+        function updateLocProgress() {
+            var prog = document.getElementById('loc-progress');
+            if (!prog) return;
+            var nation = document.getElementById('nation-choice');
+            var region = document.getElementById('region-choice');
+            var la = document.getElementById('la-choice');
+            var parts = [];
+            if (nation && nation.value && nation.options[nation.selectedIndex]) {
+                parts.push(nation.options[nation.selectedIndex].text.replace(/[\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E0073}\u{E0063}\u{E0074}\u{E0077}\u{E006C}\u{E007F}\u{1F1EC}\u{1F1E7}\u{1F310}\uFE0F]/gu, '').trim());
+            }
+            if (region && region.value && region.options[region.selectedIndex]) {
+                parts.push(region.options[region.selectedIndex].text);
+            }
+            if (la && la.value) {
+                parts.push(la.value);
+            }
+            if (parts.length > 0) {
+                prog.style.display = 'block';
+                prog.innerHTML = '✔️ &nbsp;' + parts.join(' &rsaquo; ');
+            } else {
+                prog.style.display = 'none';
+            }
+        }
+
+        function selectProfStatus(label, val) {
+            document.querySelectorAll('.radio-option').forEach(function (l) { l.classList.remove('selected'); });
+            label.classList.add('selected');
+            var radio = label.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+            surveyData.professionalStatus = val;
+            logPreview();
+        }
+
+        function selectLikert(stageId, val, btn) {
+            var scale = btn.closest('.likert-scale');
+            if (scale) scale.querySelectorAll('.likert-btn').forEach(function (b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            surveyData.likert[stageId] = val;
+            logPreview();
+        }
+
+        function submitSurvey() {
+            var payload = buildPayload();
+            console.log('[BLOSSOM TRAIL PAYLOAD — FINAL SUBMISSION]', payload);
+            // TODO: Replace with MS Forms submit URL when available
+            // fetch('https://forms.office.com/YOUR_FORM_URL', { method: 'POST', body: JSON.stringify(payload) });
+
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('thank-you-msg').classList.add('visible');
+
+            // TEST MODE: display captured payload on-screen (remove panel div when MS Forms is live)
+            var panel = document.getElementById('test-payload-panel');
+            var jsonEl = document.getElementById('test-payload-json');
+            if (panel && jsonEl) {
+                jsonEl.textContent = JSON.stringify(payload, null, 2);
+                panel.style.display = 'block';
+            }
+        }
+
+        // ================================================================
+        // 3. ACCORDION & NAVIGATION
+        // ================================================================
+
+        // Stage centroids for Full Mode (North East) auto-pan only
+        var STAGE_CENTROIDS = {
+            1: [54.8432, -1.4707],
+            2: [54.706,  -1.434],
+            3: [54.915,  -1.423],
+            4: [55.031,  -1.557],
+            5: [55.034,  -1.645]
+        };
+
+        // Advance to a specific bucket — map pan only fires in Full Mode
+        window.advanceTo = function (target) {
+            document.querySelectorAll('.bucket').forEach(function (b) { b.classList.remove('active'); });
+            if (typeof target === 'number' && surveyData.deliveryMode === 'full' &&
+                    STAGE_CENTROIDS[target] && window._mapRef) {
+                window._mapRef.setView(STAGE_CENTROIDS[target], 11, { animate: true });
+            }
+            var el = document.getElementById('bucket-' + target);
+            if (el) {
+                el.classList.add('active');
+                setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+            }
+        };
+
+        function toggleBucket(id) {
+            var bucket = document.getElementById('bucket-' + id);
+            if (!bucket) return;
+            var wasActive = bucket.classList.contains('active');
+
+            // Close all
+            document.querySelectorAll('.bucket').forEach(function (b) { b.classList.remove('active'); });
+
+            if (!wasActive) {
+                bucket.classList.add('active');
+                // Pan to stage centroid only in Full Mode
+                if (surveyData.deliveryMode === 'full') {
+                    var stageNum = parseInt(id);
+                    if (!isNaN(stageNum) && STAGE_CENTROIDS[stageNum] && window._mapRef) {
+                        window._mapRef.setView(STAGE_CENTROIDS[stageNum], 11, { animate: true });
+                    }
+                }
+            } else {
+                // Was active — collapsed. Advance in Full Mode only.
+                if (surveyData.deliveryMode === 'full') {
+                    var stageNum = parseInt(id);
+                    if (!isNaN(stageNum)) {
+                        var next = stageNum + 1;
+                        if (next <= 5 && STAGE_CENTROIDS[next] && window._mapRef) {
+                            window._mapRef.setView(STAGE_CENTROIDS[next], 11, { animate: true });
+                        }
+                    }
+                }
+            }
+        }
+
+        function showPane(p, btn) {
+            document.querySelectorAll('.a11y-pane').forEach(function (el) { el.classList.remove('active'); });
+            document.querySelectorAll('.a11y-tab').forEach(function (el) { el.classList.remove('active'); });
+            document.getElementById('pane-' + p).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // ================================================================
+        // 4. MAP & TRAIL LOGIC
+        // ================================================================
+
+        (function () {
+            // Initial view: neutral UK-wide — no region defaulting to NE.
+            // The correct region view is applied when the user selects their LA.
+            var UK_DEFAULT = [54.5, -2.5];
+            var map = L.map('map', { zoomSnap: 0.5 }).setView(UK_DEFAULT, 6);
+            window._mapRef = map;
+
+            var isRaining = false;
+            var markerLayer = L.layerGroup().addTo(map);
+            var communityLayer = L.layerGroup().addTo(map);
+            var vanMarker = null;
+            // Current weather lat/lon — updated when a region is selected
+            var _weatherLat = 54.5, _weatherLon = -2.5;
+
+            var backupHubs = [
+                { name: 'Houghton Library WC', lat: 54.8452, lon: -1.4723, type: 'Verified Hub' },
+                { name: 'Houghton Care Centre NHS', lat: 54.8445, lon: -1.4758, type: 'NHS Accessible' },
+                { name: 'Washington Old Hall Visitor WC', lat: 54.903, lon: -1.516, type: 'Verified Hub' },
+                { name: 'Durham Market Place', lat: 54.776, lon: -1.575, type: 'Verified Radar' },
+                { name: 'Old Durham Gardens Hub', lat: 54.773, lon: -1.558, type: 'Verified Hub' },
+                { name: 'Preston Park Cafe Hub', lat: 54.535, lon: -1.336, type: 'Verified Hub' },
+                { name: 'Ormesby Hall Toilets', lat: 54.544, lon: -1.182, type: 'Verified Hub' },
+                { name: 'Angel of the North Public WC', lat: 54.914, lon: -1.588, type: 'Verified Hub' },
+                { name: 'Byron Place Seaham Hub', lat: 54.836, lon: -1.332, type: 'Verified Hub' },
+                { name: 'Roker Pier Hub', lat: 54.922, lon: -1.368, type: 'Verified Hub' },
+                { name: 'South Marine Hub WC', lat: 55.000, lon: -1.421, type: 'Verified Hub' },
+                { name: 'Jesmond Dene Visitor WC', lat: 54.991, lon: -1.589, type: 'Verified Hub' },
+                { name: 'Tyne Bridge Quayside Hub', lat: 54.968, lon: -1.605, type: 'Verified Hub' },
+                { name: 'Alnwick Garden Centre WC', lat: 55.415, lon: -1.705, type: 'Verified Hub' },
+                { name: 'Castle Eden Dene Hub', lat: 54.749, lon: -1.325, type: 'Verified Hub' },
+                { name: 'Gibside Hub WC', lat: 54.925, lon: -1.727, type: 'Verified Hub' },
+                { name: 'Whitley Lodge Library WC', lat: 55.051, lon: -1.450, type: 'Verified Hub' },
+                { name: 'Saltburn Pier WC', lat: 54.585, lon: -0.977, type: 'Verified Radar' },
+                { name: "Hadrian's Wall Hub WC", lat: 55.002, lon: -2.361, type: 'Verified Hub' },
+                { name: 'Bamburgh Visitor Centre', lat: 55.609, lon: -1.710, type: 'Verified Hub' },
+                { name: 'Seaham Shopping Hub', lat: 54.837, lon: -1.331, type: 'Verified Hub' }
+            ];
+
+            var sites = [
+                { name: 'Houghton le Spring', stage: 1, lat: 54.8432, lon: -1.4707, type: 'blossom', img: 'white-harmony.jpg', access: 'Paved' },
+                { name: 'Washington Old Hall', stage: 2, lat: 54.9027, lon: -1.5165, type: 'blossom', img: 'washington.jpg', access: 'Gravel' },
+                { name: 'Durham City', stage: 2, lat: 54.773, lon: -1.576, type: 'landmark', img: 'durham.jpg', access: 'Cobbles' },
+                { name: 'Old Durham Gardens', stage: 2, lat: 54.773, lon: -1.558, type: 'blossom', img: 'old-durham.jpg', access: 'Gravel' },
+                { name: 'Preston Park', stage: 2, lat: 54.5360, lon: -1.3370, type: 'blossom', img: 'preston.jpg', access: 'Tarmac' },
+                { name: 'Ormesby Hall', stage: 2, lat: 54.5432, lon: -1.1830, type: 'blossom', img: 'ormesby.jpg', access: 'Sloped' },
+                { name: 'Angel of the North', stage: 3, lat: 54.9141, lon: -1.5895, type: 'landmark', img: 'angel.jpg', access: 'Grass' },
+                { name: 'Seaham', stage: 3, lat: 54.823, lon: -1.3189, type: 'landmark', img: 'seaham.jpg', access: 'Level' },
+                { name: 'Roker Pier', stage: 3, lat: 54.924, lon: -1.365, type: 'landmark', img: 'roker.jpg', access: 'Concrete' },
+                { name: 'South Marine Park', stage: 3, lat: 55.0001, lon: -1.4202, type: 'landmark', img: 'south-marine.jpg', access: 'Tarmac' },
+                { name: 'Jesmond Dene', stage: 4, lat: 54.9900, lon: -1.5900, type: 'blossom', img: 'jesmond.jpg', access: 'Woodland' },
+                { name: 'Tyne Bridge', stage: 4, lat: 54.968, lon: -1.606, type: 'landmark', img: 'tyne-bridge.jpg', access: 'Paved' },
+                { name: 'Alnwick Garden', stage: 4, lat: 55.4155, lon: -1.7060, type: 'blossom', img: 'alnwick.jpg', access: 'Level' },
+                { name: 'Castle Eden Dene', stage: 4, lat: 54.7500, lon: -1.3263, type: 'landmark', img: 'castle-eden.jpg', access: 'Uneven' },
+                { name: 'Gibside', stage: 5, lat: 54.9245, lon: -1.7267, type: 'blossom', img: 'gibside.jpg', access: 'Gravel' },
+                { name: 'Whitley Lodge', stage: 5, lat: 55.0501, lon: -1.4510, type: 'blossom', img: 'whitley.jpg', access: 'Paved' },
+                { name: 'Saltburn Pier', stage: 5, lat: 54.586, lon: -0.978, type: 'landmark', img: 'saltburn.jpg', access: 'Lift' },
+                { name: "Hadrian's Wall", stage: 5, lat: 55.002, lon: -2.360, type: 'landmark', img: 'hadrian.jpg', access: 'Grass' },
+                { name: 'Bamburgh Castle', stage: 5, lat: 55.6089, lon: -1.7099, type: 'landmark', img: 'bamburgh.jpg', access: 'Sandy' }
+            ];
+
+            var stages = [
+                { id: 1, title: 'Reset', domain: 'Environment', text: 'Wellness system check-in.', statement: "My local environments are well-aligned with my specific sensory needs and communication style.", technique: '<b>Technique 1: 5-4-3-2-1</b><br>Identify 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste. Anchors you in the present.' },
+                { id: 2, title: 'Expansion', domain: 'Sustainability', text: 'Expansive views.', statement: "I feel confident that my daily activities are sustainable without risking my financial or energy levels.", technique: '<b>Technique 2: Box Breathing</b><br>Inhale 4s, hold 4s, exhale 4s, hold empty 4s. Regulates heart rate.' },
+                { id: 3, title: 'Flow', domain: 'Support Model', text: 'Allow movement and reflection.', statement: "A coaching model that prioritises nervous system regulation is essential for my progress.", technique: '<b>Technique 3: Wrist Cooling</b><br>Run cold water over wrists for 30s to help reset a triggered nervous system.' },
+                { id: 4, title: 'Connection', domain: 'Technology', text: 'Belonging without blending.', statement: "The use of digital tools is an effective way for me to reduce the \u2018executive function tax\u2019 I face.", technique: '<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug. Deep pressure helps the brain process where the body is in space.' },
+                { id: 5, title: 'Breathe', domain: 'Local Awareness', text: 'Travel toward the coast.', statement: "Current support services in my area demonstrate a clear understanding of neurodivergent burnout.", technique: '<b>Technique 5: Humming</b><br>Hum a low note to feel the vibration in your chest. Stimulates the Vagus nerve to soothe stress.' }
+            ];
+
+            // ── Tile layer references for mode switching
+            var tileLayerOSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+            var tileLayerLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png');
+            var currentTile = tileLayerOSM;
+            currentTile.addTo(map);
+
+            function switchTile(toLight) {
+                var next = toLight ? tileLayerLight : tileLayerOSM;
+                if (next === currentTile) return;
+                map.removeLayer(currentTile);
+                next.addTo(map);
+                currentTile = next;
+            }
+
+            // Recenter: mode-aware, no NE fallback
+            document.getElementById('recenter-btn').addEventListener('click', function () {
+                var regionKey = document.getElementById('region-choice') ? document.getElementById('region-choice').value : '';
+                var centre = REGION_CENTROIDS[regionKey] || UK_DEFAULT;
+                var zoom = (surveyData.deliveryMode === 'full') ? 9 : (regionKey ? 10 : 6);
+                map.setView(centre, zoom, { animate: true });
+            });
+
+            // Manual Rain Mode
+            window.manualWeatherToggle = function () {
+                isRaining = !isRaining;
+                var btn = document.getElementById('toggle-rain');
+                btn.innerText = isRaining ? '☔ Manual Rain Mode: ACTIVE' : '☔ Manual Rain Mode: OFF';
+                btn.style.background = isRaining ? '#b71c1c' : '#005ea5';
+                document.getElementById('val-w').innerText = isRaining ? 'Raining' : 'Clear';
+                if (window._renderTrail) window._renderTrail();
+            };
+
+            // ── Dynamic Radar Search: live accessible toilet & radar-key facility finder
+            // Uses the public Overpass API to query OSM for accessible toilets within
+            // the current map viewport — works nationally, not just North East.
+            var radarActive = false;
+            var radarLayer = L.layerGroup().addTo(map);
+
+            var wcIcon = L.divIcon({
+                html: '<div style="background:#005ea5;color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:2px solid white;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,0.5);">♿</div>',
+                className: '', iconSize: [30, 30], iconAnchor: [15, 15]
+            });
+            var radarIcon = L.divIcon({
+                html: '<div style="background:#7c4dff;color:white;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:2px solid white;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,0.5);">🔑</div>',
+                className: '', iconSize: [30, 30], iconAnchor: [15, 15]
+            });
+
+            async function fetchRadarToilets() {
+                if (!radarActive) return;
+                var b = map.getBounds();
+                var south = b.getSouth().toFixed(5), west = b.getWest().toFixed(5);
+                var north = b.getNorth().toFixed(5), east = b.getEast().toFixed(5);
+                var query =
+                    '[out:json][timeout:15];' +
+                    '(' +
+                    // Accessible / wheelchair toilets
+                    'node["amenity"="toilets"]["wheelchair"~"yes|designated"](' + south + ',' + west + ',' + north + ',' + east + ');' +
+                    'node["amenity"="toilets"]["access:key_scheme"="radar"](' + south + ',' + west + ',' + north + ',' + east + ');' +
+                    'node["amenity"="toilets"]["toilets:access"="radar_key"](' + south + ',' + west + ',' + north + ',' + east + ');' +
+                    'node["amenity"="toilets"]["locked"="radar_key"](' + south + ',' + west + ',' + north + ',' + east + ');' +
+                    // Radar-tagged facilities (not just toilets)
+                    'node["access:key_scheme"="radar"]["amenity"!=""](' + south + ',' + west + ',' + north + ',' + east + ');' +
+                    ');' +
+                    'out body;';
+                try {
+                    var res = await fetch('https://overpass-api.de/api/interpreter', {
+                        method: 'POST', body: 'data=' + encodeURIComponent(query)
+                    });
+                    var data = await res.json();
+                    radarLayer.clearLayers();
+                    data.elements.forEach(function(el) {
+                        if (!el.lat) return;
+                        var isRadar = (el.tags['access:key_scheme'] === 'radar' ||
+                                       el.tags['toilets:access'] === 'radar_key' ||
+                                       el.tags['locked'] === 'radar_key');
+                        var icon = isRadar ? radarIcon : wcIcon;
+                        var name = el.tags.name || (isRadar ? '🔑 Radar Key Facility' : '♿ Accessible Toilet');
+                        var opening = el.tags.opening_hours ? '<br>Hours: ' + el.tags.opening_hours : '';
+                        var fee = el.tags.fee === 'yes' ? '<br><em>Fee required</em>' : '';
+                        var keyNote = isRadar ? '<br><strong style="color:#7c4dff;">🔑 Requires Radar Key</strong>' : '';
+                        L.marker([el.lat, el.lon], { icon: icon }).addTo(radarLayer)
+                         .bindPopup('<div style="color:#000;"><strong>' + name + '</strong>' + keyNote + opening + fee + '</div>');
+                    });
+                    var count = data.elements.length;
+                    var btn = document.getElementById('btn-radar');
+                    if (btn) btn.title = count + ' accessible facilities found in this area';
+                    console.log('[BLOSSOM TRAIL] Radar Search: ' + count + ' facilities found.');
+                } catch(e) {
+                    console.warn('[BLOSSOM TRAIL] Radar Search failed:', e);
+                }
+            }
+
+            window.toggleRadar = function () {
+                radarActive = !radarActive;
+                var btn = document.getElementById('btn-radar');
+                if (btn) {
+                    btn.textContent = radarActive ? '🔑 Radar Search: ACTIVE' : '🔑 Enable Dynamic Radar Search';
+                    btn.style.background = radarActive ? '#4a148c' : '#005ea5';
+                }
+                if (radarActive) {
+                    fetchRadarToilets();
+                } else {
+                    radarLayer.clearLayers();
+                }
+            };
+
+            // Re-query when map moves (debounced) — only when radar is active
+            var _radarDebounce = null;
+            map.on('moveend zoomend', function() {
+                if (!radarActive) return;
+                clearTimeout(_radarDebounce);
+                _radarDebounce = setTimeout(fetchRadarToilets, 600);
+            });
+
+            // Van GPS tracking
+            function initVanTracking() {
+                if (!vanMarker) return;
+                if ('geolocation' in navigator) {
+                    navigator.geolocation.watchPosition(function (pos) {
+                        var latlng = [pos.coords.latitude, pos.coords.longitude];
+                        vanMarker.setLatLng(latlng);
+                        console.log('[BLOSSOM TRAIL] Van position updated:', latlng);
+                    }, function (err) {
+                        console.log('[BLOSSOM TRAIL] GPS unavailable (' + err.message + ') — van stays at default position.');
+                    }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 });
+                }
+            }
+
+            // ── Bloom-time prediction using Open-Meteo daily temperature
+            // Heuristic: if 7-day mean temp ≥ 8°C and rising, blossom is near peak.
+            async function fetchBloomPrediction(lat, lon) {
+                try {
+                    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+                        '&daily=temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=Europe%2FLondon';
+                    var res = await fetch(url);
+                    var data = await res.json();
+                    var maxTemps = data.daily.temperature_2m_max;
+                    var minTemps = data.daily.temperature_2m_min;
+                    var meanTemps = maxTemps.map(function(mx, i) { return (mx + minTemps[i]) / 2; });
+                    var weekMean = meanTemps.reduce(function(a, b) { return a + b; }, 0) / meanTemps.length;
+                    var trend = meanTemps[6] - meanTemps[0]; // positive = warming
+                    var label, colour;
+                    if (weekMean >= 12 && trend >= 0) {
+                        label = '🌸 Peak Blossom'; colour = '#d81b60';
+                    } else if (weekMean >= 8) {
+                        label = '🌱 Approaching Bloom'; colour = '#7c4dff';
+                    } else {
+                        label = '❄️ Pre-Season'; colour = '#555';
+                    }
+                    var badge = document.getElementById('bloom-badge');
+                    if (badge) { badge.textContent = label; badge.style.color = colour; }
+                } catch(e) { /* silent */ }
+            }
+
+            async function fetchWeather() {
+                try {
+                    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + _weatherLat +
+                        '&longitude=' + _weatherLon + '&current_weather=true';
+                    var res = await fetch(url);
+                    var data = await res.json();
+                    if ([51, 61, 63, 65, 80].includes(data.current_weather.weathercode)) isRaining = true;
+                    document.getElementById('val-w').innerText = isRaining ? 'Raining' : 'Clear';
+                    document.getElementById('val-t').innerText = Math.round(data.current_weather.temperature) + '°C';
+                    document.getElementById('val-wind').innerText = Math.round(data.current_weather.windspeed) + ' mph';
+                } catch (e) { /* silent fail */ }
+                fetchBloomPrediction(_weatherLat, _weatherLon);
+                if (window._renderTrail) window._renderTrail();
+            }
+
+            // ── Shared: build stage bucket shell
+            function buildStageBucket(st, listContent) {
+                var backBtn = st.id === 1
+                    ? '<button class="nav-btn back" onclick="window.advanceTo(\'prof\')">&#8592; Back</button>'
+                    : '<button class="nav-btn back" onclick="window.advanceTo(' + (st.id - 1) + ')">&#8592; Back</button>';
+                var nextBtn = st.id === 5
+                    ? '<button class="nav-btn next" onclick="window.advanceTo(\'final\')">Finish Trail &#8594;</button>'
+                    : '<button class="nav-btn next" onclick="window.advanceTo(' + (st.id + 1) + ')">Next &#8594; Stage ' + (st.id + 1) + '</button>';
+                var bucket = document.createElement('div');
+                bucket.className = 'bucket';
+                bucket.id = 'bucket-' + st.id;
+                bucket.innerHTML =
+                    '<div class="bucket-header" onclick="toggleBucket(' + st.id + ')">' +
+                    '<strong>Stage ' + st.id + ': ' + st.title + ' &middot; <span style="color:#aaa;font-size:0.85em;font-weight:normal;">' + st.domain + '</span></strong>' +
+                    '<span class="bucket-arrow">&#9660;</span>' +
+                    '</div>' +
+                    '<div class="bucket-content">' +
+                    '<div class="stage-narrative">' + st.text + '</div>' +
+                    listContent +
+                    '<div class="research-disclaimer">Please select the option that most closely reflects your experience. We understand that feelings can be complex!</div>' +
+                    '<div class="likert-statement">&ldquo;' + st.statement + '&rdquo;</div>' +
+                    '<div class="likert-scale" id="likert-' + st.id + '">' +
+                    '<button class="likert-btn" onclick="selectLikert(' + st.id + ', 1, this)"><span class="likert-num">1</span><span class="likert-label">Strongly Disagree</span></button>' +
+                    '<button class="likert-btn" onclick="selectLikert(' + st.id + ', 2, this)"><span class="likert-num">2</span><span class="likert-label">Disagree</span></button>' +
+                    '<button class="likert-btn" onclick="selectLikert(' + st.id + ', 3, this)"><span class="likert-num">3</span><span class="likert-label">Agree</span></button>' +
+                    '<button class="likert-btn" onclick="selectLikert(' + st.id + ', 4, this)"><span class="likert-num">4</span><span class="likert-label">Strongly Agree</span></button>' +
+                    '</div>' +
+                    '<div class="technique-box">' + st.technique + '</div>' +
+                    '<div class="stage-nav">' + backBtn + nextBtn + '</div>' +
+                    '</div>';
+                return bucket;
+            }
+
+            // ── FULL MODE render (North East blossom trail)
+            function renderFullTrail() {
+                switchTile(false);
+                markerLayer.clearLayers();
+                var container = document.getElementById('stages-container');
+                container.innerHTML = '';
+
+                // Pan to North East centroid and set weather to NE
+                var neCentre = REGION_CENTROIDS['eng-ne'] || [54.843, -1.470];
+                map.setView(neCentre, 9, { animate: true });
+                _weatherLat = neCentre[0];
+                _weatherLon = neCentre[1];
+
+                stages.forEach(function (st) {
+                    var bucket = buildStageBucket(st, '<div id="list-' + st.id + '"></div>');
+                    container.appendChild(bucket);
+                });
+
+                var coords = [];
+                sites.forEach(function (s) {
+                    var icon = s.type === 'blossom'
+                        ? L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32] })
+                        : new L.Icon.Default();
+                    var marker = L.marker([s.lat, s.lon], { icon: icon }).addTo(markerLayer);
+                    var safeAccess = ['Paved', 'Concrete', 'Level', 'Tarmac', 'Lift'];
+                    var advice = (isRaining && safeAccess.indexOf(s.access) === -1)
+                        ? '<div class="weather-alert">&#9888;&#65039; Caution: ' + s.access + ' surface soft/slippery in rain.</div>'
+                        : '';
+                    marker.bindPopup('<div style="color:#000;"><strong style="color:var(--primary);">' + s.name + '</strong><div class="wc-status-box">Surface: ' + s.access + ' &#9855;</div>' + advice + '<img src="' + s.img + '" class="popup-img"></div>');
+                    coords.push([s.lat, s.lon]);
+                    var link = document.createElement('div');
+                    link.className = 'site-link';
+                    link.textContent = s.name;
+                    link.onclick = (function (lat, lon, m) {
+                        return function () { map.setView([lat, lon], 15, { animate: true }); m.openPopup(); };
+                    })(s.lat, s.lon, marker);
+                    var listBox = document.getElementById('list-' + s.stage);
+                    if (listBox) listBox.appendChild(link);
+                });
+                L.polyline(coords, { color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15' }).addTo(markerLayer);
+                if (!vanMarker) {
+                    vanMarker = L.marker([54.843, -1.470], {
+                        icon: L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] }), zIndexOffset: 1000
+                    }).addTo(map);
+                    initVanTracking();
+                }
+            }
+
+            // ── LIGHT MODE render (all other UK regions)
+            function renderLightTrail() {
+                switchTile(true);
+                markerLayer.clearLayers();
+                var container = document.getElementById('stages-container');
+                container.innerHTML = '';
+
+                // Pan map to selected region — never defaults to NE
+                var regionKey = document.getElementById('region-choice') ? document.getElementById('region-choice').value : '';
+                var centre = (regionKey && REGION_CENTROIDS[regionKey]) ? REGION_CENTROIDS[regionKey] : UK_DEFAULT;
+                var zoom = regionKey ? 11 : 6;
+                map.setView(centre, zoom, { animate: true });
+
+                // Update weather lat/lon for this region and re-fetch
+                _weatherLat = centre[0];
+                _weatherLon = centre[1];
+
+                // Gather landmarks for this region
+                var landmarks = UK_LANDMARKS[regionKey] || [];
+
+                // Place landmark markers on map
+                landmarks.forEach(function (lm) {
+                    var icon = L.icon({ iconUrl: 'blossom1.svg', iconSize: [28, 28] });
+                    L.marker([lm.lat, lm.lon], { icon: icon }).addTo(markerLayer).bindPopup(
+                        '<div style="color:#000;"><strong style="color:var(--primary);">' + lm.name + '</strong><p style="margin:4px 0;font-size:0.85em;">' + lm.desc + '</p>' +
+                        (lm.img ? '<img src="' + lm.img + '" style="width:100%;max-width:180px;border-radius:4px;margin-top:6px;"/>' : '') +
+                        '</div>'
+                    );
+                });
+
+                // Build stage buckets with landmark cards (or fallback)
+                stages.forEach(function (st, idx) {
+                    var lm = landmarks[idx]; // assign one landmark per stage
+                    var listHtml;
+                    if (lm) {
+                        listHtml =
+                            '<div class="landmark-card" onclick="window._mapRef && window._mapRef.setView([' + lm.lat + ',' + lm.lon + '],14,{animate:true})">' +
+                            (lm.img ? '<img src="' + lm.img + '" onerror="this.style.display=\'none\'">' : '<img src="" style="background:#1a1a1a;">') +
+                            '<div class="lm-info"><strong>' + lm.name + '</strong><span>' + lm.desc + '</span></div></div>';
+                    } else {
+                        listHtml = '<div class="blossom-placeholder"><span class="bp-icon">🌸</span>Explore a meaningful place local to you at this stage of your journey.</div>';
+                    }
+                    var listContent = '<div class="light-mode-notice">🌐 Light Mode: place-aware experience for your area</div>' + listHtml;
+                    var bucket = buildStageBucket(st, listContent);
+                    container.appendChild(bucket);
+                });
+            }
+
+            // ── Dispatcher — called on LA change, rain toggle, and initial load
+            function renderTrail() {
+                if (surveyData.deliveryMode === 'full') {
+                    renderFullTrail();
+                } else {
+                    renderLightTrail();
+                }
+            }
+            window._renderTrail = renderTrail;
+
+            map.on('moveend zoomend', function () {
+                if (surveyData.deliveryMode !== 'full') return; // community hubs are NE-specific
+                communityLayer.clearLayers();
+                if (map.getZoom() >= 14) {
+                    backupHubs.forEach(function (hub) {
+                        if (map.getBounds().contains([hub.lat, hub.lon])) {
+                            L.marker([hub.lat, hub.lon], {
+                                icon: L.divIcon({
+                                    html: '<div style="background:#005ea5;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:2px solid white;font-size:16px;box-shadow:0 2px 5px rgba(0,0,0,0.5);">&#9855;</div>',
+                                    className: '', iconSize: [32, 32]
+                                })
+                            }).addTo(communityLayer).bindPopup('<b>Verified WC: ' + hub.name + '</b><br>' + hub.type);
+                        }
+                    });
+                }
+            });
+
+            fetchWeather();
+        })();
+
+        // ── PWA: register service worker for offline support
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').then(function(reg) {
+                console.log('[BLOSSOM TRAIL] Service Worker registered:', reg.scope);
+            }).catch(function(e) {
+                console.log('[BLOSSOM TRAIL] SW registration failed:', e);
+            });
+        }
+    </script>
 </body>
+
 </html>
