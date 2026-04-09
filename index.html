@@ -702,6 +702,101 @@
                 width: 100% !important;
             }
         }
+
+        /* ── Font-size slider ──────────────────────────────────── */
+        .font-size-control {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin: 6px 0;
+        }
+
+        .font-size-label {
+            display: block;
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .font-size-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .font-size-step {
+            background: #1a1a1a;
+            color: #ccc;
+            border: 1px solid #333;
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
+            font-size: 0.8em;
+            font-weight: bold;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .font-size-step:hover,
+        .font-size-step:focus-visible {
+            background: var(--primary);
+            color: #fff;
+            outline: none;
+        }
+
+        .font-size-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .font-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid #000;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .font-size-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .font-size-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid #000;
+            cursor: pointer;
+        }
+
+        .font-size-slider:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .font-size-value {
+            font-size: 0.72em;
+            color: #555;
+            text-align: right;
+            margin-top: 4px;
+        }
     </style>
 </head>
 
@@ -922,6 +1017,30 @@
                     <div id="pane-disp" class="a11y-pane active">
                         <button class="a11y-btn" onclick="document.body.classList.toggle('dyslexia-font')">Dyslexia
                             Friendly Font</button>
+                        <div class="font-size-control">
+                            <label for="font-size-slider" class="font-size-label">Text Size</label>
+                            <div class="font-size-row">
+                                <button class="font-size-step" aria-label="Decrease text size"
+                                    onclick="stepFontSize(-0.1)">A−</button>
+                                <input
+                                    type="range"
+                                    id="font-size-slider"
+                                    class="font-size-slider"
+                                    min="0.8"
+                                    max="1.4"
+                                    step="0.05"
+                                    value="1"
+                                    aria-label="Text size"
+                                    aria-valuemin="80"
+                                    aria-valuemax="140"
+                                    aria-valuenow="100"
+                                    oninput="applyFontScale(parseFloat(this.value))"
+                                />
+                                <button class="font-size-step" aria-label="Increase text size"
+                                    onclick="stepFontSize(0.1)">A+</button>
+                            </div>
+                            <div class="font-size-value" id="font-size-display">100%</div>
+                        </div>
                         <button id="toggle-rain" class="a11y-btn" style="background:#005ea5;"
                             onclick="manualWeatherToggle()">☔ Manual Rain Mode: OFF</button>
                     </div>
@@ -1433,6 +1552,25 @@
             document.querySelectorAll('.a11y-tab').forEach(function (el) { el.classList.remove('active'); });
             document.getElementById('pane-' + p).classList.add('active');
             btn.classList.add('active');
+        }
+
+        // ── Font-size slider: sets --font-scale on :root.
+        // The sidebar already consumes this via font-size: calc(1em * var(--font-scale)).
+        // Range: 0.8 (80%) → 1.4 (140%), default 1.0 (100%).
+        function applyFontScale(scale) {
+            scale = Math.min(1.4, Math.max(0.8, parseFloat(scale.toFixed(2))));
+            document.documentElement.style.setProperty('--font-scale', scale);
+            var pct = Math.round(scale * 100);
+            var slider = document.getElementById('font-size-slider');
+            var display = document.getElementById('font-size-display');
+            if (slider) { slider.value = scale; slider.setAttribute('aria-valuenow', pct); }
+            if (display) { display.textContent = pct + '%'; }
+        }
+
+        function stepFontSize(delta) {
+            var slider = document.getElementById('font-size-slider');
+            var current = slider ? parseFloat(slider.value) : 1;
+            applyFontScale(current + delta);
         }
 
         // ================================================================
