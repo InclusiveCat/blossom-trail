@@ -140,7 +140,9 @@ test-van.svg      — Van GPS marker icon
 
 1. Create a public GitHub repository and push all root files.
 2. Go to **Settings → Pages → Source: main branch → Save**.
-3. The site will be live at `https://<username>.github.io/<repo>/`.
+3. Look for the "Custom domain" section in the Pages settings.
+4. Enter `www.oubaitoricollective.co.uk` and click **Save**. Wait for the DNS check to pass, and ensure **Enforce HTTPS** is checked.
+5. The site will be live at `https://www.oubaitoricollective.co.uk/`.
 
 > **Important:** GitHub Pages requires `https://` for Geolocation (GPS van tracking) and Service Workers to function.
 
