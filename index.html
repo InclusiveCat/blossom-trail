@@ -959,7 +959,7 @@
                     <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Wind</span><br><b id="val-wind" style="color:#fff;">-- mph</b></div>
                     <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Rain</span><br><b id="val-rain" style="color:#fff;">--</b></div>
                     <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Pollen</span><br><b style="color:#00c853;">Low (Green)</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b style="color:#fff;">🌙 Waxing Gibbous</b></div>
+                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b id="val-moon" style="color:#fff;">🌙 Waxing Gibbous</b></div>
                 </div>
             </div>
 
@@ -1518,6 +1518,22 @@
             };
             var RAIN_CODES = [51,53,55,56,57,61,63,65,66,67,80,81,82,85,86,95,96,99];
 
+            function getMoonPhase(d) {
+                var year = d.getFullYear(), month = d.getMonth() + 1, day = d.getDate();
+                if (month < 3) { year--; month += 12; }
+                var jd = Math.floor(365.25 * year) + Math.floor(30.6 * month + 0.5) + day - 694039.09; 
+                var phase = (jd / 29.5305882) % 1;
+                if (phase < 0) phase += 1;
+                if (phase < 0.03 || phase > 0.97) return '🌑 New Moon';
+                if (phase < 0.22) return '🌒 Waxing Crescent';
+                if (phase < 0.28) return '🌓 First Quarter';
+                if (phase < 0.47) return '🌔 Waxing Gibbous';
+                if (phase < 0.53) return '🌕 Full Moon';
+                if (phase < 0.72) return '🌖 Waning Gibbous';
+                if (phase < 0.78) return '🌗 Last Quarter';
+                return '🌘 Waning Crescent';
+            }
+
             async function fetchWeather() {
                 try {
                     var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + _weatherLat +
@@ -1535,6 +1551,8 @@
                         rainEl.innerText = isRaining ? '☔ Yes' : '✓ No';
                         rainEl.style.color = isRaining ? '#ef9a9a' : '#a5d6a7';
                     }
+                    var moonEl = document.getElementById('val-moon');
+                    if (moonEl) moonEl.innerText = getMoonPhase(new Date());
                 } catch (e) { /* silent fail */ }
                 fetchBloomPrediction(_weatherLat, _weatherLon);
                 if (window._renderTrail) window._renderTrail();
