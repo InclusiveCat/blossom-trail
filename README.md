@@ -203,3 +203,19 @@ test-van.svg      — Van GPS marker icon
 ## 📜 License
 
 MIT License — *The Oubaitori Collective.*
+## UPDATE Logs
+
+### 16 April 2026 — 7Rs Architectural Overhaul
+A major refactoring of the Blossom Trail PWA has been completed to align the application with the **Human Flourishing 7Rs model** and strip out legacy logic constraints. 
+
+**Key Changes:**
+1. **7Rs Architecture Integration:** The sidebar has been fully restructured from 5 narrative blocks into the static 7Rs model (`Reflection`, `Recognition`, `Resistance`, `Resonance`, `Responsibility`, `Reframing`, `Release`).
+2. **Legacy Gating Removal:** Completely purged the legacy "How are you feeling" pulse check, sequential forced navigation (`canAdvanceTo`), and localized regional gating. Users can now freely select and expand any accordion.
+3. **Map Panning & Tracking Optimizations:** 
+   - New landmarks (Penshaw Monument, Hardwick Park, Hamsterley Forest, etc.) fully integrated with GPS coordinates into the `sites` array.
+   - Refactored `zoomToLocation()` to eliminate the jarring "black screen" load flashes by replacing raw coordinate `setView` teleports with animated geographical `flyTo` sweeps. 
+   - Pinned `{ autoPan: false }` to marker popups, preventing Leaflet from randomly overriding manual map centering.
+4. **Visual & UX Polish:** Adjusted the `#map` and `#map-loading` overlay backgrounds to a neuroinclusive, map-friendly neutral grey (`#e5e3df`), eliminating pitch-black flashes during region loads. Enhanced the mobile experience by forcing the PWA sidebar to dynamically collapse and reveal the map exclusively on smaller viewports when a location button is tapped.
+
+### 14 April 2026
+A review of the current README.md identified several opportunities to improve clarity, accessibility, and long-term maintainability. Formatting across devices was standardized and basic accessibility criteria (alt text, screen-reader compatibility) have been verified.
