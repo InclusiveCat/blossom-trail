@@ -885,6 +885,7 @@
             <div id="gate-toast"></div>
             <h1>Oubaitori Collective Blossom Trail</h1>
             <span class="sub-header">It is Okay to be Here.</span>
+            <button id="install-app-btn" class="submit-btn" style="display: none; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Install App to Home Screen</button>
 
             <div class="welcome-msg">
                 Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a
@@ -1111,7 +1112,7 @@
                         <div style="margin-top: 15px;">
                             <button class="location-btn" onclick="zoomToLocation('Ormesby Hall')">Ormesby Hall</button>
                             <button class="location-btn" onclick="zoomToLocation('Bamburgh Castle')">Bamburgh Castle</button>
-                            <button class="location-btn" onclick="zoomToLocation('Guisborough Forest')">Guisborough Forest</button>
+                            <button class="location-btn" onclick="zoomToLocation('Priory Gardens')">Priory Gardens</button>
                             <button class="location-btn" onclick="zoomToLocation('St. John\'s Chapel')">St. John's Chapel</button>
                         </div>
                     </div>
@@ -1301,6 +1302,7 @@
                 { name: "Hadrian's Wall Hub WC", lat: 55.002, lon: -2.361, type: 'Verified Hub' },
                 { name: 'Bamburgh Visitor Centre', lat: 55.609, lon: -1.710, type: 'Verified Hub' },
                 { name: 'Seaham Shopping Hub', lat: 54.837, lon: -1.331, type: 'Verified Hub' }
+		        { name: 'Priory Garden's', lat: 54.54998, lon: -1.05124, type: 'Verified Hub' }
             ];
 
             var sites = [
@@ -1309,7 +1311,7 @@
                 { name: 'Hardwick Park', stage: 4, lat: 54.654, lon: -1.464, type: 'landmark', img: 'default.jpg', access: 'Paved' },
                 { name: 'Bishop Auckland Castle', stage: 5, lat: 54.666, lon: -1.670, type: 'landmark', img: 'default.jpg', access: 'Paved' },
                 { name: 'Hamsterley Forest', stage: 6, lat: 54.673, lon: -1.890, type: 'landmark', img: 'default.jpg', access: 'Gravel' },
-                { name: 'Guisborough Forest', stage: 7, lat: 54.520, lon: -1.077, type: 'landmark', img: 'default.jpg', access: 'Uneven' },
+                { name: 'Priory Gardens', stage: 7, lat: 54.54998, lon: -1.05124, type: 'blossom', img: 'priory-gardens.jpg', access: 'Uneven' },
                 { name: 'St. John\'s Chapel', stage: 7, lat: 54.737, lon: -2.176, type: 'landmark', img: 'default.jpg', access: 'Paved' },
                 { name: 'Houghton le Spring', stage: 1, lat: 54.8432, lon: -1.4707, type: 'blossom', img: 'white-harmony.jpg', access: 'Paved' },
                 { name: 'Washington Old Hall', stage: 2, lat: 54.9027, lon: -1.5165, type: 'blossom', img: 'washington.jpg', access: 'Gravel' },
@@ -1632,6 +1634,26 @@
                 console.log('[BLOSSOM TRAIL] SW registration failed:', e);
             });
         }
+        var deferredPrompt;
+        var installBtn = document.getElementById('install-app-btn');
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) { installBtn.style.display = 'flex'; }
+        });
+        if (installBtn) {
+            installBtn.addEventListener('click', function(e) {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(choiceResult) {
+                    if (choiceResult.outcome === 'accepted') { installBtn.style.display = 'none'; }
+                    deferredPrompt = null;
+                });
+            });
+        }
+        window.addEventListener('appinstalled', function(evt) {
+            if (installBtn) installBtn.style.display = 'none';
+        });
     </script>
 </body>
 
