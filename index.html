@@ -279,16 +279,33 @@
             pointer-events: none;
             transition: opacity 0.5s ease;
         }
-        #map-loading.hidden { opacity: 0; pointer-events: none; }
+
+        #map-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .map-spinner {
-            width: 36px; height: 36px;
+            width: 36px;
+            height: 36px;
             border: 3px solid #222;
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .map-loading-text { font-size: 0.75em; color: #444; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .map-loading-text {
+            font-size: 0.75em;
+            color: #444;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
 
         .leaflet-popup-content-wrapper {
             color: #000 !important;
@@ -610,12 +627,18 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 20000;
             overflow-y: auto;
             padding: 24px 12px;
         }
-        #review-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+        #review-overlay.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
         #review-modal {
             background: #111;
             border: 1px solid #2a2a2a;
@@ -623,8 +646,9 @@
             width: 100%;
             max-width: 560px;
             padding: 24px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
         }
+
         #review-modal h2 {
             font-size: 1.05em;
             color: var(--primary);
@@ -632,12 +656,14 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+
         #review-modal .review-intro {
             font-size: 0.8em;
             color: #888;
             margin: 0 0 18px;
             line-height: 1.5;
         }
+
         .review-row {
             border: 1px solid #222;
             border-radius: 8px;
@@ -645,6 +671,7 @@
             margin-bottom: 10px;
             background: #0d0d0d;
         }
+
         .review-q {
             font-size: 0.72em;
             text-transform: uppercase;
@@ -652,17 +679,20 @@
             color: #666;
             margin: 0 0 4px;
         }
+
         .review-a {
             font-size: 0.9em;
             color: #fff;
             font-weight: 600;
             margin: 0 0 8px;
         }
+
         .review-a.not-answered {
             color: #b71c1c;
             font-style: italic;
             font-weight: normal;
         }
+
         .review-edit-btn {
             font-size: 0.75em;
             padding: 4px 12px;
@@ -673,12 +703,18 @@
             cursor: pointer;
             transition: 0.15s;
         }
-        .review-edit-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        .review-edit-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
         .review-divider {
             border: none;
             border-top: 1px solid #1e1e1e;
             margin: 16px 0;
         }
+
         #review-confirm-btn {
             width: 100%;
             padding: 14px;
@@ -694,7 +730,11 @@
             margin-top: 8px;
             transition: 0.15s;
         }
-        #review-confirm-btn:hover { opacity: 0.9; }
+
+        #review-confirm-btn:hover {
+            opacity: 0.9;
+        }
+
         #review-back-btn {
             width: 100%;
             padding: 10px;
@@ -707,7 +747,11 @@
             margin-top: 8px;
             transition: 0.15s;
         }
-        #review-back-btn:hover { border-color: #555; color: #ccc; }
+
+        #review-back-btn:hover {
+            border-color: #555;
+            color: #ccc;
+        }
 
         .thank-you-msg {
             display: none;
@@ -842,14 +886,33 @@
             text-align: right;
             margin-top: 4px;
         }
-        /* Gate toast notification */
-        #gate-toast { position:sticky; top:0; z-index:9999; background:#4a148c; color:#fff;
-            font-size:0.88em; font-weight:600; padding:10px 16px; border-radius:0 0 8px 8px;
-            text-align:center; line-height:1.4; opacity:0; max-height:0; overflow:hidden;
-            transition:opacity 0.3s ease,max-height 0.3s ease; pointer-events:none; }
-        #gate-toast.visible { opacity:1; max-height:80px; }
 
-    
+        /* Gate toast notification */
+        #gate-toast {
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            background: #4a148c;
+            color: #fff;
+            font-size: 0.88em;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+            line-height: 1.4;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+            pointer-events: none;
+        }
+
+        #gate-toast.visible {
+            opacity: 1;
+            max-height: 80px;
+        }
+
+
         .location-btn {
             display: block;
             width: 100%;
@@ -865,16 +928,17 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         .location-btn:hover {
             border-color: var(--primary);
             background: #222222;
         }
+
         .location-btn:last-child {
             margin-bottom: 0;
         }
-
     </style>
 </head>
 
@@ -885,13 +949,20 @@
             <div id="gate-toast"></div>
             <h1>Oubaitori Collective Blossom Trail</h1>
             <span class="sub-header">It is Okay to be Here.</span>
-            <button id="install-app-btn" class="submit-btn" style="display: none; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Install App to Home Screen</button>
+            <button id="install-app-btn" class="submit-btn"
+                style="display: none; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg
+                    width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg> Install App to Home Screen</button>
 
             <div class="welcome-msg">
                 Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a
                 new support service for neurodivergent adults across the North East of England and beyond.<br><br>
-                <strong>Not able to join us?</strong> We would still like to hear your views.<br><br>
-                Complete the questions in each stage of the trail below.<br><br>
+                <strong>Not able to join us?</strong> We would still love to hear your views.<br><br>
+                Complete the questions in the survey below.<br><br>
                 <strong>Your views matter to us!</strong>
             </div>
 
@@ -915,20 +986,9 @@
                             <div class="font-size-row">
                                 <button class="font-size-step" aria-label="Decrease text size"
                                     onclick="stepFontSize(-0.1)">A−</button>
-                                <input
-                                    type="range"
-                                    id="font-size-slider"
-                                    class="font-size-slider"
-                                    min="0.8"
-                                    max="1.4"
-                                    step="0.05"
-                                    value="1"
-                                    aria-label="Text size"
-                                    aria-valuemin="80"
-                                    aria-valuemax="140"
-                                    aria-valuenow="100"
-                                    oninput="applyFontScale(parseFloat(this.value))"
-                                />
+                                <input type="range" id="font-size-slider" class="font-size-slider" min="0.8" max="1.4"
+                                    step="0.05" value="1" aria-label="Text size" aria-valuemin="80" aria-valuemax="140"
+                                    aria-valuenow="100" oninput="applyFontScale(parseFloat(this.value))" />
                                 <button class="font-size-step" aria-label="Increase text size"
                                     onclick="stepFontSize(0.1)">A+</button>
                             </div>
@@ -936,7 +996,9 @@
                         </div>
                     </div>
                     <div id="pane-nav" class="a11y-pane">
-                        <button id="btn-radar" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()" title="Search for accessible toilets and radar-key facilities in your area">♿ 🔑 Show Amenities in My Area</button>
+                        <button id="btn-radar" class="a11y-btn" style="background:#005ea5;" onclick="toggleRadar()"
+                            title="Search for accessible toilets and radar-key facilities in your area">♿ 🔑 Show
+                            Amenities in My Area</button>
                         <p style="font-size:0.72em;color:#fff;margin:6px 0 0;line-height:1.5;">
                             <span style="color:#005ea5;">♿ Blue</span> = Accessible Toilet &nbsp;|&nbsp;
                             <span style="color:#7c4dff;">🔑 Purple</span> = Radar Key Required<br>
@@ -952,96 +1014,161 @@
             </div>
 
             <div class="access-forecast">
-                <h2 style="font-size:0.85em;text-transform:uppercase;margin-bottom:8px;color:var(--primary);">Live Trail Conditions <span id="weather-region-label" style="color:#555;font-weight:normal;text-transform:none;font-size:1em;"></span></h2>
+                <h2 style="font-size:0.85em;text-transform:uppercase;margin-bottom:8px;color:var(--primary);">Live Trail
+                    Conditions <span id="weather-region-label"
+                        style="color:#555;font-weight:normal;text-transform:none;font-size:1em;"></span></h2>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:0.95em;">
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Weather</span><br><b id="val-w" style="color:#fff;">Detecting&hellip;</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Temperature</span><br><b id="val-t" style="color:#fff;">--&deg;C</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Wind</span><br><b id="val-wind" style="color:#fff;">-- mph</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Rain</span><br><b id="val-rain" style="color:#fff;">--</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Pollen</span><br><b style="color:#00c853;">Low (Green)</b></div>
-                    <div><span style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b id="val-moon" style="color:#fff;">🌙 Waxing Gibbous</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Weather</span><br><b
+                            id="val-w" style="color:#fff;">Detecting&hellip;</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Temperature</span><br><b
+                            id="val-t" style="color:#fff;">--&deg;C</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Wind</span><br><b
+                            id="val-wind" style="color:#fff;">-- mph</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Rain</span><br><b
+                            id="val-rain" style="color:#fff;">--</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Pollen</span><br><b
+                            style="color:#00c853;">Low (Green)</b></div>
+                    <div><span
+                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b
+                            id="val-moon" style="color:#fff;">🌙 Waxing Gibbous</b></div>
                 </div>
             </div>
 
             <!-- MS FORM PLACEHOLDER -->
-            <div class="ms-form-container" style="width: 100%; min-height: 500px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; position: relative; margin-bottom: 20px; display: flex; flex-direction: column; overflow: hidden;">
-                <div style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; color: #aaa; font-size: 0.85em; text-transform: uppercase; transform: translateY(-50%); z-index: 1;">Survey loading...</div>
-                <iframe src="about:blank" style="width: 100%; height: 600px; flex-grow: 1; border: none; position: relative; z-index: 2; background: transparent;" title="Research Survey"></iframe>
+            <div id="form-container"
+                style="width:100%; min-height:600px; position: relative; margin-bottom: 20px; border-radius: 8px; overflow: hidden;">
+                <!-- Loading placeholder -->
+                <div
+                    style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; color: #aaa; font-size: 0.85em; text-transform: uppercase; transform: translateY(-50%); z-index: 1;">
+                    Survey loading...
+                </div>
+
+                <iframe id="msform" src="form-redirect.html" title="Oubaitori Collective Blossom Trail" style="
+                        width: 100%;
+                        height: 100%;
+                        border: none;
+                        overflow: hidden;
+                        position: relative;
+                        background-color: #1a1a1a;
+                    " allowfullscreen aria-label="Embedded Microsoft Form for Blossom Trail user feedback"
+                    loading="lazy"></iframe>
+
             </div>
 
-            
 
 
-            <!-- 7Rs STAGES -->
+
+
+            <!-- Oubaitori Stages -->
             <div id="stages-container">
-                <!-- 1: REFLECTION -->
-                <div class="bucket" id="bucket-reflection">
-                    <div class="bucket-header" onclick="toggleBucket('reflection')">
-                        <strong>REFLECTION</strong>
+                <!-- 0: OUR VISION -->
+                <div class="bucket" id="bucket-0">
+                    <div class="bucket-header" onclick="toggleBucket('0')">
+                        <strong style="display: flex; align-items: center;"><img src="pink-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> OUR VISION</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies self-awareness. Potential for learning.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">Supporting neurodivergent
+                            adults to recover, regulate and thrive. Bloom at your own pace, supported by a collective
+                            where no one walks alone.</div>
+                    </div>
+                </div>
+
+                <!-- 1: YOUR JOURNEY BEGINS -->
+                <div class="bucket" id="bucket-1">
+                    <div class="bucket-header" onclick="toggleBucket('1')">
+                        <strong style="display: flex; align-items: center;"><img src="purple-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> YOUR JOURNEY
+                            BEGINS</strong>
+                        <span class="bucket-arrow">▼</span>
+                    </div>
+                    <div class="bucket-content">
+                        <div class="stage-narrative" style="color: white; font-style: italic;">A soft, grounding
+                            welcome.</div>
                         <div class="technique-box">
                             <b>Technique: 5-4-3-2-1</b><br>
-                            Identify 5 items you see, 4 things you can touch, 3 sounds you hear, 2 scents you can smell, and 1 flavour you can taste. Anchors you in the present.
+                            Identify 5 items you see, 4 things you can touch, 3 sounds you hear, 2 scents you can smell,
+                            and 1 flavour you can taste. Anchors you in the present.
                         </div>
                         <div style="margin-top: 15px;">
-                            <button class="location-btn" onclick="zoomToLocation('Houghton le Spring')">Houghton-le-Spring</button>
+                            <button class="location-btn"
+                                onclick="zoomToLocation('Houghton le Spring')">Houghton-le-Spring</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2: RECOGNITION -->
-                <div class="bucket" id="bucket-recognition">
-                    <div class="bucket-header" onclick="toggleBucket('recognition')">
-                        <strong>RECOGNITION</strong>
+                <!-- 2: A MOMENT TO CHECK IN -->
+                <div class="bucket" id="bucket-2">
+                    <div class="bucket-header" onclick="toggleBucket('2')">
+                        <strong style="display: flex; align-items: center;"><img src="indigo-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> A MOMENT TO CHECK
+                            IN</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies seeing. Potential for illumination.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">Invites awareness without
+                            pressure.</div>
                         <div class="technique-box">
                             <b>Technique: Box Breathing</b><br>
-                            Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds. Regulates heart rate.
+                            Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds.
+                            Regulates heart rate.
                         </div>
                         <div style="margin-top: 15px;">
-                            <button class="location-btn" onclick="zoomToLocation('Washington Old Hall')">Washington Old Hall</button>
+                            <button class="location-btn" onclick="zoomToLocation('Washington Old Hall')">Washington Old
+                                Hall</button>
                             <button class="location-btn" onclick="zoomToLocation('Durham City')">Durham City</button>
-                            <button class="location-btn" onclick="zoomToLocation('Old Durham Gardens')">Old Durham Gardens</button>
-                            <button class="location-btn" onclick="zoomToLocation('Penshaw Monument')">Penshaw Monument</button>
+                            <button class="location-btn" onclick="zoomToLocation('Old Durham Gardens')">Old Durham
+                                Gardens</button>
+                            <button class="location-btn" onclick="zoomToLocation('Penshaw Monument')">Penshaw
+                                Monument</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3: RESISTANCE -->
-                <div class="bucket" id="bucket-resistance">
-                    <div class="bucket-header" onclick="toggleBucket('resistance')">
-                        <strong>RESISTANCE</strong>
+                <!-- 3: UNDERSTANDING WHAT YOU NEED -->
+                <div class="bucket" id="bucket-3">
+                    <div class="bucket-header" onclick="toggleBucket('3')">
+                        <strong style="display: flex; align-items: center;"><img src="blue-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> UNDERSTANDING WHAT YOU
+                            NEED</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies separation. Potential for release.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">Noticing what would bring
+                            you the most comfort and ease right now.</div>
                         <div class="technique-box">
                             <b>Technique: Wrist Cooling</b><br>
                             Run cold water over wrists for 30s to help reset a triggered nervous system.
                         </div>
                         <div style="margin-top: 15px;">
-                            <button class="location-btn" onclick="zoomToLocation('Angel of the North')">Angel of the North</button>
+                            <button class="location-btn" onclick="zoomToLocation('Angel of the North')">Angel of the
+                                North</button>
                             <button class="location-btn" onclick="zoomToLocation('Roker Pier')">Roker Pier</button>
-                            <button class="location-btn" onclick="zoomToLocation('South Marine Park')">South Marine Park</button>
-                            <button class="location-btn" onclick="zoomToLocation('Tees Transporter Bridge')">Tees Transporter Bridge</button>
+                            <button class="location-btn" onclick="zoomToLocation('South Marine Park')">South Marine
+                                Park</button>
+                            <button class="location-btn" onclick="zoomToLocation('Tees Transporter Bridge')">Tees
+                                Transporter Bridge</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 4: RESONANCE -->
-                <div class="bucket" id="bucket-resonance">
-                    <div class="bucket-header" onclick="toggleBucket('resonance')">
-                        <strong>RESONANCE</strong>
+                <!-- 4: UNDERSTANDING YOUR CAPACITY -->
+                <div class="bucket" id="bucket-4">
+                    <div class="bucket-header" onclick="toggleBucket('4')">
+                        <strong style="display: flex; align-items: center;"><img src="green-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> UNDERSTANDING YOUR
+                            CAPACITY</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies relationship. Potential for self-recognition.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">Respecting your natural
+                            rhythm and where your energy sits today.</div>
                         <div class="technique-box">
                             <b>Technique: Firm Pressure</b><br>
                             Give yourself a firm hug. Deep pressure helps the brain process where the body is in space.
@@ -1049,86 +1176,96 @@
                         <div style="margin-top: 15px;">
                             <button class="location-btn" onclick="zoomToLocation('Jesmond Dene')">Jesmond Dene</button>
                             <button class="location-btn" onclick="zoomToLocation('Tyne Bridge')">Tyne Bridge</button>
-                            <button class="location-btn" onclick="zoomToLocation('Alnwick Garden')">Alnwick Gardens</button>
-                            <button class="location-btn" onclick="zoomToLocation('Hardwick Park')">Hardwick Park</button>
+                            <button class="location-btn" onclick="zoomToLocation('Alnwick Garden')">Alnwick
+                                Gardens</button>
+                            <button class="location-btn" onclick="zoomToLocation('Hardwick Park')">Hardwick
+                                Park</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 5: RESPONSIBILITY -->
-                <div class="bucket" id="bucket-responsibility">
-                    <div class="bucket-header" onclick="toggleBucket('responsibility')">
-                        <strong>RESPONSIBILITY</strong>
+                <!-- 5: RECOGNISING YOUR STRENGTHS -->
+                <div class="bucket" id="bucket-5">
+                    <div class="bucket-header" onclick="toggleBucket('5')">
+                        <strong style="display: flex; align-items: center;"><img src="yellow-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> RECOGNISING YOUR
+                            STRENGTHS</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies empowerment. Potential for transformation.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">A shift toward
+                            resilience, agency, and thriving.</div>
                         <div class="technique-box">
                             <b>Technique: Humming</b><br>
-                            Hum a low note to feel the vibration in your chest. Stimulates the vagus nerve to soothe stress.
+                            Hum a low note to feel the vibration in your chest. Stimulates the vagus nerve to soothe
+                            stress.
                         </div>
                         <div style="margin-top: 15px;">
                             <button class="location-btn" onclick="zoomToLocation('Gibside')">Gibside</button>
-                            <button class="location-btn" onclick="zoomToLocation('Saltburn Pier')">Saltburn Pier</button>
-                            <button class="location-btn" onclick="zoomToLocation('Bishop Auckland Castle')">Bishop Auckland Castle</button>
-                            <button class="location-btn" onclick="zoomToLocation('Hadrian\'s Wall')">Hadrian's Wall</button>
+                            <button class="location-btn" onclick="zoomToLocation('Saltburn Pier')">Saltburn
+                                Pier</button>
+                            <button class="location-btn" onclick="zoomToLocation('Bishop Auckland Castle')">Bishop
+                                Auckland Castle</button>
+                            <button class="location-btn" onclick="zoomToLocation('Hadrian\'s Wall')">Hadrian's
+                                Wall</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 6: REFRAMING -->
-                <div class="bucket" id="bucket-reframing">
-                    <div class="bucket-header" onclick="toggleBucket('reframing')">
-                        <strong>REFRAMING</strong>
+                <!-- 6: EXPLORING WHAT COULD SUPPORT YOU -->
+                <div class="bucket" id="bucket-6">
+                    <div class="bucket-header" onclick="toggleBucket('6')">
+                        <strong style="display: flex; align-items: center;"><img src="orange-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> EXPLORING WHAT COULD
+                            SUPPORT YOU</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies openness. Potential for change.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">Opening up to the people,
+                            spaces, and ideas that can walk alongside you.</div>
                         <div class="technique-box">
                             <b>Technique: Progressive Muscle Relaxation (PMR)</b><br>
-                            By tensing and relaxing different muscle groups, you can discharge stored tension and increase body awareness.
+                            By tensing and relaxing different muscle groups, you can discharge stored tension and
+                            increase body awareness.
                         </div>
                         <div style="margin-top: 15px;">
                             <button class="location-btn" onclick="zoomToLocation('Preston Park')">Preston Park</button>
-                            <button class="location-btn" onclick="zoomToLocation('Castle Eden Dene')">Castle Eden Dene</button>
-                            <button class="location-btn" onclick="zoomToLocation('Whitley Lodge')">Whitely Lodge</button>
-                            <button class="location-btn" onclick="zoomToLocation('Hamsterley Forest')">Hamsterley Forest</button>
+                            <button class="location-btn" onclick="zoomToLocation('Castle Eden Dene')">Castle Eden
+                                Dene</button>
+                            <button class="location-btn" onclick="zoomToLocation('Whitley Lodge')">Whitely
+                                Lodge</button>
+                            <button class="location-btn" onclick="zoomToLocation('Hamsterley Forest')">Hamsterley
+                                Forest</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 7: RELEASE -->
-                <div class="bucket" id="bucket-release">
-                    <div class="bucket-header" onclick="toggleBucket('release')">
-                        <strong>RELEASE</strong>
+                <!-- 7: FINDING WHAT’S RIGHT FOR YOU -->
+                <div class="bucket" id="bucket-7">
+                    <div class="bucket-header" onclick="toggleBucket('7')">
+                        <strong style="display: flex; align-items: center;"><img src="red-blossom.png" alt=""
+                                style="width: 20px; vertical-align: middle; margin-right: 8px;"> FINDING WHAT’S RIGHT
+                            FOR YOU</strong>
                         <span class="bucket-arrow">▼</span>
                     </div>
                     <div class="bucket-content">
-                        <div class="stage-narrative">Signifies liberation. Potential for clarity.</div>
+                        <div class="stage-narrative" style="color: white; font-style: italic;">In your own time, at your
+                            own pace, no comparison.</div>
                         <div class="technique-box">
                             <b>Technique: Shaking It Off (Neurogenic Tremors)</b><br>
-                            Deliberately shaking your arms, legs, or whole body for 1–2 minutes can help release excess adrenaline and restore a sense of calm.
+                            Deliberately shaking your arms, legs, or whole body for 1–2 minutes can help release excess
+                            adrenaline and restore a sense of calm.
                         </div>
                         <div style="margin-top: 15px;">
                             <button class="location-btn" onclick="zoomToLocation('Ormesby Hall')">Ormesby Hall</button>
-                            <button class="location-btn" onclick="zoomToLocation('Bamburgh Castle')">Bamburgh Castle</button>
-                            <button class="location-btn" onclick="zoomToLocation('Priory Gardens')">Priory Gardens</button>
-                            <button class="location-btn" onclick="zoomToLocation('St. John\'s Chapel')">St. John's Chapel</button>
+                            <button class="location-btn" onclick="zoomToLocation('Bamburgh Castle')">Bamburgh
+                                Castle</button>
+                            <button class="location-btn" onclick="zoomToLocation('Priory Gardens')">Priory
+                                Gardens</button>
+                            <button class="location-btn" onclick="zoomToLocation('St. John\'s Chapel')">St. John's
+                                Chapel</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- VISION -->
-            <div class="bucket" id="bucket-vision">
-                <div class="bucket-header" onclick="toggleBucket('vision')">
-                    <strong>🌸 Our Vision</strong>
-                    <span class="bucket-arrow">▼</span>
-                </div>
-                <div class="bucket-content">
-                    <p style="font-size:0.85em; line-height:1.6; color:#ccc;">
-                        <strong>Our vision:</strong> Supporting neurodivergent adults to recover, regulate, and thrive.
-                    </p>
                 </div>
             </div>
 
@@ -1144,7 +1281,7 @@
 
     <button id="recenter-btn">🚐 Recentre</button>
 
-    
+
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -1185,16 +1322,16 @@
             timestamp: null
         };
 
-        
+
 
         // ================================================================
         // 2. SURVEY INTERACTION
         // ================================================================
         // ── Removed Legacy Energy/Location Handlers ──
-        
+
 
         // ── Tally form submission (placeholder — replace PLACEHOLDER with your Tally form ID)
-        
+
 
         // ================================================================
         // 3. ACCORDION & NAVIGATION
@@ -1203,19 +1340,19 @@
         // Stage centroids for Full Mode (North East) auto-pan only
         var STAGE_CENTROIDS = {
             1: [54.8432, -1.4707],
-            2: [54.706,  -1.434],
-            3: [54.915,  -1.423],
-            4: [55.031,  -1.557],
-            5: [55.034,  -1.645]
+            2: [54.706, -1.434],
+            3: [54.915, -1.423],
+            4: [55.031, -1.557],
+            5: [55.034, -1.645]
         };
 
         // advanceTo — opens the target bucket WITHOUT auto-panning the map.
         // Map panning was removed to prevent sensory overload during survey navigation.
         // Users can pan/zoom the map independently at any time.
         // ── Validation gate toast
-        
 
-                function toggleBucket(id) {
+
+        function toggleBucket(id) {
             var bucket = document.getElementById('bucket-' + id);
             if (!bucket) return;
             var wasActive = bucket.classList.contains('active');
@@ -1269,7 +1406,7 @@
                 var loader = document.getElementById('map-loading');
                 if (loader) {
                     loader.classList.add('hidden');
-                    setTimeout(function() { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 600);
+                    setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 600);
                 }
             }
 
@@ -1302,7 +1439,7 @@
                 { name: "Hadrian's Wall Hub WC", lat: 55.002, lon: -2.361, type: 'Verified Hub' },
                 { name: 'Bamburgh Visitor Centre', lat: 55.609, lon: -1.710, type: 'Verified Hub' },
                 { name: 'Seaham Shopping Hub', lat: 54.837, lon: -1.331, type: 'Verified Hub' },
-		{ name: 'Priory Gardens', lat: 54.54998, lon: -1.05124, type: 'Verified Hub' }
+                { name: 'Priory Gardens', lat: 54.54998, lon: -1.05124, type: 'Verified Hub' }
             ];
 
             var sites = [
@@ -1352,7 +1489,7 @@
             setTimeout(hideMapLoader, 5000);
 
             // Recenter: mode-aware, no NE fallback
-            
+
             function recenterOnVan() {
                 if (!vanMarker || !map) return;
                 const vanLatLng = vanMarker.getLatLng();
@@ -1406,24 +1543,24 @@
                     });
                     var data = await res.json();
                     radarLayer.clearLayers();
-                    data.elements.forEach(function(el) {
+                    data.elements.forEach(function (el) {
                         if (!el.lat) return;
                         var isRadar = (el.tags['access:key_scheme'] === 'radar' ||
-                                       el.tags['toilets:access'] === 'radar_key' ||
-                                       el.tags['locked'] === 'radar_key');
+                            el.tags['toilets:access'] === 'radar_key' ||
+                            el.tags['locked'] === 'radar_key');
                         var icon = isRadar ? radarIcon : wcIcon;
                         var name = el.tags.name || (isRadar ? '🔑 Radar Key Facility' : '♿ Accessible Toilet');
                         var opening = el.tags.opening_hours ? '<br>Hours: ' + el.tags.opening_hours : '';
                         var fee = el.tags.fee === 'yes' ? '<br><em>Fee required</em>' : '';
                         var keyNote = isRadar ? '<br><strong style="color:#7c4dff;">🔑 Requires Radar Key</strong>' : '';
                         L.marker([el.lat, el.lon], { icon: icon }).addTo(radarLayer)
-                         .bindPopup('<div style="color:#000;"><strong>' + name + '</strong>' + keyNote + opening + fee + '</div>');
+                            .bindPopup('<div style="color:#000;"><strong>' + name + '</strong>' + keyNote + opening + fee + '</div>');
                     });
                     var count = data.elements.length;
                     var btn = document.getElementById('btn-radar');
                     if (btn) btn.title = count + ' accessible facilities found in your selected region';
                     console.log('[BLOSSOM TRAIL] Radar Search (region-scoped): ' + count + ' facilities found.');
-                } catch(e) {
+                } catch (e) {
                     console.warn('[BLOSSOM TRAIL] Radar Search failed:', e);
                 }
             }
@@ -1443,7 +1580,7 @@
             };
 
             // Radar is LA-scoped — no re-query on map pan needed
-            map.on('moveend zoomend', function() { /* no-op: LA-scoped only */ });
+            map.on('moveend zoomend', function () { /* no-op: LA-scoped only */ });
 
             // Van GPS tracking
             function initVanTracking() {
@@ -1469,8 +1606,8 @@
                     var data = await res.json();
                     var maxTemps = data.daily.temperature_2m_max;
                     var minTemps = data.daily.temperature_2m_min;
-                    var meanTemps = maxTemps.map(function(mx, i) { return (mx + minTemps[i]) / 2; });
-                    var weekMean = meanTemps.reduce(function(a, b) { return a + b; }, 0) / meanTemps.length;
+                    var meanTemps = maxTemps.map(function (mx, i) { return (mx + minTemps[i]) / 2; });
+                    var weekMean = meanTemps.reduce(function (a, b) { return a + b; }, 0) / meanTemps.length;
                     var trend = meanTemps[6] - meanTemps[0]; // positive = warming
                     var label, colour;
                     if (weekMean >= 12 && trend >= 0) {
@@ -1482,15 +1619,15 @@
                     }
                     var badge = document.getElementById('bloom-badge');
                     if (badge) { badge.textContent = label; badge.style.color = colour; }
-                } catch(e) { /* silent */ }
+                } catch (e) { /* silent */ }
             }
 
             // Full WMO Weather Interpretation Code table — Met Office aligned descriptions
             var WMO_CODES = {
-                0:  '☀️ Clear Sky',
-                1:  '🌤️ Mainly Clear',
-                2:  '⛅ Partly Cloudy',
-                3:  '☁️ Overcast',
+                0: '☀️ Clear Sky',
+                1: '🌤️ Mainly Clear',
+                2: '⛅ Partly Cloudy',
+                3: '☁️ Overcast',
                 45: '🌫️ Fog',
                 48: '🌫️ Freezing Fog',
                 51: '🌦️ Light Drizzle',
@@ -1516,12 +1653,12 @@
                 96: '⛈️ Thunderstorm with Hail',
                 99: '⛈️ Heavy Thunderstorm with Hail'
             };
-            var RAIN_CODES = [51,53,55,56,57,61,63,65,66,67,80,81,82,85,86,95,96,99];
+            var RAIN_CODES = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 85, 86, 95, 96, 99];
 
             function getMoonPhase(d) {
                 var year = d.getFullYear(), month = d.getMonth() + 1, day = d.getDate();
                 if (month < 3) { year--; month += 12; }
-                var jd = Math.floor(365.25 * year) + Math.floor(30.6 * month + 0.5) + day - 694039.09; 
+                var jd = Math.floor(365.25 * year) + Math.floor(30.6 * month + 0.5) + day - 694039.09;
                 var phase = (jd / 29.5305882) % 1;
                 if (phase < 0) phase += 1;
                 if (phase < 0.03 || phase > 0.97) return '🌑 New Moon';
@@ -1559,12 +1696,12 @@
             }
 
             // ── Shared: build stage bucket shell
-            
+
 
             // ── FULL MODE render (North East blossom trail)
             function renderFullTrail() {
                 markerLayer.clearLayers();
-                
+
                 var neCentre = [54.843, -1.470];
                 map.setView(neCentre, 9, { animate: true });
                 _weatherLat = neCentre[0];
@@ -1575,7 +1712,7 @@
                 var coords = [];
                 sites.forEach(function (s) {
                     var icon = s.type === 'blossom'
-                        ? L.icon({ iconUrl: 'blossom1.svg', iconSize: [32, 32] })
+                        ? L.icon({ iconUrl: 'pink-blossom.png', iconSize: [32, 32] })
                         : new L.Icon.Default();
                     var marker = L.marker([s.lat, s.lon], { icon: icon }).addTo(markerLayer);
                     var safeAccess = ['Paved', 'Concrete', 'Level', 'Tarmac', 'Lift'];
@@ -1584,10 +1721,10 @@
                         : '';
                     marker.bindPopup('<div style="color:#000;"><strong style="color:var(--primary);">' + s.name + '</strong><div class="wc-status-box">Surface: ' + s.access + ' &#9855;</div>' + advice + '<img src="' + s.img + '" class="popup-img"></div>', { autoPan: false });
                     coords.push([s.lat, s.lon]);
-                    
+
                     window._markers[s.name] = marker;
                 });
-                
+
                 L.polyline(coords, { color: '#d81b60', weight: 4, opacity: 0.6, dashArray: '10, 15' }).addTo(markerLayer);
                 if (!vanMarker) {
                     vanMarker = L.marker([54.843, -1.470], {
@@ -1602,11 +1739,11 @@
             function renderTrail() {
                 renderFullTrail();
             }
-            
-            window.zoomToLocation = function(name) {
-                var s = sites.find(function(site) { return site.name === name; });
+
+            window.zoomToLocation = function (name) {
+                var s = sites.find(function (site) { return site.name === name; });
                 if (!s) {
-                    s = sites.find(function(site) { return name.indexOf(site.name) !== -1 || site.name.indexOf(name) !== -1; });
+                    s = sites.find(function (site) { return name.indexOf(site.name) !== -1 || site.name.indexOf(name) !== -1; });
                 }
                 if (s && map) {
                     map.setView([s.lat, s.lon], 15, { animate: false });
@@ -1615,7 +1752,7 @@
                     }
                     // Auto-collapse sidebar on mobile screens so map is visible!
                     if (window.innerWidth <= 768) {
-                        document.querySelectorAll('.bucket').forEach(function(b) { b.classList.remove('active'); });
+                        document.querySelectorAll('.bucket').forEach(function (b) { b.classList.remove('active'); });
                     }
                 }
             };
@@ -1646,32 +1783,53 @@
 
         // ── PWA: register service worker for offline support
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(function(reg) {
+            navigator.serviceWorker.register('sw.js').then(function (reg) {
                 console.log('[BLOSSOM TRAIL] Service Worker registered:', reg.scope);
-            }).catch(function(e) {
+            }).catch(function (e) {
                 console.log('[BLOSSOM TRAIL] SW registration failed:', e);
             });
         }
         var deferredPrompt;
         var installBtn = document.getElementById('install-app-btn');
-        window.addEventListener('beforeinstallprompt', function(e) {
+        window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
             if (installBtn) { installBtn.style.display = 'flex'; }
         });
         if (installBtn) {
-            installBtn.addEventListener('click', function(e) {
+            installBtn.addEventListener('click', function (e) {
                 if (!deferredPrompt) return;
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(function(choiceResult) {
+                deferredPrompt.userChoice.then(function (choiceResult) {
                     if (choiceResult.outcome === 'accepted') { installBtn.style.display = 'none'; }
                     deferredPrompt = null;
                 });
             });
         }
-        window.addEventListener('appinstalled', function(evt) {
+        window.addEventListener('appinstalled', function (evt) {
             if (installBtn) installBtn.style.display = 'none';
         });
+
+        // MS Form response handler
+        const msIframe = document.getElementById('msform');
+        if (msIframe) {
+            msIframe.addEventListener('load', () => {
+                try {
+                    const currentURL = msIframe.contentWindow.location.href;
+                    // MS Forms "Thank You" page always contains "FormResponse"
+                    if (currentURL.includes('FormResponse')) {
+                        // Hide the form on completion
+                        document.getElementById('form-container').style.display = 'none';
+                        // Option 1/2 provided by user: redirect back to trail or close. 
+                        // Since we're integrated inside the page, hiding it is safest.
+                        // window.close(); 
+                        // window.location.href = '/trail';
+                    }
+                } catch (e) {
+                    // Cross-origin protection: ignore until the URL becomes readable
+                }
+            });
+        }
     </script>
 </body>
 
