@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Blossom Trail Survey</title>
+    <style>
+        :root {
+            --primary: #d81b60;
+            --success: #00c853;
+            --cream: #fbf8f1;
+            --dark: #1a1a1a;
+            --border: #e0e0e0;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: url('garden-blossom.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--dark);
+            height: 100%;
+        }
+
+        .overlay {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .cream-panel {
+            background-color: var(--cream);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            box-sizing: border-box;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.4em;
+            margin-top: 0;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .progress {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label.q-label {
+            display: block;
+            font-weight: bold;
+            font-size: 1.05em;
+            margin-bottom: 15px;
+            color: var(--dark);
+            line-height: 1.4;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-lbl {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #fff;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .option-lbl:hover {
+            border-color: var(--primary);
+            background: #fff5f8;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-top: 3px;
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.95em;
+            box-sizing: border-box;
+            background: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-prev {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-prev:hover {
+            background-color: #ccc;
+        }
+
+        .btn-next,
+        .btn-submit {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-next:hover,
+        .btn-submit:hover {
+            background-color: #ad144b;
+        }
+
+        .btn-return {
+            background-color: var(--success);
+            color: #000;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1em;
+            text-transform: uppercase;
+        }
+
+        .btn-return:hover {
+            background-color: #00a846;
+        }
+
+        #success-screen {
+            display: none;
+            text-align: center;
+        }
+
+        #success-screen h2 {
+            color: var(--success);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        iframe.hidden-iframe {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="overlay">
+        <div class="cream-panel">
+            <h1 id="survey-title">Blossom Trail Survey</h1>
+            <div class="progress" id="progress-bar">
+                <span>Progress</span>
+                <span id="progress-text">Step 1 of 12</span>
+            </div>
+
+            <iframe name="hidden_iframe" id="hidden_iframe" class="hidden-iframe"></iframe>
+
+            <form id="blossom-survey"
+                action="https://docs.google.com/forms/d/e/1FAIpQLSctSSap_3TAdcZ0p6uCQPOnNI0rZe1fAENhh6RKfjVj-CvJwA/formResponse"
+                method="POST" target="hidden_iframe">
+
+                <input type="hidden" name="entry.blossom_uuid" id="uuid_field">
+
+                <!-- Step 1 -->
+                <div class="step active">
+                    <label class="q-label">How do you describe your gender?</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Female">
+                            Female</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Male"> Male</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Prefer not to say">
+                            Prefer not to say</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725"
+                                value="Prefer to self-describe"> Prefer to self-describe</label>
+                    </div>
+                    <input type="text" name="entry.1349130532" placeholder="If self-describing, please enter here">
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step">
+                    <label class="q-label">Understanding the age of potential services users helps us to design and
+                        deliver age appropriate services.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="Under 18 years">
+                            Under 18 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="19 - 24 years"> 19 -
+                            24 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="25 - 34 years"> 25 -
+                            34 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="35 - 44 years"> 35 -
+                            44 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="45 - 54 years"> 45 -
+                            54 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="55 - 64 years"> 55 -
+                            64 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="65 - 74 years"> 65 -
+                            74 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="Over 75 years"> Over
+                            75 years</label>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step">
+                    <label class="q-label">Most people have a mix of feelings from day-to-day and sometimes more
+                        frequently. Think about how you have been in the last 4 weeks.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟪Blooming - I'm thriving, my energy is strong, daily tasks feel manageable. I can engage, plan and adapt with confidence.">
+                            🟪Blooming - I'm thriving</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟦Steady - I am functioning consistently. Tasks require normal effort, my pacing and strategies work for me.">
+                            🟦Steady - I am functioning consistently</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟦Balanced - I am feeling stable. I require conscious pacing and need structure and maybe sensory support to maintain regulation.">
+                            🟦Balanced - I am feeling stable</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟩Stretched - My energy an cognitive load is dipping. Tasks take more effort; senory and emotional load is more noticeable.">
+                            🟩Stretched - My energy is dipping</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟨Strained - I find it harder to regulate. I am feeling overwhelmed and tired and want time on my own to recover.">
+                            🟨Strained - I find it harder to regulate</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟧Overloaded -  I am struggling but still functioning. My communication, executive functioning and sensory regulation is negatively impacted.">
+                            🟧Overloaded - I am struggling but still functioning</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟥Burnout - My energy and regulation is exhausted. I am in shutdown, overwhelmed and unable to engage. I need immediate rest, recovery or support.">
+                            🟥Burnout - My energy is exhausted</label>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step">
+                    <label class="q-label">We would like to understand more about how services may vary in you local
+                        council area.</label>
+                    <select name="entry.320659026">
+                        <option value="">Please select...</option>
+                        <option value="County Durham">County Durham</option>
+                        <option value="Darlington">Darlington</option>
+                        <option value="Gateshead">Gateshead</option>
+                        <option value="Hartlepool">Hartlepool</option>
+                        <option value="Middlesbrough">Middlesbrough</option>
+                        <option value="Newcastle Upon Tyne">Newcastle Upon Tyne</option>
+                        <option value="North Tyneside">North Tyneside</option>
+                        <option value="Northumberland">Northumberland</option>
+                        <option value="Redcar and Cleveland">Redcar and Cleveland</option>
+                        <option value="South Tyneside">South Tyneside</option>
+                        <option value="Stockton-on-Tees">Stockton-on-Tees</option>
+                        <option value="Sunderland">Sunderland</option>
+                        <option
+                            value="I don't live or work in the North East. I am interested in future service development either on line or in other areas.">
+                            I don't live or work in the North East...</option>
+                    </select>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step">
+                    <label class="q-label">Select the option that best describes where you are right now. There is no
+                        right or wrong answer.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Active in Employment"> Active in Employment</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Active in Enterprise"> Active in Enterprise</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Preparing for Opportunity"> Preparing for Opportunity</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Prioritising Personal Wellbeing"> Prioritising Personal Wellbeing</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Intentional Autonomy"> Intentional Autonomy</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915" value="__other_option__">
+                            Other (please specify)</label>
+                    </div>
+                    <input type="text" name="entry.751986915.other_option_response"
+                        placeholder="If other, specify here">
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step">
+                    <label class="q-label">My local environments are well-aligned with my specific sensory needs and
+                        communication style.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly disagree">
+                            Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Disagree">
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Agree">
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly Agree">
+                            Strongly Agree</label>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="step">
+                    <label class="q-label">I feel confident that my daily activities are sustainable without risking my
+                        financial or energy levels.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly disagree">
+                            Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Disagree">
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Agree">
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly Agree">
+                            Strongly Agree</label>
+                    </div>
+                </div>
+
+                <!-- Step 8 -->
+                <div class="step">
+                    <label class="q-label">What specific daily tasks drain your energy most?</label>
+                    <textarea name="entry.1609008989" placeholder="Type your answer here..."></textarea>
+                </div>
+
+                <!-- Step 9 -->
+                <div class="step">
+                    <label class="q-label">The use of digital tools is an effective way for me to reduce the ‘executive
+                        function tax’ I face.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly disagree">
+                            Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Disagree">
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Agree">
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly Agree">
+                            Strongly Agree</label>
+                    </div>
+                </div>
+
+                <!-- Step 10 -->
+                <div class="step">
+                    <label class="q-label">What do you feel would help you or other neurodivergent family and friends,
+                        that's not available now?</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Accessible, sensory‑safe community spaces - calm environments designed for neurodivergent comfort and social connection.">
+                            Accessible, sensory-safe community spaces</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Flexible support - services that adapt to fluctuating energy, communication, and executive‑function needs.">
+                            Flexible support</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Peer‑led mentoring and lived ‑ experience training - guidance from people who understand neurodivergent realities first‑hand.">
+                            Peer-led mentoring and lived-experience training</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Inclusive employment pathways - enterprise and job opportunites and workplace adjustments built around strengths, not deficits.">
+                            Inclusive employment pathways</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Affordable, trauma‑informed coaching and/or wellness practices - practitioners trained in neurodivergent burnout, masking, and regulation.">
+                            Affordable, trauma-informed coaching</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Integrated digital tools for pacing and recovery - apps or platforms that help track capacity, rest, and sensory load.">
+                            Integrated digital tools for pacing</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="__other_option__"> Other (please specify)</label>
+                    </div>
+                    <input type="text" name="entry.1069785642.other_option_response"
+                        placeholder="If other, specify here">
+                </div>
+
+                <!-- Step 11 -->
+                <div class="step">
+                    <label class="q-label">Current support services in my area demonstrate a clear understanding of
+                        neurodivergent burnout.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly disagree">
+                            Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Disagree">
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Agree">
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly Agree">
+                            Strongly Agree</label>
+                    </div>
+                </div>
+
+                <!-- Step 12 -->
+                <div class="step">
+                    <label class="q-label">Are there any services, groups, or tools in your area that ARE working well
+                        for you?</label>
+                    <textarea name="entry.659943046" placeholder="Type your answer here..."></textarea>
+                </div>
+
+                <div class="nav-controls">
+                    <button type="button" id="btn-prev" class="btn btn-prev" style="display:none;">Back</button>
+                    <button type="button" id="btn-next" class="btn btn-next">Next</button>
+                    <button type="submit" id="btn-submit" class="btn btn-submit" style="display:none;">Submit
+                        Survey</button>
+                </div>
+            </form>
+
+            <div id="success-screen">
+                <h2>Thank You!</h2>
+                <p class="intro">Your responses have been recorded successfully. We appreciate your contribution to the
+                    Blossom Trail!</p>
+                <button onclick="window.close()" class="btn-return">Return to the Trail</button>
+                <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
+                    If the button above doesn't work, <a href="https://inclusivecat.github.io/blossom-trail"
+                        style="color:var(--primary);">click here to return</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Step navigation logic
+        const steps = document.querySelectorAll('.step');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const btnSubmit = document.getElementById('btn-submit');
+        const progressText = document.getElementById('progress-text');
+        let currentStep = 0;
+
+        function updateNav() {
+            steps.forEach((el, index) => {
+                el.classList.toggle('active', index === currentStep);
+            });
+
+            progressText.innerText = `Question ${currentStep + 1} of ${steps.length}`;
+
+            btnPrev.style.display = currentStep > 0 ? 'inline-block' : 'none';
+
+            if (currentStep === steps.length - 1) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'inline-block';
+            } else {
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            }
+        }
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateNav();
+            }
+        });
+
+        btnNext.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateNav();
+            }
+        });
+
+        // Form submission processing
+        const form = document.getElementById('blossom-survey');
+        const hiddenIframe = document.getElementById('hidden_iframe');
+        const progressBlock = document.getElementById('progress-bar');
+        const surveyTitle = document.getElementById('survey-title');
+        const successScreen = document.getElementById('success-screen');
+
+        // UUID generation
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // Setup UUID (stored securely if they refresh or come back)
+        let uuid = localStorage.getItem('blossom_survey_uuid');
+        if (!uuid) {
+            uuid = generateUUID();
+            localStorage.setItem('blossom_survey_uuid', uuid);
+        }
+        document.getElementById('uuid_field').value = uuid;
+
+        // Listen for iframe load event representing the Google Form response returning
+        let submitted = false;
+        form.addEventListener('submit', () => {
+            submitted = true;
+        });
+
+        hiddenIframe.addEventListener('load', () => {
+            if (submitted) {
+                // Form submitted and response received
+                form.style.display = 'none';
+                progressBlock.style.display = 'none';
+                surveyTitle.style.display = 'none';
+                successScreen.style.display = 'block';
+            }
+        });
+
+        // Initialise view
+        updateNav();
+    </script>
+
+</body>
+
+</html>

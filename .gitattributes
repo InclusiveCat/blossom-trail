@@ -1,0 +1,35 @@
+# Enforce consistent line endings (LF) across the entire repo
+* text=auto eol=lf
+
+# Treat these file types as text (normalisation applies)
+*.html text
+*.css text
+*.js text
+*.json text
+*.md text
+*.py text
+*.sh text
+*.yml text
+*.yaml text
+
+# Binary files — do NOT modify line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+# Prevent Git from trying to diff large binary assets
+*.png -diff
+*.jpg -diff
+*.jpeg -diff
+*.gif -diff
+*.svg -diff
+*.pdf -diff

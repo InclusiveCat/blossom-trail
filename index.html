@@ -939,6 +939,28 @@
         .location-btn:last-child {
             margin-bottom: 0;
         }
+
+        .blossom-start-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+        }
+        .blossom-start-btn:hover {
+            background: #ad144b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+        }
     </style>
 </head>
 
@@ -1039,26 +1061,10 @@
                 </div>
             </div>
 
-            <!-- MS FORM PLACEHOLDER -->
-            <div id="form-container"
-                style="width:100%; min-height:600px; position: relative; margin-bottom: 20px; border-radius: 8px; overflow: hidden;">
-                <!-- Loading placeholder -->
-                <div
-                    style="position: absolute; top: 50%; left: 0; right: 0; text-align: center; color: #aaa; font-size: 0.85em; text-transform: uppercase; transform: translateY(-50%); z-index: 1;">
-                    Survey loading...
-                </div>
-
-                <iframe id="msform" src="form-redirect.html" title="Oubaitori Collective Blossom Trail" style="
-                        width: 100%;
-                        height: 100%;
-                        border: none;
-                        overflow: hidden;
-                        position: relative;
-                        background-color: #1a1a1a;
-                    " allowfullscreen aria-label="Embedded Microsoft Form for Blossom Trail user feedback"
-                    loading="lazy"></iframe>
-
-            </div>
+            <!-- SURVEY BUTTON -->
+            <button id="startSurveyBtn" class="blossom-start-btn">
+                Start the Blossom Trail Survey
+            </button>
 
 
 
@@ -1817,24 +1823,11 @@
             if (installBtn) installBtn.style.display = 'none';
         });
 
-        // MS Form response handler
-        const msIframe = document.getElementById('msform');
-        if (msIframe) {
-            msIframe.addEventListener('load', () => {
-                try {
-                    const currentURL = msIframe.contentWindow.location.href;
-                    // MS Forms "Thank You" page always contains "FormResponse"
-                    if (currentURL.includes('FormResponse')) {
-                        // Hide the form on completion
-                        document.getElementById('form-container').style.display = 'none';
-                        // Option 1/2 provided by user: redirect back to trail or close. 
-                        // Since we're integrated inside the page, hiding it is safest.
-                        // window.close(); 
-                        // window.location.href = '/trail';
-                    }
-                } catch (e) {
-                    // Cross-origin protection: ignore until the URL becomes readable
-                }
+        // Open Survey button handler
+        const startSurveyBtn = document.getElementById('startSurveyBtn');
+        if (startSurveyBtn) {
+            startSurveyBtn.addEventListener('click', () => {
+                window.open('survey.html', '_blank', 'noopener,noreferrer');
             });
         }
     </script>
