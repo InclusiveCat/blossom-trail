@@ -972,7 +972,7 @@
             <h1>Oubaitori Collective Blossom Trail</h1>
             <span class="sub-header">It is Okay to be Here.</span>
             <button id="install-app-btn" class="submit-btn"
-                style="display: none; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg
+                style="display: flex; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg
                     width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -1595,13 +1595,56 @@
             // Radar is LA-scoped — no re-query on map pan needed
             map.on('moveend zoomend', function () { /* no-op: LA-scoped only */ });
 
-            // Van coordinate feed integration point
-            // The van marker now strictly represents the live location of the actual van (from your data source),
-            // and is completely decoupled from the user's personal browser GPS/location.
+            // ── Live Van Tracker Connection (Reads from & Writes to Google Apps Script)
+            const TRACKER_URL = "https://script.google.com/macros/s/AKfycbzaLfI1tEvs0Artiwlh-18WrxQO94cMTHREHgigp8kn6T8eA3DA_nZ9KVI8tTJmlbWDMw/exec";
+            
             function updateVanLocation(lat, lon) {
-                if (vanMarker) {
-                    vanMarker.setLatLng([lat, lon]);
+                if (vanMarker) vanMarker.setLatLng([lat, lon]);
+            }
+
+            // Check if user is the driver passing ?driver=true in URL
+            const isDriver = window.location.search.includes('driver=true');
+            let broadcastInterval;
+
+            if (isDriver) {
+                // DRIVER MODE: Watch GPS and update locally + broadcast to Google Sheet every 10s
+                let currentLat = null, currentLon = null;
+                
+                alert("Van Tracking Mode Activated! Make sure GPS is enabled.");
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.watchPosition(function(pos) {
+                        currentLat = pos.coords.latitude;
+                        currentLon = pos.coords.longitude;
+                        updateVanLocation(currentLat, currentLon);
+                    }, function(err) {
+                        console.warn("GPS Tracking skipped or blocked: " + err.message);
+                    }, { enableHighAccuracy: true, maximumAge: 5000 });
                 }
+
+                // Push current location to Apps Script backend every 10 seconds
+                setInterval(function() {
+                    if (currentLat !== null && currentLon !== null) {
+                        fetch(TRACKER_URL + "?update=true&lat=" + currentLat + "&lon=" + currentLon)
+                            .catch(err => console.error("Error broadcasting GPS:", err));
+                    }
+                }, 10000);
+
+            } else {
+                // PUBLIC MODE: Poll the Apps Script every 30 seconds to fetch the live van location
+                function fetchLiveVanPosition() {
+                    fetch(TRACKER_URL)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.lat && data.lon) {
+                                updateVanLocation(parseFloat(data.lat), parseFloat(data.lon));
+                            }
+                        })
+                        .catch(err => console.log("Tracker fetch error:", err));
+                }
+
+                fetchLiveVanPosition(); // initial fetch
+                setInterval(fetchLiveVanPosition, 30000); // Check every 30 seconds
             }
 
             // ── Bloom-time prediction using Open-Meteo daily temperature
@@ -1798,6 +1841,12 @@
         }
         var deferredPrompt;
         var installBtn = document.getElementById('install-app-btn');
+        
+        // Hide button if already installed (standalone mode)
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            if (installBtn) installBtn.style.display = 'none';
+        }
+
         window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
@@ -1805,12 +1854,15 @@
         });
         if (installBtn) {
             installBtn.addEventListener('click', function (e) {
-                if (!deferredPrompt) return;
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(function (choiceResult) {
-                    if (choiceResult.outcome === 'accepted') { installBtn.style.display = 'none'; }
-                    deferredPrompt = null;
-                });
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(function (choiceResult) {
+                        if (choiceResult.outcome === 'accepted') { installBtn.style.display = 'none'; }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    alert("To install the Blossom Trail App, tap your browser's Share icon or menu and select 'Add to Home Screen' (or click 'Install' in your browser address bar).");
+                }
             });
         }
         window.addEventListener('appinstalled', function (evt) {
