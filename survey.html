@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-GB">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -13,7 +14,8 @@
             --border: #e0e0e0;
         }
 
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -22,7 +24,7 @@
             color: var(--dark);
             height: 100%;
         }
-        
+
         .overlay {
             min-height: 100vh;
             background: rgba(0, 0, 0, 0.4);
@@ -36,7 +38,7 @@
         .cream-panel {
             background-color: var(--cream);
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             width: 100%;
             padding: 30px;
@@ -75,8 +77,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         label.q-label {
@@ -114,14 +123,17 @@
             background: #fff5f8;
         }
 
-        input[type="radio"], input[type="checkbox"] {
+        input[type="radio"],
+        input[type="checkbox"] {
             margin-top: 3px;
             accent-color: var(--primary);
             width: 16px;
             height: 16px;
         }
-        
-        input[type="text"], textarea, select {
+
+        input[type="text"],
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
@@ -131,7 +143,7 @@
             box-sizing: border-box;
             background: #fff;
         }
-        
+
         textarea {
             resize: vertical;
             min-height: 100px;
@@ -156,23 +168,27 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        
+
         .btn-prev {
             background-color: #e0e0e0;
             color: #333;
         }
+
         .btn-prev:hover {
             background-color: #ccc;
         }
-        
-        .btn-next, .btn-submit {
+
+        .btn-next,
+        .btn-submit {
             background-color: var(--primary);
             color: white;
         }
-        .btn-next:hover, .btn-submit:hover {
+
+        .btn-next:hover,
+        .btn-submit:hover {
             background-color: #ad144b;
         }
-        
+
         .btn-return {
             background-color: var(--success);
             color: #000;
@@ -188,6 +204,7 @@
             font-size: 1em;
             text-transform: uppercase;
         }
+
         .btn-return:hover {
             background-color: #00a846;
         }
@@ -196,12 +213,13 @@
             display: none;
             text-align: center;
         }
+
         #success-screen h2 {
             color: var(--success);
             margin-top: 0;
             margin-bottom: 20px;
         }
-        
+
         .data-notice {
             background: #e8f5e9;
             border-left: 4px solid var(--success);
@@ -226,360 +244,448 @@
             display: none;
             border-radius: 4px;
         }
-        
+
         iframe.hidden-iframe {
             display: none;
         }
     </style>
 </head>
+
 <body>
 
-<div class="overlay">
-    <div class="cream-panel">
-        <h1 id="survey-title">Oubaitori Collective<br>Blossom Trail Survey</h1>
-        <div class="progress" id="progress-bar">
-            <span>Progress</span>
-            <span id="progress-text">Step 1 of 12</span>
-        </div>
+    <div class="overlay">
+        <div class="cream-panel">
+            <h1 id="survey-title">Oubaitori Collective<br>Blossom Trail Survey</h1>
+            <div class="progress" id="progress-bar">
+                <span>Progress</span>
+                <span id="progress-text">Step 1 of 12</span>
+            </div>
 
-        <iframe name="hidden_iframe" id="hidden_iframe" class="hidden-iframe"></iframe>
+            <iframe name="hidden_iframe" id="hidden_iframe" class="hidden-iframe"></iframe>
 
-        <form id="blossom-survey" action="https://docs.google.com/forms/d/e/1FAIpQLSctSSap_3TAdcZ0p6uCQPOnNI0rZe1fAENhh6RKfjVj-CvJwA/formResponse" method="POST" target="hidden_iframe">
-            
-            <input type="hidden" name="entry.1014958432" id="uuid_field">
+            <form id="blossom-survey"
+                action="https://script.google.com/macros/s/AKfycbwBkN7nqYgR5-X3J2MdzZo0Ccb1pL2U5K-H2X1gNiXVS5bGQmXqR3dbkySybw7-Bf9KOg/exec"
+                method="POST" target="hidden_iframe">
 
-            <!-- Step 1 -->
-            <div class="step active">
-                <label class="q-label">How do you describe your gender?</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.797108725" value="Female" required> Female</label>
-                    <label class="option-lbl"><input type="radio" name="entry.797108725" value="Male" required> Male</label>
-                    <label class="option-lbl"><input type="radio" name="entry.797108725" value="Prefer not to say" required> Prefer not to say</label>
-                    <label class="option-lbl"><input type="radio" name="entry.797108725" value="Prefer to self-describe" required> Prefer to self-describe</label>
+                <input type="hidden" name="entry.1014958432" id="uuid_field">
+
+                <!-- Step 1 -->
+                <div class="step active">
+                    <label class="q-label">How do you describe your gender?</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Female" required>
+                            Female</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Male" required>
+                            Male</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725" value="Prefer not to say"
+                                required> Prefer not to say</label>
+                        <label class="option-lbl"><input type="radio" name="entry.797108725"
+                                value="Prefer to self-describe" required> Prefer to self-describe</label>
+                    </div>
+                    <input type="text" name="entry.1349130532" class="cond-text"
+                        placeholder="If self-describing, please enter here">
                 </div>
-                <input type="text" name="entry.1349130532" class="cond-text" placeholder="If self-describing, please enter here">
-            </div>
 
-            <!-- Step 2 -->
-            <div class="step">
-                <label class="q-label">Understanding the age of potential services users helps us to design and deliver age appropriate services.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="Under 18 years" required> Under 18 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="19 - 24 years" required> 19 - 24 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="25 - 34 years" required> 25 - 34 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="35 - 44 years" required> 35 - 44 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="45 - 54 years" required> 45 - 54 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="55 - 64 years" required> 55 - 64 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="65 - 74 years" required> 65 - 74 years</label>
-                    <label class="option-lbl"><input type="radio" name="entry.429384339" value="Over 75 years" required> Over 75 years</label>
+                <!-- Step 2 -->
+                <div class="step">
+                    <label class="q-label">Understanding the age of potential services users helps us to design and
+                        deliver age appropriate services.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="Under 18 years"
+                                required> Under 18 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="19 - 24 years"
+                                required> 19 - 24 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="25 - 34 years"
+                                required> 25 - 34 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="35 - 44 years"
+                                required> 35 - 44 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="45 - 54 years"
+                                required> 45 - 54 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="55 - 64 years"
+                                required> 55 - 64 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="65 - 74 years"
+                                required> 65 - 74 years</label>
+                        <label class="option-lbl"><input type="radio" name="entry.429384339" value="Over 75 years"
+                                required> Over 75 years</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Step 3 -->
-            <div class="step">
-                <label class="q-label">Most people have a mix of feelings from day-to-day and sometimes more frequently. Think about how you have been in the last 4 weeks.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟪Blooming - I'm thriving, my energy is strong, daily tasks feel manageable. I can engage, plan and adapt with confidence." required> 🟪Blooming - I'm thriving</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟦Steady - I am functioning consistently. Tasks require normal effort, my pacing and strategies work for me." required> 🟦Steady - I am functioning consistently</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟦Balanced - I am feeling stable. I require conscious pacing and need structure and maybe sensory support to maintain regulation." required> 🟦Balanced - I am feeling stable</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟩Stretched - My energy an cognitive load is dipping. Tasks take more effort; senory and emotional load is more noticeable." required> 🟩Stretched - My energy is dipping</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟨Strained - I find it harder to regulate. I am feeling overwhelmed and tired and want time on my own to recover." required> 🟨Strained - I find it harder to regulate</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟧Overloaded -  I am struggling but still functioning. My communication, executive functioning and sensory regulation is negatively impacted." required> 🟧Overloaded - I am struggling but still functioning</label>
-                    <label class="option-lbl"><input type="radio" name="entry.752149719" value="🟥Burnout - My energy and regulation is exhausted. I am in shutdown, overwhelmed and unable to engage. I need immediate rest, recovery or support." required> 🟥Burnout - My energy is exhausted</label>
+                <!-- Step 3 -->
+                <div class="step">
+                    <label class="q-label">Most people have a mix of feelings from day-to-day and sometimes more
+                        frequently. Think about how you have been in the last 4 weeks.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟪Blooming - I'm thriving, my energy is strong, daily tasks feel manageable. I can engage, plan and adapt with confidence."
+                                required> 🟪Blooming - I'm thriving</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟦Steady - I am functioning consistently. Tasks require normal effort, my pacing and strategies work for me."
+                                required> 🟦Steady - I am functioning consistently</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟦Balanced - I am feeling stable. I require conscious pacing and need structure and maybe sensory support to maintain regulation."
+                                required> 🟦Balanced - I am feeling stable</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟩Stretched - My energy an cognitive load is dipping. Tasks take more effort; senory and emotional load is more noticeable."
+                                required> 🟩Stretched - My energy is dipping</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟨Strained - I find it harder to regulate. I am feeling overwhelmed and tired and want time on my own to recover."
+                                required> 🟨Strained - I find it harder to regulate</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟧Overloaded -  I am struggling but still functioning. My communication, executive functioning and sensory regulation is negatively impacted."
+                                required> 🟧Overloaded - I am struggling but still functioning</label>
+                        <label class="option-lbl"><input type="radio" name="entry.752149719"
+                                value="🟥Burnout - My energy and regulation is exhausted. I am in shutdown, overwhelmed and unable to engage. I need immediate rest, recovery or support."
+                                required> 🟥Burnout - My energy is exhausted</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Step 4 -->
-            <div class="step">
-                <label class="q-label">We would like to understand more about how services may vary in you local council area.</label>
-                <select name="entry.320659026" required>
-                    <option value="">Please select...</option>
-                    <option value="County Durham">County Durham</option>
-                    <option value="Darlington">Darlington</option>
-                    <option value="Gateshead">Gateshead</option>
-                    <option value="Hartlepool">Hartlepool</option>
-                    <option value="Middlesbrough">Middlesbrough</option>
-                    <option value="Newcastle Upon Tyne">Newcastle Upon Tyne</option>
-                    <option value="North Tyneside">North Tyneside</option>
-                    <option value="Northumberland">Northumberland</option>
-                    <option value="Redcar and Cleveland">Redcar and Cleveland</option>
-                    <option value="South Tyneside">South Tyneside</option>
-                    <option value="Stockton-on-Tees">Stockton-on-Tees</option>
-                    <option value="Sunderland">Sunderland</option>
-                    <option value="I don't live or work in the North East. I am interested in future service development either on line or in other areas.">I don't live or work in the North East...</option>
-                </select>
-            </div>
-
-            <!-- Step 5 -->
-            <div class="step">
-                <label class="q-label">Select the option that best describes where you are right now. There is no right or wrong answer.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="Active in Employment" required> Active in Employment</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="Active in Enterprise" required> Active in Enterprise</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="Preparing for Opportunity" required> Preparing for Opportunity</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="Prioritising Personal Wellbeing (I'm not working but intend to in the future)" required> Prioritising Personal Wellbeing</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="Intentional Autonomy (I'm not working and I don't intent to look for work)" required> Intentional Autonomy</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="My current path is not listed here / I prefer not to categorise my status." required> My current path is not listed here</label>
-                    <label class="option-lbl"><input type="radio" name="entry.751986915" value="__other_option__" required> Other (please specify)</label>
+                <!-- Step 4 -->
+                <div class="step">
+                    <label class="q-label">We would like to understand more about how services may vary in your local
+                        council area.</label>
+                    <select name="entry.320659026" required>
+                        <option value="">Please select...</option>
+                        <option value="County Durham">County Durham</option>
+                        <option value="Darlington">Darlington</option>
+                        <option value="Gateshead">Gateshead</option>
+                        <option value="Hartlepool">Hartlepool</option>
+                        <option value="Middlesbrough">Middlesbrough</option>
+                        <option value="Newcastle Upon Tyne">Newcastle Upon Tyne</option>
+                        <option value="North Tyneside">North Tyneside</option>
+                        <option value="Northumberland">Northumberland</option>
+                        <option value="Redcar and Cleveland">Redcar and Cleveland</option>
+                        <option value="South Tyneside">South Tyneside</option>
+                        <option value="Stockton-on-Tees">Stockton-on-Tees</option>
+                        <option value="Sunderland">Sunderland</option>
+                        <option
+                            value="I don't live or work in the North East. I am interested in future service development either on line or in other areas.">
+                            I don't live or work in the North East...</option>
+                    </select>
                 </div>
-                <input type="text" name="entry.751986915.other_option_response" class="cond-text" placeholder="If other, specify here">
-            </div>
 
-            <!-- Step 6 -->
-            <div class="step">
-                <label class="q-label">My local environments are well-aligned with my specific sensory needs and communication style.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly disagree" required> Strongly disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Disagree" required> Disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Agree" required> Agree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly Agree" required> Strongly Agree</label>
+                <!-- Step 5 -->
+                <div class="step">
+                    <label class="q-label">Select the option that best describes where you are right now. There is no
+                        right or wrong answer.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Active in Employment" required> Active in Employment</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Active in Enterprise" required> Active in Enterprise</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Preparing for Opportunity" required> Preparing for Opportunity</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Prioritising Personal Wellbeing (I'm not working but intend to in the future)"
+                                required> Prioritising Personal Wellbeing</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="Intentional Autonomy (I'm not working and I don't intent to look for work)"
+                                required> Intentional Autonomy</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915"
+                                value="My current path is not listed here / I prefer not to categorise my status."
+                                required> My current path is not listed here</label>
+                        <label class="option-lbl"><input type="radio" name="entry.751986915" value="__other_option__"
+                                required> Other (please specify)</label>
+                    </div>
+                    <input type="text" name="entry.751986915.other_option_response" class="cond-text"
+                        placeholder="If other, specify here">
                 </div>
-            </div>
 
-            <!-- Step 7 -->
-            <div class="step">
-                <label class="q-label">I feel confident that my daily activities are sustainable without risking my financial or energy levels.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly disagree" required> Strongly disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Disagree" required> Disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Agree" required> Agree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly Agree" required> Strongly Agree</label>
+                <!-- Step 6 -->
+                <div class="step">
+                    <label class="q-label">My local environments are well-aligned with my specific sensory needs and
+                        communication style.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly disagree"
+                                required> Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Disagree" required>
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Agree" required>
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1437769659" value="Strongly Agree"
+                                required> Strongly Agree</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Step 8 -->
-            <div class="step">
-                <label class="q-label">What specific daily tasks drain your energy most?</label>
-                <textarea name="entry.1609008989" placeholder="Type your answer here..." required></textarea>
-                <!-- Include the other ID just in case they linked this one -->
-                <textarea name="entry.744626225" style="display:none;"></textarea>
-            </div>
-
-            <!-- Step 9 -->
-            <div class="step">
-                <label class="q-label">The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly disagree" required> Strongly disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.249581486" value="Disagree" required> Disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.249581486" value="Agree" required> Agree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly Agree" required> Strongly Agree</label>
+                <!-- Step 7 -->
+                <div class="step">
+                    <label class="q-label">I feel confident that my daily activities are sustainable without risking my
+                        financial or energy levels.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly disagree"
+                                required> Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Disagree" required>
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Agree" required>
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1712510494" value="Strongly Agree"
+                                required> Strongly Agree</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Step 10 -->
-            <div class="step">
-                <label class="q-label">What do you feel would help you or other neurodivergent family and friends, that's not available now?</label>
-                <!-- Checkboxes require custom JS validation since HTML5 required on multiple checkboxes demands ALL be checked -->
-                <div class="options-group chk-group">
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Accessible, sensory‑safe community spaces - calm environments designed for neurodivergent comfort and social connection."> Accessible, sensory-safe community spaces</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Flexible support - services that adapt to fluctuating energy, communication, and executive‑function needs."> Flexible support</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Peer‑led mentoring and lived ‑ experience training - guidance from people who understand neurodivergent realities first‑hand."> Peer-led mentoring and lived-experience training</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Inclusive employment pathways - enterprise and job opportunites and workplace adjustments built around strengths, not deficits."> Inclusive employment pathways</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Affordable, trauma‑informed coaching and/or wellness practices - practitioners trained in neurodivergent burnout, masking, and regulation."> Affordable, trauma-informed coaching</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Integrated digital tools for pacing and recovery - apps or platforms that help track capacity, rest, and sensory load."> Integrated digital tools for pacing</label>
-                    <label class="option-lbl"><input type="checkbox" name="entry.1069785642" value="Please tell us what additional support would help you"> Other (please specify)</label>
+                <!-- Step 8 -->
+                <div class="step">
+                    <label class="q-label">What specific daily tasks drain your energy most?</label>
+                    <textarea name="entry.1609008989" placeholder="Type your answer here..." required></textarea>
+                    <!-- Include the other ID just in case they linked this one -->
+                    <textarea name="entry.744626225" style="display:none;"></textarea>
                 </div>
-                <input type="text" name="entry.217683421" class="cond-text" placeholder="If other, specify here">
-            </div>
 
-            <!-- Step 11 -->
-            <div class="step">
-                <label class="q-label">Current support services in my area demonstrate a clear understanding of neurodivergent burnout.</label>
-                <div class="options-group">
-                    <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly disagree" required> Strongly disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Disagree" required> Disagree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Agree" required> Agree</label>
-                    <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly Agree" required> Strongly Agree</label>
+                <!-- Step 9 -->
+                <div class="step">
+                    <label class="q-label">The use of digital tools is an effective way for me to reduce the ‘executive
+                        function tax’ I face.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly disagree"
+                                required> Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Disagree" required>
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Agree" required>
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.249581486" value="Strongly Agree"
+                                required> Strongly Agree</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Step 12 -->
-            <div class="step">
-                <label class="q-label">Are there any services, groups, or tools in your area that ARE working well for you?</label>
-                <textarea name="entry.659943046" placeholder="Type your answer here..." required></textarea>
-            </div>
+                <!-- Step 10 -->
+                <div class="step">
+                    <label class="q-label">What do you feel would help you or other neurodivergent family and friends,
+                        that's not available now?</label>
+                    <!-- Checkboxes require custom JS validation since HTML5 required on multiple checkboxes demands ALL be checked -->
+                    <div class="options-group chk-group">
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Accessible, sensory‑safe community spaces - calm environments designed for neurodivergent comfort and social connection.">
+                            Accessible, sensory-safe community spaces</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Flexible support - services that adapt to fluctuating energy, communication, and executive‑function needs.">
+                            Flexible support</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Peer‑led mentoring and lived ‑ experience training - guidance from people who understand neurodivergent realities first‑hand.">
+                            Peer-led mentoring and lived-experience training</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Inclusive employment pathways - enterprise and job opportunites and workplace adjustments built around strengths, not deficits.">
+                            Inclusive employment pathways</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Affordable, trauma‑informed coaching and/or wellness practices - practitioners trained in neurodivergent burnout, masking, and regulation.">
+                            Affordable, trauma-informed coaching</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Integrated digital tools for pacing and recovery - apps or platforms that help track capacity, rest, and sensory load.">
+                            Integrated digital tools for pacing</label>
+                        <label class="option-lbl"><input type="checkbox" name="entry.1069785642"
+                                value="Please tell us what additional support would help you"> Other (please
+                            specify)</label>
+                    </div>
+                    <input type="text" name="entry.217683421" class="cond-text" placeholder="If other, specify here">
+                </div>
 
-            <div id="inline-error" class="error-notice">
-                Please complete this question to continue.
-            </div>
+                <!-- Step 11 -->
+                <div class="step">
+                    <label class="q-label">Current support services in my area demonstrate a clear understanding of
+                        neurodivergent burnout.</label>
+                    <div class="options-group">
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly disagree"
+                                required> Strongly disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Disagree" required>
+                            Disagree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Agree" required>
+                            Agree</label>
+                        <label class="option-lbl"><input type="radio" name="entry.1218629302" value="Strongly Agree"
+                                required> Strongly Agree</label>
+                    </div>
+                </div>
 
-            <div class="nav-controls">
-                <button type="button" id="btn-prev" class="btn btn-prev" style="display:none;">Back</button>
-                <button type="button" id="btn-next" class="btn btn-next">Next</button>
-                <button type="submit" id="btn-submit" class="btn btn-submit" style="display:none;">Submit Survey</button>
-            </div>
-        </form>
+                <!-- Step 12 -->
+                <div class="step">
+                    <label class="q-label">Are there any services, groups, or tools in your area that ARE working well
+                        for you?</label>
+                    <textarea name="entry.659943046" placeholder="Type your answer here..." required></textarea>
+                </div>
 
-        <div id="success-screen">
-            <h2>Thank You!</h2>
-            <p class="intro">Your responses have been recorded successfully. We appreciate your contribution to the Blossom Trail!</p>
-            
-            <div class="data-notice">
-                <strong>Data Protection Notice:</strong><br><br>
-                There is no personal identifiable information collected. The information gathered will be used for service design only.
-            </div>
+                <div id="inline-error" class="error-notice">
+                    Please complete this question to continue.
+                </div>
 
-            <button onclick="window.close()" class="btn-return">Return to the Trail</button>
-            <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                If the button above doesn't work, <a href="https://inclusivecat.github.io/blossom-trail" style="color:var(--primary);">click here to return</a>.
-            </p>
+                <div class="nav-controls">
+                    <button type="button" id="btn-prev" class="btn btn-prev" style="display:none;">Back</button>
+                    <button type="button" id="btn-next" class="btn btn-next">Next</button>
+                    <button type="submit" id="btn-submit" class="btn btn-submit" style="display:none;">Submit
+                        Survey</button>
+                </div>
+            </form>
+
+            <div id="success-screen">
+                <h2>Thank You!</h2>
+                <p class="intro">Your responses have been recorded successfully. We appreciate your contribution to the
+                    Blossom Trail!</p>
+
+                <div class="data-notice">
+                    <strong>Data Protection Notice:</strong><br><br>
+                    There is no personal identifiable information collected. The information gathered will be used for
+                    service design only.
+                </div>
+
+                <button onclick="window.close()" class="btn-return">Return to the Trail</button>
+                <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
+                    If the button above doesn't work, <a href="https://inclusivecat.github.io/blossom-trail"
+                        style="color:var(--primary);">click here to return</a>.
+                </p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // Copy identical text output for duplicate energy field
-    const e1 = document.querySelector('textarea[name="entry.1609008989"]');
-    const e2 = document.querySelector('textarea[name="entry.744626225"]');
-    if (e1 && e2) {
-        e1.addEventListener('input', () => e2.value = e1.value);
-    }
+    <script>
+        // Copy identical text output for duplicate energy field
+        const e1 = document.querySelector('textarea[name="entry.1609008989"]');
+        const e2 = document.querySelector('textarea[name="entry.744626225"]');
+        if (e1 && e2) {
+            e1.addEventListener('input', () => e2.value = e1.value);
+        }
 
-    // Custom Validation
-    function validateStep(stepEl) {
-        let valid = true;
-        
-        // Radios
-        const radios = stepEl.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const groupNames = new Set(Array.from(radios).map(r => r.name));
-            groupNames.forEach(name => {
-                const group = stepEl.querySelectorAll(`input[name="${name}"]`);
-                if (!Array.from(group).some(r => r.checked)) valid = false;
+        // Custom Validation
+        function validateStep(stepEl) {
+            let valid = true;
+
+            // Radios
+            const radios = stepEl.querySelectorAll('input[type="radio"]');
+            if (radios.length > 0) {
+                const groupNames = new Set(Array.from(radios).map(r => r.name));
+                groupNames.forEach(name => {
+                    const group = stepEl.querySelectorAll(`input[name="${name}"]`);
+                    if (!Array.from(group).some(r => r.checked)) valid = false;
+                });
+            }
+
+            // Multi-checkboxes (must have at least one)
+            const chkGroup = stepEl.querySelector('.chk-group');
+            if (chkGroup) {
+                const chks = chkGroup.querySelectorAll('input[type="checkbox"]');
+                if (chks.length > 0 && !Array.from(chks).some(c => c.checked)) valid = false;
+            }
+
+            // Text & selects
+            const texts = stepEl.querySelectorAll('textarea[required], select[required]');
+            texts.forEach(t => {
+                if (!t.value.trim()) valid = false;
             });
-        }
-        
-        // Multi-checkboxes (must have at least one)
-        const chkGroup = stepEl.querySelector('.chk-group');
-        if (chkGroup) {
-            const chks = chkGroup.querySelectorAll('input[type="checkbox"]');
-            if (chks.length > 0 && !Array.from(chks).some(c => c.checked)) valid = false;
-        }
 
-        // Text & selects
-        const texts = stepEl.querySelectorAll('textarea[required], select[required]');
-        texts.forEach(t => {
-            if (!t.value.trim()) valid = false;
-        });
+            // Conditionally required texts
+            const condTexts = stepEl.querySelectorAll('.cond-text');
+            condTexts.forEach(ct => {
+                const nameBase = ct.name.replace('.other_option_response', '');
+                if (nameBase === 'entry.1349130532') { // Gender "prefer to self-describe" text box
+                    const selfDescRadio = stepEl.querySelector('input[name="entry.797108725"][value="Prefer to self-describe"]');
+                    if (selfDescRadio && selfDescRadio.checked && !ct.value.trim()) valid = false;
+                } else if (nameBase === 'entry.217683421') {
+                    const otherBox = stepEl.querySelector(`input[name="entry.1069785642"][value="Please tell us what additional support would help you"]`);
+                    if (otherBox && otherBox.checked && !ct.value.trim()) valid = false;
+                } else {
+                    const otherBox = stepEl.querySelector(`input[name="${nameBase}"][value="__other_option__"]`);
+                    if (otherBox && otherBox.checked && !ct.value.trim()) valid = false;
+                }
+            });
 
-        // Conditionally required texts
-        const condTexts = stepEl.querySelectorAll('.cond-text');
-        condTexts.forEach(ct => {
-            const nameBase = ct.name.replace('.other_option_response', '');
-            if (nameBase === 'entry.1349130532') { // Gender "prefer to self-describe" text box
-                const selfDescRadio = stepEl.querySelector('input[name="entry.797108725"][value="Prefer to self-describe"]');
-                if (selfDescRadio && selfDescRadio.checked && !ct.value.trim()) valid = false;
-            } else if (nameBase === 'entry.217683421') {
-                const otherBox = stepEl.querySelector(`input[name="entry.1069785642"][value="Please tell us what additional support would help you"]`);
-                if (otherBox && otherBox.checked && !ct.value.trim()) valid = false;
+            const errBox = document.getElementById('inline-error');
+            if (!valid) {
+                if (errBox) errBox.style.display = 'block';
             } else {
-                const otherBox = stepEl.querySelector(`input[name="${nameBase}"][value="__other_option__"]`);
-                if (otherBox && otherBox.checked && !ct.value.trim()) valid = false;
+                if (errBox) errBox.style.display = 'none';
+            }
+
+            return valid;
+        }
+
+        // Step navigation logic
+        const steps = document.querySelectorAll('.step');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const btnSubmit = document.getElementById('btn-submit');
+        const progressText = document.getElementById('progress-text');
+        let currentStep = 0;
+
+        function updateNav() {
+            const errBox = document.getElementById('inline-error');
+            if (errBox) errBox.style.display = 'none';
+
+            steps.forEach((el, index) => {
+                el.classList.toggle('active', index === currentStep);
+            });
+
+            progressText.innerText = `Question ${currentStep + 1} of ${steps.length}`;
+
+            btnPrev.style.display = currentStep > 0 ? 'inline-block' : 'none';
+
+            if (currentStep === steps.length - 1) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'inline-block';
+            } else {
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            }
+        }
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateNav();
             }
         });
 
-        const errBox = document.getElementById('inline-error');
-        if (!valid) {
-            if (errBox) errBox.style.display = 'block';
-        } else {
-            if (errBox) errBox.style.display = 'none';
-        }
-
-        return valid;
-    }
-
-    // Step navigation logic
-    const steps = document.querySelectorAll('.step');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const btnSubmit = document.getElementById('btn-submit');
-    const progressText = document.getElementById('progress-text');
-    let currentStep = 0;
-
-    function updateNav() {
-        const errBox = document.getElementById('inline-error');
-        if (errBox) errBox.style.display = 'none';
-
-        steps.forEach((el, index) => {
-            el.classList.toggle('active', index === currentStep);
+        btnNext.addEventListener('click', () => {
+            const step = steps[currentStep];
+            if (validateStep(step)) {
+                currentStep++;
+                updateNav();
+            }
         });
-        
-        progressText.innerText = `Question ${currentStep + 1} of ${steps.length}`;
-        
-        btnPrev.style.display = currentStep > 0 ? 'inline-block' : 'none';
-        
-        if (currentStep === steps.length - 1) {
-            btnNext.style.display = 'none';
-            btnSubmit.style.display = 'inline-block';
-        } else {
-            btnNext.style.display = 'inline-block';
-            btnSubmit.style.display = 'none';
+
+        // Form submission processing
+        const form = document.getElementById('blossom-survey');
+        const hiddenIframe = document.getElementById('hidden_iframe');
+        const progressBlock = document.getElementById('progress-bar');
+        const surveyTitle = document.getElementById('survey-title');
+        const successScreen = document.getElementById('success-screen');
+
+        // UUID generation
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         }
-    }
 
-    btnPrev.addEventListener('click', () => {
-        if (currentStep > 0) {
-            currentStep--;
-            updateNav();
+        // Setup UUID (stored securely if they refresh or come back)
+        let uuid = localStorage.getItem('blossom_survey_uuid');
+        if (!uuid) {
+            uuid = generateUUID();
+            localStorage.setItem('blossom_survey_uuid', uuid);
         }
-    });
+        document.getElementById('uuid_field').value = uuid;
 
-    btnNext.addEventListener('click', () => {
-        const step = steps[currentStep];
-        if (validateStep(step)) {
-            currentStep++;
-            updateNav();
-        }
-    });
-
-    // Form submission processing
-    const form = document.getElementById('blossom-survey');
-    const hiddenIframe = document.getElementById('hidden_iframe');
-    const progressBlock = document.getElementById('progress-bar');
-    const surveyTitle = document.getElementById('survey-title');
-    const successScreen = document.getElementById('success-screen');
-
-    // UUID generation
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
+        let submitted = false;
+        form.addEventListener('submit', (e) => {
+            const step = steps[currentStep];
+            if (!validateStep(step)) {
+                e.preventDefault();
+                return false;
+            }
+            btnSubmit.innerText = "Submitting...";
+            btnSubmit.disabled = true;
+            submitted = true;
         });
-    }
-    
-    // Setup UUID (stored securely if they refresh or come back)
-    let uuid = localStorage.getItem('blossom_survey_uuid');
-    if (!uuid) {
-        uuid = generateUUID();
-        localStorage.setItem('blossom_survey_uuid', uuid);
-    }
-    document.getElementById('uuid_field').value = uuid;
 
-    let submitted = false;
-    form.addEventListener('submit', (e) => {
-        const step = steps[currentStep];
-        if (!validateStep(step)) {
-            e.preventDefault();
-            return false;
-        }
-        btnSubmit.innerText = "Submitting...";
-        btnSubmit.disabled = true;
-        submitted = true;
-    });
+        hiddenIframe.addEventListener('load', () => {
+            if (submitted) {
+                // Form submitted and response received
+                form.style.display = 'none';
+                progressBlock.style.display = 'none';
+                surveyTitle.style.display = 'none';
+                successScreen.style.display = 'block';
+            }
+        });
 
-    hiddenIframe.addEventListener('load', () => {
-        if (submitted) {
-            // Form submitted and response received
-            form.style.display = 'none';
-            progressBlock.style.display = 'none';
-            surveyTitle.style.display = 'none';
-            successScreen.style.display = 'block';
-        }
-    });
-
-    // Initialise view
-    updateNav();
-</script>
+        // Initialise view
+        updateNav();
+    </script>
 
 </body>
+
 </html>
