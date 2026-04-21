@@ -221,3 +221,11 @@ A major refactoring of the Blossom Trail PWA has been completed to align the app
 
 ### 14 April 2026
 A review of the current README.md identified several opportunities to improve clarity, accessibility, and long-term maintainability. Formatting across devices was standardized and basic accessibility criteria (alt text, screen-reader compatibility) have been verified.
+
+### 21 April 2026 — Live Van Tracking & PWA Upgrades
+A true live broadcasting architecture has been implemented for the Blossom Trail physical van marker, alongside PWA installation refinements.
+
+**Key Changes:**
+1. **True Broadcast Architecture:** Upgraded the `vanMarker` tracking logic from a localized "You Are Here" system to a true global broadcast via a Google Apps Script / Google Sheets backend. The public app now automatically polls the endpoint to show the actual van's location.
+2. **Driver Broadcast Mode:** Introduced the `?driver=true` deployment mode, enabling the van driver's phone to autonomously transmit live Geolocation data points (lat/lon) back to the central server every 10 seconds.
+3. **PWA Enhancements:** Extracted the "Install to Home Screen" button from being strictly dependent on the native `beforeinstallprompt` event (which often suppresses it in testing or iOS environments). It is now unconditionally visible with a fallback instructional flow for unsupported browsers, and gracefully hides itself when full Standalone Mode is engaged.
