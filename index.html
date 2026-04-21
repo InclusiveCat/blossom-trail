@@ -1501,10 +1501,10 @@
             // Fallback: hide overlay after 5s even if tiles are slow
             setTimeout(hideMapLoader, 5000);
 
-            // Recenter: mode-aware, no NE fallback
-
+            // Recenter: Always pan the map back to the van's current coordinates
             function recenterOnVan() {
                 if (!vanMarker || !map) return;
+                
                 const vanLatLng = vanMarker.getLatLng();
                 map.setView(vanLatLng, 15, { animate: true }); // using 15 as desired zoom level for van
             }
@@ -1595,17 +1595,12 @@
             // Radar is LA-scoped — no re-query on map pan needed
             map.on('moveend zoomend', function () { /* no-op: LA-scoped only */ });
 
-            // Van GPS tracking
-            function initVanTracking() {
-                if (!vanMarker) return;
-                if ('geolocation' in navigator) {
-                    navigator.geolocation.watchPosition(function (pos) {
-                        var latlng = [pos.coords.latitude, pos.coords.longitude];
-                        vanMarker.setLatLng(latlng);
-                        console.log('[BLOSSOM TRAIL] Van position updated:', latlng);
-                    }, function (err) {
-                        console.log('[BLOSSOM TRAIL] GPS unavailable (' + err.message + ') — van stays at default position.');
-                    }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 });
+            // Van coordinate feed integration point
+            // The van marker now strictly represents the live location of the actual van (from your data source),
+            // and is completely decoupled from the user's personal browser GPS/location.
+            function updateVanLocation(lat, lon) {
+                if (vanMarker) {
+                    vanMarker.setLatLng([lat, lon]);
                 }
             }
 
@@ -1743,7 +1738,6 @@
                     vanMarker = L.marker([54.843, -1.470], {
                         icon: L.icon({ iconUrl: 'test-van.svg', iconSize: [44, 44] }), zIndexOffset: 1000
                     }).addTo(map);
-                    initVanTracking();
                 }
             }
 

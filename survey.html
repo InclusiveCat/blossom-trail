@@ -258,7 +258,7 @@
             </div>
 
             <form id="blossom-survey"
-                action="https://script.google.com/macros/s/AKfycby2Wj1Hfz-CKCLV4jNW59UR2Ue5lClnubUNT_-aBOggwPEbNkoeAk4qKBFFfzHCZtAg7w/exec"
+                action="https://script.google.com/macros/s/AKfycbzaLfI1tEvs0Artiwlh-18WrxQO94cMTHREHgigp8kn6T8eA3DA_nZ9KVI8tTJmlbWDMw/exec"
                 method="POST">
 
                 <input type="hidden" id="uuid" name="Blossom UUID">
@@ -505,18 +505,18 @@
                         function tax' I face.</label>
                     <div class="options-group">
                         <label class="option-lbl"><input type="radio"
-                                name="The use of digital tools is an effective way for me to reduce the 'executive function tax' I face."
+                                name="The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face."
                                 value="Strongly disagree" required> Strongly disagree</label>
                         <label class="option-lbl"><input type="radio"
-                                name="The use of digital tools is an effective way for me to reduce the 'executive function tax' I face."
+                                name="The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face."
                                 value="Disagree" required>
                             Disagree</label>
                         <label class="option-lbl"><input type="radio"
-                                name="The use of digital tools is an effective way for me to reduce the 'executive function tax' I face."
+                                name="The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face."
                                 value="Agree" required>
                             Agree</label>
                         <label class="option-lbl"><input type="radio"
-                                name="The use of digital tools is an effective way for me to reduce the 'executive function tax' I face."
+                                name="The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face."
                                 value="Strongly Agree" required> Strongly Agree</label>
                     </div>
                 </div>
@@ -581,23 +581,7 @@
                 </div>
             </form>
 
-            <div id="success-screen">
-                <h2>Thank You!</h2>
-                <p class="intro">Your responses have been recorded successfully. We appreciate your contribution to the
-                    Blossom Trail!</p>
-
-                <div class="data-notice">
-                    <strong>Data Protection Notice:</strong><br><br>
-                    There is no personal identifiable information collected. The information gathered will be used for
-                    service design only.
-                </div>
-
-                <button onclick="window.close()" class="btn-return">Return to the Trail</button>
-                <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                    If the button above doesn't work, <a href="https://inclusivecat.github.io/blossom-trail"
-                        style="color:var(--primary);">click here to return</a>.
-                </p>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -615,7 +599,7 @@
             SUSTAINABLE: 'I feel confident that my daily activities are sustainable without risking my financial or energy levels.',
             ENERGY: 'What specific daily tasks drain your energy most?',
             STRENGTHS: 'What do you feel you are good at, this could be something you really enjoy?',
-            DIGITAL: "The use of digital tools is an effective way for me to reduce the 'executive function tax' I face.",
+            DIGITAL: "The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face.",
             UNMET: "What do you feel would help you or other neurodivergent family and friends, that's not available now?",
             ADDITIONAL: 'Is there anything additional that would help you not listed above?',
             BURNOUT: 'Current support services in my area demonstrate a clear understanding of neurodivergent burnout.',
@@ -727,7 +711,6 @@
         const form = document.getElementById('blossom-survey');
         const progressBlock = document.getElementById('progress-bar');
         const surveyTitle = document.getElementById('survey-title');
-        const successScreen = document.getElementById('success-screen');
 
         // UUID generation
         function generateUUID() {
@@ -747,75 +730,6 @@
 
         let submitted = false;
 
-        // --- VALIDATION HARNESS (DEBUG PANEL) ---
-        const debugPanel = document.createElement('div');
-        debugPanel.id = 'blossom-debug-panel';
-        debugPanel.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;max-height:40vh;background:rgba(20,20,20,0.95);color:#0f0;font-family:monospace;font-size:13px;z-index:99999;overflow-y:auto;display:none;padding:15px;box-sizing:border-box;border-top:2px solid #555;';
-
-        const debugHeader = document.createElement('div');
-        debugHeader.innerHTML = '<strong style="color:#fff;">Validation Harness (Debug)</strong> <button id="close-debug" type="button" style="float:right;background:#d81b60;color:#fff;border:none;border-radius:4px;cursor:pointer;padding:2px 8px;">Close</button>';
-        debugPanel.appendChild(debugHeader);
-
-        const debugContent = document.createElement('pre');
-        debugContent.style.whiteSpace = 'pre-wrap';
-        debugContent.style.margin = '10px 0 0 0';
-        debugPanel.appendChild(debugContent);
-
-        const toggleBtn = document.createElement('button');
-        toggleBtn.type = 'button';
-        toggleBtn.innerText = '🛠️ Debug';
-        toggleBtn.style.cssText = 'position:fixed;bottom:15px;right:15px;z-index:10000;font-size:12px;opacity:0.6;border-radius:4px;cursor:pointer;';
-        toggleBtn.onclick = () => { debugPanel.style.display = debugPanel.style.display === 'none' ? 'block' : 'none'; };
-
-        document.body.appendChild(toggleBtn);
-        document.body.appendChild(debugPanel);
-
-        document.getElementById('close-debug').onclick = () => { debugPanel.style.display = 'none'; };
-
-        function logDebug(msg) {
-            console.log("[Harness]", msg);
-            debugContent.innerText += msg + '\n';
-            debugPanel.scrollTop = debugPanel.scrollHeight;
-        }
-
-        function runValidationHarness() {
-            debugContent.innerText = "";
-            logDebug("--- VALIDATION HARNESS START ---");
-            try {
-                if (!form) throw new Error("Form <form id='blossom-survey'> NOT FOUND!");
-                logDebug("✅ Form exists.");
-
-                if (!form.contains(btnSubmit)) throw new Error("Submit button is NOT inside the form!");
-                logDebug("✅ Submit button is inside form.");
-
-                const inputs = form.querySelectorAll('input:not([type="submit"]), select, textarea');
-                let missingNames = 0;
-                inputs.forEach(inp => {
-                    if (!inp.name && inp.id !== 'situation-other-text') {
-                        missingNames++;
-                        logDebug("❌ Input missing name attribute: className=" + inp.className + " type=" + inp.type);
-                    }
-                });
-                if (missingNames === 0) logDebug("✅ All inputs have name attributes.");
-
-                const uuidField = document.getElementById('uuid');
-                if (!uuidField) throw new Error("UUID field (id='uuid') NOT FOUND!");
-                if (!uuidField.value) throw new Error("UUID field is empty!");
-                if (uuidField.name !== COL.UUID) throw new Error("UUID field name does not match sheet header!");
-                logDebug("✅ UUID field exists and is populated: " + uuidField.value);
-
-                logDebug("✅ Exact POST URL: " + form.action);
-
-                const formData = new FormData(form);
-                logDebug("--- FORM DATA (PAYLOAD) ---");
-                for (let [key, val] of formData.entries()) {
-                    logDebug(`[${key}] = ${val}`);
-                }
-            } catch (err) {
-                logDebug("❌ ERROR: " + err.message);
-            }
-        }
-        // --- END HARNESS ---
 
         form.addEventListener('submit', (e) => {
             const step = steps[currentStep];
@@ -832,19 +746,25 @@
                 situationOtherRadio.value = situationOtherText.value.trim();
             }
 
-            // Run and display harness automatically on submit
-            debugPanel.style.display = 'block';
-            runValidationHarness();
-            logDebug("✅ Native Form POST starting...");
+            e.preventDefault();
 
             btnSubmit.innerText = "Submitting...";
+            btnSubmit.disabled = true;
 
-            // FIX: Disabling the submit button synchronously inside the submit handler 
-            // can cancel the native form submission on some browsers/devices!
-            // Wrapping it in a setTimeout allows the browser to trigger the actual POST.
-            setTimeout(() => {
-                btnSubmit.disabled = true;
-            }, 50);
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).then(() => {
+                // Navigate back to index upon completion
+                window.location.href = 'index.html';
+            }).catch(err => {
+                console.error("❌ ERROR: " + err.message);
+                btnSubmit.innerText = "Submit Survey";
+                btnSubmit.disabled = false;
+            });
 
             submitted = true;
         });
