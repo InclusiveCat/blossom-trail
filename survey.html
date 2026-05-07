@@ -246,8 +246,11 @@
                         <label class="option-lbl"><input type="radio" name="Gender" value="Prefer not to say" required>
                             <span class="option-text">Prefer not to say</span></label>
                         <label class="option-lbl"><input type="radio" name="Gender" value="Prefer to self-describe"
-                                required> <span class="option-text">Prefer to self-describe</span></label>
+                                required id="gender-self-radio"> <span class="option-text">Prefer to
+                                self-describe</span></label>
                     </div>
+                    <input type="text" name="Gender Other" id="gender-self-text"
+                        placeholder="Please specify if 'Prefer to self-describe' selected">
                 </div>
 
                 <div class="step">
@@ -492,6 +495,21 @@
                         Survey</button>
                 </div>
             </form>
+
+            <div id="thank-you-msg"
+                style="display: none; text-align: center; padding: 20px; animation: fadeIn 0.4s ease-in;">
+                <h2 style="color: var(--primary);">Thank You!</h2>
+                <p style="font-size: 1.1em; color: #444; margin-bottom: 25px;">Your response has been recorded
+                    successfully.</p>
+                <div
+                    style="background: #e8f5e9; border: 1px solid var(--success); padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 0.9em; color: #1b5e20; text-align: left; line-height: 1.5;">
+                    <strong>Data Protection Notice:</strong><br>
+                    No Personally Identifiable Information (PII) is captured during this survey. Your location data is
+                    used solely for the Blossom Trail mapping and is stored anonymously.
+                </div>
+                <button type="button" class="btn btn-next" onclick="window.location.href='map.html'"
+                    style="margin-top: 15px; width: 100%;">Continue to Map</button>
+            </div>
         </div>
     </div>
 
@@ -553,6 +571,13 @@
                 valid = false;
             }
 
+            // Q1 Forced Self-Describe specification
+            const genderSelfRadio = document.getElementById('gender-self-radio');
+            const genderSelfText = document.getElementById('gender-self-text');
+            if (genderSelfRadio && genderSelfRadio.checked && !genderSelfText.value.trim()) {
+                valid = false;
+            }
+
             if (!valid) {
                 document.getElementById('inline-error').style.display = 'block';
             }
@@ -569,6 +594,39 @@
         btnPrev.addEventListener('click', () => {
             currentStep--;
             updateNav();
+        });
+
+        const form = document.getElementById('blossom-survey');
+        const thankYouMsg = document.getElementById('thank-you-msg');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!validateStep()) return;
+
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = 'Submitting...';
+
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                mode: 'no-cors'
+            }).then(() => {
+                form.style.display = 'none';
+                document.getElementById('survey-title').style.display = 'none';
+                document.getElementById('progress-bar').style.display = 'none';
+                thankYouMsg.style.display = 'block';
+
+                setTimeout(() => {
+                    window.location.href = 'map.html';
+                }, 6000);
+            }).catch(err => {
+                console.error("Submission failed", err);
+                document.getElementById('inline-error').innerText = 'An error occurred while submitting. Please check your connection and try again.';
+                document.getElementById('inline-error').style.display = 'block';
+                btnSubmit.disabled = false;
+                btnSubmit.innerText = 'Submit Survey';
+            });
         });
 
         document.getElementById("uuid").value = localStorage.getItem('blossom_uuid') ||

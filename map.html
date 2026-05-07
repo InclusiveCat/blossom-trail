@@ -961,6 +961,65 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 10px rgba(0,0,0,0.4);
         }
+        
+        /* Install Modal */
+        #install-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 30000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #install-modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .install-modal-box {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .install-modal-box img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(216, 27, 96, 0.4));
+        }
+        .install-modal-box h2 {
+            color: var(--primary);
+            font-size: 1.4em;
+            margin: 0 0 15px;
+            text-transform: uppercase;
+        }
+        .install-modal-box p {
+            font-size: 0.95em;
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .install-close-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+        .install-close-btn:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
@@ -1612,15 +1671,43 @@
                 
                 alert("Van Tracking Mode Activated! Make sure GPS is enabled.");
 
-                if (navigator.geolocation) {
-                    navigator.geolocation.watchPosition(function(pos) {
-                        currentLat = pos.coords.latitude;
-                        currentLon = pos.coords.longitude;
-                        updateVanLocation(currentLat, currentLon);
-                    }, function(err) {
-                        console.warn("GPS Tracking skipped or blocked: " + err.message);
-                    }, { enableHighAccuracy: true, maximumAge: 5000 });
+                let watchId = null;
+
+                function startGPSWatch() {
+                    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+                    if (navigator.geolocation) {
+                        watchId = navigator.geolocation.watchPosition(function(pos) {
+                            currentLat = pos.coords.latitude;
+                            currentLon = pos.coords.longitude;
+                            updateVanLocation(currentLat, currentLon);
+                        }, function(err) {
+                            console.warn("GPS Tracking skipped or blocked: " + err.message);
+                        }, { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 });
+                    }
                 }
+
+                startGPSWatch();
+
+                // Add a "Locate Me / Reconnect GPS" button for the driver
+                const reconnectBtn = document.createElement('button');
+                reconnectBtn.innerText = '📡 Reconnect GPS';
+                reconnectBtn.style.cssText = 'position:fixed; bottom:80px; right:20px; z-index:1000; padding:12px 20px; background:#7c4dff; color:white; border:none; border-radius:30px; font-weight:bold; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.5);';
+                reconnectBtn.onclick = function() {
+                    reconnectBtn.innerText = '🔄 Locating...';
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(pos) {
+                            currentLat = pos.coords.latitude;
+                            currentLon = pos.coords.longitude;
+                            updateVanLocation(currentLat, currentLon);
+                            reconnectBtn.innerText = '📡 Reconnect GPS';
+                            startGPSWatch(); // Restart watcher to clear stale state
+                        }, function(err) {
+                            alert("Failed to reconnect GPS: " + err.message);
+                            reconnectBtn.innerText = '📡 Reconnect GPS';
+                        }, { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 });
+                    }
+                };
+                document.body.appendChild(reconnectBtn);
 
                 // Push current location to Apps Script backend every 10 seconds
                 setInterval(function() {
@@ -1861,7 +1948,16 @@
                         deferredPrompt = null;
                     });
                 } else {
-                    alert("To install the Blossom Trail App, tap your browser's Share icon or menu and select 'Add to Home Screen' (or click 'Install' in your browser address bar).");
+                    var ua = navigator.userAgent || navigator.vendor || window.opera;
+                    var instructions = document.getElementById('install-instructions');
+                    if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                        instructions.innerHTML = "Tap the <strong>Share</strong> icon at the bottom of your screen and select <strong>'Add to Home Screen'</strong>.";
+                    } else if (/android/i.test(ua)) {
+                        instructions.innerHTML = "Tap the browser menu (<strong>⋮</strong>) and select <strong>'Add to Home Screen'</strong> or <strong>'Install App'</strong>.";
+                    } else {
+                        instructions.innerHTML = "Click the browser menu (<strong>⋯</strong> or <strong>⋮</strong>) in the top right, go to <strong>Apps</strong> (or Save and Share), and select <strong>'Install this site as an app'</strong>.";
+                    }
+                    document.getElementById('install-modal-overlay').classList.add('active');
                 }
             });
         }
@@ -1877,6 +1973,16 @@
             });
         }
     </script>
+
+    <div id="install-modal-overlay">
+        <div class="install-modal-box">
+            <img src="pink-blossom.png" alt="Blossom Icon">
+            <h2>Install Blossom Trail</h2>
+            <p id="install-instructions">To add the app to your device, tap your browser's <strong>Share</strong> or <strong>Menu</strong> icon and select <strong>"Add to Home Screen"</strong>.</p>
+            <p style="font-size: 0.85em; color: #888; margin-bottom: 25px;">A pink blossom icon will appear on your home screen for quick access.</p>
+            <button class="install-close-btn" onclick="document.getElementById('install-modal-overlay').classList.remove('active')">Got it</button>
+        </div>
+    </div>
 </body>
 
 </html>

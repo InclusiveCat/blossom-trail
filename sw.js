@@ -3,7 +3,7 @@
 // Strategy: Cache-first for static assets, network-first for API calls.
 // ================================================================
 
-var CACHE_NAME = 'blossom-trail-v5';
+var CACHE_NAME = 'blossom-trail-v6';
 var STATIC_ASSETS = [
     './',
     './index.html',
