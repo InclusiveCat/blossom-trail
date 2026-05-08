@@ -1028,16 +1028,9 @@
     <div id="app">
         <nav id="sidebar">
             <div id="gate-toast"></div>
+            <img src="logo2.png" alt="Oubaitori Collective Logo" style="width:100%;max-height:160px;object-fit:contain;display:block;margin-bottom:16px;">
             <h1>Oubaitori Collective Blossom Trail</h1>
             <span class="sub-header">It is Okay to be Here.</span>
-            <button id="install-app-btn" class="submit-btn"
-                style="display: flex; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg
-                    width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg> Install App to Home Screen</button>
 
             <div class="welcome-msg">
                 Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a
@@ -1094,6 +1087,11 @@
                 </div>
             </div>
 
+            <!-- SURVEY BUTTON -->
+            <button id="startSurveyBtn" class="blossom-start-btn">
+                Start the Blossom Trail Survey
+            </button>
+
             <div class="access-forecast">
                 <h2 style="font-size:0.85em;text-transform:uppercase;margin-bottom:8px;color:var(--primary);">Live Trail
                     Conditions <span id="weather-region-label"
@@ -1120,10 +1118,14 @@
                 </div>
             </div>
 
-            <!-- SURVEY BUTTON -->
-            <button id="startSurveyBtn" class="blossom-start-btn">
-                Start the Blossom Trail Survey
-            </button>
+            <button id="install-app-btn" class="submit-btn"
+                style="display: flex; margin-bottom: 20px; background: var(--accent); color: white; align-items: center; justify-content: center; gap: 8px;"><svg
+                    width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg> Install App to Home Screen</button>
 
 
 
