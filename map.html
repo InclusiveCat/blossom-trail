@@ -48,10 +48,10 @@
             width: 380px;
             min-width: 380px;
             height: 100vh;
-            background: #000;
+            background: #3b224c;
             overflow-y: auto;
             padding: 25px;
-            border-right: 1px solid #222;
+            border-right: 1px solid #2a1a38;
             z-index: 100;
             font-size: calc(1em * var(--font-scale));
         }
@@ -67,19 +67,19 @@
         .sub-header {
             font-size: 1.1em;
             font-weight: bold;
-            color: #fff;
+            color: #faf7f2;
             margin-bottom: 10px;
             display: block;
         }
 
         .welcome-msg {
             font-size: 0.85em;
-            background: #111;
+            background: rgba(0,0,0,0.25);
             border-left: 4px solid var(--success);
             padding: 12px;
             margin-bottom: 20px;
             line-height: 1.6;
-            color: #ccc;
+            color: #faf7f2;
         }
 
         /* Forecast Grid */
@@ -163,7 +163,7 @@
         .bucket-header strong {
             font-size: 0.8em;
             text-transform: uppercase;
-            color: var(--primary);
+            color: #faf7f2;
         }
 
         .bucket-arrow {
@@ -190,18 +190,18 @@
         .stage-narrative {
             font-size: 0.82em;
             line-height: 1.5;
-            color: #bbb;
+            color: #faf7f2;
             margin-bottom: 12px;
             font-style: italic;
         }
 
         .technique-box {
-            background: #1a1a1a;
+            background: rgba(0,0,0,0.3);
             border-left: 3px solid var(--success);
             padding: 12px;
             margin-top: 15px;
             font-size: 0.85em;
-            color: #fff;
+            color: #faf7f2;
             line-height: 1.4;
         }
 
@@ -217,9 +217,9 @@
         .a11y-tab {
             flex: 1;
             padding: 10px 2px;
-            background: #222;
+            background: rgba(0,0,0,0.25);
             border: none;
-            color: #aaa;
+            color: #faf7f2;
             cursor: pointer;
             font-size: 0.55em;
             text-transform: uppercase;
@@ -942,23 +942,26 @@
         }
 
         .blossom-start-btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             width: 100%;
-            padding: 16px;
-            background: #a57bb8;
+            padding: 14px;
+            background: #faf7f2;
             color: #3b224c;
             border: none;
             border-radius: 8px;
-            font-size: 1.05em;
+            font-size: 1em;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: all 0.2s ease;
         }
         .blossom-start-btn:hover {
-            background: #8b60a0;
+            background: #e8e4de;
             transform: translateY(-2px);
             box-shadow: 0 6px 10px rgba(0,0,0,0.4);
         }
@@ -1090,32 +1093,33 @@
 
             <!-- SURVEY BUTTON -->
             <button id="startSurveyBtn" class="blossom-start-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
                 Start the Blossom Trail Survey
             </button>
 
             <div class="access-forecast">
-                <h2 style="font-size:0.85em;text-transform:uppercase;margin-bottom:8px;color:var(--primary);">Live Trail
+                <h2 style="font-size:0.85em;text-transform:uppercase;margin-bottom:8px;color:#faf7f2;">Live Trail
                     Conditions <span id="weather-region-label"
-                        style="color:#555;font-weight:normal;text-transform:none;font-size:1em;"></span></h2>
+                        style="color:#faf7f2;font-weight:normal;text-transform:none;font-size:1em;opacity:0.7;"></span></h2>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:0.95em;">
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Weather</span><br><b
-                            id="val-w" style="color:#fff;">Detecting&hellip;</b></div>
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Weather</span><br><b
+                            id="val-w" style="color:#faf7f2;">Detecting&hellip;</b></div>
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Temperature</span><br><b
-                            id="val-t" style="color:#fff;">--&deg;C</b></div>
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Temperature</span><br><b
+                            id="val-t" style="color:#faf7f2;">--&deg;C</b></div>
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Wind</span><br><b
-                            id="val-wind" style="color:#fff;">-- mph</b></div>
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Wind</span><br><b
+                            id="val-wind" style="color:#faf7f2;">-- mph</b></div>
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Rain</span><br><b
-                            id="val-rain" style="color:#fff;">--</b></div>
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Rain</span><br><b
+                            id="val-rain" style="color:#faf7f2;">--</b></div>
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Pollen</span><br><b
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Pollen</span><br><b
                             style="color:#00c853;">Low (Green)</b></div>
                     <div><span
-                            style="color:#888;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b
-                            id="val-moon" style="color:#fff;">🌙 Waxing Gibbous</b></div>
+                            style="color:#faf7f2;opacity:0.65;font-size:0.85em;text-transform:uppercase;letter-spacing:0.4px;">Moon</span><br><b
+                            id="val-moon" style="color:#faf7f2;">🌙 Waxing Gibbous</b></div>
                 </div>
             </div>
 
