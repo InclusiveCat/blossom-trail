@@ -65,17 +65,8 @@
             if ((el.tagName === 'INPUT' && el.type === 'text') || el.tagName === 'TEXTAREA') {
                 el.placeholder = value;
             } else {
-                // If element has child elements, only update direct text nodes
-                var childElements = Array.from(el.childNodes).filter(function(n) { return n.nodeType === 1; });
-                if (childElements.length > 0) {
-                    Array.from(el.childNodes).forEach(function (node) {
-                        if (node.nodeType === 3 && node.textContent.trim().length > 0) {
-                            node.textContent = value;
-                        }
-                    });
-                } else {
-                    el.textContent = value;
-                }
+                // Replace all content (including any child elements) with translated plain text
+                el.textContent = value;
             }
         });
 
