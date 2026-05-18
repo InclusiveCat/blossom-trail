@@ -1,36 +1,200 @@
 {
-  "app": { "title": "Szlak Blossom — Kolektyw Oubaitori", "subtitle": "Możesz tu być.", "skipToMain": "Przejdź do treści głównej", "welcomeMsg": "Dołącz do nas na Szlaku Blossom Kolektywu Oubaitori, zbieramy anonimowe dowody do projektu nowej usługi wsparcia dla neuroróżnorodnych dorosłych. Nie możesz się przyłączyć? Chętnie poznamy Twoją opinię. Wypełnij ankietę poniżej. Twoja opinia jest dla nas ważna!" },
-  "nav": { "installApp": "Zainstaluj na ekranie głównym", "startSurvey": "Wypełnij ankietę Blossom Trail" },
-  "accessibility": { "title": "Dostępność", "options": "Opcje dostępności", "display": "Wyświetlanie", "amenities": "♿ 🔑 Udogodnienia", "requestAssistance": "🆘 Poproś o pomoc", "dyslexiaFont": "Czcionka dla dyslektyków", "textSize": "Rozmiar tekstu", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Linijka do czytania", "readAloud": "🔊 Czytaj na głos", "colourTheme": "Motyw kolorystyczny", "themeDefault": "Domyślny", "themeHighContrast": "Wysoki kontrast", "themeDark": "Tryb ciemny", "themeSepia": "Sepia", "themeCyan": "Niebieski", "themeSage": "Szałwia", "readingSpeed": "Prędkość czytania", "accessibleToilet": "Toaleta dla niepełnosprawnych", "radarKey": "Wymagany klucz radarowy" },
-  "language": { "label": "🌐 Język", "en": "English", "es": "Español", "fr": "Français" },
-  "weather": { "heading": "Bieżące warunki na szlaku", "weather": "Pogoda", "temperature": "Temperatura", "wind": "Wiatr", "rain": "Deszcz", "pollen": "Pyłek", "moon": "Księżyc" },
+  "app": {
+    "title": "Szlak Blossom — Kolektyw Oubaitori",
+    "subtitle": "Możesz tu być.",
+    "skipToMain": "Przejdź do treści głównej",
+    "welcomeMsg": "Dołącz do nas na Szlaku Blossom Kolektywu Oubaitori, zbieramy anonimowe dowody do projektu nowej usługi wsparcia dla neuroróżnorodnych dorosłych. Nie możesz się przyłączyć? Chętnie poznamy Twoją opinię. Wypełnij ankietę poniżej. Twoja opinia jest dla nas ważna!"
+  },
+  "nav": {
+    "installApp": "Zainstaluj na ekranie głównym",
+    "startSurvey": "Wypełnij ankietę Blossom Trail"
+  },
+  "accessibility": {
+    "title": "Dostępność",
+    "options": "Opcje dostępności",
+    "display": "Wyświetlanie",
+    "amenities": "♿ 🔑 Udogodnienia",
+    "requestAssistance": "🆘 Poproś o pomoc",
+    "dyslexiaFont": "Czcionka dla dyslektyków",
+    "textSize": "Rozmiar tekstu",
+    "increase": "A+",
+    "decrease": "A-",
+    "readingRuler": "📏 Linijka do czytania",
+    "readAloud": "🔊 Czytaj na głos",
+    "colourTheme": "Motyw kolorystyczny",
+    "themeDefault": "Domyślny",
+    "themeHighContrast": "Wysoki kontrast",
+    "themeDark": "Tryb ciemny",
+    "themeSepia": "Sepia",
+    "themeCyan": "Niebieski",
+    "themeSage": "Szałwia",
+    "readingSpeed": "Prędkość czytania",
+    "accessibleToilet": "Toaleta dla niepełnosprawnych",
+    "radarKey": "Wymagany klucz radarowy"
+  },
+  "language": {
+    "label": "🌐 Język",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "weather": {
+    "heading": "Bieżące warunki na szlaku",
+    "weather": "Pogoda",
+    "temperature": "Temperatura",
+    "wind": "Wiatr",
+    "rain": "Deszcz",
+    "pollen": "Pyłek",
+    "moon": "Księżyc"
+  },
   "stages": {
-    "s0": { "title": "NASZA WIZJA", "narrative": "Wspieranie neuroróżnorodnych dorosłych w odbudowie, regulacji i rozkwicie. Rozkwitaj we własnym tempie, wspierany przez kolektyw, gdzie nikt nie idzie sam." },
-    "s1": { "title": "TWOJA PODRÓŻ SIĘ ZACZYNA", "narrative": "Łagodne, ugruntowane powitanie.", "techTitle": "Technika: 5-4-3-2-1", "techText": "Zidentyfikuj 5 rzeczy, które widzisz, 4 które możesz dotknąć, 3 dźwięki, 2 zapachy i 1 smak. Zakorzenia Cię w chwili obecnej." },
-    "s2": { "title": "CHWILA NA REFLEKSJĘ", "narrative": "Zaprasza do świadomości bez presji.", "techTitle": "Technika: Oddychanie pudełkowe", "techText": "Wdech 4 s, zatrzymaj 4 s, wydech 4 s, zatrzymaj 4 s. Reguluje rytm serca." },
-    "s3": { "title": "ROZUMIENIE SWOICH POTRZEB", "narrative": "Zauważenie, co przyniosłoby Ci teraz największy komfort i ulgę.", "techTitle": "Technika: Chłodzenie nadgarstków", "techText": "Przepuść zimną wodę przez nadgarstki przez 30 s, aby pomóc zresetować pobudzony układ nerwowy." },
-    "s4": { "title": "ROZUMIENIE SWOJEJ POJEMNOŚCI", "narrative": "Szanowanie swojego naturalnego rytmu i poziomu energii dzisiaj.", "techTitle": "Technika: Mocny ucisk", "techText": "Daj sobie mocny uścisk. Głęboki ucisk pomaga mózgowi przetworzyć, gdzie ciało znajduje się w przestrzeni." },
-    "s5": { "title": "ROZPOZNAWANIE SWOICH MOCNYCH STRON", "narrative": "Zmiana w kierunku odporności, sprawczości i rozkwitu.", "techTitle": "Technika: Nucenie", "techText": "Zanucz niską nutę, aby poczuć wibrację w klatce piersiowej. Stymuluje nerw błędny i łagodzi stres." },
-    "s6": { "title": "ODKRYWANIE TEGO, CO MOŻE CIĘ WSPIERAĆ", "narrative": "Otwarcie się na ludzi, przestrzenie i idee, które mogą być przy Tobie.", "techTitle": "Technika: Progresywna relaksacja mięśni (PRM)", "techText": "Przez napinanie i rozluźnianie różnych grup mięśniowych możesz uwolnić nagromadzone napięcie i zwiększyć świadomość ciała." },
-    "s7": { "title": "ZNAJDOWANIE TEGO, CO JEST DLA CIEBIE ODPOWIEDNIE", "narrative": "W swoim własnym czasie, we własnym tempie, bez porównań.", "techTitle": "Technika: Potrząsanie (Drżenie neurogenne)", "techText": "Celowe potrząsanie ramionami, nogami lub całym ciałem przez 1–2 minuty pomaga uwolnić nadmiar adrenaliny i przywrócić spokój." }
+    "s0": {
+      "title": "NASZA WIZJA",
+      "narrative": "Wspieranie neuroróżnorodnych dorosłych w odbudowie, regulacji i rozkwicie. Rozkwitaj we własnym tempie, wspierany przez kolektyw, gdzie nikt nie idzie sam."
+    },
+    "s1": {
+      "title": "TWOJA PODRÓŻ SIĘ ZACZYNA",
+      "narrative": "Łagodne, ugruntowane powitanie.",
+      "techTitle": "Technika: 5-4-3-2-1",
+      "techText": "Zidentyfikuj 5 rzeczy, które widzisz, 4 które możesz dotknąć, 3 dźwięki, 2 zapachy i 1 smak. Zakorzenia Cię w chwili obecnej."
+    },
+    "s2": {
+      "title": "CHWILA NA REFLEKSJĘ",
+      "narrative": "Zaprasza do świadomości bez presji.",
+      "techTitle": "Technika: Oddychanie pudełkowe",
+      "techText": "Wdech 4 s, zatrzymaj 4 s, wydech 4 s, zatrzymaj 4 s. Reguluje rytm serca."
+    },
+    "s3": {
+      "title": "ROZUMIENIE SWOICH POTRZEB",
+      "narrative": "Zauważenie, co przyniosłoby Ci teraz największy komfort i ulgę.",
+      "techTitle": "Technika: Chłodzenie nadgarstków",
+      "techText": "Przepuść zimną wodę przez nadgarstki przez 30 s, aby pomóc zresetować pobudzony układ nerwowy."
+    },
+    "s4": {
+      "title": "ROZUMIENIE SWOJEJ POJEMNOŚCI",
+      "narrative": "Szanowanie swojego naturalnego rytmu i poziomu energii dzisiaj.",
+      "techTitle": "Technika: Mocny ucisk",
+      "techText": "Daj sobie mocny uścisk. Głęboki ucisk pomaga mózgowi przetworzyć, gdzie ciało znajduje się w przestrzeni."
+    },
+    "s5": {
+      "title": "ROZPOZNAWANIE SWOICH MOCNYCH STRON",
+      "narrative": "Zmiana w kierunku odporności, sprawczości i rozkwitu.",
+      "techTitle": "Technika: Nucenie",
+      "techText": "Zanucz niską nutę, aby poczuć wibrację w klatce piersiowej. Stymuluje nerw błędny i łagodzi stres."
+    },
+    "s6": {
+      "title": "ODKRYWANIE TEGO, CO MOŻE CIĘ WSPIERAĆ",
+      "narrative": "Otwarcie się na ludzi, przestrzenie i idee, które mogą być przy Tobie.",
+      "techTitle": "Technika: Progresywna relaksacja mięśni (PRM)",
+      "techText": "Przez napinanie i rozluźnianie różnych grup mięśniowych możesz uwolnić nagromadzone napięcie i zwiększyć świadomość ciała."
+    },
+    "s7": {
+      "title": "ZNAJDOWANIE TEGO, CO JEST DLA CIEBIE ODPOWIEDNIE",
+      "narrative": "W swoim własnym czasie, we własnym tempie, bez porównań.",
+      "techTitle": "Technika: Potrząsanie (Drżenie neurogenne)",
+      "techText": "Celowe potrząsanie ramionami, nogami lub całym ciałem przez 1–2 minuty pomaga uwolnić nadmiar adrenaliny i przywrócić spokój."
+    }
   },
   "survey": {
-    "title": "Ankieta Blossom Trail", "heading": "Kolektyw Oubaitori\nAnkieta Blossom Trail", "next": "Dalej", "back": "Wstecz", "submit": "Wyślij ankietę", "success": "Twoja odpowiedź została pomyślnie zapisana.", "progress": "Postęp", "step": "Krok",
+    "title": "Ankieta Blossom Trail",
+    "heading": "Kolektyw Oubaitori\nAnkieta Blossom Trail",
+    "next": "Dalej",
+    "back": "Wstecz",
+    "submit": "Wyślij ankietę",
+    "success": "Twoja odpowiedź została pomyślnie zapisana.",
+    "progress": "Postęp",
+    "step": "Krok",
     "errorRequired": "Proszę uzupełnić to pytanie, aby kontynuować.",
-    "typeAnswer": "Wpisz swoją odpowiedź tutaj...", "pleaseSelect": "Proszę wybrać...",
-    "stronglyAgree": "Zdecydowanie zgadzam się", "agree": "Zgadzam się", "disagree": "Nie zgadzam się", "stronglyDisagree": "Zdecydowanie nie zgadzam się",
-    "q1": { "title": "1. Jak opisujesz swoją płeć?", "desc": "Rozumienie płci potencjalnych użytkowników pomaga nam zaprojektować odpowiednie usługi", "female": "Kobieta", "male": "Mężczyzna", "preferNot": "Wolę nie podawać", "selfDescribe": "Wolę opisać siebie samodzielnie", "placeholder": "Proszę podać, jeśli wybrano 'Wolę opisać siebie samodzielnie'" },
-    "q2": { "title": "2. Powiedz nam swój wiek", "desc": "Rozumienie wieku potencjalnych użytkowników pomaga nam zaprojektować odpowiednie usługi" },
-    "q3": { "title": "3. Jak się czujesz?", "desc": "Większość ludzi ma mieszane uczucia każdego dnia. Powiedz nam, jak czułeś się ogólnie przez ostatnie 4 tygodnie", "blooming": "Rozkwit – Rozkwitam i żyję autentycznie", "balanced": "Zrównoważony – Czuję się stabilnie", "steady": "Stabilny – Funkcjonuję konsekwentnie", "stretched": "Rozciągnięty – Moja energia spada i codzienne zadania są trudniejsze", "strained": "Pod presją – Czuję presję wymagań i używam całej energii na codzienne zadania", "overloaded": "Przeciążony – Codziennie walczę i ledwo funkcjonuję", "burnout": "Wypalenie – Jestem całkowicie przytłoczony i wyczerpany. Nie jestem w stanie funkcjonować" },
-    "q4": { "title": "4. Gdzie mieszkasz lub pracujesz?", "desc": "Chcemy dowiedzieć się więcej o tym, gdzie mieszkają potencjalni użytkownicy" },
-    "q5": { "title": "5. Twoja obecna sytuacja", "desc": "Wybierz opcję, która najlepiej opisuje Twoją obecną sytuację", "employment": "Jestem zatrudniony (praca zarobkowa, w tym praktyki)", "selfEmployed": "Jestem samozatrudniony", "education": "Jestem w pełnym wymiarze godzin w edukacji lub szkoleniu", "notEmployed": "Nie jestem teraz zatrudniony, w edukacji ani szkoleniu", "other": "Inne – Proszę podać poniżej", "placeholder": "Proszę podać, jeśli wybrano 'Inne'" },
-    "q6": { "title": "6. Moje codzienne środowiska", "desc": "Miejsca, w których spędzam czas, odpowiadają mi i spełniają moje unikalne potrzeby" },
-    "q7": { "title": "7. Mój poziom energii", "desc": "Jestem pewny, że moje codzienne aktywności są zrównoważone bez ryzyka dla mojego poziomu energii lub zdrowia" },
-    "q8": { "title": "8. Codzienne czynności", "desc": "Jakie konkretne codzienne zadania najbardziej wyczerpują Twoją energię?", "placeholder": "Wpisz swoją odpowiedź tutaj..." },
-    "q9": { "title": "9. Co przynosi Ci radość?", "placeholder": "Wpisz swoją odpowiedź tutaj..." },
-    "q10": { "title": "10. Usługi wsparcia", "desc": "Byłem w stanie uzyskać dostęp do usług wsparcia, które rozumieją moją neuroróżnorodność i/lub wypalenie" },
-    "q11": { "title": "11. Co działa u Ciebie?", "desc": "Jakich narzędzi i technik używasz, aby pomóc sobie funkcjonować?", "placeholder": "Wpisz swoją odpowiedź tutaj..." },
-    "q12": { "title": "12. Co pomogłoby Tobie lub innym?", "desc": "Zrozumienie, co by pomogło, pozwoli nam zaprojektować usługi odpowiadające potrzebom ludzi", "accessibleSpaces": "Dostępne, bezpieczne sensorycznie przestrzenie społeczne", "flexibleSupport": "Wsparcie rówieśnicze / Elastyczne wsparcie", "livedExperience": "Mentoring rówieśniczy i szkolenie oparte na doświadczeniu", "inclusiveEmployment": "Inkluzywne ścieżki zatrudnienia", "paidWorkTrials": "Płatne próby pracy", "affordableCoaching": "Przystępne cenowo coaching", "digitalTools": "Narzędzia cyfrowe wspierające dostępność", "unsure": "Nie jestem pewny; jednak wiem, że potrzebuję wsparcia", "other": "Inne (Proszę podać)", "placeholder": "Proszę podać, jeśli wybrano 'Inne'" },
-    "q13": { "title": "13. Usługi środowiskowe", "desc": "Czy są usługi, grupy lub narzędzia w Twojej okolicy, które dobrze dla Ciebie działają?", "placeholder": "Wpisz swoją odpowiedź tutaj..." }
+    "typeAnswer": "Wpisz swoją odpowiedź tutaj...",
+    "pleaseSelect": "Proszę wybrać...",
+    "stronglyAgree": "Zdecydowanie zgadzam się",
+    "agree": "Zgadzam się",
+    "disagree": "Nie zgadzam się",
+    "stronglyDisagree": "Zdecydowanie nie zgadzam się",
+    "q1": {
+      "title": "1. Jak opisujesz swoją płeć?",
+      "desc": "Rozumienie płci potencjalnych użytkowników pomaga nam zaprojektować odpowiednie usługi",
+      "female": "Kobieta",
+      "male": "Mężczyzna",
+      "preferNot": "Wolę nie podawać",
+      "selfDescribe": "Wolę opisać siebie samodzielnie",
+      "placeholder": "Proszę podać, jeśli wybrano 'Wolę opisać siebie samodzielnie'"
+    },
+    "q2": {
+      "title": "2. Powiedz nam swój wiek",
+      "desc": "Rozumienie wieku potencjalnych użytkowników pomaga nam zaprojektować odpowiednie usługi"
+    },
+    "q3": {
+      "title": "3. Jak się czujesz?",
+      "desc": "Większość ludzi ma mieszane uczucia każdego dnia. Powiedz nam, jak czułeś się ogólnie przez ostatnie 4 tygodnie",
+      "blooming": "Rozkwit – Rozkwitam i żyję autentycznie",
+      "balanced": "Zrównoważony – Czuję się stabilnie",
+      "steady": "Stabilny – Funkcjonuję konsekwentnie",
+      "stretched": "Rozciągnięty – Moja energia spada i codzienne zadania są trudniejsze",
+      "strained": "Pod presją – Czuję presję wymagań i używam całej energii na codzienne zadania",
+      "overloaded": "Przeciążony – Codziennie walczę i ledwo funkcjonuję",
+      "burnout": "Wypalenie – Jestem całkowicie przytłoczony i wyczerpany. Nie jestem w stanie funkcjonować"
+    },
+    "q4": {
+      "otherArea": "Inny obszar / Tylko online"
+    },
+    "q5": {
+      "title": "5. Twoja obecna sytuacja",
+      "desc": "Wybierz opcję, która najlepiej opisuje Twoją obecną sytuację",
+      "employment": "Jestem zatrudniony (praca zarobkowa, w tym praktyki)",
+      "selfEmployed": "Jestem samozatrudniony",
+      "education": "Jestem w pełnym wymiarze godzin w edukacji lub szkoleniu",
+      "notEmployed": "Nie jestem teraz zatrudniony, w edukacji ani szkoleniu",
+      "other": "Inne – Proszę podać poniżej",
+      "placeholder": "Proszę podać, jeśli wybrano 'Inne'"
+    },
+    "q6": {
+      "title": "6. Moje codzienne środowiska",
+      "desc": "Miejsca, w których spędzam czas, odpowiadają mi i spełniają moje unikalne potrzeby"
+    },
+    "q7": {
+      "title": "7. Mój poziom energii",
+      "desc": "Jestem pewny, że moje codzienne aktywności są zrównoważone bez ryzyka dla mojego poziomu energii lub zdrowia"
+    },
+    "q8": {
+      "title": "8. Codzienne czynności",
+      "desc": "Jakie konkretne codzienne zadania najbardziej wyczerpują Twoją energię?",
+      "placeholder": "Wpisz swoją odpowiedź tutaj..."
+    },
+    "q9": {
+      "title": "9. Co przynosi Ci radość?",
+      "placeholder": "Wpisz swoją odpowiedź tutaj..."
+    },
+    "q10": {
+      "title": "10. Usługi wsparcia",
+      "desc": "Byłem w stanie uzyskać dostęp do usług wsparcia, które rozumieją moją neuroróżnorodność i/lub wypalenie"
+    },
+    "q11": {
+      "title": "11. Co działa u Ciebie?",
+      "desc": "Jakich narzędzi i technik używasz, aby pomóc sobie funkcjonować?",
+      "placeholder": "Wpisz swoją odpowiedź tutaj..."
+    },
+    "q12": {
+      "title": "12. Co pomogłoby Tobie lub innym?",
+      "desc": "Zrozumienie, co by pomogło, pozwoli nam zaprojektować usługi odpowiadające potrzebom ludzi",
+      "accessibleSpaces": "Dostępne, bezpieczne sensorycznie przestrzenie społeczne",
+      "flexibleSupport": "Wsparcie rówieśnicze / Elastyczne wsparcie",
+      "livedExperience": "Mentoring rówieśniczy i szkolenie oparte na doświadczeniu",
+      "inclusiveEmployment": "Inkluzywne ścieżki zatrudnienia",
+      "paidWorkTrials": "Płatne próby pracy",
+      "affordableCoaching": "Przystępne cenowo coaching",
+      "digitalTools": "Narzędzia cyfrowe wspierające dostępność",
+      "unsure": "Nie jestem pewny; jednak wiem, że potrzebuję wsparcia",
+      "other": "Inne (Proszę podać)",
+      "placeholder": "Proszę podać, jeśli wybrano 'Inne'"
+    },
+    "q13": {
+      "title": "13. Usługi środowiskowe",
+      "desc": "Czy są usługi, grupy lub narzędzia w Twojej okolicy, które dobrze dla Ciebie działają?",
+      "placeholder": "Wpisz swoją odpowiedź tutaj..."
+    },
+    "successTitle": "Dziękujemy!",
+    "continueToMap": "Przejdź do mapy",
+    "dataNotice": "W trakcie tej ankiety nie są zbierane żadne dane osobowe (PII). Dane dotyczące lokalizacji są wykorzystywane wyłącznie do mapowania Blossom Trail i przechowywane anonimowo."
   }
 }

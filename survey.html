@@ -26,18 +26,18 @@
             
             <!-- Accessibility Options panel (set before you begin) -->
             <button class='survey-a11y-toggle' onclick='this.nextElementSibling.classList.toggle("open"); this.setAttribute("aria-expanded", this.nextElementSibling.classList.contains("open"))' aria-expanded='false' aria-controls='survey-a11y-panel'>
-                &#9881; Accessibility Options &#9660;
+                <span data-i18n="accessibility.options">Accessibility Options</span> &#9660;
             </button>
             <div id='survey-a11y-panel' class='survey-a11y-panel' role='region' aria-label='Accessibility Options'>
                 <div class='a11y-row'>
                     <label for='survey-theme-select' data-i18n="accessibility.colourTheme">Colour Theme</label>
                     <select id='survey-theme-select' class='a11y-theme-select' onchange='setTheme(this.value)' aria-label='Select colour theme'>
-                        <option value='default'>Default</option>
-                        <option value='high-contrast'>High Contrast</option>
-                        <option value='dark-mode'>Dark Mode</option>
-                        <option value='sepia-overlay'>Sepia</option>
-                        <option value='cyan-overlay'>Cyan</option>
-                        <option value='sage-overlay'>Sage</option>
+                        <option value="default" data-i18n="accessibility.themeDefault">Default</option>
+                        <option value="high-contrast" data-i18n="accessibility.themeHighContrast">High Contrast</option>
+                        <option value="dark-mode" data-i18n="accessibility.themeDark">Dark Mode</option>
+                        <option value="sepia-overlay" data-i18n="accessibility.themeSepia">Sepia</option>
+                        <option value="cyan-overlay" data-i18n="accessibility.themeCyan">Cyan</option>
+                        <option value="sage-overlay" data-i18n="accessibility.themeSage">Sage</option>
                     </select>
                 </div>
                 <div class='a11y-row'>
@@ -91,7 +91,7 @@
 
             </div>
             <div class="progress" id="progress-bar" aria-live="polite">
-                <span>Progress</span>
+                <span data-i18n="survey.progress">Progress</span>
                 <span id="progress-text">Step 1 of 13</span>
             </div>
 
@@ -204,7 +204,7 @@
                     <label class="q-title" id="q4-title" data-i18n="survey.q4.title" for="council-area">4. Where do you live or work?</label>
                     <span class="q-desc" id="q4-desc" data-i18n="survey.q4.desc">We would like to understand more about where potential services users live and how services may vary in your local council area</span>
                     <select name="Council Area" id="council-area" aria-describedby="q4-desc" required>
-                        <option value="">Please select...</option>
+                        <option value="" data-i18n="survey.pleaseSelect">Please select...</option>
                         <option value="County Durham">County Durham</option>
                         <option value="Darlington">Darlington</option>
                         <option value="Gateshead">Gateshead</option>
@@ -217,7 +217,7 @@
                         <option value="South Tyneside">South Tyneside</option>
                         <option value="Stockton-on-Tees">Stockton-on-Tees</option>
                         <option value="Sunderland">Sunderland</option>
-                        <option value="Other">Other Area / Online Only</option>
+                        <option value="Other" data-i18n="survey.q4.otherArea">Other Area / Online Only</option>
                     </select>
                 </div>
 

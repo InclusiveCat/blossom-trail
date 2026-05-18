@@ -90,6 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Validate checkbox groups: at least one must be checked
+        const checkboxGroups = new Set();
+        currentStepEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            checkboxGroups.add(cb.getAttribute('name'));
+        });
+        checkboxGroups.forEach(name => {
+            if (!currentStepEl.querySelector(`input[type="checkbox"][name="${name}"]:checked`)) {
+                valid = false;
+            }
+        });
+
         if (!valid) {
             errorNotice.style.display = 'block';
             errorNotice.setAttribute('aria-live', 'assertive');

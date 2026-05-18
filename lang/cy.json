@@ -1,36 +1,200 @@
 {
-  "app": { "title": "Llwybr Blodau — Cyfuniad Oubaitori", "subtitle": "Mae yn iawn i fod yma.", "skipToMain": "Neidio i'r prif gynnwys", "welcomeMsg": "Ymunwch â ni ar Lwybr Blodau Cyfuniad Oubaitori wrth i ni gasglu tystiolaeth ddienw i gynllunio gwasanaeth cymorth newydd i oedolion niwroamrywiol. Methu ymuno? Hoffem glywed eich barn chi o hyd. Cwblhewch y cwestiynau yn yr arolwg isod. Mae eich barn yn bwysig i ni!" },
-  "nav": { "installApp": "Gosod ar y Sgrin Gartref", "startSurvey": "Cwblhewch Arolwg Llwybr Blodau" },
-  "accessibility": { "title": "Hygyrchedd", "options": "Opsiynau Hygyrchedd", "display": "Arddangos", "amenities": "♿ 🔑 Cyfleusterau", "requestAssistance": "🆘 Gofyn am Gymorth", "dyslexiaFont": "Ffont Dyslecsia Gyfeillgar", "textSize": "Maint Testun", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Pren Mesur Darllen", "readAloud": "🔊 Darllen yn Uchel", "colourTheme": "Thema Lliw", "themeDefault": "Rhagosodiad", "themeHighContrast": "Cyferbyniad Uchel", "themeDark": "Modd Tywyll", "themeSepia": "Sepia", "themeCyan": "Cyan", "themeSage": "Saets", "readingSpeed": "Cyflymder Darllen", "accessibleToilet": "Toiled Hygyrch", "radarKey": "Allwedd Radar Angenrheidiol" },
-  "language": { "label": "🌐 Iaith", "en": "English", "es": "Español", "fr": "Français" },
-  "weather": { "heading": "Amodau Llwybr Byw", "weather": "Tywydd", "temperature": "Tymheredd", "wind": "Gwynt", "rain": "Glaw", "pollen": "Paill", "moon": "Lleuad" },
+  "app": {
+    "title": "Llwybr Blodau — Cyfuniad Oubaitori",
+    "subtitle": "Mae yn iawn i fod yma.",
+    "skipToMain": "Neidio i'r prif gynnwys",
+    "welcomeMsg": "Ymunwch â ni ar Lwybr Blodau Cyfuniad Oubaitori wrth i ni gasglu tystiolaeth ddienw i gynllunio gwasanaeth cymorth newydd i oedolion niwroamrywiol. Methu ymuno? Hoffem glywed eich barn chi o hyd. Cwblhewch y cwestiynau yn yr arolwg isod. Mae eich barn yn bwysig i ni!"
+  },
+  "nav": {
+    "installApp": "Gosod ar y Sgrin Gartref",
+    "startSurvey": "Cwblhewch Arolwg Llwybr Blodau"
+  },
+  "accessibility": {
+    "title": "Hygyrchedd",
+    "options": "Opsiynau Hygyrchedd",
+    "display": "Arddangos",
+    "amenities": "♿ 🔑 Cyfleusterau",
+    "requestAssistance": "🆘 Gofyn am Gymorth",
+    "dyslexiaFont": "Ffont Dyslecsia Gyfeillgar",
+    "textSize": "Maint Testun",
+    "increase": "A+",
+    "decrease": "A-",
+    "readingRuler": "📏 Pren Mesur Darllen",
+    "readAloud": "🔊 Darllen yn Uchel",
+    "colourTheme": "Thema Lliw",
+    "themeDefault": "Rhagosodiad",
+    "themeHighContrast": "Cyferbyniad Uchel",
+    "themeDark": "Modd Tywyll",
+    "themeSepia": "Sepia",
+    "themeCyan": "Cyan",
+    "themeSage": "Saets",
+    "readingSpeed": "Cyflymder Darllen",
+    "accessibleToilet": "Toiled Hygyrch",
+    "radarKey": "Allwedd Radar Angenrheidiol"
+  },
+  "language": {
+    "label": "🌐 Iaith",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "weather": {
+    "heading": "Amodau Llwybr Byw",
+    "weather": "Tywydd",
+    "temperature": "Tymheredd",
+    "wind": "Gwynt",
+    "rain": "Glaw",
+    "pollen": "Paill",
+    "moon": "Lleuad"
+  },
   "stages": {
-    "s0": { "title": "EIN GWELEDIGAETH", "narrative": "Cefnogi oedolion niwroamrywiol i adfer, rheoli a ffynnu. Blodeuchwch ar eich cyflymder eich hun, wedi'i gefnogi gan gyfuniad lle nad oes neb yn cerdded ar ei ben ei hun." },
-    "s1": { "title": "MAE EICH TAITH YN DECHRAU", "narrative": "Croeso tyner, sy'n seilio.", "techTitle": "Techneg: 5-4-3-2-1", "techText": "Adnabyddwch 5 peth rydych chi'n eu gweld, 4 y gallwch eu cyffwrdd, 3 sŵn, 2 arogl ac 1 blas. Yn eich hangori yn y presennol." },
-    "s2": { "title": "MUNUD I EDRYCH I MEWN", "narrative": "Yn gwahodd ymwybyddiaeth heb bwysau.", "techTitle": "Techneg: Anadlu Bocs", "techText": "Anadlwch i mewn am 4 s, daliwch am 4 s, anadlwch allan am 4 s, daliwch am 4 s. Yn rheoleiddio cyfradd y galon." },
-    "s3": { "title": "DEALL BETH SYDD EI ANGEN ARNOCH", "narrative": "Sylwi ar yr hyn a fyddai'n rhoi'r mwyaf o gysur i chi nawr.", "techTitle": "Techneg: Oeri Arddyrnau", "techText": "Rhedwch ddŵr oer dros yr arddyrnau am 30 s i helpu i ailosod system nerfol wedi'i hactifadu." },
-    "s4": { "title": "DEALL EICH GALLU", "narrative": "Parchu eich rhythm naturiol a ble mae eich egni heddiw.", "techTitle": "Techneg: Pwysau Cadarn", "techText": "Rhowch gofleidiad cadarn i chi'ch hun. Mae pwysau dwfn yn helpu'r ymennydd i brosesu ble mae'r corff yn y gofod." },
-    "s5": { "title": "CYDNABOD EICH CRYFDERAU", "narrative": "Newid tuag at wydnwch, asiantaeth a ffynnu.", "techTitle": "Techneg: Hymian", "techText": "Hymiiwch nodyn isel i deimlo'r dirgryniad yn eich brest. Yn ysgogi'r nerf fagws i leddfu straen." },
-    "s6": { "title": "ARCHWILIO BETH A ALLAI EICH CEFNOGI", "narrative": "Agor i'r bobl, y lleoedd a'r syniadau a all gerdded wrth eich ymyl.", "techTitle": "Techneg: Ymlacio Cyhyrau Cynyddol (YCY)", "techText": "Drwy dynhau a llacio grwpiau cyhyrau gwahanol, gallwch ryddhau tensiwn cronedig a chynyddu ymwybyddiaeth o'r corff." },
-    "s7": { "title": "DOD O HYD I'R HYN SY'N IAWN I CHI", "narrative": "Yn eich amser eich hun, ar eich cyflymder eich hun, dim cymhariaeth.", "techTitle": "Techneg: Ysgwyd (Cryniadau Niwrogennig)", "techText": "Ysgwyd eich breichiau, coesau neu'ch corff cyfan am 1–2 funud yn fwriadol yn helpu i ryddhau adrenalin gormodol ac adfer tawelwch." }
+    "s0": {
+      "title": "EIN GWELEDIGAETH",
+      "narrative": "Cefnogi oedolion niwroamrywiol i adfer, rheoli a ffynnu. Blodeuchwch ar eich cyflymder eich hun, wedi'i gefnogi gan gyfuniad lle nad oes neb yn cerdded ar ei ben ei hun."
+    },
+    "s1": {
+      "title": "MAE EICH TAITH YN DECHRAU",
+      "narrative": "Croeso tyner, sy'n seilio.",
+      "techTitle": "Techneg: 5-4-3-2-1",
+      "techText": "Adnabyddwch 5 peth rydych chi'n eu gweld, 4 y gallwch eu cyffwrdd, 3 sŵn, 2 arogl ac 1 blas. Yn eich hangori yn y presennol."
+    },
+    "s2": {
+      "title": "MUNUD I EDRYCH I MEWN",
+      "narrative": "Yn gwahodd ymwybyddiaeth heb bwysau.",
+      "techTitle": "Techneg: Anadlu Bocs",
+      "techText": "Anadlwch i mewn am 4 s, daliwch am 4 s, anadlwch allan am 4 s, daliwch am 4 s. Yn rheoleiddio cyfradd y galon."
+    },
+    "s3": {
+      "title": "DEALL BETH SYDD EI ANGEN ARNOCH",
+      "narrative": "Sylwi ar yr hyn a fyddai'n rhoi'r mwyaf o gysur i chi nawr.",
+      "techTitle": "Techneg: Oeri Arddyrnau",
+      "techText": "Rhedwch ddŵr oer dros yr arddyrnau am 30 s i helpu i ailosod system nerfol wedi'i hactifadu."
+    },
+    "s4": {
+      "title": "DEALL EICH GALLU",
+      "narrative": "Parchu eich rhythm naturiol a ble mae eich egni heddiw.",
+      "techTitle": "Techneg: Pwysau Cadarn",
+      "techText": "Rhowch gofleidiad cadarn i chi'ch hun. Mae pwysau dwfn yn helpu'r ymennydd i brosesu ble mae'r corff yn y gofod."
+    },
+    "s5": {
+      "title": "CYDNABOD EICH CRYFDERAU",
+      "narrative": "Newid tuag at wydnwch, asiantaeth a ffynnu.",
+      "techTitle": "Techneg: Hymian",
+      "techText": "Hymiiwch nodyn isel i deimlo'r dirgryniad yn eich brest. Yn ysgogi'r nerf fagws i leddfu straen."
+    },
+    "s6": {
+      "title": "ARCHWILIO BETH A ALLAI EICH CEFNOGI",
+      "narrative": "Agor i'r bobl, y lleoedd a'r syniadau a all gerdded wrth eich ymyl.",
+      "techTitle": "Techneg: Ymlacio Cyhyrau Cynyddol (YCY)",
+      "techText": "Drwy dynhau a llacio grwpiau cyhyrau gwahanol, gallwch ryddhau tensiwn cronedig a chynyddu ymwybyddiaeth o'r corff."
+    },
+    "s7": {
+      "title": "DOD O HYD I'R HYN SY'N IAWN I CHI",
+      "narrative": "Yn eich amser eich hun, ar eich cyflymder eich hun, dim cymhariaeth.",
+      "techTitle": "Techneg: Ysgwyd (Cryniadau Niwrogennig)",
+      "techText": "Ysgwyd eich breichiau, coesau neu'ch corff cyfan am 1–2 funud yn fwriadol yn helpu i ryddhau adrenalin gormodol ac adfer tawelwch."
+    }
   },
   "survey": {
-    "title": "Arolwg Llwybr Blodau", "heading": "Cyfuniad Oubaitori\nArolwg Llwybr Blodau", "next": "Nesaf", "back": "Yn ôl", "submit": "Cyflwyno'r Arolwg", "success": "Mae eich ymateb wedi'i gofnodi'n llwyddiannus.", "progress": "Cynnydd", "step": "Cam",
+    "title": "Arolwg Llwybr Blodau",
+    "heading": "Cyfuniad Oubaitori\nArolwg Llwybr Blodau",
+    "next": "Nesaf",
+    "back": "Yn ôl",
+    "submit": "Cyflwyno'r Arolwg",
+    "success": "Mae eich ymateb wedi'i gofnodi'n llwyddiannus.",
+    "progress": "Cynnydd",
+    "step": "Cam",
     "errorRequired": "Cwblhewch y cwestiwn hwn i barhau.",
-    "typeAnswer": "Teipiwch eich ateb yma...", "pleaseSelect": "Dewiswch...",
-    "stronglyAgree": "Cytuno'n gryf", "agree": "Cytuno", "disagree": "Anghytuno", "stronglyDisagree": "Anghytuno'n gryf",
-    "q1": { "title": "1. Sut ydych chi'n disgrifio eich rhyw?", "desc": "Mae deall rhyw defnyddwyr posibl yn ein helpu i gynllunio gwasanaethau priodol", "female": "Benyw", "male": "Gwryw", "preferNot": "Yn well gen i beidio dweud", "selfDescribe": "Yn well gen i hunan-ddisgrifio", "placeholder": "Nodwch os dewiswyd 'Yn well gen i hunan-ddisgrifio'" },
-    "q2": { "title": "2. Dywedwch wrthym eich oedran", "desc": "Mae deall oedran defnyddwyr posibl yn ein helpu i gynllunio gwasanaethau priodol" },
-    "q3": { "title": "3. Sut rydych chi'n teimlo?", "desc": "Mae gan y rhan fwyaf o bobl gymysgedd o deimladau bob dydd. Dywedwch wrthym sut rydych chi wedi teimlo yn gyffredinol yn y 4 wythnos ddiwethaf", "blooming": "Blodeuo – Rwy'n ffynnu ac yn byw'n ddilys", "balanced": "Cydbwys – Rwy'n teimlo'n sefydlog", "steady": "Sefydlog – Rwy'n gweithredu'n gyson", "stretched": "Wedi'i ymestyn – Mae fy egni'n gostwng ac mae tasgau dyddiol yn teimlo'n anoddach", "strained": "Dan straen – Rwy'n teimlo pwysau ac yn defnyddio fy holl egni i reoli tasgau dyddiol", "overloaded": "Gorlwytho – Rwy'n brwydro bob dydd ac yn prin weithredu", "burnout": "Llosgi allan – Rwy'n llwyr lethu ac yn flinedig. Ni allaf weithredu" },
-    "q4": { "title": "4. Ble rydych chi'n byw neu'n gweithio?", "desc": "Hoffem ddeall mwy am ble mae defnyddwyr posibl yn byw" },
-    "q5": { "title": "5. Eich amgylchiadau presennol", "desc": "Dewiswch yr opsiwn sy'n disgrifio'ch amgylchiadau gorau", "employment": "Rwy'n gyflogedig (gwaith cyflogedig, gan gynnwys prentisiaethau)", "selfEmployed": "Rwy'n hunangyflogedig", "education": "Rwy'n astudio neu'n hyfforddi amser llawn", "notEmployed": "Nid wyf mewn cyflogaeth, addysg na hyfforddiant ar hyn o bryd", "other": "Arall – Nodwch isod", "placeholder": "Nodwch os dewiswyd 'Arall'" },
-    "q6": { "title": "6. Fy amgylcheddau dyddiol", "desc": "Mae'r lleoedd lle rwy'n treulio amser yn teimlo'n iawn i mi ac yn bodloni fy anghenion unigryw" },
-    "q7": { "title": "7. Fy lefelau egni", "desc": "Rwy'n hyderus bod fy ngweithgareddau dyddiol yn gynaliadwy heb beryglu fy lefelau egni na'm hiechyd" },
-    "q8": { "title": "8. Gweithgareddau Dyddiol", "desc": "Pa dasgau dyddiol penodol sy'n draenio'ch egni fwyaf?", "placeholder": "Teipiwch eich ateb yma..." },
-    "q9": { "title": "9. Beth sy'n dod â llawenydd i chi?", "placeholder": "Teipiwch eich ateb yma..." },
-    "q10": { "title": "10. Gwasanaethau Cymorth", "desc": "Rwyf wedi gallu cael mynediad at wasanaethau cymorth sy'n deall fy niwroamrywiaeth a/neu losgi allan" },
-    "q11": { "title": "11. Beth sy'n gweithio i chi?", "desc": "Pa offer a thechnegau rydych chi'n eu defnyddio i'ch helpu i weithredu?", "placeholder": "Teipiwch eich ateb yma..." },
-    "q12": { "title": "12. Beth fyddai'n helpu chi neu eraill?", "desc": "Bydd deall beth fyddai'n helpu yn ein galluogi i gynllunio gwasanaethau sy'n bodloni anghenion pobl", "accessibleSpaces": "Mannau cymunedol hygyrch, yn synhwyraidd ddiogel", "flexibleSupport": "Cymorth cymheiriaid / Cymorth hyblyg", "livedExperience": "Mentora cymheiriaid a hyfforddiant profiad byw", "inclusiveEmployment": "Llwybrau cyflogaeth gynhwysol", "paidWorkTrials": "Profion gwaith cyflogedig", "affordableCoaching": "Hyfforddiant fforddiadwy", "digitalTools": "Offer digidol i gefnogi hygyrchedd", "unsure": "Nid wyf yn siŵr; fodd bynnag, gwn fy mod angen rhywfaint o gymorth", "other": "Arall (Nodwch)", "placeholder": "Nodwch os dewiswyd 'Arall'" },
-    "q13": { "title": "13. Gwasanaethau Cymunedol", "desc": "A oes gwasanaethau, grwpiau neu offer yn eich ardal sy'n gweithio'n dda i chi?", "placeholder": "Teipiwch eich ateb yma..." }
+    "typeAnswer": "Teipiwch eich ateb yma...",
+    "pleaseSelect": "Dewiswch os gwelwch yn dda...",
+    "stronglyAgree": "Cytuno'n gryf",
+    "agree": "Cytuno",
+    "disagree": "Anghytuno",
+    "stronglyDisagree": "Anghytuno'n gryf",
+    "q1": {
+      "title": "1. Sut ydych chi'n disgrifio eich rhyw?",
+      "desc": "Mae deall rhyw defnyddwyr posibl yn ein helpu i gynllunio gwasanaethau priodol",
+      "female": "Benyw",
+      "male": "Gwryw",
+      "preferNot": "Yn well gen i beidio dweud",
+      "selfDescribe": "Yn well gen i hunan-ddisgrifio",
+      "placeholder": "Nodwch os dewiswyd 'Yn well gen i hunan-ddisgrifio'"
+    },
+    "q2": {
+      "title": "2. Dywedwch wrthym eich oedran",
+      "desc": "Mae deall oedran defnyddwyr posibl yn ein helpu i gynllunio gwasanaethau priodol"
+    },
+    "q3": {
+      "title": "3. Sut rydych chi'n teimlo?",
+      "desc": "Mae gan y rhan fwyaf o bobl gymysgedd o deimladau bob dydd. Dywedwch wrthym sut rydych chi wedi teimlo yn gyffredinol yn y 4 wythnos ddiwethaf",
+      "blooming": "Blodeuo – Rwy'n ffynnu ac yn byw'n ddilys",
+      "balanced": "Cydbwys – Rwy'n teimlo'n sefydlog",
+      "steady": "Sefydlog – Rwy'n gweithredu'n gyson",
+      "stretched": "Wedi'i ymestyn – Mae fy egni'n gostwng ac mae tasgau dyddiol yn teimlo'n anoddach",
+      "strained": "Dan straen – Rwy'n teimlo pwysau ac yn defnyddio fy holl egni i reoli tasgau dyddiol",
+      "overloaded": "Gorlwytho – Rwy'n brwydro bob dydd ac yn prin weithredu",
+      "burnout": "Llosgi allan – Rwy'n llwyr lethu ac yn flinedig. Ni allaf weithredu"
+    },
+    "q4": {
+      "otherArea": "Ardal arall / Ar-lein yn unig"
+    },
+    "q5": {
+      "title": "5. Eich amgylchiadau presennol",
+      "desc": "Dewiswch yr opsiwn sy'n disgrifio'ch amgylchiadau gorau",
+      "employment": "Rwy'n gyflogedig (gwaith cyflogedig, gan gynnwys prentisiaethau)",
+      "selfEmployed": "Rwy'n hunangyflogedig",
+      "education": "Rwy'n astudio neu'n hyfforddi amser llawn",
+      "notEmployed": "Nid wyf mewn cyflogaeth, addysg na hyfforddiant ar hyn o bryd",
+      "other": "Arall – Nodwch isod",
+      "placeholder": "Nodwch os dewiswyd 'Arall'"
+    },
+    "q6": {
+      "title": "6. Fy amgylcheddau dyddiol",
+      "desc": "Mae'r lleoedd lle rwy'n treulio amser yn teimlo'n iawn i mi ac yn bodloni fy anghenion unigryw"
+    },
+    "q7": {
+      "title": "7. Fy lefelau egni",
+      "desc": "Rwy'n hyderus bod fy ngweithgareddau dyddiol yn gynaliadwy heb beryglu fy lefelau egni na'm hiechyd"
+    },
+    "q8": {
+      "title": "8. Gweithgareddau Dyddiol",
+      "desc": "Pa dasgau dyddiol penodol sy'n draenio'ch egni fwyaf?",
+      "placeholder": "Teipiwch eich ateb yma..."
+    },
+    "q9": {
+      "title": "9. Beth sy'n dod â llawenydd i chi?",
+      "placeholder": "Teipiwch eich ateb yma..."
+    },
+    "q10": {
+      "title": "10. Gwasanaethau Cymorth",
+      "desc": "Rwyf wedi gallu cael mynediad at wasanaethau cymorth sy'n deall fy niwroamrywiaeth a/neu losgi allan"
+    },
+    "q11": {
+      "title": "11. Beth sy'n gweithio i chi?",
+      "desc": "Pa offer a thechnegau rydych chi'n eu defnyddio i'ch helpu i weithredu?",
+      "placeholder": "Teipiwch eich ateb yma..."
+    },
+    "q12": {
+      "title": "12. Beth fyddai'n helpu chi neu eraill?",
+      "desc": "Bydd deall beth fyddai'n helpu yn ein galluogi i gynllunio gwasanaethau sy'n bodloni anghenion pobl",
+      "accessibleSpaces": "Mannau cymunedol hygyrch, yn synhwyraidd ddiogel",
+      "flexibleSupport": "Cymorth cymheiriaid / Cymorth hyblyg",
+      "livedExperience": "Mentora cymheiriaid a hyfforddiant profiad byw",
+      "inclusiveEmployment": "Llwybrau cyflogaeth gynhwysol",
+      "paidWorkTrials": "Profion gwaith cyflogedig",
+      "affordableCoaching": "Hyfforddiant fforddiadwy",
+      "digitalTools": "Offer digidol i gefnogi hygyrchedd",
+      "unsure": "Nid wyf yn siŵr; fodd bynnag, gwn fy mod angen rhywfaint o gymorth",
+      "other": "Arall (Nodwch)",
+      "placeholder": "Nodwch os dewiswyd 'Arall'"
+    },
+    "q13": {
+      "title": "13. Gwasanaethau Cymunedol",
+      "desc": "A oes gwasanaethau, grwpiau neu offer yn eich ardal sy'n gweithio'n dda i chi?",
+      "placeholder": "Teipiwch eich ateb yma..."
+    },
+    "successTitle": "Diolch yn fawr!",
+    "continueToMap": "Parhau i'r map",
+    "dataNotice": "Nid oes unrhyw Wybodaeth Adnabod Bersonol (PII) yn cael ei chasglu yn ystod yr arolwg hwn. Defnyddir eich data lleoliad ar gyfer mapio'r Blossom Trail yn unig ac fe'i storiwyd yn ddienw."
   }
 }

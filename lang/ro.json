@@ -1,36 +1,200 @@
 {
-  "app": { "title": "Traseul Blossom — Colectivul Oubaitori", "subtitle": "Este în regulă să fii aici.", "skipToMain": "Salt la conținutul principal", "welcomeMsg": "Alăturați-vă nouă pe Traseul Blossom al Colectivului Oubaitori în timp ce colectăm dovezi anonime pentru proiectarea unui nou serviciu de sprijin pentru adulții neurodiversi. Nu puteți participa? Ne-ar plăcea să vă auzim opinia. Completați sondajul de mai jos. Opinia dumneavoastră contează!" },
-  "nav": { "installApp": "Instalare pe ecranul principal", "startSurvey": "Completați sondajul Blossom Trail" },
-  "accessibility": { "title": "Accesibilitate", "options": "Opțiuni de accesibilitate", "display": "Afișaj", "amenities": "♿ 🔑 Facilități", "requestAssistance": "🆘 Solicitați asistență", "dyslexiaFont": "Font pentru dislexie", "textSize": "Dimensiune text", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Riglă de citire", "readAloud": "🔊 Citire cu voce tare", "colourTheme": "Temă de culoare", "themeDefault": "Implicit", "themeHighContrast": "Contrast ridicat", "themeDark": "Mod întunecat", "themeSepia": "Sepia", "themeCyan": "Cyan", "themeSage": "Salvie", "readingSpeed": "Viteza de citire", "accessibleToilet": "Toaletă accesibilă", "radarKey": "Cheie radar necesară" },
-  "language": { "label": "🌐 Limbă", "en": "English", "es": "Español", "fr": "Français" },
-  "weather": { "heading": "Condiții live pe traseu", "weather": "Vreme", "temperature": "Temperatură", "wind": "Vânt", "rain": "Ploaie", "pollen": "Polen", "moon": "Lună" },
+  "app": {
+    "title": "Traseul Blossom — Colectivul Oubaitori",
+    "subtitle": "Este în regulă să fii aici.",
+    "skipToMain": "Salt la conținutul principal",
+    "welcomeMsg": "Alăturați-vă nouă pe Traseul Blossom al Colectivului Oubaitori în timp ce colectăm dovezi anonime pentru proiectarea unui nou serviciu de sprijin pentru adulții neurodiversi. Nu puteți participa? Ne-ar plăcea să vă auzim opinia. Completați sondajul de mai jos. Opinia dumneavoastră contează!"
+  },
+  "nav": {
+    "installApp": "Instalare pe ecranul principal",
+    "startSurvey": "Completați sondajul Blossom Trail"
+  },
+  "accessibility": {
+    "title": "Accesibilitate",
+    "options": "Opțiuni de accesibilitate",
+    "display": "Afișaj",
+    "amenities": "♿ 🔑 Facilități",
+    "requestAssistance": "🆘 Solicitați asistență",
+    "dyslexiaFont": "Font pentru dislexie",
+    "textSize": "Dimensiune text",
+    "increase": "A+",
+    "decrease": "A-",
+    "readingRuler": "📏 Riglă de citire",
+    "readAloud": "🔊 Citire cu voce tare",
+    "colourTheme": "Temă de culoare",
+    "themeDefault": "Implicit",
+    "themeHighContrast": "Contrast ridicat",
+    "themeDark": "Mod întunecat",
+    "themeSepia": "Sepia",
+    "themeCyan": "Cyan",
+    "themeSage": "Salvie",
+    "readingSpeed": "Viteza de citire",
+    "accessibleToilet": "Toaletă accesibilă",
+    "radarKey": "Cheie radar necesară"
+  },
+  "language": {
+    "label": "🌐 Limbă",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "weather": {
+    "heading": "Condiții live pe traseu",
+    "weather": "Vreme",
+    "temperature": "Temperatură",
+    "wind": "Vânt",
+    "rain": "Ploaie",
+    "pollen": "Polen",
+    "moon": "Lună"
+  },
   "stages": {
-    "s0": { "title": "VIZIUNEA NOASTRĂ", "narrative": "Sprijinirea adulților neurodiversi să se recupereze, să se regleze și să înflorească. Înfloriți în ritmul propriu, susținut de un colectiv unde nimeni nu merge singur." },
-    "s1": { "title": "CĂLĂTORIA TA ÎNCEPE", "narrative": "O primire blândă și ancorată.", "techTitle": "Tehnică: 5-4-3-2-1", "techText": "Identificați 5 lucruri pe care le vedeți, 4 pe care le puteți atinge, 3 sunete, 2 mirosuri și 1 gust. Vă ancorează în prezent." },
-    "s2": { "title": "UN MOMENT PENTRU REFLECȚIE", "narrative": "Invită conștiința fără presiune.", "techTitle": "Tehnică: Respirație în cutie", "techText": "Inspirați 4 s, rețineți 4 s, expirați 4 s, rețineți 4 s. Reglează ritmul cardiac." },
-    "s3": { "title": "ÎNȚELEGEREA A CEEA CE AVEȚI NEVOIE", "narrative": "Observarea a ceea ce v-ar aduce cel mai mult confort și ușurare acum.", "techTitle": "Tehnică: Răcirea încheieturilor", "techText": "Treceți apă rece peste încheieturi timp de 30 s pentru a ajuta la resetarea unui sistem nervos activat." },
-    "s4": { "title": "ÎNȚELEGEREA CAPACITĂȚII TALE", "narrative": "Respectând ritmul tău natural și nivelul energiei tale de astăzi.", "techTitle": "Tehnică: Presiune fermă", "techText": "Îmbrățișați-vă ferm. Presiunea profundă ajută creierul să proceseze unde se află corpul în spațiu." },
-    "s5": { "title": "RECUNOAȘTEREA PUNCTELOR FORTE", "narrative": "O schimbare spre reziliență, autonomie și înflorire.", "techTitle": "Tehnică: Fredonare", "techText": "Fredoneaza o notă joasă pentru a simți vibrația în piept. Stimulează nervul vag pentru a atenua stresul." },
-    "s6": { "title": "EXPLORAREA A CEEA CE TE-AR PUTEA SPRIJINI", "narrative": "Deschizându-te către persoanele, spațiile și ideile care pot merge alături de tine.", "techTitle": "Tehnică: Relaxare musculară progresivă (RMP)", "techText": "Prin tensionarea și relaxarea diferitelor grupe musculare, puteți elibera tensiunea acumulată și crește conștiința corporală." },
-    "s7": { "title": "GĂSIREA A CEEA CE ESTE POTRIVIT PENTRU TINE", "narrative": "La ritmul tău, fără comparații.", "techTitle": "Tehnică: Scuturare (Tremururi neurogene)", "techText": "Scuturarea deliberată a brațelor, picioarelor sau a întregului corp timp de 1–2 minute eliberează excesul de adrenalină și restabilește calmul." }
+    "s0": {
+      "title": "VIZIUNEA NOASTRĂ",
+      "narrative": "Sprijinirea adulților neurodiversi să se recupereze, să se regleze și să înflorească. Înfloriți în ritmul propriu, susținut de un colectiv unde nimeni nu merge singur."
+    },
+    "s1": {
+      "title": "CĂLĂTORIA TA ÎNCEPE",
+      "narrative": "O primire blândă și ancorată.",
+      "techTitle": "Tehnică: 5-4-3-2-1",
+      "techText": "Identificați 5 lucruri pe care le vedeți, 4 pe care le puteți atinge, 3 sunete, 2 mirosuri și 1 gust. Vă ancorează în prezent."
+    },
+    "s2": {
+      "title": "UN MOMENT PENTRU REFLECȚIE",
+      "narrative": "Invită conștiința fără presiune.",
+      "techTitle": "Tehnică: Respirație în cutie",
+      "techText": "Inspirați 4 s, rețineți 4 s, expirați 4 s, rețineți 4 s. Reglează ritmul cardiac."
+    },
+    "s3": {
+      "title": "ÎNȚELEGEREA A CEEA CE AVEȚI NEVOIE",
+      "narrative": "Observarea a ceea ce v-ar aduce cel mai mult confort și ușurare acum.",
+      "techTitle": "Tehnică: Răcirea încheieturilor",
+      "techText": "Treceți apă rece peste încheieturi timp de 30 s pentru a ajuta la resetarea unui sistem nervos activat."
+    },
+    "s4": {
+      "title": "ÎNȚELEGEREA CAPACITĂȚII TALE",
+      "narrative": "Respectând ritmul tău natural și nivelul energiei tale de astăzi.",
+      "techTitle": "Tehnică: Presiune fermă",
+      "techText": "Îmbrățișați-vă ferm. Presiunea profundă ajută creierul să proceseze unde se află corpul în spațiu."
+    },
+    "s5": {
+      "title": "RECUNOAȘTEREA PUNCTELOR FORTE",
+      "narrative": "O schimbare spre reziliență, autonomie și înflorire.",
+      "techTitle": "Tehnică: Fredonare",
+      "techText": "Fredoneaza o notă joasă pentru a simți vibrația în piept. Stimulează nervul vag pentru a atenua stresul."
+    },
+    "s6": {
+      "title": "EXPLORAREA A CEEA CE TE-AR PUTEA SPRIJINI",
+      "narrative": "Deschizându-te către persoanele, spațiile și ideile care pot merge alături de tine.",
+      "techTitle": "Tehnică: Relaxare musculară progresivă (RMP)",
+      "techText": "Prin tensionarea și relaxarea diferitelor grupe musculare, puteți elibera tensiunea acumulată și crește conștiința corporală."
+    },
+    "s7": {
+      "title": "GĂSIREA A CEEA CE ESTE POTRIVIT PENTRU TINE",
+      "narrative": "La ritmul tău, fără comparații.",
+      "techTitle": "Tehnică: Scuturare (Tremururi neurogene)",
+      "techText": "Scuturarea deliberată a brațelor, picioarelor sau a întregului corp timp de 1–2 minute eliberează excesul de adrenalină și restabilește calmul."
+    }
   },
   "survey": {
-    "title": "Sondaj Blossom Trail", "heading": "Colectivul Oubaitori\nSondaj Blossom Trail", "next": "Următor", "back": "Înapoi", "submit": "Trimiteți sondajul", "success": "Răspunsul dumneavoastră a fost înregistrat cu succes.", "progress": "Progres", "step": "Pas",
+    "title": "Sondaj Blossom Trail",
+    "heading": "Colectivul Oubaitori\nSondaj Blossom Trail",
+    "next": "Următor",
+    "back": "Înapoi",
+    "submit": "Trimiteți sondajul",
+    "success": "Răspunsul dumneavoastră a fost înregistrat cu succes.",
+    "progress": "Progres",
+    "step": "Pas",
     "errorRequired": "Vă rugăm să completați această întrebare pentru a continua.",
-    "typeAnswer": "Introduceți răspunsul dvs. aici...", "pleaseSelect": "Vă rugăm să selectați...",
-    "stronglyAgree": "Acord total", "agree": "De acord", "disagree": "Dezacord", "stronglyDisagree": "Dezacord total",
-    "q1": { "title": "1. Cum vă descrieți genul?", "desc": "Înțelegerea genului utilizatorilor potențiali ne ajută să proiectăm servicii adecvate", "female": "Feminin", "male": "Masculin", "preferNot": "Prefer să nu spun", "selfDescribe": "Prefer să mă auto-descriu", "placeholder": "Vă rugăm să specificați dacă ați selectat 'Prefer să mă auto-descriu'" },
-    "q2": { "title": "2. Spuneți-ne vârsta dvs.", "desc": "Înțelegerea vârstei utilizatorilor potențiali ne ajută să proiectăm servicii adecvate" },
-    "q3": { "title": "3. Cum vă simțiți?", "desc": "Majoritatea oamenilor au un amestec de sentimente zilnic. Spuneți-ne cum v-ați simțit în ultimele 4 săptămâni", "blooming": "Înflorire – Prosperez și trăiesc autentic", "balanced": "Echilibrat – Mă simt stabil", "steady": "Stabil – Funcționez constant", "stretched": "Întins – Energia mea scade și sarcinile zilnice par mai grele", "strained": "Sub presiune – Folosesc toată energia pentru a gestiona sarcinile zilnice", "overloaded": "Supraîncărcat – Mă lupt zilnic și abia funcționez", "burnout": "Epuizare – Sunt complet copleșit și epuizat. Nu pot funcționa" },
-    "q4": { "title": "4. Unde locuiți sau lucrați?", "desc": "Dorim să înțelegem mai bine unde locuiesc utilizatorii potențiali" },
-    "q5": { "title": "5. Circumstanțele dvs. actuale", "desc": "Selectați opțiunea care descrie cel mai bine circumstanțele dvs. actuale", "employment": "Sunt angajat (muncă plătită, inclusiv ucenicie)", "selfEmployed": "Sunt independent (liber profesionist)", "education": "Sunt în educație sau formare cu normă întreagă", "notEmployed": "Nu sunt în angajare, educație sau formare acum", "other": "Altul – Vă rugăm să specificați mai jos", "placeholder": "Vă rugăm să specificați dacă ați selectat 'Altul'" },
-    "q6": { "title": "6. Mediile mele zilnice", "desc": "Locurile unde petrec timp mi se potrivesc și îmi satisfac nevoile unice" },
-    "q7": { "title": "7. Nivelul meu de energie", "desc": "Sunt încrezător că activitățile mele zilnice sunt sustenabile fără a-mi risca nivelul de energie sau sănătatea" },
-    "q8": { "title": "8. Activități zilnice", "desc": "Ce sarcini zilnice specifice îți epuizează cel mai mult energia?", "placeholder": "Introduceți răspunsul dvs. aici..." },
-    "q9": { "title": "9. Ce vă aduce bucurie?", "placeholder": "Introduceți răspunsul dvs. aici..." },
-    "q10": { "title": "10. Servicii de sprijin", "desc": "Am putut accesa servicii de sprijin care înțeleg neurodiversitatea și/sau epuizarea mea" },
-    "q11": { "title": "11. Ce funcționează pentru dvs.?", "desc": "Ce instrumente și tehnici folosiți pentru a vă ajuta să funcționați?", "placeholder": "Introduceți răspunsul dvs. aici..." },
-    "q12": { "title": "12. Ce v-ar ajuta pe dvs. sau pe alții?", "desc": "Înțelegerea a ceea ce ar ajuta ne va permite să proiectăm servicii care să răspundă nevoilor oamenilor", "accessibleSpaces": "Spații comunitare accesibile și sigure senzorial", "flexibleSupport": "Sprijin inter-pares / Sprijin flexibil", "livedExperience": "Mentorat inter-pares și formare bazată pe experiență trăită", "inclusiveEmployment": "Căi de angajare incluzive", "paidWorkTrials": "Încercări de lucru plătite", "affordableCoaching": "Coaching accesibil", "digitalTools": "Instrumente digitale pentru accesibilitate", "unsure": "Nu sunt sigur; totuși știu că am nevoie de sprijin", "other": "Altul (Vă rugăm să specificați)", "placeholder": "Vă rugăm să specificați dacă ați selectat 'Altul'" },
-    "q13": { "title": "13. Servicii comunitare", "desc": "Există servicii, grupuri sau instrumente în zona dvs. care funcționează bine pentru dvs.?", "placeholder": "Introduceți răspunsul dvs. aici..." }
+    "typeAnswer": "Introduceți răspunsul dvs. aici...",
+    "pleaseSelect": "Vă rugăm să selectați...",
+    "stronglyAgree": "Acord total",
+    "agree": "De acord",
+    "disagree": "Dezacord",
+    "stronglyDisagree": "Dezacord total",
+    "q1": {
+      "title": "1. Cum vă descrieți genul?",
+      "desc": "Înțelegerea genului utilizatorilor potențiali ne ajută să proiectăm servicii adecvate",
+      "female": "Feminin",
+      "male": "Masculin",
+      "preferNot": "Prefer să nu spun",
+      "selfDescribe": "Prefer să mă auto-descriu",
+      "placeholder": "Vă rugăm să specificați dacă ați selectat 'Prefer să mă auto-descriu'"
+    },
+    "q2": {
+      "title": "2. Spuneți-ne vârsta dvs.",
+      "desc": "Înțelegerea vârstei utilizatorilor potențiali ne ajută să proiectăm servicii adecvate"
+    },
+    "q3": {
+      "title": "3. Cum vă simțiți?",
+      "desc": "Majoritatea oamenilor au un amestec de sentimente zilnic. Spuneți-ne cum v-ați simțit în ultimele 4 săptămâni",
+      "blooming": "Înflorire – Prosperez și trăiesc autentic",
+      "balanced": "Echilibrat – Mă simt stabil",
+      "steady": "Stabil – Funcționez constant",
+      "stretched": "Întins – Energia mea scade și sarcinile zilnice par mai grele",
+      "strained": "Sub presiune – Folosesc toată energia pentru a gestiona sarcinile zilnice",
+      "overloaded": "Supraîncărcat – Mă lupt zilnic și abia funcționez",
+      "burnout": "Epuizare – Sunt complet copleșit și epuizat. Nu pot funcționa"
+    },
+    "q4": {
+      "otherArea": "Altă zonă / Numai online"
+    },
+    "q5": {
+      "title": "5. Circumstanțele dvs. actuale",
+      "desc": "Selectați opțiunea care descrie cel mai bine circumstanțele dvs. actuale",
+      "employment": "Sunt angajat (muncă plătită, inclusiv ucenicie)",
+      "selfEmployed": "Sunt independent (liber profesionist)",
+      "education": "Sunt în educație sau formare cu normă întreagă",
+      "notEmployed": "Nu sunt în angajare, educație sau formare acum",
+      "other": "Altul – Vă rugăm să specificați mai jos",
+      "placeholder": "Vă rugăm să specificați dacă ați selectat 'Altul'"
+    },
+    "q6": {
+      "title": "6. Mediile mele zilnice",
+      "desc": "Locurile unde petrec timp mi se potrivesc și îmi satisfac nevoile unice"
+    },
+    "q7": {
+      "title": "7. Nivelul meu de energie",
+      "desc": "Sunt încrezător că activitățile mele zilnice sunt sustenabile fără a-mi risca nivelul de energie sau sănătatea"
+    },
+    "q8": {
+      "title": "8. Activități zilnice",
+      "desc": "Ce sarcini zilnice specifice îți epuizează cel mai mult energia?",
+      "placeholder": "Introduceți răspunsul dvs. aici..."
+    },
+    "q9": {
+      "title": "9. Ce vă aduce bucurie?",
+      "placeholder": "Introduceți răspunsul dvs. aici..."
+    },
+    "q10": {
+      "title": "10. Servicii de sprijin",
+      "desc": "Am putut accesa servicii de sprijin care înțeleg neurodiversitatea și/sau epuizarea mea"
+    },
+    "q11": {
+      "title": "11. Ce funcționează pentru dvs.?",
+      "desc": "Ce instrumente și tehnici folosiți pentru a vă ajuta să funcționați?",
+      "placeholder": "Introduceți răspunsul dvs. aici..."
+    },
+    "q12": {
+      "title": "12. Ce v-ar ajuta pe dvs. sau pe alții?",
+      "desc": "Înțelegerea a ceea ce ar ajuta ne va permite să proiectăm servicii care să răspundă nevoilor oamenilor",
+      "accessibleSpaces": "Spații comunitare accesibile și sigure senzorial",
+      "flexibleSupport": "Sprijin inter-pares / Sprijin flexibil",
+      "livedExperience": "Mentorat inter-pares și formare bazată pe experiență trăită",
+      "inclusiveEmployment": "Căi de angajare incluzive",
+      "paidWorkTrials": "Încercări de lucru plătite",
+      "affordableCoaching": "Coaching accesibil",
+      "digitalTools": "Instrumente digitale pentru accesibilitate",
+      "unsure": "Nu sunt sigur; totuși știu că am nevoie de sprijin",
+      "other": "Altul (Vă rugăm să specificați)",
+      "placeholder": "Vă rugăm să specificați dacă ați selectat 'Altul'"
+    },
+    "q13": {
+      "title": "13. Servicii comunitare",
+      "desc": "Există servicii, grupuri sau instrumente în zona dvs. care funcționează bine pentru dvs.?",
+      "placeholder": "Introduceți răspunsul dvs. aici..."
+    },
+    "successTitle": "Mulțumim!",
+    "continueToMap": "Continuă la hartă",
+    "dataNotice": "Nicio Informație de Identificare Personală (PII) nu este capturată în timpul acestui sondaj. Datele dvs. de locație sunt utilizate exclusiv pentru cartografierea Blossom Trail şi sunt stocate anonim."
   }
 }

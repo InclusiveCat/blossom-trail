@@ -1,36 +1,200 @@
 {
-  "app": { "title": "Camino Blossom — Colectivo Oubaitori", "subtitle": "Está bien estar aquí.", "skipToMain": "Saltar al contenido principal", "welcomeMsg": "Únase a nosotros en el Camino Blossom del Colectivo Oubaitori mientras recopilamos evidencia anónima para diseñar un nuevo servicio de apoyo para adultos neurodivergentes. ¿No puede unirse? Nos encantaría escuchar su opinión. Complete las preguntas en la encuesta. ¡Su opinión nos importa!" },
-  "nav": { "installApp": "Instalar en pantalla de inicio", "startSurvey": "Completar la encuesta Blossom Trail" },
-  "accessibility": { "title": "Accesibilidad", "options": "Opciones de accesibilidad", "display": "Pantalla", "amenities": "♿ 🔑 Servicios", "requestAssistance": "🆘 Solicitar ayuda", "dyslexiaFont": "Fuente para dislexia", "textSize": "Tamaño del texto", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Regla de lectura", "readAloud": "🔊 Leer en voz alta", "colourTheme": "Tema de color", "themeDefault": "Predeterminado", "themeHighContrast": "Alto contraste", "themeDark": "Modo oscuro", "themeSepia": "Sepia", "themeCyan": "Cian", "themeSage": "Salvia", "readingSpeed": "Velocidad de lectura", "accessibleToilet": "Baño accesible", "radarKey": "Llave de radar requerida" },
-  "language": { "label": "🌐 Idioma", "en": "English", "es": "Español", "fr": "Français" },
-  "weather": { "heading": "Condiciones del recorrido en vivo", "weather": "Clima", "temperature": "Temperatura", "wind": "Viento", "rain": "Lluvia", "pollen": "Polen", "moon": "Luna" },
+  "app": {
+    "title": "Camino Blossom — Colectivo Oubaitori",
+    "subtitle": "Está bien estar aquí.",
+    "skipToMain": "Saltar al contenido principal",
+    "welcomeMsg": "Únase a nosotros en el Camino Blossom del Colectivo Oubaitori mientras recopilamos evidencia anónima para diseñar un nuevo servicio de apoyo para adultos neurodivergentes. ¿No puede unirse? Nos encantaría escuchar su opinión. Complete las preguntas en la encuesta. ¡Su opinión nos importa!"
+  },
+  "nav": {
+    "installApp": "Instalar en pantalla de inicio",
+    "startSurvey": "Completar la encuesta Blossom Trail"
+  },
+  "accessibility": {
+    "title": "Accesibilidad",
+    "options": "Opciones de accesibilidad",
+    "display": "Pantalla",
+    "amenities": "♿ 🔑 Servicios",
+    "requestAssistance": "🆘 Solicitar ayuda",
+    "dyslexiaFont": "Fuente para dislexia",
+    "textSize": "Tamaño del texto",
+    "increase": "A+",
+    "decrease": "A-",
+    "readingRuler": "📏 Regla de lectura",
+    "readAloud": "🔊 Leer en voz alta",
+    "colourTheme": "Tema de color",
+    "themeDefault": "Predeterminado",
+    "themeHighContrast": "Alto contraste",
+    "themeDark": "Modo oscuro",
+    "themeSepia": "Sepia",
+    "themeCyan": "Cian",
+    "themeSage": "Salvia",
+    "readingSpeed": "Velocidad de lectura",
+    "accessibleToilet": "Baño accesible",
+    "radarKey": "Llave de radar requerida"
+  },
+  "language": {
+    "label": "🌐 Idioma",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "weather": {
+    "heading": "Condiciones del recorrido en vivo",
+    "weather": "Clima",
+    "temperature": "Temperatura",
+    "wind": "Viento",
+    "rain": "Lluvia",
+    "pollen": "Polen",
+    "moon": "Luna"
+  },
   "stages": {
-    "s0": { "title": "NUESTRA VISIÓN", "narrative": "Apoyar a los adultos neurodivergentes para que se recuperen, se regulen y prosperen. Florezca a su propio ritmo, apoyado por un colectivo donde nadie camina solo." },
-    "s1": { "title": "TU VIAJE COMIENZA", "narrative": "Una bienvenida suave y reconfortante.", "techTitle": "Técnica: 5-4-3-2-1", "techText": "Identifique 5 cosas que ve, 4 que puede tocar, 3 sonidos, 2 aromas y 1 sabor. Le ancla en el presente." },
-    "s2": { "title": "UN MOMENTO PARA REFLEXIONAR", "narrative": "Invita a la conciencia sin presión.", "techTitle": "Técnica: Respiración de caja", "techText": "Inhale 4 s, sostenga 4 s, exhale 4 s, sostenga 4 s. Regula el ritmo cardíaco." },
-    "s3": { "title": "ENTENDIENDO LO QUE NECESITAS", "narrative": "Notar lo que te traería más comodidad y alivio ahora.", "techTitle": "Técnica: Enfriamiento de muñecas", "techText": "Corra agua fría sobre las muñecas durante 30 s para ayudar a restablecer un sistema nervioso activado." },
-    "s4": { "title": "ENTENDIENDO TU CAPACIDAD", "narrative": "Respetando tu ritmo natural y dónde está tu energía hoy.", "techTitle": "Técnica: Presión firme", "techText": "Date un abrazo firme. La presión profunda ayuda al cerebro a procesar dónde está el cuerpo en el espacio." },
-    "s5": { "title": "RECONOCIENDO TUS FORTALEZAS", "narrative": "Un cambio hacia la resiliencia, la autonomía y el florecimiento.", "techTitle": "Técnica: Tararear", "techText": "Tararee una nota baja para sentir la vibración en su pecho. Estimula el nervio vago para calmar el estrés." },
-    "s6": { "title": "EXPLORANDO LO QUE PODRÍA APOYARTE", "narrative": "Abrirse a las personas, espacios e ideas que pueden caminar junto a ti.", "techTitle": "Técnica: Relajación muscular progresiva (RMP)", "techText": "Al tensar y relajar diferentes grupos musculares, puede liberar la tensión acumulada y aumentar la conciencia corporal." },
-    "s7": { "title": "ENCONTRANDO LO QUE ES CORRECTO PARA TI", "narrative": "A tu propio tiempo, a tu propio ritmo, sin comparación.", "techTitle": "Técnica: Sacudirse (Temblores neurogénicos)", "techText": "Sacudir deliberadamente sus brazos, piernas o cuerpo durante 1 a 2 minutos libera el exceso de adrenalina y restaura la calma." }
+    "s0": {
+      "title": "NUESTRA VISIÓN",
+      "narrative": "Apoyar a los adultos neurodivergentes para que se recuperen, se regulen y prosperen. Florezca a su propio ritmo, apoyado por un colectivo donde nadie camina solo."
+    },
+    "s1": {
+      "title": "TU VIAJE COMIENZA",
+      "narrative": "Una bienvenida suave y reconfortante.",
+      "techTitle": "Técnica: 5-4-3-2-1",
+      "techText": "Identifique 5 cosas que ve, 4 que puede tocar, 3 sonidos, 2 aromas y 1 sabor. Le ancla en el presente."
+    },
+    "s2": {
+      "title": "UN MOMENTO PARA REFLEXIONAR",
+      "narrative": "Invita a la conciencia sin presión.",
+      "techTitle": "Técnica: Respiración de caja",
+      "techText": "Inhale 4 s, sostenga 4 s, exhale 4 s, sostenga 4 s. Regula el ritmo cardíaco."
+    },
+    "s3": {
+      "title": "ENTENDIENDO LO QUE NECESITAS",
+      "narrative": "Notar lo que te traería más comodidad y alivio ahora.",
+      "techTitle": "Técnica: Enfriamiento de muñecas",
+      "techText": "Corra agua fría sobre las muñecas durante 30 s para ayudar a restablecer un sistema nervioso activado."
+    },
+    "s4": {
+      "title": "ENTENDIENDO TU CAPACIDAD",
+      "narrative": "Respetando tu ritmo natural y dónde está tu energía hoy.",
+      "techTitle": "Técnica: Presión firme",
+      "techText": "Date un abrazo firme. La presión profunda ayuda al cerebro a procesar dónde está el cuerpo en el espacio."
+    },
+    "s5": {
+      "title": "RECONOCIENDO TUS FORTALEZAS",
+      "narrative": "Un cambio hacia la resiliencia, la autonomía y el florecimiento.",
+      "techTitle": "Técnica: Tararear",
+      "techText": "Tararee una nota baja para sentir la vibración en su pecho. Estimula el nervio vago para calmar el estrés."
+    },
+    "s6": {
+      "title": "EXPLORANDO LO QUE PODRÍA APOYARTE",
+      "narrative": "Abrirse a las personas, espacios e ideas que pueden caminar junto a ti.",
+      "techTitle": "Técnica: Relajación muscular progresiva (RMP)",
+      "techText": "Al tensar y relajar diferentes grupos musculares, puede liberar la tensión acumulada y aumentar la conciencia corporal."
+    },
+    "s7": {
+      "title": "ENCONTRANDO LO QUE ES CORRECTO PARA TI",
+      "narrative": "A tu propio tiempo, a tu propio ritmo, sin comparación.",
+      "techTitle": "Técnica: Sacudirse (Temblores neurogénicos)",
+      "techText": "Sacudir deliberadamente sus brazos, piernas o cuerpo durante 1 a 2 minutos libera el exceso de adrenalina y restaura la calma."
+    }
   },
   "survey": {
-    "title": "Encuesta Blossom Trail", "heading": "Colectivo Oubaitori\nEncuesta Blossom Trail", "next": "Siguiente", "back": "Atrás", "submit": "Enviar encuesta", "success": "Su respuesta ha sido registrada con éxito.", "progress": "Progreso", "step": "Paso",
+    "title": "Encuesta Blossom Trail",
+    "heading": "Colectivo Oubaitori\nEncuesta Blossom Trail",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "submit": "Enviar encuesta",
+    "success": "Su respuesta ha sido registrada con éxito.",
+    "progress": "Progreso",
+    "step": "Paso",
     "errorRequired": "Por favor complete esta pregunta para continuar.",
-    "typeAnswer": "Escriba su respuesta aquí...", "pleaseSelect": "Por favor seleccione...",
-    "stronglyAgree": "Muy de acuerdo", "agree": "De acuerdo", "disagree": "En desacuerdo", "stronglyDisagree": "Muy en desacuerdo",
-    "q1": { "title": "1. ¿Cómo describe su género?", "desc": "Comprender el género de los posibles usuarios nos ayuda a diseñar servicios apropiados", "female": "Femenino", "male": "Masculino", "preferNot": "Prefiero no decirlo", "selfDescribe": "Prefiero autodescribirme", "placeholder": "Por favor especifique si selecciona 'Prefiero autodescribirme'" },
-    "q2": { "title": "2. Díganos su edad", "desc": "Comprender la edad de los posibles usuarios nos ayuda a diseñar servicios apropiados" },
-    "q3": { "title": "3. ¿Cómo se siente?", "desc": "La mayoría de las personas tienen una mezcla de sentimientos. Díganos cómo se ha sentido en las últimas 4 semanas", "blooming": "Floreciendo – Estoy prosperando y viviendo auténticamente", "balanced": "Equilibrado – Me siento estable", "steady": "Estable – Funciono de manera consistente", "stretched": "Tenso – Mi energía baja y las tareas diarias se sienten más difíciles", "strained": "Bajo presión – Uso toda mi energía para gestionar las tareas diarias", "overloaded": "Sobrecargado – Lucho diariamente y apenas funciono", "burnout": "Agotamiento – Estoy completamente abrumado y agotado. Soy incapaz de funcionar" },
-    "q4": { "title": "4. ¿Dónde vive o trabaja?", "desc": "Nos gustaría entender más sobre dónde viven los posibles usuarios" },
-    "q5": { "title": "5. Sus circunstancias actuales", "desc": "Seleccione la opción que mejor describe sus circunstancias actuales", "employment": "Estoy empleado (trabajo remunerado, incluyendo aprendizajes)", "selfEmployed": "Soy autónomo (trabajador por cuenta propia, gestor de negocio)", "education": "Estoy en formación o estudios a tiempo completo", "notEmployed": "No estoy en empleo, formación o estudios ahora mismo", "other": "Otro – Por favor especifique a continuación", "placeholder": "Por favor especifique si selecciona 'Otro'" },
-    "q6": { "title": "6. Mis entornos diarios", "desc": "Los lugares donde paso el tiempo se sienten bien para mí y satisfacen mis necesidades únicas" },
-    "q7": { "title": "7. Mis niveles de energía", "desc": "Confío en que mis actividades diarias son sostenibles sin arriesgar mis niveles de energía o salud" },
-    "q8": { "title": "8. Actividades diarias", "desc": "¿Qué tareas diarias específicas agotan más su energía?", "placeholder": "Escriba su respuesta aquí..." },
-    "q9": { "title": "9. ¿Qué le trae alegría?", "placeholder": "Escriba su respuesta aquí..." },
-    "q10": { "title": "10. Servicios de apoyo", "desc": "He podido acceder a servicios de apoyo que comprenden mi neurodivergencia y/o agotamiento" },
-    "q11": { "title": "11. ¿Qué funciona para usted?", "desc": "¿Qué herramientas y técnicas usa para ayudarle a funcionar?", "placeholder": "Escriba su respuesta aquí..." },
-    "q12": { "title": "12. ¿Qué le ayudaría a usted o a otros?", "desc": "Entender qué ayudaría nos permitirá diseñar servicios que satisfagan las necesidades de las personas", "accessibleSpaces": "Espacios comunitarios accesibles y seguros sensorialmente", "flexibleSupport": "Apoyo entre pares / Apoyo flexible", "livedExperience": "Mentoría entre pares y formación basada en experiencia vivida", "inclusiveEmployment": "Vías de empleo inclusivas", "paidWorkTrials": "Pruebas de trabajo remuneradas", "affordableCoaching": "Coaching asequible", "digitalTools": "Herramientas digitales para la accesibilidad", "unsure": "No estoy seguro; sin embargo, sé que necesito algún apoyo", "other": "Otro (Por favor especifique)", "placeholder": "Por favor especifique si selecciona 'Otro'" },
-    "q13": { "title": "13. Servicios comunitarios", "desc": "¿Hay servicios, grupos o herramientas en su área que estén funcionando bien para usted?", "placeholder": "Escriba su respuesta aquí..." }
+    "typeAnswer": "Escriba su respuesta aquí...",
+    "pleaseSelect": "Por favor seleccione...",
+    "stronglyAgree": "Muy de acuerdo",
+    "agree": "De acuerdo",
+    "disagree": "En desacuerdo",
+    "stronglyDisagree": "Muy en desacuerdo",
+    "q1": {
+      "title": "1. ¿Cómo describe su género?",
+      "desc": "Comprender el género de los posibles usuarios nos ayuda a diseñar servicios apropiados",
+      "female": "Femenino",
+      "male": "Masculino",
+      "preferNot": "Prefiero no decirlo",
+      "selfDescribe": "Prefiero autodescribirme",
+      "placeholder": "Por favor especifique si selecciona 'Prefiero autodescribirme'"
+    },
+    "q2": {
+      "title": "2. Díganos su edad",
+      "desc": "Comprender la edad de los posibles usuarios nos ayuda a diseñar servicios apropiados"
+    },
+    "q3": {
+      "title": "3. ¿Cómo se siente?",
+      "desc": "La mayoría de las personas tienen una mezcla de sentimientos. Díganos cómo se ha sentido en las últimas 4 semanas",
+      "blooming": "Floreciendo – Estoy prosperando y viviendo auténticamente",
+      "balanced": "Equilibrado – Me siento estable",
+      "steady": "Estable – Funciono de manera consistente",
+      "stretched": "Tenso – Mi energía baja y las tareas diarias se sienten más difíciles",
+      "strained": "Bajo presión – Uso toda mi energía para gestionar las tareas diarias",
+      "overloaded": "Sobrecargado – Lucho diariamente y apenas funciono",
+      "burnout": "Agotamiento – Estoy completamente abrumado y agotado. Soy incapaz de funcionar"
+    },
+    "q4": {
+      "otherArea": "Otra área / Solo en línea"
+    },
+    "q5": {
+      "title": "5. Sus circunstancias actuales",
+      "desc": "Seleccione la opción que mejor describe sus circunstancias actuales",
+      "employment": "Estoy empleado (trabajo remunerado, incluyendo aprendizajes)",
+      "selfEmployed": "Soy autónomo (trabajador por cuenta propia, gestor de negocio)",
+      "education": "Estoy en formación o estudios a tiempo completo",
+      "notEmployed": "No estoy en empleo, formación o estudios ahora mismo",
+      "other": "Otro – Por favor especifique a continuación",
+      "placeholder": "Por favor especifique si selecciona 'Otro'"
+    },
+    "q6": {
+      "title": "6. Mis entornos diarios",
+      "desc": "Los lugares donde paso el tiempo se sienten bien para mí y satisfacen mis necesidades únicas"
+    },
+    "q7": {
+      "title": "7. Mis niveles de energía",
+      "desc": "Confío en que mis actividades diarias son sostenibles sin arriesgar mis niveles de energía o salud"
+    },
+    "q8": {
+      "title": "8. Actividades diarias",
+      "desc": "¿Qué tareas diarias específicas agotan más su energía?",
+      "placeholder": "Escriba su respuesta aquí..."
+    },
+    "q9": {
+      "title": "9. ¿Qué le trae alegría?",
+      "placeholder": "Escriba su respuesta aquí..."
+    },
+    "q10": {
+      "title": "10. Servicios de apoyo",
+      "desc": "He podido acceder a servicios de apoyo que comprenden mi neurodivergencia y/o agotamiento"
+    },
+    "q11": {
+      "title": "11. ¿Qué funciona para usted?",
+      "desc": "¿Qué herramientas y técnicas usa para ayudarle a funcionar?",
+      "placeholder": "Escriba su respuesta aquí..."
+    },
+    "q12": {
+      "title": "12. ¿Qué le ayudaría a usted o a otros?",
+      "desc": "Entender qué ayudaría nos permitirá diseñar servicios que satisfagan las necesidades de las personas",
+      "accessibleSpaces": "Espacios comunitarios accesibles y seguros sensorialmente",
+      "flexibleSupport": "Apoyo entre pares / Apoyo flexible",
+      "livedExperience": "Mentoría entre pares y formación basada en experiencia vivida",
+      "inclusiveEmployment": "Vías de empleo inclusivas",
+      "paidWorkTrials": "Pruebas de trabajo remuneradas",
+      "affordableCoaching": "Coaching asequible",
+      "digitalTools": "Herramientas digitales para la accesibilidad",
+      "unsure": "No estoy seguro; sin embargo, sé que necesito algún apoyo",
+      "other": "Otro (Por favor especifique)",
+      "placeholder": "Por favor especifique si selecciona 'Otro'"
+    },
+    "q13": {
+      "title": "13. Servicios comunitarios",
+      "desc": "¿Hay servicios, grupos o herramientas en su área que estén funcionando bien para usted?",
+      "placeholder": "Escriba su respuesta aquí..."
+    },
+    "successTitle": "¡Gracias!",
+    "continueToMap": "Continuar al mapa",
+    "dataNotice": "No se captura ninguna Información de Identificación Personal (IIP) durante esta encuesta. Sus datos de ubicación se utilizan únicamente para el mapeo del Blossom Trail y se almacenan de forma anónima."
   }
 }
