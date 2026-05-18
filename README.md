@@ -299,3 +299,85 @@ A comprehensive accessibility refactor was completed, resolving all critical UI 
 | **Stage technique boxes** | ❌ English only | Part of stage narrative work |
 | Accessibility theme options (Default, High Contrast etc.) | ⚠️ Keys exist | Add `data-i18n` to `<option>` elements in theme selects |
 | Van status messages (console only) | Low priority | — |
+---
+
+## Session Update — 19 May 2026: Full Multilingual i18n Implementation
+
+### What was completed this session
+
+#### Language Files — 9 Languages Now Fully Populated
+All 9 language JSON files (en, r, es, de, pl, o, cy, r, ur) have been expanded to full coverage including:
+- All 8 accordion stage titles, narratives, technique names and instructions
+- All 13 survey question titles and descriptions
+- All answer option labels (gender, feelings, circumstances, agree/disagree, help options)
+- Accessibility panel labels (Colour Theme, Text Size, Dyslexia Font, Read Aloud, etc.)
+- Theme option labels (Default, High Contrast, Dark Mode, Sepia, Cyan, Sage)
+- Navigation buttons (Next, Back, Submit, Continue to Map)
+- Weather panel headings
+- Success page text including data protection notice
+- "Please select…" and "Other Area / Online Only" in Q4 dropdown
+
+#### i18n Engine Fix (js/i18n.js)
+- **Root bug fixed**: The "child element text node iteration" logic was incorrectly setting each text node to the full translation value, causing duplication wherever an element had child HTML (e.g. <strong> tags inside welcome message, <br> inside h1). Now uses el.textContent = value always — clean and reliable.
+- Extended placeholder support to <textarea> elements.
+
+#### map.html — All 8 Accordion Stages Wired to i18n
+All stage titles, narratives, technique titles and technique texts now have data-i18n attributes.
+Language switching updates all sidebar content in real time.
+
+#### survey.html — Full Translation Coverage
+- All 13 question titles and descriptions wired
+- All answer options translated: Gender (Q1), Q3 Feelings (Blooming → Burnout), Circumstances (Q5), Agree/Disagree scale (Q6, Q7, Q10), Help options (Q12)
+- "Other/self-describe" input placeholders translated (Q1, Q5, Q12)
+- Free-text textarea placeholders translated (Q8, Q9, Q11, Q13)
+- Q4 "Please select…" and "Other Area / Online Only" options translated
+- Accessibility panel toggle button, theme options and progress label translated
+- Survey h1 title duplication fixed (removed <br> child element, added white-space: pre-line)
+
+#### Q12 Checkbox Validation Fixed (js/survey.js)
+Checkbox groups were not validated — the alidateStep() function only handled radio buttons. Now checks that at least one checkbox is selected in any checkbox group before allowing progression.
+
+#### success.html — Data Protection Notice
+Data notice restructured to be translatable via data-i18n="survey.dataNotice". "Thank You!" heading and "Continue to Map" link also translatable.
+
+#### Bug Fixes
+- Welcome message triplication on map.html fixed (removed <strong> child elements from welcome-msg div)
+- Q3 feelings options restructured — <strong>Word</strong> label was outside the data-i18n span so it stayed in English; moved data-i18n to outer option-text span
+
+#### Local Development Server
+
+px serve . -p 5500 — run from project root. Required because etch() for language JSON files is blocked by ile:// CORS policy.
+
+---
+
+## 🔧 Outstanding Work — Next Session
+
+### HIGH PRIORITY
+
+| Item | Detail |
+|------|--------|
+| **Full survey validation audit** | Q12 checkbox validation is now fixed. All other questions need systematic testing in each language to confirm validation messages display and translate correctly |
+| **"Accessibility Options" toggle text** (map.html) | The toggle button text on the map sidebar may still be hardcoded — needs checking and data-i18n if so |
+| **map.html theme option labels** | <option> elements in map sidebar theme select need data-i18n attributes (done in survey.html, may be missing from map.html) |
+| **Q4 "Please select…" in map.html** | If map.html has any selects without data-i18n, add them |
+
+### MEDIUM PRIORITY
+
+| Item | Detail |
+|------|--------|
+| **Data Protection notice review** | Success.html now has a translatable data notice. Content should be reviewed by the project lead for accuracy and completeness before go-live |
+| **Age range labels (Q2)** | Currently in English (Under 18 years, 19–24 years etc.) — consider whether these should translate |
+| **Reading Speed labels** ("Slower", "Faster", "Normal") | Hardcoded in both survey.html and map.html — need data-i18n |
+| **"Step X of 13" progress text** | Currently built in JS (Step  of ) — needs i18n to use survey.step key |
+| **Error message on submission failure** | Hardcoded in survey.js: 'An error occurred while submitting...' — should use a translation key |
+| **map.html accessibility toggle button** | Check if "⚙ Accessibility Options ▼" in map sidebar is translated |
+
+### LOW PRIORITY / FUTURE
+
+| Item | Detail |
+|------|--------|
+| **TTS (Read Aloud) voice language** | When language is switched, TTS should use the correct lang attribute for speech synthesis voice selection |
+| **RTL layout testing** | Arabic and Urdu set dir="rtl" on <html> — full layout testing on mobile required |
+| **GitHub Pages deployment** | v2 branch is pushed. When ready to replace v1, update the GitHub Pages source branch |
+| **Remove original blossom-trail** | User intends to keep both until v2 is fully verified |
+
