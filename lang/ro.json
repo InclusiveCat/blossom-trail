@@ -1,0 +1,57 @@
+{
+    "app": {
+        "title": "Colectivul Oubaitori Poteca Înfloririi",
+        "subtitle": "Este bine să fii aici.",
+        "skipToMain": "Sari la conținutul principal",
+        "welcomeMsg": "Alăturați-vă nouă pe Poteca Înfloririi a Colectivului Oubaitori pe măsură ce colectăm dovezi anonime pentru proiectarea unui nou serviciu de suport pentru adulții neurodiversi. Nu puteți să vă alăturați? Ne-ar plăcea totuși să vă auzim opiniile. Completați întrebările din sondajul de mai jos. Opinia dvs. contează pentru noi!"
+    },
+    "nav": {
+        "installApp": "Instalează aplicația pe ecranul principal",
+        "startSurvey": "Începe sondajul Potecii Înfloririi"
+    },
+    "accessibility": {
+        "title": "Accesibilitate",
+        "options": "Opțiuni de accesibilitate",
+        "display": "Afișaj",
+        "amenities": "♿ 🔑 Facilități",
+        "requestAssistance": "🆘 Solicită ajutor",
+        "dyslexiaFont": "Font pentru dislexie",
+        "textSize": "Dimensiunea textului",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Riglă de citire",
+        "readAloud": "🔊 Citire cu voce tare",
+        "colourTheme": "Temă de culoare",
+        "themeDefault": "Implicit",
+        "themeHighContrast": "Contrast ridicat",
+        "themeDark": "Mod întunecat",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cyan",
+        "themeSage": "Salvie",
+        "readingSpeed": "Viteza de citire",
+        "accessibleToilet": "Toaletă accesibilă",
+        "radarKey": "Cheie radar necesară"
+    },
+    "language": {
+        "label": "🌐 Limbă"
+    },
+    "survey": {
+        "title": "Sondajul Potecii Înfloririi",
+        "heading": "Colectivul Oubaitori\nSondajul Potecii Înfloririi",
+        "next": "Următor",
+        "back": "Înapoi",
+        "submit": "Trimite sondajul",
+        "success": "Răspunsul tău a fost înregistrat cu succes.",
+        "progress": "Progres",
+        "step": "Pas"
+    },
+    "weather": {
+        "heading": "Condiții live pe potecă",
+        "weather": "Vreme",
+        "temperature": "Temperatură",
+        "wind": "Vânt",
+        "rain": "Ploaie",
+        "pollen": "Polen",
+        "moon": "Lună"
+    }
+}

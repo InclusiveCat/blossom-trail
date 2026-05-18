@@ -1,0 +1,57 @@
+{
+    "app": {
+        "title": "Llwybr Blodau Ar Agor y Gymuned Oubaitori",
+        "subtitle": "Mae yn iawn bod yma.",
+        "skipToMain": "Neidio i'r prif gynnwys",
+        "welcomeMsg": "Ymunwch â ni ar Lwybr Blodau Ar Agor y Gymuned Oubaitori wrth i ni gasglu tystiolaeth ddienw ar gyfer dylunio gwasanaeth cymorth newydd ar gyfer oedolion niwroamrywiol. Methu ymuno â ni? Byddem wrth ein bodd yn clywed eich barn. Cwblhewch y cwestiynau yn yr arolwg isod. Mae eich barn yn bwysig i ni!"
+    },
+    "nav": {
+        "installApp": "Gosod yr ap ar sgrin gartref",
+        "startSurvey": "Dechrau arolwg y Llwybr Blodau"
+    },
+    "accessibility": {
+        "title": "Hygyrchedd",
+        "options": "Opsiynau Hygyrchedd",
+        "display": "Arddangos",
+        "amenities": "♿ 🔑 Cyfleusterau",
+        "requestAssistance": "🆘 Gofyn am gymorth",
+        "dyslexiaFont": "Ffont Dyslecsia",
+        "textSize": "Maint testun",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Pren mesur darllen",
+        "readAloud": "🔊 Darllen yn uchel",
+        "colourTheme": "Thema lliw",
+        "themeDefault": "Rhagosodedig",
+        "themeHighContrast": "Cyferbyniad uchel",
+        "themeDark": "Modd tywyll",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cyan",
+        "themeSage": "Saets",
+        "readingSpeed": "Cyflymder darllen",
+        "accessibleToilet": "Toiled hygyrch",
+        "radarKey": "Angen allwedd radar"
+    },
+    "language": {
+        "label": "🌐 Iaith"
+    },
+    "survey": {
+        "title": "Arolwg y Llwybr Blodau",
+        "heading": "Cymuned Oubaitori\nArolwg y Llwybr Blodau",
+        "next": "Nesaf",
+        "back": "Yn ôl",
+        "submit": "Cyflwyno arolwg",
+        "success": "Mae eich ymateb wedi'i gofnodi'n llwyddiannus.",
+        "progress": "Cynnydd",
+        "step": "Cam"
+    },
+    "weather": {
+        "heading": "Amodau'r Llwybr Byw",
+        "weather": "Tywydd",
+        "temperature": "Tymheredd",
+        "wind": "Gwynt",
+        "rain": "Glaw",
+        "pollen": "Paill",
+        "moon": "Lleuad"
+    }
+}

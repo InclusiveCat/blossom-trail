@@ -1,0 +1,60 @@
+{
+    "app": {
+        "title": "Oubaitori Collective Blossom Trail",
+        "subtitle": "It is Okay to be Here.",
+        "skipToMain": "Skip to main content",
+        "welcomeMsg": "Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England and beyond. Not able to join us? We would still love to hear your views. Complete the questions in the survey below. Your views matter to us!"
+    },
+    "nav": {
+        "installApp": "Install App to Home Screen",
+        "startSurvey": "Start the Blossom Trail Survey"
+    },
+    "accessibility": {
+        "title": "Accessibility",
+        "options": "Accessibility Options",
+        "display": "Display",
+        "amenities": "♿ 🔑 Amenities",
+        "requestAssistance": "🆘 Request Assistance",
+        "dyslexiaFont": "Dyslexia Friendly Font",
+        "textSize": "Text Size",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Reading Ruler",
+        "readAloud": "🔊 Read Aloud",
+        "colourTheme": "Colour Theme",
+        "themeDefault": "Default",
+        "themeHighContrast": "High Contrast",
+        "themeDark": "Dark Mode",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cyan",
+        "themeSage": "Sage",
+        "readingSpeed": "Reading Speed",
+        "accessibleToilet": "Accessible Toilet",
+        "radarKey": "Radar Key Required"
+    },
+    "language": {
+        "label": "🌐 Language",
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+    },
+    "survey": {
+        "title": "Blossom Trail Survey",
+        "heading": "Oubaitori Collective\nBlossom Trail Survey",
+        "next": "Next",
+        "back": "Back",
+        "submit": "Submit Survey",
+        "success": "Your response has been recorded successfully.",
+        "progress": "Progress",
+        "step": "Step"
+    },
+    "weather": {
+        "heading": "Live Trail Conditions",
+        "weather": "Weather",
+        "temperature": "Temperature",
+        "wind": "Wind",
+        "rain": "Rain",
+        "pollen": "Pollen",
+        "moon": "Moon"
+    }
+}

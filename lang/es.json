@@ -1,0 +1,60 @@
+{
+    "app": {
+        "title": "Sendero en Flor Colectivo Oubaitori",
+        "subtitle": "Está bien estar aquí.",
+        "skipToMain": "Saltar al contenido principal",
+        "welcomeMsg": "Únase a nosotros en el Sendero en Flor del Colectivo Oubaitori mientras recopilamos evidencia anónima para el diseño de un nuevo servicio de apoyo para adultos neurodivergentes. ¿No puede unirse a nosotros? Nos encantaría escuchar sus opiniones. Complete las preguntas en la encuesta a continuación. ¡Sus opiniones nos importan!"
+    },
+    "nav": {
+        "installApp": "Instalar app en la pantalla de inicio",
+        "startSurvey": "Comenzar la encuesta del Sendero en Flor"
+    },
+    "accessibility": {
+        "title": "Accesibilidad",
+        "options": "Opciones de accesibilidad",
+        "display": "Pantalla",
+        "amenities": "♿ 🔑 Servicios",
+        "requestAssistance": "🆘 Solicitar asistencia",
+        "dyslexiaFont": "Fuente para dislexia",
+        "textSize": "Tamaño de texto",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Regla de lectura",
+        "readAloud": "🔊 Leer en voz alta",
+        "colourTheme": "Tema de color",
+        "themeDefault": "Predeterminado",
+        "themeHighContrast": "Alto contraste",
+        "themeDark": "Modo oscuro",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cian",
+        "themeSage": "Salvia",
+        "readingSpeed": "Velocidad de lectura",
+        "accessibleToilet": "Aseo accesible",
+        "radarKey": "Clave de radar necesaria"
+    },
+    "language": {
+        "label": "🌐 Idioma",
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+    },
+    "survey": {
+        "title": "Encuesta del Sendero en Flor",
+        "heading": "Colectivo Oubaitori\nEncuesta del Sendero en Flor",
+        "next": "Siguiente",
+        "back": "Volver",
+        "submit": "Enviar encuesta",
+        "success": "Su respuesta ha sido registrada con éxito.",
+        "progress": "Progreso",
+        "step": "Paso"
+    },
+    "weather": {
+        "heading": "Condiciones del sendero en vivo",
+        "weather": "Tiempo",
+        "temperature": "Temperatura",
+        "wind": "Viento",
+        "rain": "Lluvia",
+        "pollen": "Polen",
+        "moon": "Luna"
+    }
+}

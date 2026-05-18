@@ -1,0 +1,60 @@
+{
+    "app": {
+        "title": "Parcours en Fleur du Collectif Oubaitori",
+        "subtitle": "C'est d'accord d'être ici.",
+        "skipToMain": "Passer au contenu principal",
+        "welcomeMsg": "Rejoignez-nous sur le Parcours en Fleur du Collectif Oubaitori pendant que nous recueillons des preuves anonymes pour la conception d'un nouveau service de soutien aux adultes neurodivergents. Pas disponible pour nous rejoindre ? Nous aimerions quand même connaître votre avis. Complétez les questions dans le sondage ci-dessous. Votre avis nous tient à cœur !"
+    },
+    "nav": {
+        "installApp": "Installer l'appli sur l'écran d'accueil",
+        "startSurvey": "Commencer le sondage du Parcours en Fleur"
+    },
+    "accessibility": {
+        "title": "Accessibilité",
+        "options": "Options d'accessibilité",
+        "display": "Affichage",
+        "amenities": "♿ 🔑 Équipements",
+        "requestAssistance": "🆘 Demander de l'aide",
+        "dyslexiaFont": "Police pour dyslexiques",
+        "textSize": "Taille du texte",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Règle de lecture",
+        "readAloud": "🔊 Lire à voix haute",
+        "colourTheme": "Thème de couleur",
+        "themeDefault": "Par défaut",
+        "themeHighContrast": "Contraste élevé",
+        "themeDark": "Mode sombre",
+        "themeSepia": "Sépia",
+        "themeCyan": "Cyan",
+        "themeSage": "Sauge",
+        "readingSpeed": "Vitesse de lecture",
+        "accessibleToilet": "Toilettes accessibles",
+        "radarKey": "Clé radar requise"
+    },
+    "language": {
+        "label": "🌐 Langue",
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+    },
+    "survey": {
+        "title": "Sondage du Parcours en Fleur",
+        "heading": "Collectif Oubaitori\nSondage du Parcours en Fleur",
+        "next": "Suivant",
+        "back": "Retour",
+        "submit": "Soumettre le sondage",
+        "success": "Votre réponse a été enregistrée avec succès.",
+        "progress": "Progression",
+        "step": "Étape"
+    },
+    "weather": {
+        "heading": "Conditions du parcours en direct",
+        "weather": "Météo",
+        "temperature": "Température",
+        "wind": "Vent",
+        "rain": "Pluie",
+        "pollen": "Pollen",
+        "moon": "Lune"
+    }
+}

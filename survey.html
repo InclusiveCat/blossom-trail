@@ -4,346 +4,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Oubaitori Collective Blossom Trail Survey</title>
-    <style>
-        :root {
-            --primary: #d81b60;
-            --success: #00c853;
-            --cream: #fbf8f1;
-            --dark: #1a1a1a;
-            --border: #e0e0e0;
-        }
-
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            font-family: Verdana, Geneva, Tahoma, Arial, sans-serif;
-            background: url('garden-blossom.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: var(--dark);
-            height: 100%;
-        }
-
-        .overlay {
-            min-height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .cream-panel {
-            background-color: var(--cream);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            max-width: 700px;
-            width: 100%;
-            padding: 30px;
-            box-sizing: border-box;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 1.4em;
-            margin-top: 0;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .q-title {
-            display: block;
-            font-weight: bold;
-            font-size: 1.2em;
-            margin-bottom: 8px;
-            color: var(--dark);
-        }
-
-        .q-desc {
-            display: block;
-            font-size: 1em;
-            margin-bottom: 20px;
-            color: #444;
-            line-height: 1.6;
-        }
-
-        .progress {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .step {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .option-lbl {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            background: #fff;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95em;
-            line-height: 1.4;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .option-lbl:hover {
-            border-color: var(--primary);
-            background: #fff5f8;
-        }
-
-        input[type="radio"],
-        input[type="checkbox"] {
-            flex-shrink: 0;
-            margin-top: 2px;
-            accent-color: var(--primary);
-            width: 20px;
-            height: 20px;
-        }
-
-        .feeling-container {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .feeling-square {
-            flex-shrink: 0;
-            font-size: 1.1em;
-        }
-
-        .option-text {
-            flex-grow: 1;
-            word-wrap: break-word;
-        }
-
-        input[type="text"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 1em;
-            box-sizing: border-box;
-            background: #fff;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .nav-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9em;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-prev {
-            background-color: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-next,
-        .btn-submit {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .error-notice {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 12px;
-            margin-top: 15px;
-            display: none;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-    </style>
+    <title data-i18n="survey.title">Oubaitori Collective Blossom Trail Survey</title>
+    
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/survey.css">
+    <link rel="stylesheet" href="css/accessibility.css">
 </head>
 
 <body>
 
-    <div class="overlay">
+    <a href="#main-content" class="skip-link" data-i18n="app.skipToMain">Skip to main content</a>
+
+    <header hidden>
+        <h2>Blossom Trail Survey</h2>
+    </header>
+
+    <main id="main-content" role="main" class="overlay">
         <div class="cream-panel">
-            <h1 id="survey-title">Oubaitori Collective<br>Blossom Trail Survey</h1>
-            <div class="progress" id="progress-bar">
+            <h1 id="survey-title" data-i18n="survey.heading">Oubaitori Collective<br>Blossom Trail Survey</h1>
+            
+            
+            <!-- Accessibility Options panel (set before you begin) -->
+            <button class='survey-a11y-toggle' onclick='this.nextElementSibling.classList.toggle("open"); this.setAttribute("aria-expanded", this.nextElementSibling.classList.contains("open"))' aria-expanded='false' aria-controls='survey-a11y-panel'>
+                &#9881; Accessibility Options &#9660;
+            </button>
+            <div id='survey-a11y-panel' class='survey-a11y-panel' role='region' aria-label='Accessibility Options'>
+                <div class='a11y-row'>
+                    <label for='survey-theme-select' data-i18n="accessibility.colourTheme">Colour Theme</label>
+                    <select id='survey-theme-select' class='a11y-theme-select' onchange='setTheme(this.value)' aria-label='Select colour theme'>
+                        <option value='default'>Default</option>
+                        <option value='high-contrast'>High Contrast</option>
+                        <option value='dark-mode'>Dark Mode</option>
+                        <option value='sepia-overlay'>Sepia</option>
+                        <option value='cyan-overlay'>Cyan</option>
+                        <option value='sage-overlay'>Sage</option>
+                    </select>
+                </div>
+                <div class='a11y-row'>
+                    <label data-i18n="accessibility.textSize">Text Size</label>
+                    <button class='survey-a11y-small-btn' onclick='stepFontSize(-0.1)' aria-label='Decrease text size' data-i18n="accessibility.decrease">A-</button>
+                    <input type='range' class='font-size-slider' min='0.8' max='1.4' step='0.05' value='1' aria-label='Text size' oninput='applyFontScale(parseFloat(this.value))' style='flex:1;'>
+                    <button class='survey-a11y-small-btn' onclick='stepFontSize(0.1)' aria-label='Increase text size' data-i18n="accessibility.increase">A+</button>
+                    <span class='font-size-value' style='min-width:36px;text-align:right;font-size:0.82em;color:#666;'>100%</span>
+                </div>
+                <div class='a11y-row'>
+                    <button class='survey-a11y-small-btn a11y-dyslexia-btn' onclick='toggleDyslexiaFont()' aria-pressed='false' data-i18n="accessibility.dyslexiaFont">Dyslexia Font</button>
+                    <button class='survey-a11y-small-btn a11y-ruler-btn' onclick='toggleReadingRuler()' aria-pressed='false' data-i18n="accessibility.readingRuler">Reading Ruler</button>
+                    <button class='survey-a11y-small-btn a11y-tts-btn' onclick='toggleTTS()' aria-pressed='false' data-i18n="accessibility.readAloud">Read Aloud</button>
+                </div>
+                <div class="a11y-row" style="align-items:center;gap:6px;">
+                    <label for="survey-tts-rate" style="min-width:80px;">Reading Speed</label>
+                    <span style="font-size:0.82em;color:#888;" aria-hidden="true">Slower</span>
+                    <input type="range" id="survey-tts-rate" class="tts-rate-slider"
+                        min="0.3" max="1.5" step="0.05" value="0.85"
+                        aria-label="Reading speed - adjust to make Read Aloud faster or slower"
+                        style="flex:1;" oninput="setTTSRate(parseFloat(this.value))">
+                    <span style="font-size:0.82em;color:#888;" aria-hidden="true">Faster</span>
+                    <span class="tts-rate-label" style="min-width:68px;font-size:0.82em;color:#555;text-align:right;">Normal</span>
+                </div>
+            
+                <hr class="a11y-divider">
+                <div class="a11y-row">
+                    <label for="survey-lang-select">🌐 Language</label>
+                    <select id="survey-lang-select" class="blossom-lang-select" aria-label="Select display language" onchange="if(window.i18n){window.i18n.setLanguage(this.value)}">
+                    <option value="en">English</option>
+                    <option value="cy">Cymraeg (Welsh)</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="pl">Polski</option>
+                    <option value="ro">Română</option>
+                    <option value="es">Español</option>
+                    <option value="ar">العربية</option>
+                    <option value="ur">اردو</option>
+                </select>
+                </div>
+                <hr class="a11y-divider">
+                <div class="a11y-row" style="flex-direction:column;align-items:flex-start;">
+                    <strong style="font-size:0.82em;color:#c62828;margin-bottom:6px;" data-i18n="accessibility.requestAssistance">🆘 Request Assistance</strong>
+                    <a href="https://999bsl.co.uk" target="_blank" rel="noopener noreferrer"
+                        class="survey-a11y-small-btn" style="margin-bottom:6px;display:block;text-align:center;text-decoration:none;"
+                        aria-label="Request Assistance - opens a help menu">🤟 999 BSL Video Relay</a>
+                    <a href="https://www.relayuk.bt.com" target="_blank" rel="noopener noreferrer"
+                        class="survey-a11y-small-btn" style="display:block;text-align:center;text-decoration:none;"
+                        aria-label="Request Assistance - opens a help menu">💬 Relay UK Text Calls</a>
+                </div>
+
+            </div>
+            <div class="progress" id="progress-bar" aria-live="polite">
                 <span>Progress</span>
                 <span id="progress-text">Step 1 of 13</span>
             </div>
 
-            <form id="blossom-survey"
-                action="https://script.google.com/macros/s/AKfycbwOQORRMLQz9oFXgL1hdD6BL9Ak129BpWvoY_DHn_Ti6DaftkjBSnllifu0uQkC_WjoKw/exec"
-                method="POST">
+            <form id="blossom-survey" action="https://script.google.com/macros/s/AKfycbyY6VVTkvHj1Ktk2BbunChPbBc5ePc3X4hs-H-Q-eMdlMCIuhYy-uaEOO6iGvyuf_9w6g/exec" method="POST">
                 <input type="hidden" id="uuid" name="Blossom UUID">
-
-                <div class="step active">
-                    <span class="q-title">1. How do you describe your gender?</span>
-                    <span class="q-desc">Understanding the gender of potential service users helps us to design and
-                        deliver gender-appropriate services</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Gender" value="Female" required> <span
-                                class="option-text">Female</span></label>
-                        <label class="option-lbl"><input type="radio" name="Gender" value="Male" required> <span
-                                class="option-text">Male</span></label>
-                        <label class="option-lbl"><input type="radio" name="Gender" value="Prefer not to say" required>
-                            <span class="option-text">Prefer not to say</span></label>
-                        <label class="option-lbl"><input type="radio" name="Gender" value="Prefer to self-describe"
-                                required id="gender-self-radio"> <span class="option-text">Prefer to
-                                self-describe</span></label>
-                    </div>
-                    <input type="text" name="Gender Other" id="gender-self-text"
-                        placeholder="Please specify if 'Prefer to self-describe' selected">
+                
+                <!-- Honeypot -->
+                <div class="visually-hidden" aria-hidden="true">
+                    <label for="bot-check">Leave this field blank</label>
+                    <input type="text" id="bot-check" name="bot_check" tabindex="-1">
                 </div>
 
-                <div class="step">
-                    <span class="q-title">2. Tell us your age</span>
-                    <span class="q-desc">Understanding the age of potential service users helps us to design and deliver
-                        age-appropriate services</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Age" value="Under 18 years" required> <span
-                                class="option-text">Under 18 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="19 - 24 years" required> <span
-                                class="option-text">19 - 24 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="25 - 34 years" required> <span
-                                class="option-text">25 - 34 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="35 - 44 years" required> <span
-                                class="option-text">35 - 44 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="45 - 54 years" required> <span
-                                class="option-text">45 - 54 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="55 - 64 years" required> <span
-                                class="option-text">55 - 64 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="65 - 74 years" required> <span
-                                class="option-text">65 - 74 years</span></label>
-                        <label class="option-lbl"><input type="radio" name="Age" value="Over 75 years" required> <span
-                                class="option-text">Over 75 years</span></label>
-                    </div>
+                <div class="step active" role="group" aria-labelledby="q1-title">
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q1-title">1. How do you describe your gender?</span>
+                            <span class="q-desc">Understanding the gender of potential service users helps us to design and deliver gender-appropriate services</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Gender" value="Female" required> <span class="option-text">Female</span></label>
+                            <label class="option-lbl"><input type="radio" name="Gender" value="Male" required> <span class="option-text">Male</span></label>
+                            <label class="option-lbl"><input type="radio" name="Gender" value="Prefer not to say" required> <span class="option-text">Prefer not to say</span></label>
+                            <label class="option-lbl"><input type="radio" name="Gender" value="Prefer to self-describe" required id="gender-self-radio"> <span class="option-text">Prefer to self-describe</span></label>
+                        </div>
+                        <label for="gender-self-text" class="visually-hidden">Specify gender</label>
+                        <input type="text" name="Gender Other" id="gender-self-text" placeholder="Please specify if 'Prefer to self-describe' selected">
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">3. How are you feeling?</span>
-                    <span class="q-desc">Most people have a mix of feelings from day-to-day, sometimes more frequently.
-                        Tell us how you have been feeling overall in the last 4 weeks</span>
-                    <div class="options-group">
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Blooming" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟪</span>
-                                <span class="option-text"><strong>Blooming</strong> – I am thriving and living
-                                    authentically</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Balanced" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟦</span>
-                                <span class="option-text"><strong>Balanced</strong> – I am feeling stable</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Steady" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟦</span>
-                                <span class="option-text"><strong>Steady</strong> – I am functioning consistently</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Stretched" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟩</span>
-                                <span class="option-text"><strong>Stretched</strong> – My energy is dipping and
-                                    day-to-day tasks feel harder</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Strained" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟨</span>
-                                <span class="option-text"><strong>Strained</strong> – I am feeling pressure from demands
-                                    and using all my energy to manage daily tasks</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Overloaded" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟧</span>
-                                <span class="option-text"><strong>Overloaded</strong> – I am struggling daily and just
-                                    about functioning</span>
-                            </div>
-                        </label>
-                        <label class="option-lbl">
-                            <input type="radio" name="Feelings" value="Burnout" required>
-                            <div class="feeling-container">
-                                <span class="feeling-square">🟥</span>
-                                <span class="option-text"><strong>Burnout</strong> – I am completely overwhelmed and
-                                    exhausted. I am unable to function</span>
-                            </div>
-                        </label>
-                    </div>
+                <div class="step" role="group" aria-labelledby="q2-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q2-title">2. Tell us your age</span>
+                            <span class="q-desc">Understanding the age of potential service users helps us to design and deliver age-appropriate services</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Age" value="Under 18 years" required> <span class="option-text">Under 18 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="19 - 24 years" required> <span class="option-text">19 - 24 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="25 - 34 years" required> <span class="option-text">25 - 34 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="35 - 44 years" required> <span class="option-text">35 - 44 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="45 - 54 years" required> <span class="option-text">45 - 54 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="55 - 64 years" required> <span class="option-text">55 - 64 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="65 - 74 years" required> <span class="option-text">65 - 74 years</span></label>
+                            <label class="option-lbl"><input type="radio" name="Age" value="Over 75 years" required> <span class="option-text">Over 75 years</span></label>
+                        </div>
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">4. Where do you live or work?</span>
-                    <span class="q-desc">We would like to understand more about where potential services users live and
-                        how services may vary in your local council area</span>
-                    <select name="Council Area" required>
+                <div class="step" role="group" aria-labelledby="q3-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q3-title">3. How are you feeling?</span>
+                            <span class="q-desc">Most people have a mix of feelings from day-to-day, sometimes more frequently. Tell us how you have been feeling overall in the last 4 weeks</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Blooming" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟪</span>
+                                    <span class="option-text"><strong>Blooming</strong> – I am thriving and living authentically</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Balanced" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟦</span>
+                                    <span class="option-text"><strong>Balanced</strong> – I am feeling stable</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Steady" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟦</span>
+                                    <span class="option-text"><strong>Steady</strong> – I am functioning consistently</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Stretched" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟩</span>
+                                    <span class="option-text"><strong>Stretched</strong> – My energy is dipping and day-to-day tasks feel harder</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Strained" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟨</span>
+                                    <span class="option-text"><strong>Strained</strong> – I am feeling pressure from demands and using all my energy to manage daily tasks</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Overloaded" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟧</span>
+                                    <span class="option-text"><strong>Overloaded</strong> – I am struggling daily and just about functioning</span>
+                                </div>
+                            </label>
+                            <label class="option-lbl">
+                                <input type="radio" name="Feelings" value="Burnout" required>
+                                <div class="feeling-container">
+                                    <span class="feeling-square" aria-hidden="true">🟥</span>
+                                    <span class="option-text"><strong>Burnout</strong> – I am completely overwhelmed and exhausted. I am unable to function</span>
+                                </div>
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="step" role="group" aria-labelledby="q4-title" hidden>
+                    <label class="q-title" id="q4-title" for="council-area">4. Where do you live or work?</label>
+                    <span class="q-desc" id="q4-desc">We would like to understand more about where potential services users live and how services may vary in your local council area</span>
+                    <select name="Council Area" id="council-area" aria-describedby="q4-desc" required>
                         <option value="">Please select...</option>
                         <option value="County Durham">County Durham</option>
                         <option value="Darlington">Darlington</option>
@@ -361,279 +221,132 @@
                     </select>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">5. Your current circumstances</span>
-                    <span class="q-desc">Select the option that best describes your circumstances right now</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Circumstances" value="Employment" required>
-                            <span class="option-text">I am in employment (paid work, including
-                                apprenticeships)</span></label>
-                        <label class="option-lbl"><input type="radio" name="Circumstances" value="Self-employed"
-                                required> <span class="option-text">I am self-employed (sole trader, running a
-                                business)</span></label>
-                        <label class="option-lbl"><input type="radio" name="Circumstances" value="Education" required>
-                            <span class="option-text">I am in full-time education or training</span></label>
-                        <label class="option-lbl"><input type="radio" name="Circumstances" value="Not in employment"
-                                required> <span class="option-text">I am not in employment, education or training right
-                                now</span></label>
-                        <label class="option-lbl"><input type="radio" name="Circumstances" value="Other" required
-                                id="circ-other-radio"> <span class="option-text">Other – Please specify
-                                below</span></label>
-                    </div>
-                    <input type="text" name="Circumstances Other" id="circ-other-text"
-                        placeholder="Please specify if 'Other' selected">
+                <div class="step" role="group" aria-labelledby="q5-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q5-title">5. Your current circumstances</span>
+                            <span class="q-desc">Select the option that best describes your circumstances right now</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Circumstances" value="Employment" required> <span class="option-text">I am in employment (paid work, including apprenticeships)</span></label>
+                            <label class="option-lbl"><input type="radio" name="Circumstances" value="Self-employed" required> <span class="option-text">I am self-employed (sole trader, running a business)</span></label>
+                            <label class="option-lbl"><input type="radio" name="Circumstances" value="Education" required> <span class="option-text">I am in full-time education or training</span></label>
+                            <label class="option-lbl"><input type="radio" name="Circumstances" value="Not in employment" required> <span class="option-text">I am not in employment, education or training right now</span></label>
+                            <label class="option-lbl"><input type="radio" name="Circumstances" value="Other" required id="circ-other-radio"> <span class="option-text">Other – Please specify below</span></label>
+                        </div>
+                        <label for="circ-other-text" class="visually-hidden">Specify other circumstances</label>
+                        <input type="text" name="Circumstances Other" id="circ-other-text" placeholder="Please specify if 'Other' selected">
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">6. My daily environments, where I live, work and socialise</span>
-                    <span class="q-desc">The places I spend time in feel right for me and meet my unique needs</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Environments" value="Strongly Agree"
-                                required> <span class="option-text">Strongly Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Environments" value="Agree" required> <span
-                                class="option-text">Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Environments" value="Disagree" required>
-                            <span class="option-text">Disagree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Environments" value="Strongly Disagree"
-                                required> <span class="option-text">Strongly Disagree</span></label>
-                    </div>
+                <div class="step" role="group" aria-labelledby="q6-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q6-title">6. My daily environments, where I live, work and socialise</span>
+                            <span class="q-desc">The places I spend time in feel right for me and meet my unique needs</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Environments" value="Strongly Agree" required> <span class="option-text">Strongly Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Environments" value="Agree" required> <span class="option-text">Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Environments" value="Disagree" required> <span class="option-text">Disagree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Environments" value="Strongly Disagree" required> <span class="option-text">Strongly Disagree</span></label>
+                        </div>
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">7. My energy levels</span>
-                    <span class="q-desc">I feel confident that my daily activities are sustainable without risking my
-                        energy levels or health</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Energy Sustainability"
-                                value="Strongly Agree" required> <span class="option-text">Strongly Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Agree"
-                                required> <span class="option-text">Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Disagree"
-                                required> <span class="option-text">Disagree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Energy Sustainability"
-                                value="Strongly Disagree" required> <span class="option-text">Strongly
-                                Disagree</span></label>
-                    </div>
+                <div class="step" role="group" aria-labelledby="q7-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q7-title">7. My energy levels</span>
+                            <span class="q-desc">I feel confident that my daily activities are sustainable without risking my energy levels or health</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Strongly Agree" required> <span class="option-text">Strongly Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Agree" required> <span class="option-text">Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Disagree" required> <span class="option-text">Disagree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Energy Sustainability" value="Strongly Disagree" required> <span class="option-text">Strongly Disagree</span></label>
+                        </div>
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">8. Daily Activities</span>
-                    <span class="q-desc">What specific daily tasks drain your energy the most?</span>
-                    <textarea name="Energy Drain Tasks" placeholder="Type your answer here..." required></textarea>
+                <div class="step" role="group" aria-labelledby="q8-title" hidden>
+                    <label class="q-title" id="q8-title" for="q8-textarea">8. Daily Activities</label>
+                    <span class="q-desc" id="q8-desc">What specific daily tasks drain your energy the most?</span>
+                    <textarea name="Energy Drain Tasks" id="q8-textarea" aria-describedby="q8-desc" placeholder="Type your answer here..." required></textarea>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">9. What brings you joy?</span>
-                    <textarea name="Joy" placeholder="Type your answer here..." required></textarea>
+                <div class="step" role="group" aria-labelledby="q9-title" hidden>
+                    <label class="q-title" id="q9-title" for="q9-textarea">9. What brings you joy?</label>
+                    <textarea name="Joy" id="q9-textarea" placeholder="Type your answer here..." required></textarea>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">10. Support Services</span>
-                    <span class="q-desc">I have been able to access support services in my area that understand my
-                        neurodivergence and/or burnout</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="radio" name="Support Access" value="Strongly Agree"
-                                required> <span class="option-text">Strongly Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Support Access" value="Agree" required>
-                            <span class="option-text">Agree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Support Access" value="Disagree" required>
-                            <span class="option-text">Disagree</span></label>
-                        <label class="option-lbl"><input type="radio" name="Support Access" value="Strongly Disagree"
-                                required> <span class="option-text">Strongly Disagree</span></label>
-                    </div>
+                <div class="step" role="group" aria-labelledby="q10-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q10-title">10. Support Services</span>
+                            <span class="q-desc">I have been able to access support services in my area that understand my neurodivergence and/or burnout</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="radio" name="Support Access" value="Strongly Agree" required> <span class="option-text">Strongly Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Support Access" value="Agree" required> <span class="option-text">Agree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Support Access" value="Disagree" required> <span class="option-text">Disagree</span></label>
+                            <label class="option-lbl"><input type="radio" name="Support Access" value="Strongly Disagree" required> <span class="option-text">Strongly Disagree</span></label>
+                        </div>
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">11. What works for you?</span>
-                    <span class="q-desc">What tools and techniques do you use to help you function?</span>
-                    <textarea name="Functioning Tools" placeholder="Type your answer here..." required></textarea>
+                <div class="step" role="group" aria-labelledby="q11-title" hidden>
+                    <label class="q-title" id="q11-title" for="q11-textarea">11. What works for you?</label>
+                    <span class="q-desc" id="q11-desc">What tools and techniques do you use to help you function?</span>
+                    <textarea name="Functioning Tools" id="q11-textarea" aria-describedby="q11-desc" placeholder="Type your answer here..." required></textarea>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">12. What would help you or others?</span>
-                    <span class="q-desc">Understanding what would help you and other neurodivergent adults will help us
-                        to design services that meet people's needs</span>
-                    <div class="options-group">
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Accessible spaces"> <span
-                                class="option-text">Accessible, sensory safe community spaces</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Flexible support"> <span
-                                class="option-text">Peer-to-peer support / Flexible support</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Lived experience training">
-                            <span class="option-text">Peer led mentoring lived experience training</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Inclusive employment"> <span
-                                class="option-text">Inclusive employment pathways</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Paid work trials"> <span
-                                class="option-text">Paid work trials to gain experience</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Affordable coaching"> <span
-                                class="option-text">Affordable coaching</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Digital tools"> <span
-                                class="option-text">Digital tools to support accessibility</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Unsure"> <span
-                                class="option-text">I am not sure; however, I know I need some support</span></label>
-                        <label class="option-lbl"><input type="checkbox" name="Help" value="Other" id="help-other-chk">
-                            <span class="option-text">Other (Please specify)</span></label>
-                    </div>
-                    <input type="text" name="Help Other" id="help-other-text"
-                        placeholder="Please specify if 'Other' selected">
+                <div class="step" role="group" aria-labelledby="q12-title" hidden>
+                    <fieldset>
+                        <legend>
+                            <span class="q-title" id="q12-title">12. What would help you or others?</span>
+                            <span class="q-desc">Understanding what would help you and other neurodivergent adults will help us to design services that meet people's needs</span>
+                        </legend>
+                        <div class="options-group">
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Accessible spaces"> <span class="option-text">Accessible, sensory safe community spaces</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Flexible support"> <span class="option-text">Peer-to-peer support / Flexible support</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Lived experience training"> <span class="option-text">Peer led mentoring lived experience training</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Inclusive employment"> <span class="option-text">Inclusive employment pathways</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Paid work trials"> <span class="option-text">Paid work trials to gain experience</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Affordable coaching"> <span class="option-text">Affordable coaching</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Digital tools"> <span class="option-text">Digital tools to support accessibility</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Unsure"> <span class="option-text">I am not sure; however, I know I need some support</span></label>
+                            <label class="option-lbl"><input type="checkbox" name="Help" value="Other" id="help-other-chk"> <span class="option-text">Other (Please specify)</span></label>
+                        </div>
+                        <label for="help-other-text" class="visually-hidden">Specify other help</label>
+                        <input type="text" name="Help Other" id="help-other-text" placeholder="Please specify if 'Other' selected">
+                    </fieldset>
                 </div>
 
-                <div class="step">
-                    <span class="q-title">13. Community Based Services</span>
-                    <span class="q-desc">Are there any services, groups or tools (digital or internet based) in your
-                        area that ARE working well for you?</span>
-                    <textarea name="Working Well Services" placeholder="Type your answer here..." required></textarea>
+                <div class="step" role="group" aria-labelledby="q13-title" hidden>
+                    <label class="q-title" id="q13-title" for="q13-textarea">13. Community Based Services</label>
+                    <span class="q-desc" id="q13-desc">Are there any services, groups or tools (digital or internet based) in your area that ARE working well for you?</span>
+                    <textarea name="Working Well Services" id="q13-textarea" aria-describedby="q13-desc" placeholder="Type your answer here..." required></textarea>
                 </div>
 
-                <div id="inline-error" class="error-notice">
+                <div id="inline-error" class="error-notice" tabindex="-1" role="alert">
                     Please complete this question to continue.
                 </div>
 
                 <div class="nav-controls">
-                    <button type="button" id="btn-prev" class="btn btn-prev" style="display:none;">Back</button>
-                    <button type="button" id="btn-next" class="btn btn-next">Next</button>
-                    <button type="submit" id="btn-submit" class="btn btn-submit" style="display:none;">Submit
-                        Survey</button>
+                    <button type="button" id="btn-prev" class="btn btn-secondary" style="display:none;" data-i18n="survey.back">Back</button>
+                    <button type="button" id="btn-next" class="btn btn-primary" data-i18n="survey.next">Next</button>
+                    <button type="submit" id="btn-submit" class="btn btn-success" style="display:none;" data-i18n="survey.submit">Submit Survey</button>
                 </div>
             </form>
-
-            <div id="thank-you-msg"
-                style="display: none; text-align: center; padding: 20px; animation: fadeIn 0.4s ease-in;">
-                <h2 style="color: var(--primary);">Thank You!</h2>
-                <p style="font-size: 1.1em; color: #444; margin-bottom: 25px;">Your response has been recorded
-                    successfully.</p>
-                <div
-                    style="background: #e8f5e9; border: 1px solid var(--success); padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 0.9em; color: #1b5e20; text-align: left; line-height: 1.5;">
-                    <strong>Data Protection Notice:</strong><br>
-                    No Personally Identifiable Information (PII) is captured during this survey. Your location data is
-                    used solely for the Blossom Trail mapping and is stored anonymously.
-                </div>
-                <button type="button" class="btn btn-next" onclick="window.location.href='map.html'"
-                    style="margin-top: 15px; width: 100%;">Continue to Map</button>
-            </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        const steps = document.querySelectorAll('.step');
-        const btnPrev = document.getElementById('btn-prev');
-        const btnNext = document.getElementById('btn-next');
-        const btnSubmit = document.getElementById('btn-submit');
-        const progressText = document.getElementById('progress-text');
-        let currentStep = 0;
-
-        function updateNav() {
-            document.getElementById('inline-error').style.display = 'none';
-            steps.forEach((el, index) => el.classList.toggle('active', index === currentStep));
-            progressText.innerText = `Step ${currentStep + 1} of ${steps.length}`;
-            btnPrev.style.display = currentStep > 0 ? 'inline-block' : 'none';
-            if (currentStep === steps.length - 1) {
-                btnNext.style.display = 'none';
-                btnSubmit.style.display = 'inline-block';
-            } else {
-                btnNext.style.display = 'inline-block';
-                btnSubmit.style.display = 'none';
-            }
-        }
-
-        function validateStep() {
-            const currentStepEl = steps[currentStep];
-            const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
-            let valid = true;
-
-            inputs.forEach(input => {
-                if (input.type === 'radio') {
-                    const name = input.getAttribute('name');
-                    if (!currentStepEl.querySelector(`input[name="${name}"]:checked`)) valid = false;
-                } else if (!input.value.trim()) {
-                    valid = false;
-                }
-            });
-
-            // Q12 Checkbox validation + Forced Other specification
-            const checkboxes = currentStepEl.querySelectorAll('input[type="checkbox"]');
-            if (checkboxes.length > 0) {
-                const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
-                if (checkedCount === 0) {
-                    valid = false;
-                } else {
-                    const helpOtherChk = document.getElementById('help-other-chk');
-                    const helpOtherText = document.getElementById('help-other-text');
-                    if (helpOtherChk && helpOtherChk.checked && !helpOtherText.value.trim()) {
-                        valid = false;
-                    }
-                }
-            }
-
-            // Q5 Forced Other specification
-            const circOtherRadio = document.getElementById('circ-other-radio');
-            const circOtherText = document.getElementById('circ-other-text');
-            if (circOtherRadio && circOtherRadio.checked && !circOtherText.value.trim()) {
-                valid = false;
-            }
-
-            // Q1 Forced Self-Describe specification
-            const genderSelfRadio = document.getElementById('gender-self-radio');
-            const genderSelfText = document.getElementById('gender-self-text');
-            if (genderSelfRadio && genderSelfRadio.checked && !genderSelfText.value.trim()) {
-                valid = false;
-            }
-
-            if (!valid) {
-                document.getElementById('inline-error').style.display = 'block';
-            }
-            return valid;
-        }
-
-        btnNext.addEventListener('click', () => {
-            if (validateStep()) {
-                currentStep++;
-                updateNav();
-            }
-        });
-
-        btnPrev.addEventListener('click', () => {
-            currentStep--;
-            updateNav();
-        });
-
-        const form = document.getElementById('blossom-survey');
-        const thankYouMsg = document.getElementById('thank-you-msg');
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            if (!validateStep()) return;
-
-            btnSubmit.disabled = true;
-            btnSubmit.innerText = 'Submitting...';
-
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                mode: 'no-cors'
-            }).then(() => {
-                form.style.display = 'none';
-                document.getElementById('survey-title').style.display = 'none';
-                document.getElementById('progress-bar').style.display = 'none';
-                thankYouMsg.style.display = 'block';
-
-                setTimeout(() => {
-                    window.location.href = 'map.html';
-                }, 6000);
-            }).catch(err => {
-                console.error("Submission failed", err);
-                document.getElementById('inline-error').innerText = 'An error occurred while submitting. Please check your connection and try again.';
-                document.getElementById('inline-error').style.display = 'block';
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = 'Submit Survey';
-            });
-        });
-
-        document.getElementById("uuid").value = localStorage.getItem('blossom_uuid') ||
-            (Math.random().toString(36).substring(2, 15) + Date.now().toString(36));
-
-        updateNav();
-    </script>
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/survey.js"></script>
+    <script src="js/i18n.js"></script>
 </body>
 
 </html>

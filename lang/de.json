@@ -1,0 +1,57 @@
+{
+    "app": {
+        "title": "Oubaitori Kollektiv Blütenweg",
+        "subtitle": "Es ist okay, hier zu sein.",
+        "skipToMain": "Zum Hauptinhalt springen",
+        "welcomeMsg": "Begleiten Sie uns auf dem Oubaitori Kollektiv Blütenweg, während wir anonyme Beweise für die Gestaltung eines neuen Unterstützungsdienstes für neurodivergente Erwachsene sammeln. Können Sie uns nicht begleiten? Wir würden dennoch gerne Ihre Meinung hören. Füllen Sie die Fragen in der Umfrage unten aus. Ihre Meinung ist uns wichtig!"
+    },
+    "nav": {
+        "installApp": "App auf Startbildschirm installieren",
+        "startSurvey": "Blütenweg-Umfrage starten"
+    },
+    "accessibility": {
+        "title": "Barrierefreiheit",
+        "options": "Barrierefreiheitsoptionen",
+        "display": "Anzeige",
+        "amenities": "♿ 🔑 Einrichtungen",
+        "requestAssistance": "🆘 Hilfe anfordern",
+        "dyslexiaFont": "Dyslexie-Schrift",
+        "textSize": "Schriftgröße",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Leselineal",
+        "readAloud": "🔊 Vorlesen",
+        "colourTheme": "Farbthema",
+        "themeDefault": "Standard",
+        "themeHighContrast": "Hoher Kontrast",
+        "themeDark": "Dunkelmodus",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cyan",
+        "themeSage": "Salbei",
+        "readingSpeed": "Lesegeschwindigkeit",
+        "accessibleToilet": "Barrierefreie Toilette",
+        "radarKey": "Radar-Schlüssel erforderlich"
+    },
+    "language": {
+        "label": "🌐 Sprache"
+    },
+    "survey": {
+        "title": "Blütenweg-Umfrage",
+        "heading": "Oubaitori Kollektiv\nBlütenweg-Umfrage",
+        "next": "Weiter",
+        "back": "Zurück",
+        "submit": "Umfrage absenden",
+        "success": "Ihre Antwort wurde erfolgreich gespeichert.",
+        "progress": "Fortschritt",
+        "step": "Schritt"
+    },
+    "weather": {
+        "heading": "Aktuelle Wegbedingungen",
+        "weather": "Wetter",
+        "temperature": "Temperatur",
+        "wind": "Wind",
+        "rain": "Regen",
+        "pollen": "Pollen",
+        "moon": "Mond"
+    }
+}

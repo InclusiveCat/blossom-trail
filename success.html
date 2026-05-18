@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Completed - Blossom Trail</title>
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+    <style>
+        body {
+            background: url('garden-blossom.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .success-panel {
+            background-color: var(--cream);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            padding: 40px 30px;
+            text-align: center;
+            color: var(--dark);
+        }
+        .success-panel h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .data-notice {
+            background: #e8f5e9;
+            border: 1px solid var(--success);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 25px 0;
+            font-size: 0.9em;
+            color: #1b5e20;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-panel">
+        <h1 data-i18n="survey.successTitle">Thank You!</h1>
+        <p data-i18n="survey.success">Your response has been recorded successfully.</p>
+        
+        <div class="data-notice">
+            <strong>Data Protection Notice:</strong><br>
+            No Personally Identifiable Information (PII) is captured during this survey. Your location data is used solely for the Blossom Trail mapping and is stored anonymously.
+        </div>
+        
+        <a href="map.html" class="btn btn-primary" style="width: 100%;">Continue to Map</a>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{
+    "app": {
+        "title": "Szlak Kwitnący Kolektywu Oubaitori",
+        "subtitle": "Jest okay być tutaj.",
+        "skipToMain": "Przejdź do głównej treści",
+        "welcomeMsg": "Dołącz do nas na Szlaku Kwitnącym Kolektywu Oubaitori, podczas gdy zbieramy anonimowe dowody na potrzeby projektu nowej usługi wsparcia dla dorosłych neuroróżnorodnych. Nie możesz do nas dołączyć? Chętnie poznamy Twoją opinię. Wypełnij pytania w poniższej ankiecie. Twoje zdanie jest dla nas ważne!"
+    },
+    "nav": {
+        "installApp": "Zainstaluj aplikację na ekranie głównym",
+        "startSurvey": "Rozpocznij ankietę Szlaku Kwitnącego"
+    },
+    "accessibility": {
+        "title": "Dostępność",
+        "options": "Opcje dostępności",
+        "display": "Wyświetlanie",
+        "amenities": "♿ 🔑 Udogodnienia",
+        "requestAssistance": "🆘 Poproś o pomoc",
+        "dyslexiaFont": "Czcionka dla dysleksji",
+        "textSize": "Rozmiar tekstu",
+        "increase": "A+",
+        "decrease": "A-",
+        "readingRuler": "📏 Linijka do czytania",
+        "readAloud": "🔊 Czytaj na głos",
+        "colourTheme": "Motyw kolorystyczny",
+        "themeDefault": "Domyślny",
+        "themeHighContrast": "Wysoki kontrast",
+        "themeDark": "Tryb ciemny",
+        "themeSepia": "Sepia",
+        "themeCyan": "Cyjan",
+        "themeSage": "Szałwia",
+        "readingSpeed": "Prędkość czytania",
+        "accessibleToilet": "Dostępna toaleta",
+        "radarKey": "Wymagany klucz radarowy"
+    },
+    "language": {
+        "label": "🌐 Język"
+    },
+    "survey": {
+        "title": "Ankieta Szlaku Kwitnącego",
+        "heading": "Kolektyw Oubaitori\nAnkieta Szlaku Kwitnącego",
+        "next": "Dalej",
+        "back": "Wstecz",
+        "submit": "Wyślij ankietę",
+        "success": "Twoja odpowiedź została pomyślnie zarejestrowana.",
+        "progress": "Postęp",
+        "step": "Krok"
+    },
+    "weather": {
+        "heading": "Aktualne warunki na szlaku",
+        "weather": "Pogoda",
+        "temperature": "Temperatura",
+        "wind": "Wiatr",
+        "rain": "Deszcz",
+        "pollen": "Pyłki",
+        "moon": "Księżyc"
+    }
+}

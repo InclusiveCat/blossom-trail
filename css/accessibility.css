@@ -1,0 +1,323 @@
+/* ── Focus Visibility ─────────────────────────────────────────────────────── */
+:focus-visible {
+    outline: 4px dashed #000;
+    outline-offset: 4px;
+}
+body.dark-mode :focus-visible,
+body.high-contrast :focus-visible {
+    outline: 4px dashed #fff;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   THEME MODES
+   These are all standard accessibility overlay themes used by tools like
+   Recite Me, Browsealoud, and the RNIB:
+   - High Contrast: Maximum legibility for low vision
+   - Dark Mode:     Reduces glare, good for migraine/photosensitivity
+   - Sepia:         Warm amber tone, reduces blue light (eye strain/fatigue)
+   - Cyan:          Blue-tinted overlay, clinical evidence for Irlen Syndrome
+   - Sage:          Soft green overlay, alternative for visual stress
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── High Contrast ──────────────────────────────────────────────────────── */
+body.high-contrast { background-color: #000 !important; color: #ffff00 !important; }
+body.high-contrast a { color: #00ffff !important; }
+body.high-contrast button:not(.a11y-btn):not(.survey-a11y-small-btn):not(.nav-btn):not(.bucket-header) {
+    background: #000 !important; color: #ffff00 !important; border: 2px solid #ffff00 !important;
+}
+/* Map sidebar */
+body.high-contrast #sidebar {
+    background: #000 !important; color: #ffff00 !important;
+    border-right: 2px solid #ffff00 !important;
+}
+body.high-contrast #sidebar .bucket-header { background: #111 !important; }
+body.high-contrast #sidebar strong, body.high-contrast #sidebar b { color: #ffff00 !important; }
+/* Survey cream panel */
+body.high-contrast .cream-panel {
+    background: #000 !important; color: #ffff00 !important;
+    border: 3px solid #ffff00 !important;
+}
+body.high-contrast .cream-panel .q-title { color: #00ffff !important; }
+body.high-contrast .cream-panel .q-desc, body.high-contrast .cream-panel label { color: #ffff00 !important; }
+body.high-contrast .cream-panel .option-lbl {
+    background: #111 !important; border-color: #ffff00 !important; color: #ffff00 !important;
+}
+body.high-contrast .cream-panel textarea,
+body.high-contrast .cream-panel input[type="text"] {
+    background: #111 !important; color: #ffff00 !important; border: 2px solid #ffff00 !important;
+}
+body.high-contrast .overlay { background: rgba(0,0,0,0.95) !important; }
+
+/* ── Dark Mode ──────────────────────────────────────────────────────────── */
+body.dark-mode { background-color: #121212 !important; color: #e0e0e0 !important; }
+/* Survey only — map is already dark by default */
+body.dark-mode .overlay { background: rgba(18,18,18,0.97) !important; }
+body.dark-mode .cream-panel {
+    background: #1e1e1e !important; color: #e0e0e0 !important;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.8) !important;
+}
+body.dark-mode .cream-panel h1 { color: #d81b60 !important; }
+body.dark-mode .cream-panel .q-title { color: #d81b60 !important; }
+body.dark-mode .cream-panel .q-desc { color: #bbb !important; }
+body.dark-mode .cream-panel .option-lbl {
+    background: #2a2a2a !important; border-color: #444 !important; color: #e0e0e0 !important;
+}
+body.dark-mode .cream-panel input[type="radio"],
+body.dark-mode .cream-panel input[type="checkbox"] { accent-color: #d81b60; }
+body.dark-mode .cream-panel textarea,
+body.dark-mode .cream-panel input[type="text"] {
+    background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #555 !important;
+}
+body.dark-mode .survey-a11y-toggle { background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #444 !important; }
+body.dark-mode .survey-a11y-panel { background: #1a1a1a !important; color: #e0e0e0 !important; border-color: #333 !important; }
+
+/* ── Sepia (warm amber — reduces blue light, helps eye strain & fatigue) ── */
+body.sepia-overlay { background-color: #8b6914 !important; color: #2c1a00 !important; }
+body.sepia-overlay .overlay { background: rgba(245,225,180,0.97) !important; }
+body.sepia-overlay .cream-panel {
+    background: #f5e6c0 !important; color: #2c1a00 !important;
+    border: 1px solid #c8a050 !important;
+    box-shadow: 0 4px 20px rgba(100, 60, 0, 0.2) !important;
+}
+body.sepia-overlay .cream-panel h1 { color: #7a3b00 !important; }
+body.sepia-overlay .cream-panel .q-title { color: #8b4513 !important; }
+body.sepia-overlay .cream-panel .q-desc { color: #5c3400 !important; }
+body.sepia-overlay .cream-panel .option-lbl {
+    background: #fdf0d0 !important; border-color: #c8a050 !important;
+}
+body.sepia-overlay #sidebar {
+    background: #3d2200 !important; color: #f5e6c0 !important;
+    border-right: 2px solid #c8a050 !important;
+}
+body.sepia-overlay #sidebar strong { color: #f5c842 !important; }
+body.sepia-overlay .survey-a11y-toggle { background: #e8d090 !important; color: #2c1a00 !important; }
+body.sepia-overlay .survey-a11y-panel { background: #fdf0d0 !important; color: #2c1a00 !important; }
+
+/* ── Cyan / Blue overlay (Irlen Syndrome / Visual Stress) ──────────────── */
+body.cyan-overlay { background-color: #004466 !important; color: #001a2e !important; }
+body.cyan-overlay .overlay { background: rgba(180,230,255,0.97) !important; }
+body.cyan-overlay .cream-panel {
+    background: #c8eeff !important; color: #001a2e !important;
+    border: 1px solid #4aa8d8 !important;
+    box-shadow: 0 4px 20px rgba(0, 80, 140, 0.15) !important;
+}
+body.cyan-overlay .cream-panel h1 { color: #004d80 !important; }
+body.cyan-overlay .cream-panel .q-title { color: #003d66 !important; }
+body.cyan-overlay .cream-panel .q-desc { color: #002244 !important; }
+body.cyan-overlay .cream-panel .option-lbl {
+    background: #e0f4ff !important; border-color: #4aa8d8 !important;
+}
+body.cyan-overlay #sidebar {
+    background: #001a2e !important; color: #c8eeff !important;
+    border-right: 2px solid #4aa8d8 !important;
+}
+body.cyan-overlay #sidebar strong { color: #80d4ff !important; }
+body.cyan-overlay .survey-a11y-toggle { background: #a0d8f0 !important; color: #001a2e !important; }
+body.cyan-overlay .survey-a11y-panel { background: #ddf0ff !important; color: #001a2e !important; }
+
+/* ── Sage / Green overlay (soft visual stress alternative) ─────────────── */
+body.sage-overlay { background-color: #1a3320 !important; color: #0d1f14 !important; }
+body.sage-overlay .overlay { background: rgba(190,225,195,0.97) !important; }
+body.sage-overlay .cream-panel {
+    background: #c8e6c9 !important; color: #0d1f14 !important;
+    border: 1px solid #66a870 !important;
+    box-shadow: 0 4px 20px rgba(0, 80, 40, 0.15) !important;
+}
+body.sage-overlay .cream-panel h1 { color: #1b5e20 !important; }
+body.sage-overlay .cream-panel .q-title { color: #1b5e20 !important; }
+body.sage-overlay .cream-panel .q-desc { color: #1a3a20 !important; }
+body.sage-overlay .cream-panel .option-lbl {
+    background: #e8f5e9 !important; border-color: #66a870 !important;
+}
+body.sage-overlay #sidebar {
+    background: #0d1f14 !important; color: #c8e6c9 !important;
+    border-right: 2px solid #66a870 !important;
+}
+body.sage-overlay #sidebar strong { color: #a5d6a7 !important; }
+body.sage-overlay .survey-a11y-toggle { background: #a5d6a7 !important; color: #0d1f14 !important; }
+body.sage-overlay .survey-a11y-panel { background: #dcedc8 !important; color: #0d1f14 !important; }
+
+/* ── Dyslexia Font ────────────────────────────────────────────────────────── */
+body.dyslexia-font,
+body.dyslexia-font * {
+    font-family: 'OpenDyslexic', 'Verdana', 'Arial', sans-serif !important;
+    letter-spacing: 0.05em !important;
+    word-spacing: 0.15em !important;
+    line-height: 1.8 !important;
+}
+
+/* ── Reading Ruler ────────────────────────────────────────────────────────── */
+#reading-ruler {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 32px;
+    background: rgba(255, 255, 100, 0.3);
+    border-top: 2px solid rgba(200, 180, 0, 0.5);
+    border-bottom: 2px solid rgba(200, 180, 0, 0.5);
+    pointer-events: none;
+    z-index: 99999;
+    top: 50vh;
+}
+body.high-contrast #reading-ruler { background: rgba(255,255,0,0.5); border-color: #fff; }
+body.dark-mode #reading-ruler { background: rgba(255,255,100,0.2); }
+
+/* ── Button Active/Pressed States ─────────────────────────────────────────── */
+.a11y-btn.active,
+.a11y-dyslexia-btn.active,
+.a11y-ruler-btn.active,
+.a11y-tts-btn.active,
+.survey-a11y-small-btn.active {
+    background: var(--primary, #d81b60) !important;
+    color: #fff !important;
+    border-color: var(--primary, #d81b60) !important;
+    font-weight: bold;
+}
+
+/* ── Reduced Motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ── Survey A11y Collapsible Panel ───────────────────────────────────────── */
+.survey-a11y-toggle {
+    width: 100%;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 0.88em;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    margin-bottom: 6px;
+    transition: background 0.2s;
+}
+.survey-a11y-toggle:hover,
+.survey-a11y-toggle:focus-visible {
+    background: #e0e0e0;
+    outline: 3px solid #d81b60;
+    outline-offset: 2px;
+}
+
+.survey-a11y-panel {
+    display: none;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 14px;
+    font-size: 0.85em;
+    gap: 10px;
+}
+.survey-a11y-panel.open { display: flex; flex-direction: column; }
+
+.a11y-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+.a11y-row label {
+    font-size: 0.82em;
+    color: #555;
+    min-width: 80px;
+    font-weight: 600;
+}
+.a11y-row select,
+.a11y-row input[type="range"] {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.85em;
+    background: #fff;
+    color: #000;
+    flex: 1;
+    min-width: 0;
+}
+.a11y-row .font-size-value {
+    font-size: 0.82em;
+    color: #666;
+    min-width: 36px;
+    text-align: right;
+}
+
+.survey-a11y-small-btn {
+    padding: 7px 11px;
+    background: #444;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    font-size: 0.82em;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+}
+.survey-a11y-small-btn:hover,
+.survey-a11y-small-btn:focus-visible {
+    background: #222;
+    outline: 2px solid #d81b60;
+    outline-offset: 2px;
+}
+
+.a11y-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 6px 0;
+}
+
+/* ── Language Switcher ────────────────────────────────────────────────────── */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.lang-switcher label {
+    font-size: 0.78em;
+    font-weight: 600;
+    color: #666;
+    white-space: nowrap;
+}
+.lang-switcher select {
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.85em;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+/* Map sidebar language switcher (dark background) */
+#sidebar .lang-switcher label { color: #888; }
+#sidebar .lang-switcher select {
+    background: #222;
+    color: #fff;
+    border-color: #444;
+}
+
+/* -- TTS Active Reading Highlight --------------------------------- */
+.tts-reading {
+    outline: 3px solid #d81b60 !important;
+    outline-offset: 2px !important;
+    background: rgba(216, 27, 96, 0.08) !important;
+    border-radius: 4px !important;
+    transition: outline 0.1s;
+}
+body.high-contrast .tts-reading {
+    outline-color: #ffff00 !important;
+    background: rgba(255,255,0,0.15) !important;
+}

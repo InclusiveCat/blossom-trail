@@ -1,0 +1,450 @@
+{
+  "backupHubs": [
+    {
+      "name": "Houghton Library WC",
+      "lat": 54.8452,
+      "lon": -1.4723,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Houghton Care Centre NHS",
+      "lat": 54.8445,
+      "lon": -1.4758,
+      "type": "NHS Accessible"
+    },
+    {
+      "name": "Washington Old Hall Visitor WC",
+      "lat": 54.903,
+      "lon": -1.516,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Durham Market Place",
+      "lat": 54.776,
+      "lon": -1.575,
+      "type": "Verified Radar"
+    },
+    {
+      "name": "Old Durham Gardens Hub",
+      "lat": 54.773,
+      "lon": -1.558,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Preston Park Cafe Hub",
+      "lat": 54.535,
+      "lon": -1.336,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Ormesby Hall Toilets",
+      "lat": 54.544,
+      "lon": -1.182,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Angel of the North Public WC",
+      "lat": 54.914,
+      "lon": -1.588,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Byron Place Seaham Hub",
+      "lat": 54.836,
+      "lon": -1.332,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Roker Pier Hub",
+      "lat": 54.922,
+      "lon": -1.368,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "South Marine Hub WC",
+      "lat": 55,
+      "lon": -1.421,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Jesmond Dene Visitor WC",
+      "lat": 54.991,
+      "lon": -1.589,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Tyne Bridge Quayside Hub",
+      "lat": 54.968,
+      "lon": -1.605,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Alnwick Garden Centre WC",
+      "lat": 55.415,
+      "lon": -1.705,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Castle Eden Dene Hub",
+      "lat": 54.749,
+      "lon": -1.325,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Gibside Hub WC",
+      "lat": 54.925,
+      "lon": -1.727,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Whitley Lodge Library WC",
+      "lat": 55.051,
+      "lon": -1.45,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Saltburn Pier WC",
+      "lat": 54.585,
+      "lon": -0.977,
+      "type": "Verified Radar"
+    },
+    {
+      "name": "Hadrian's Wall Hub WC",
+      "lat": 55.002,
+      "lon": -2.361,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Bamburgh Visitor Centre",
+      "lat": 55.609,
+      "lon": -1.71,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Seaham Shopping Hub",
+      "lat": 54.837,
+      "lon": -1.331,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Priory Gardens",
+      "lat": 54.54998,
+      "lon": -1.05124,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Penshaw Monument",
+      "lat": 54.87829,
+      "lon": -1.48095,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Tees Transporter Bridge",
+      "lat": 54.57602,
+      "lon": -1.23923,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Hardwick Park",
+      "lat": 54.65289,
+      "lon": -1.46655,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Bishop Auckland Castle",
+      "lat": 54.66671,
+      "lon": -1.67015,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "Hamsterley Forest",
+      "lat": 54.65857,
+      "lon": -1.93246,
+      "type": "Verified Hub"
+    },
+    {
+      "name": "St John's Chapel, Weardale",
+      "lat": 54.736,
+      "lon": -2.17724,
+      "type": "Verified Hub"
+    }
+  ],
+  "sites": [
+    {
+      "name": "Penshaw Monument",
+      "stage": 2,
+      "lat": 54.882,
+      "lon": -1.481,
+      "type": "landmark",
+      "img": "penshaw.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Tees Transporter Bridge",
+      "stage": 3,
+      "lat": 54.585,
+      "lon": -1.23,
+      "type": "landmark",
+      "img": "transporter.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Hardwick Park",
+      "stage": 4,
+      "lat": 54.654,
+      "lon": -1.464,
+      "type": "landmark",
+      "img": "hardwick-park.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Bishop Auckland Castle",
+      "stage": 5,
+      "lat": 54.666,
+      "lon": -1.67,
+      "type": "landmark",
+      "img": "bishop-auckland.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Hamsterley Forest",
+      "stage": 6,
+      "lat": 54.673,
+      "lon": -1.89,
+      "type": "landmark",
+      "img": "hamsterley-forest.jpg",
+      "access": "Gravel"
+    },
+    {
+      "name": "Priory Gardens",
+      "stage": 7,
+      "lat": 54.54998,
+      "lon": -1.05124,
+      "type": "blossom",
+      "img": "priory-gardens.jpg",
+      "access": "Uneven"
+    },
+    {
+      "name": "St. John's Chapel",
+      "stage": 7,
+      "lat": 54.737,
+      "lon": -2.176,
+      "type": "landmark",
+      "img": "st-johns-chapel.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Houghton le Spring",
+      "stage": 1,
+      "lat": 54.8432,
+      "lon": -1.4707,
+      "type": "blossom",
+      "img": "white-harmony.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Washington Old Hall",
+      "stage": 2,
+      "lat": 54.9027,
+      "lon": -1.5165,
+      "type": "blossom",
+      "img": "washington.jpg",
+      "access": "Gravel"
+    },
+    {
+      "name": "Durham City",
+      "stage": 2,
+      "lat": 54.773,
+      "lon": -1.576,
+      "type": "landmark",
+      "img": "durham.jpg",
+      "access": "Cobbles"
+    },
+    {
+      "name": "Old Durham Gardens",
+      "stage": 2,
+      "lat": 54.773,
+      "lon": -1.558,
+      "type": "blossom",
+      "img": "old-durham.jpg",
+      "access": "Gravel"
+    },
+    {
+      "name": "Preston Park",
+      "stage": 2,
+      "lat": 54.536,
+      "lon": -1.337,
+      "type": "blossom",
+      "img": "preston.jpg",
+      "access": "Tarmac"
+    },
+    {
+      "name": "Ormesby Hall",
+      "stage": 2,
+      "lat": 54.5432,
+      "lon": -1.183,
+      "type": "blossom",
+      "img": "ormesby.jpg",
+      "access": "Sloped"
+    },
+    {
+      "name": "Angel of the North",
+      "stage": 3,
+      "lat": 54.9141,
+      "lon": -1.5895,
+      "type": "landmark",
+      "img": "angel.jpg",
+      "access": "Grass"
+    },
+    {
+      "name": "Seaham",
+      "stage": 3,
+      "lat": 54.823,
+      "lon": -1.3189,
+      "type": "landmark",
+      "img": "seaham.jpg",
+      "access": "Level"
+    },
+    {
+      "name": "Roker Pier",
+      "stage": 3,
+      "lat": 54.924,
+      "lon": -1.365,
+      "type": "landmark",
+      "img": "roker.jpg",
+      "access": "Concrete"
+    },
+    {
+      "name": "South Marine Park",
+      "stage": 3,
+      "lat": 55.0001,
+      "lon": -1.4202,
+      "type": "landmark",
+      "img": "south-marine.jpg",
+      "access": "Tarmac"
+    },
+    {
+      "name": "Jesmond Dene",
+      "stage": 4,
+      "lat": 54.99,
+      "lon": -1.59,
+      "type": "blossom",
+      "img": "jesmond.jpg",
+      "access": "Woodland"
+    },
+    {
+      "name": "Tyne Bridge",
+      "stage": 4,
+      "lat": 54.968,
+      "lon": -1.606,
+      "type": "landmark",
+      "img": "tyne-bridge.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Alnwick Garden",
+      "stage": 4,
+      "lat": 55.4155,
+      "lon": -1.706,
+      "type": "blossom",
+      "img": "alnwick.jpg",
+      "access": "Level"
+    },
+    {
+      "name": "Castle Eden Dene",
+      "stage": 4,
+      "lat": 54.75,
+      "lon": -1.3263,
+      "type": "landmark",
+      "img": "castle-eden.jpg",
+      "access": "Uneven"
+    },
+    {
+      "name": "Gibside",
+      "stage": 5,
+      "lat": 54.9245,
+      "lon": -1.7267,
+      "type": "blossom",
+      "img": "gibside.jpg",
+      "access": "Gravel"
+    },
+    {
+      "name": "Whitley Lodge",
+      "stage": 5,
+      "lat": 55.0501,
+      "lon": -1.451,
+      "type": "blossom",
+      "img": "whitley.jpg",
+      "access": "Paved"
+    },
+    {
+      "name": "Saltburn Pier",
+      "stage": 5,
+      "lat": 54.586,
+      "lon": -0.978,
+      "type": "landmark",
+      "img": "saltburn.jpg",
+      "access": "Lift"
+    },
+    {
+      "name": "Hadrian's Wall",
+      "stage": 5,
+      "lat": 55.002,
+      "lon": -2.36,
+      "type": "landmark",
+      "img": "hadrian.jpg",
+      "access": "Grass"
+    },
+    {
+      "name": "Bamburgh Castle",
+      "stage": 5,
+      "lat": 55.6089,
+      "lon": -1.7099,
+      "type": "landmark",
+      "img": "bamburgh.jpg",
+      "access": "Sandy"
+    }
+  ],
+  "stages": [
+    {
+      "id": 1,
+      "title": "Reset",
+      "domain": "Environment",
+      "text": "Wellness system check-in.",
+      "statement": "My local environments are well-aligned with my specific sensory needs and communication style.",
+      "technique": "<b>Technique 1: 5-4-3-2-1</b><br>Identify 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste. Anchors you in the present."
+    },
+    {
+      "id": 2,
+      "title": "Expansion",
+      "domain": "Sustainability",
+      "text": "Expansive views.",
+      "statement": "I feel confident that my daily activities are sustainable without risking my financial or energy levels.",
+      "technique": "<b>Technique 2: Box Breathing</b><br>Inhale 4s, hold 4s, exhale 4s, hold empty 4s. Regulates heart rate."
+    },
+    {
+      "id": 3,
+      "title": "Flow",
+      "domain": "Support Model",
+      "text": "Allow movement and reflection.",
+      "statement": "A coaching model that prioritises nervous system regulation is essential for my progress.",
+      "technique": "<b>Technique 3: Wrist Cooling</b><br>Run cold water over wrists for 30s to help reset a triggered nervous system."
+    },
+    {
+      "id": 4,
+      "title": "Connection",
+      "domain": "Technology",
+      "text": "Belonging without blending.",
+      "statement": "The use of digital tools is an effective way for me to reduce the ‘executive function tax’ I face.",
+      "technique": "<b>Technique 4: Firm Pressure</b><br>Give yourself a firm hug. Deep pressure helps the brain process where the body is in space."
+    },
+    {
+      "id": 5,
+      "title": "Breathe",
+      "domain": "Local Awareness",
+      "text": "Travel toward the coast.",
+      "statement": "Current support services in my area demonstrate a clear understanding of neurodivergent burnout.",
+      "technique": "<b>Technique 5: Humming</b><br>Hum a low note to feel the vibration in your chest. Stimulates the Vagus nerve to soothe stress."
+    }
+  ]
+}
