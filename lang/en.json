@@ -1,60 +1,37 @@
 {
-    "app": {
-        "title": "Oubaitori Collective Blossom Trail",
-        "subtitle": "It is Okay to be Here.",
-        "skipToMain": "Skip to main content",
-        "welcomeMsg": "Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England and beyond. Not able to join us? We would still love to hear your views. Complete the questions in the survey below. Your views matter to us!"
-    },
-    "nav": {
-        "installApp": "Install App to Home Screen",
-        "startSurvey": "Start the Blossom Trail Survey"
-    },
-    "accessibility": {
-        "title": "Accessibility",
-        "options": "Accessibility Options",
-        "display": "Display",
-        "amenities": "♿ 🔑 Amenities",
-        "requestAssistance": "🆘 Request Assistance",
-        "dyslexiaFont": "Dyslexia Friendly Font",
-        "textSize": "Text Size",
-        "increase": "A+",
-        "decrease": "A-",
-        "readingRuler": "📏 Reading Ruler",
-        "readAloud": "🔊 Read Aloud",
-        "colourTheme": "Colour Theme",
-        "themeDefault": "Default",
-        "themeHighContrast": "High Contrast",
-        "themeDark": "Dark Mode",
-        "themeSepia": "Sepia",
-        "themeCyan": "Cyan",
-        "themeSage": "Sage",
-        "readingSpeed": "Reading Speed",
-        "accessibleToilet": "Accessible Toilet",
-        "radarKey": "Radar Key Required"
-    },
-    "language": {
-        "label": "🌐 Language",
-        "en": "English",
-        "es": "Español",
-        "fr": "Français"
-    },
-    "survey": {
-        "title": "Blossom Trail Survey",
-        "heading": "Oubaitori Collective\nBlossom Trail Survey",
-        "next": "Next",
-        "back": "Back",
-        "submit": "Submit Survey",
-        "success": "Your response has been recorded successfully.",
-        "progress": "Progress",
-        "step": "Step"
-    },
-    "weather": {
-        "heading": "Live Trail Conditions",
-        "weather": "Weather",
-        "temperature": "Temperature",
-        "wind": "Wind",
-        "rain": "Rain",
-        "pollen": "Pollen",
-        "moon": "Moon"
-    }
+  "app": { "title": "Oubaitori Collective Blossom Trail", "subtitle": "It is Okay to be Here.", "skipToMain": "Skip to main content", "welcomeMsg": "Join us on the Oubaitori Collective Blossom Trail as we gather anonymous evidence for the design of a new support service for neurodivergent adults across the North East of England and beyond. Not able to join us? We would still love to hear your views. Complete the questions in the survey below. Your views matter to us!" },
+  "nav": { "installApp": "Install to Home Screen", "startSurvey": "Complete the Blossom Trail Survey" },
+  "accessibility": { "title": "Accessibility", "options": "Accessibility Options", "display": "Display", "amenities": "♿ 🔑 Amenities", "requestAssistance": "🆘 Request Assistance", "dyslexiaFont": "Dyslexia Friendly Font", "textSize": "Text Size", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Reading Ruler", "readAloud": "🔊 Read Aloud", "colourTheme": "Colour Theme", "themeDefault": "Default", "themeHighContrast": "High Contrast", "themeDark": "Dark Mode", "themeSepia": "Sepia", "themeCyan": "Cyan", "themeSage": "Sage", "readingSpeed": "Reading Speed", "accessibleToilet": "Accessible Toilet", "radarKey": "Radar Key Required" },
+  "language": { "label": "🌐 Language", "en": "English", "es": "Español", "fr": "Français" },
+  "weather": { "heading": "Live Trail Conditions", "weather": "Weather", "temperature": "Temperature", "wind": "Wind", "rain": "Rain", "pollen": "Pollen", "moon": "Moon" },
+  "stages": {
+    "s0": { "title": "OUR VISION", "narrative": "Supporting neurodivergent adults to recover, regulate and thrive. Bloom at your own pace, supported by a collective where no one walks alone." },
+    "s1": { "title": "YOUR JOURNEY BEGINS", "narrative": "A soft, grounding welcome.", "techTitle": "Technique: 5-4-3-2-1", "techText": "Identify 5 items you see, 4 things you can touch, 3 sounds you hear, 2 scents you can smell, and 1 flavour you can taste. Anchors you in the present." },
+    "s2": { "title": "A MOMENT TO CHECK IN", "narrative": "Invites awareness without pressure.", "techTitle": "Technique: Box Breathing", "techText": "Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds. Regulates heart rate." },
+    "s3": { "title": "UNDERSTANDING WHAT YOU NEED", "narrative": "Noticing what would bring you the most comfort and ease right now.", "techTitle": "Technique: Wrist Cooling", "techText": "Run cold water over wrists for 30s to help reset a triggered nervous system." },
+    "s4": { "title": "UNDERSTANDING YOUR CAPACITY", "narrative": "Respecting your natural rhythm and where your energy sits today.", "techTitle": "Technique: Firm Pressure", "techText": "Give yourself a firm hug. Deep pressure helps the brain process where the body is in space." },
+    "s5": { "title": "RECOGNISING YOUR STRENGTHS", "narrative": "A shift toward resilience, agency, and thriving.", "techTitle": "Technique: Humming", "techText": "Hum a low note to feel the vibration in your chest. Stimulates the vagus nerve to soothe stress." },
+    "s6": { "title": "EXPLORING WHAT COULD SUPPORT YOU", "narrative": "Opening up to the people, spaces, and ideas that can walk alongside you.", "techTitle": "Technique: Progressive Muscle Relaxation (PMR)", "techText": "By tensing and relaxing different muscle groups, you can discharge stored tension and increase body awareness." },
+    "s7": { "title": "FINDING WHAT IS RIGHT FOR YOU", "narrative": "In your own time, at your own pace, no comparison.", "techTitle": "Technique: Shaking It Off (Neurogenic Tremors)", "techText": "Deliberately shaking your arms, legs, or whole body for 1 to 2 minutes can help release excess adrenaline and restore a sense of calm." }
+  },
+  "survey": {
+    "title": "Blossom Trail Survey", "heading": "Oubaitori Collective\nBlossom Trail Survey", "next": "Next", "back": "Back", "submit": "Submit Survey", "success": "Your response has been recorded successfully.", "progress": "Progress", "step": "Step",
+    "errorRequired": "Please complete this question to continue.",
+    "typeAnswer": "Type your answer here...",
+    "pleaseSelect": "Please select...",
+    "stronglyAgree": "Strongly Agree", "agree": "Agree", "disagree": "Disagree", "stronglyDisagree": "Strongly Disagree",
+    "q1": { "title": "1. How do you describe your gender?", "desc": "Understanding the gender of potential service users helps us to design and deliver gender-appropriate services", "female": "Female", "male": "Male", "preferNot": "Prefer not to say", "selfDescribe": "Prefer to self-describe", "placeholder": "Please specify if 'Prefer to self-describe' selected" },
+    "q2": { "title": "2. Tell us your age", "desc": "Understanding the age of potential service users helps us to design and deliver age-appropriate services" },
+    "q3": { "title": "3. How are you feeling?", "desc": "Most people have a mix of feelings from day-to-day. Tell us how you have been feeling overall in the last 4 weeks", "blooming": "Blooming – I am thriving and living authentically", "balanced": "Balanced – I am feeling stable", "steady": "Steady – I am functioning consistently", "stretched": "Stretched – My energy is dipping and day-to-day tasks feel harder", "strained": "Strained – I am feeling pressure from demands and using all my energy to manage daily tasks", "overloaded": "Overloaded – I am struggling daily and just about functioning", "burnout": "Burnout – I am completely overwhelmed and exhausted. I am unable to function" },
+    "q4": { "title": "4. Where do you live or work?", "desc": "We would like to understand more about where potential service users live and how services may vary in your local council area" },
+    "q5": { "title": "5. Your current circumstances", "desc": "Select the option that best describes your circumstances right now", "employment": "I am in employment (paid work, including apprenticeships)", "selfEmployed": "I am self-employed (sole trader, running a business)", "education": "I am in full-time education or training", "notEmployed": "I am not in employment, education or training right now", "other": "Other – Please specify below", "placeholder": "Please specify if 'Other' selected" },
+    "q6": { "title": "6. My daily environments, where I live, work and socialise", "desc": "The places I spend time in feel right for me and meet my unique needs" },
+    "q7": { "title": "7. My energy levels", "desc": "I feel confident that my daily activities are sustainable without risking my energy levels or health" },
+    "q8": { "title": "8. Daily Activities", "desc": "What specific daily tasks drain your energy the most?", "placeholder": "Type your answer here..." },
+    "q9": { "title": "9. What brings you joy?", "placeholder": "Type your answer here..." },
+    "q10": { "title": "10. Support Services", "desc": "I have been able to access support services in my area that understand my neurodivergence and/or burnout" },
+    "q11": { "title": "11. What works for you?", "desc": "What tools and techniques do you use to help you function?", "placeholder": "Type your answer here..." },
+    "q12": { "title": "12. What would help you or others?", "desc": "Understanding what would help you and other neurodivergent adults will help us to design services that meet people's needs", "accessibleSpaces": "Accessible, sensory safe community spaces", "flexibleSupport": "Peer-to-peer support / Flexible support", "livedExperience": "Peer led mentoring lived experience training", "inclusiveEmployment": "Inclusive employment pathways", "paidWorkTrials": "Paid work trials to gain experience", "affordableCoaching": "Affordable coaching", "digitalTools": "Digital tools to support accessibility", "unsure": "I am not sure; however, I know I need some support", "other": "Other (Please specify)", "placeholder": "Please specify if 'Other' selected" },
+    "q13": { "title": "13. Community Based Services", "desc": "Are there any services, groups or tools (digital or internet based) in your area that ARE working well for you?", "placeholder": "Type your answer here..." }
+  }
 }

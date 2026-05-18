@@ -1,57 +1,36 @@
 {
-    "app": {
-        "title": "Oubaitori Kollektiv Blütenweg",
-        "subtitle": "Es ist okay, hier zu sein.",
-        "skipToMain": "Zum Hauptinhalt springen",
-        "welcomeMsg": "Begleiten Sie uns auf dem Oubaitori Kollektiv Blütenweg, während wir anonyme Beweise für die Gestaltung eines neuen Unterstützungsdienstes für neurodivergente Erwachsene sammeln. Können Sie uns nicht begleiten? Wir würden dennoch gerne Ihre Meinung hören. Füllen Sie die Fragen in der Umfrage unten aus. Ihre Meinung ist uns wichtig!"
-    },
-    "nav": {
-        "installApp": "App auf Startbildschirm installieren",
-        "startSurvey": "Blütenweg-Umfrage starten"
-    },
-    "accessibility": {
-        "title": "Barrierefreiheit",
-        "options": "Barrierefreiheitsoptionen",
-        "display": "Anzeige",
-        "amenities": "♿ 🔑 Einrichtungen",
-        "requestAssistance": "🆘 Hilfe anfordern",
-        "dyslexiaFont": "Dyslexie-Schrift",
-        "textSize": "Schriftgröße",
-        "increase": "A+",
-        "decrease": "A-",
-        "readingRuler": "📏 Leselineal",
-        "readAloud": "🔊 Vorlesen",
-        "colourTheme": "Farbthema",
-        "themeDefault": "Standard",
-        "themeHighContrast": "Hoher Kontrast",
-        "themeDark": "Dunkelmodus",
-        "themeSepia": "Sepia",
-        "themeCyan": "Cyan",
-        "themeSage": "Salbei",
-        "readingSpeed": "Lesegeschwindigkeit",
-        "accessibleToilet": "Barrierefreie Toilette",
-        "radarKey": "Radar-Schlüssel erforderlich"
-    },
-    "language": {
-        "label": "🌐 Sprache"
-    },
-    "survey": {
-        "title": "Blütenweg-Umfrage",
-        "heading": "Oubaitori Kollektiv\nBlütenweg-Umfrage",
-        "next": "Weiter",
-        "back": "Zurück",
-        "submit": "Umfrage absenden",
-        "success": "Ihre Antwort wurde erfolgreich gespeichert.",
-        "progress": "Fortschritt",
-        "step": "Schritt"
-    },
-    "weather": {
-        "heading": "Aktuelle Wegbedingungen",
-        "weather": "Wetter",
-        "temperature": "Temperatur",
-        "wind": "Wind",
-        "rain": "Regen",
-        "pollen": "Pollen",
-        "moon": "Mond"
-    }
+  "app": { "title": "Blossom-Pfad — Oubaitori-Kollektiv", "subtitle": "Es ist in Ordnung, hier zu sein.", "skipToMain": "Zum Hauptinhalt springen", "welcomeMsg": "Begleiten Sie uns auf dem Blossom-Pfad des Oubaitori-Kollektivs, während wir anonyme Belege für die Gestaltung eines neuen Unterstützungsangebots für neurodivergente Erwachsene sammeln. Können Sie nicht dabei sein? Wir würden Ihre Meinung trotzdem gerne hören. Bitte füllen Sie die Umfrage aus. Ihre Meinung ist uns wichtig!" },
+  "nav": { "installApp": "Auf dem Startbildschirm installieren", "startSurvey": "Blossom-Trail-Umfrage ausfüllen" },
+  "accessibility": { "title": "Barrierefreiheit", "options": "Barrierefreiheitsoptionen", "display": "Anzeige", "amenities": "♿ 🔑 Einrichtungen", "requestAssistance": "🆘 Hilfe anfordern", "dyslexiaFont": "Legasthenie-freundliche Schrift", "textSize": "Textgröße", "increase": "A+", "decrease": "A-", "readingRuler": "📏 Leselineal", "readAloud": "🔊 Vorlesen", "colourTheme": "Farbthema", "themeDefault": "Standard", "themeHighContrast": "Hoher Kontrast", "themeDark": "Dunkelmodus", "themeSepia": "Sepia", "themeCyan": "Cyan", "themeSage": "Salbei", "readingSpeed": "Lesegeschwindigkeit", "accessibleToilet": "Barrierefreie Toilette", "radarKey": "Radar-Schlüssel erforderlich" },
+  "language": { "label": "🌐 Sprache", "en": "English", "es": "Español", "fr": "Français" },
+  "weather": { "heading": "Aktuelle Streckenbedingungen", "weather": "Wetter", "temperature": "Temperatur", "wind": "Wind", "rain": "Regen", "pollen": "Pollen", "moon": "Mond" },
+  "stages": {
+    "s0": { "title": "UNSERE VISION", "narrative": "Neurodivergente Erwachsene dabei unterstützen, sich zu erholen, zu regulieren und aufzublühen. Blühen Sie in Ihrem eigenen Tempo auf, getragen von einem Kollektiv, in dem niemand allein geht." },
+    "s1": { "title": "IHRE REISE BEGINNT", "narrative": "Ein sanftes, erdendes Willkommen.", "techTitle": "Technik: 5-4-3-2-1", "techText": "Identifizieren Sie 5 Dinge, die Sie sehen, 4 die Sie berühren können, 3 Geräusche, 2 Gerüche und 1 Geschmack. Verankert Sie im gegenwärtigen Moment." },
+    "s2": { "title": "EIN MOMENT ZUM INNEHALTEN", "narrative": "Lädt zur Achtsamkeit ohne Druck ein.", "techTitle": "Technik: Kastenatemübung", "techText": "Einatmen 4 s, halten 4 s, ausatmen 4 s, halten 4 s. Reguliert den Herzrhythmus." },
+    "s3": { "title": "VERSTEHEN, WAS SIE BRAUCHEN", "narrative": "Wahrnehmen, was Ihnen jetzt am meisten Komfort und Erleichterung bringen würde.", "techTitle": "Technik: Handgelenk-Kühlung", "techText": "Lassen Sie 30 s kaltes Wasser über Ihre Handgelenke laufen, um ein aktiviertes Nervensystem zu beruhigen." },
+    "s4": { "title": "IHRE KAPAZITÄT VERSTEHEN", "narrative": "Respektieren Sie Ihren natürlichen Rhythmus und wo Ihre Energie heute liegt.", "techTitle": "Technik: Fester Druck", "techText": "Geben Sie sich selbst eine feste Umarmung. Tiefer Druck hilft dem Gehirn zu verarbeiten, wo sich der Körper im Raum befindet." },
+    "s5": { "title": "IHRE STÄRKEN ERKENNEN", "narrative": "Ein Wandel hin zu Resilienz, Handlungsfähigkeit und Gedeihen.", "techTitle": "Technik: Summen", "techText": "Summen Sie einen tiefen Ton, um die Vibration in Ihrer Brust zu spüren. Stimuliert den Vagusnerv zur Stresslinderung." },
+    "s6": { "title": "ERKUNDEN, WAS SIE UNTERSTÜTZEN KÖNNTE", "narrative": "Öffnen Sie sich für die Menschen, Räume und Ideen, die an Ihrer Seite gehen können.", "techTitle": "Technik: Progressive Muskelentspannung (PMR)", "techText": "Durch An- und Entspannen verschiedener Muskelgruppen können Sie gespeicherte Spannung abbauen und die Körperwahrnehmung steigern." },
+    "s7": { "title": "FINDEN, WAS FÜR SIE RICHTIG IST", "narrative": "In Ihrer eigenen Zeit, in Ihrem eigenen Tempo, ohne Vergleich.", "techTitle": "Technik: Abschütteln (Neurogene Zittern)", "techText": "Absichtliches Schütteln von Armen, Beinen oder dem ganzen Körper für 1–2 Minuten hilft, überschüssiges Adrenalin freizusetzen und Ruhe wiederherzustellen." }
+  },
+  "survey": {
+    "title": "Blossom-Trail-Umfrage", "heading": "Oubaitori-Kollektiv\nBlossom-Trail-Umfrage", "next": "Weiter", "back": "Zurück", "submit": "Umfrage absenden", "success": "Ihre Antwort wurde erfolgreich gespeichert.", "progress": "Fortschritt", "step": "Schritt",
+    "errorRequired": "Bitte beantworten Sie diese Frage, um fortzufahren.",
+    "typeAnswer": "Geben Sie Ihre Antwort hier ein...", "pleaseSelect": "Bitte auswählen...",
+    "stronglyAgree": "Stimme voll zu", "agree": "Stimme zu", "disagree": "Stimme nicht zu", "stronglyDisagree": "Stimme überhaupt nicht zu",
+    "q1": { "title": "1. Wie beschreiben Sie Ihr Geschlecht?", "desc": "Das Verständnis des Geschlechts potenzieller Nutzer hilft uns, geschlechtsspezifische Dienste zu gestalten", "female": "Weiblich", "male": "Männlich", "preferNot": "Lieber nicht angeben", "selfDescribe": "Lieber selbst beschreiben", "placeholder": "Bitte spezifizieren Sie, falls 'Lieber selbst beschreiben' ausgewählt" },
+    "q2": { "title": "2. Teilen Sie uns Ihr Alter mit", "desc": "Das Verständnis des Alters potenzieller Nutzer hilft uns, altersgerechte Dienste zu gestalten" },
+    "q3": { "title": "3. Wie fühlen Sie sich?", "desc": "Die meisten Menschen haben täglich gemischte Gefühle. Sagen Sie uns, wie Sie sich in den letzten 4 Wochen insgesamt gefühlt haben", "blooming": "Aufblühend – Ich gedeihe und lebe authentisch", "balanced": "Ausgeglichen – Ich fühle mich stabil", "steady": "Stabil – Ich funktioniere konstant", "stretched": "Gedehnt – Meine Energie sinkt und alltägliche Aufgaben fallen schwerer", "strained": "Belastet – Ich stehe unter Druck und verbrauche alle Energie für alltägliche Aufgaben", "overloaded": "Überlastet – Ich kämpfe täglich und funktioniere kaum noch", "burnout": "Burnout – Ich bin völlig überfordert und erschöpft und kann nicht mehr funktionieren" },
+    "q4": { "title": "4. Wo leben oder arbeiten Sie?", "desc": "Wir möchten mehr darüber erfahren, wo potenzielle Nutzer leben" },
+    "q5": { "title": "5. Ihre aktuellen Lebensumstände", "desc": "Wählen Sie die Option, die Ihre aktuelle Situation am besten beschreibt", "employment": "Ich bin angestellt (bezahlte Arbeit, einschließlich Ausbildung)", "selfEmployed": "Ich bin selbstständig", "education": "Ich befinde mich in Vollzeitausbildung oder -studium", "notEmployed": "Ich bin derzeit nicht in Beschäftigung, Ausbildung oder Studium", "other": "Sonstiges – Bitte unten angeben", "placeholder": "Bitte spezifizieren Sie, falls 'Sonstiges' ausgewählt" },
+    "q6": { "title": "6. Meine täglichen Umgebungen", "desc": "Die Orte, an denen ich Zeit verbringe, fühlen sich richtig an und erfüllen meine einzigartigen Bedürfnisse" },
+    "q7": { "title": "7. Mein Energieniveau", "desc": "Ich bin zuversichtlich, dass meine täglichen Aktivitäten nachhaltig sind, ohne mein Energieniveau oder meine Gesundheit zu gefährden" },
+    "q8": { "title": "8. Tägliche Aktivitäten", "desc": "Welche spezifischen alltäglichen Aufgaben erschöpfen Ihre Energie am meisten?", "placeholder": "Geben Sie Ihre Antwort hier ein..." },
+    "q9": { "title": "9. Was bringt Ihnen Freude?", "placeholder": "Geben Sie Ihre Antwort hier ein..." },
+    "q10": { "title": "10. Unterstützungsangebote", "desc": "Ich konnte Unterstützungsangebote in meiner Region nutzen, die meine Neurodivergenz und/oder meinen Burnout verstehen" },
+    "q11": { "title": "11. Was funktioniert für Sie?", "desc": "Welche Werkzeuge und Techniken nutzen Sie, um zu funktionieren?", "placeholder": "Geben Sie Ihre Antwort hier ein..." },
+    "q12": { "title": "12. Was würde Ihnen oder anderen helfen?", "desc": "Das Verstehen, was helfen würde, ermöglicht uns die Gestaltung passgenauer Dienste", "accessibleSpaces": "Zugängliche, sensorisch sichere Gemeinschaftsräume", "flexibleSupport": "Peer-to-Peer-Unterstützung / Flexible Unterstützung", "livedExperience": "Peer-Mentoring und Training aus eigener Erfahrung", "inclusiveEmployment": "Inklusive Beschäftigungswege", "paidWorkTrials": "Bezahlte Arbeitspraktika", "affordableCoaching": "Erschwingliches Coaching", "digitalTools": "Digitale Hilfsmittel für die Barrierefreiheit", "unsure": "Ich bin unsicher; weiß aber, dass ich Unterstützung brauche", "other": "Sonstiges (Bitte spezifizieren)", "placeholder": "Bitte spezifizieren Sie, falls 'Sonstiges' ausgewählt" },
+    "q13": { "title": "13. Gemeinschaftsbasierte Angebote", "desc": "Gibt es Dienste, Gruppen oder Werkzeuge in Ihrer Region, die gut für Sie funktionieren?", "placeholder": "Geben Sie Ihre Antwort hier ein..." }
+  }
 }

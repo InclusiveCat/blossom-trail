@@ -62,7 +62,7 @@
             // Don't overwrite TTS button when it's in "ON" state
             if (el.classList.contains('a11y-tts-btn') && el.getAttribute('aria-pressed') === 'true') return;
 
-            if (el.tagName === 'INPUT' && el.type === 'text') {
+            if ((el.tagName === 'INPUT' && el.type === 'text') || el.tagName === 'TEXTAREA') {
                 el.placeholder = value;
             } else {
                 // If element has child elements, only update direct text nodes
